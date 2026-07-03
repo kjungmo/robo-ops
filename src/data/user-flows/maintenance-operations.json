@@ -1,0 +1,751 @@
+{
+  "version": {
+    "id": "e8e92c27-dada-47ff-a63a-88f2816372e0",
+    "name": "유지보수 엔지니어 운영 플로우",
+    "versionNumber": 1,
+    "referencedFeatureIds": [],
+    "flowData": {
+      "schemaVersion": 1,
+      "nodes": [
+        {
+          "id": "n1",
+          "type": "start",
+          "label": "시스템 접속",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n2",
+          "type": "main_page",
+          "label": "로그인 페이지",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n3",
+          "type": "page",
+          "label": "2FA 인증",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n4",
+          "type": "action",
+          "label": "로그인 시도",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n5",
+          "type": "page",
+          "label": "권한 부족 오류",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n6",
+          "type": "action",
+          "label": "권한 요청/관리자 문의",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n7",
+          "type": "main_page",
+          "label": "로봇/현장 등록·관리",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n8",
+          "type": "page",
+          "label": "현장/구역(존) 관리",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n9",
+          "type": "action",
+          "label": "현장·구역 생성/수정",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n10",
+          "type": "page",
+          "label": "로봇 등록/수정",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n11",
+          "type": "action",
+          "label": "메타데이터 입력/저장",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n12",
+          "type": "page",
+          "label": "필수 필드 누락 오류",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n13",
+          "type": "action",
+          "label": "로봇 비활성화",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n14",
+          "type": "page",
+          "label": "로봇 목록 확인",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n15",
+          "type": "main_page",
+          "label": "연동 상태 진단",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n16",
+          "type": "action",
+          "label": "헬스체크 실행",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n17",
+          "type": "page",
+          "label": "진단 결과 상세",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n18",
+          "type": "page",
+          "label": "장치 오프라인 오류",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n19",
+          "type": "action",
+          "label": "재연결 시도",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n20",
+          "type": "page",
+          "label": "실패 원인 분류",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n21",
+          "type": "action",
+          "label": "연결 설정 수정",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n22",
+          "type": "main_page",
+          "label": "로그/이벤트 확인",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n23",
+          "type": "page",
+          "label": "알람·장애 이력 조회",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n24",
+          "type": "action",
+          "label": "필터/검색 적용",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n25",
+          "type": "page",
+          "label": "장애 티켓 상세",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n26",
+          "type": "action",
+          "label": "담당자 지정·조치 기록",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n27",
+          "type": "page",
+          "label": "센서 데이터 수집 확인",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n28",
+          "type": "action",
+          "label": "수동 추가 수집 요청",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n29",
+          "type": "page",
+          "label": "감사 로그 조회",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n30",
+          "type": "action",
+          "label": "로그 검색/필터/내보내기",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n31",
+          "type": "main_page",
+          "label": "맵 관리",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n32",
+          "type": "page",
+          "label": "맵 생성/가져오기",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n33",
+          "type": "action",
+          "label": "외부 맵 가져오기",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n34",
+          "type": "action",
+          "label": "신규 맵 생성",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n35",
+          "type": "page",
+          "label": "맵 편집",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n36",
+          "type": "action",
+          "label": "장애물/금지구역 추가·삭제",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n37",
+          "type": "action",
+          "label": "POI·도킹위치 설정",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n38",
+          "type": "page",
+          "label": "버전 충돌 오류",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n39",
+          "type": "action",
+          "label": "버전 비교 후 병합/덮어쓰기",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n40",
+          "type": "page",
+          "label": "맵 버전 관리",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n41",
+          "type": "action",
+          "label": "배포 대상 로봇 선택",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n42",
+          "type": "page",
+          "label": "배포 진행 상태",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n43",
+          "type": "page",
+          "label": "배포 실패·롤백",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n44",
+          "type": "action",
+          "label": "이전 버전 롤백 실행",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n45",
+          "type": "page",
+          "label": "배포 성공 확인",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n46",
+          "type": "main_page",
+          "label": "배포 후 모니터링",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n47",
+          "type": "page",
+          "label": "지도 기반 실시간 현황",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n48",
+          "type": "action",
+          "label": "로봇 위치·경로 확인",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n49",
+          "type": "page",
+          "label": "로봇 상세 상태 패널",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n50",
+          "type": "action",
+          "label": "원격 정지/재시작",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n51",
+          "type": "page",
+          "label": "실시간 알람 수신",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n52",
+          "type": "action",
+          "label": "알람 확인·티켓 전환",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n53",
+          "type": "page",
+          "label": "KPI 대시보드",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n54",
+          "type": "action",
+          "label": "지표 드릴다운·CSV 내보내기",
+          "sectionId": "s6"
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1",
+          "source": "n1",
+          "target": "n2"
+        },
+        {
+          "id": "e2",
+          "source": "n2",
+          "target": "n4"
+        },
+        {
+          "id": "e3",
+          "source": "n4",
+          "target": "n3"
+        },
+        {
+          "id": "e4",
+          "source": "n3",
+          "target": "n5"
+        },
+        {
+          "id": "e5",
+          "source": "n5",
+          "target": "n6"
+        },
+        {
+          "id": "e6",
+          "source": "n4",
+          "target": "n7"
+        },
+        {
+          "id": "e7",
+          "source": "n3",
+          "target": "n7"
+        },
+        {
+          "id": "e8",
+          "source": "n7",
+          "target": "n8"
+        },
+        {
+          "id": "e9",
+          "source": "n8",
+          "target": "n9"
+        },
+        {
+          "id": "e10",
+          "source": "n7",
+          "target": "n10"
+        },
+        {
+          "id": "e11",
+          "source": "n10",
+          "target": "n11"
+        },
+        {
+          "id": "e12",
+          "source": "n11",
+          "target": "n12"
+        },
+        {
+          "id": "e13",
+          "source": "n12",
+          "target": "n11"
+        },
+        {
+          "id": "e14",
+          "source": "n10",
+          "target": "n13"
+        },
+        {
+          "id": "e15",
+          "source": "n11",
+          "target": "n14"
+        },
+        {
+          "id": "e16",
+          "source": "n9",
+          "target": "n14"
+        },
+        {
+          "id": "e17",
+          "source": "n14",
+          "target": "n15"
+        },
+        {
+          "id": "e18",
+          "source": "n15",
+          "target": "n16"
+        },
+        {
+          "id": "e19",
+          "source": "n16",
+          "target": "n17"
+        },
+        {
+          "id": "e20",
+          "source": "n16",
+          "target": "n18"
+        },
+        {
+          "id": "e21",
+          "source": "n18",
+          "target": "n19"
+        },
+        {
+          "id": "e22",
+          "source": "n18",
+          "target": "n20"
+        },
+        {
+          "id": "e23",
+          "source": "n20",
+          "target": "n21"
+        },
+        {
+          "id": "e24",
+          "source": "n21",
+          "target": "n16"
+        },
+        {
+          "id": "e25",
+          "source": "n17",
+          "target": "n22"
+        },
+        {
+          "id": "e26",
+          "source": "n22",
+          "target": "n23"
+        },
+        {
+          "id": "e27",
+          "source": "n23",
+          "target": "n24"
+        },
+        {
+          "id": "e28",
+          "source": "n23",
+          "target": "n25"
+        },
+        {
+          "id": "e29",
+          "source": "n25",
+          "target": "n26"
+        },
+        {
+          "id": "e30",
+          "source": "n25",
+          "target": "n27"
+        },
+        {
+          "id": "e31",
+          "source": "n27",
+          "target": "n28"
+        },
+        {
+          "id": "e32",
+          "source": "n22",
+          "target": "n29"
+        },
+        {
+          "id": "e33",
+          "source": "n29",
+          "target": "n30"
+        },
+        {
+          "id": "e34",
+          "source": "n26",
+          "target": "n31"
+        },
+        {
+          "id": "e35",
+          "source": "n28",
+          "target": "n31"
+        },
+        {
+          "id": "e36",
+          "source": "n31",
+          "target": "n32"
+        },
+        {
+          "id": "e37",
+          "source": "n32",
+          "target": "n33"
+        },
+        {
+          "id": "e38",
+          "source": "n32",
+          "target": "n34"
+        },
+        {
+          "id": "e39",
+          "source": "n33",
+          "target": "n35"
+        },
+        {
+          "id": "e40",
+          "source": "n34",
+          "target": "n35"
+        },
+        {
+          "id": "e41",
+          "source": "n35",
+          "target": "n36"
+        },
+        {
+          "id": "e42",
+          "source": "n35",
+          "target": "n37"
+        },
+        {
+          "id": "e43",
+          "source": "n36",
+          "target": "n38"
+        },
+        {
+          "id": "e44",
+          "source": "n37",
+          "target": "n38"
+        },
+        {
+          "id": "e45",
+          "source": "n38",
+          "target": "n39"
+        },
+        {
+          "id": "e46",
+          "source": "n39",
+          "target": "n40"
+        },
+        {
+          "id": "e47",
+          "source": "n36",
+          "target": "n40"
+        },
+        {
+          "id": "e48",
+          "source": "n37",
+          "target": "n40"
+        },
+        {
+          "id": "e49",
+          "source": "n40",
+          "target": "n41"
+        },
+        {
+          "id": "e50",
+          "source": "n41",
+          "target": "n42"
+        },
+        {
+          "id": "e51",
+          "source": "n42",
+          "target": "n43"
+        },
+        {
+          "id": "e52",
+          "source": "n43",
+          "target": "n44"
+        },
+        {
+          "id": "e53",
+          "source": "n44",
+          "target": "n40"
+        },
+        {
+          "id": "e54",
+          "source": "n42",
+          "target": "n45"
+        },
+        {
+          "id": "e55",
+          "source": "n45",
+          "target": "n46"
+        },
+        {
+          "id": "e56",
+          "source": "n46",
+          "target": "n47"
+        },
+        {
+          "id": "e57",
+          "source": "n47",
+          "target": "n48"
+        },
+        {
+          "id": "e58",
+          "source": "n48",
+          "target": "n49"
+        },
+        {
+          "id": "e59",
+          "source": "n49",
+          "target": "n50"
+        },
+        {
+          "id": "e60",
+          "source": "n46",
+          "target": "n51"
+        },
+        {
+          "id": "e61",
+          "source": "n51",
+          "target": "n52"
+        },
+        {
+          "id": "e62",
+          "source": "n52",
+          "target": "n25"
+        },
+        {
+          "id": "e63",
+          "source": "n46",
+          "target": "n53"
+        },
+        {
+          "id": "e64",
+          "source": "n53",
+          "target": "n54"
+        }
+      ],
+      "sections": [
+        {
+          "id": "s1",
+          "name": "인증 및 접근 제어",
+          "nodeIds": [
+            "n1",
+            "n2",
+            "n3",
+            "n4",
+            "n5",
+            "n6"
+          ]
+        },
+        {
+          "id": "s2",
+          "name": "로봇/현장 등록·관리",
+          "nodeIds": [
+            "n7",
+            "n8",
+            "n9",
+            "n10",
+            "n11",
+            "n12",
+            "n13",
+            "n14"
+          ]
+        },
+        {
+          "id": "s3",
+          "name": "연동 상태 진단",
+          "nodeIds": [
+            "n15",
+            "n16",
+            "n17",
+            "n18",
+            "n19",
+            "n20",
+            "n21"
+          ]
+        },
+        {
+          "id": "s4",
+          "name": "로그/이벤트 및 장애 관리",
+          "nodeIds": [
+            "n22",
+            "n23",
+            "n24",
+            "n25",
+            "n26",
+            "n27",
+            "n28",
+            "n29",
+            "n30"
+          ]
+        },
+        {
+          "id": "s5",
+          "name": "맵 관리 및 배포",
+          "nodeIds": [
+            "n31",
+            "n32",
+            "n33",
+            "n34",
+            "n35",
+            "n36",
+            "n37",
+            "n38",
+            "n39",
+            "n40",
+            "n41",
+            "n42",
+            "n43",
+            "n44",
+            "n45"
+          ]
+        },
+        {
+          "id": "s6",
+          "name": "배포 후 모니터링·알람 대응",
+          "nodeIds": [
+            "n46",
+            "n47",
+            "n48",
+            "n49",
+            "n50",
+            "n51",
+            "n52",
+            "n53",
+            "n54"
+          ]
+        }
+      ]
+    }
+  }
+}

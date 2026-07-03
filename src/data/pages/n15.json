@@ -1,0 +1,869 @@
+{
+  "pageNodeId": "n15",
+  "pageName": "알람/장애 이력 조회",
+  "rootId": "w-0008f8",
+  "nodes": {
+    "w-0008f8": {
+      "id": "w-0008f8",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-0008f9"
+      ],
+      "label": "알람/장애 이력 조회",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-0008f9": {
+      "id": "w-0008f9",
+      "type": "body",
+      "parentId": "w-0008f8",
+      "childrenIds": [
+        "w-0008fa",
+        "w-0008fb",
+        "w-00090a",
+        "w-000947"
+      ]
+    },
+    "w-0008fa": {
+      "id": "w-0008fa",
+      "type": "text",
+      "parentId": "w-0008f9",
+      "childrenIds": [],
+      "label": "알람·장애 이력 조회",
+      "size": "lg"
+    },
+    "w-0008fb": {
+      "id": "w-0008fb",
+      "type": "box",
+      "parentId": "w-0008f9",
+      "childrenIds": [
+        "w-0008fc"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0008fc": {
+      "id": "w-0008fc",
+      "type": "column",
+      "parentId": "w-0008fb",
+      "childrenIds": [
+        "w-0008fd",
+        "w-000905"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-0008fd": {
+      "id": "w-0008fd",
+      "type": "row",
+      "parentId": "w-0008fc",
+      "childrenIds": [
+        "w-0008fe",
+        "w-0008ff",
+        "w-000900",
+        "w-000901",
+        "w-000902",
+        "w-000903",
+        "w-000904"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-0008fe": {
+      "id": "w-0008fe",
+      "type": "input",
+      "parentId": "w-0008fd",
+      "childrenIds": [],
+      "label": "장애 ID, 로봇명, 알람 유형으로 검색",
+      "inputType": "search"
+    },
+    "w-0008ff": {
+      "id": "w-0008ff",
+      "type": "input",
+      "parentId": "w-0008fd",
+      "childrenIds": [],
+      "label": "기간",
+      "inputType": "select",
+      "attributes": {
+        "options": "오늘,최근 7일,최근 30일,직접 입력"
+      }
+    },
+    "w-000900": {
+      "id": "w-000900",
+      "type": "input",
+      "parentId": "w-0008fd",
+      "childrenIds": [],
+      "label": "유형",
+      "inputType": "select",
+      "attributes": {
+        "options": "전체,알람,장애"
+      }
+    },
+    "w-000901": {
+      "id": "w-000901",
+      "type": "input",
+      "parentId": "w-0008fd",
+      "childrenIds": [],
+      "label": "심각도",
+      "inputType": "select",
+      "attributes": {
+        "options": "전체,위험,주의,정보"
+      }
+    },
+    "w-000902": {
+      "id": "w-000902",
+      "type": "input",
+      "parentId": "w-0008fd",
+      "childrenIds": [],
+      "label": "상태",
+      "inputType": "select",
+      "attributes": {
+        "options": "전체,미처리,처리 중,처리 완료"
+      }
+    },
+    "w-000903": {
+      "id": "w-000903",
+      "type": "button",
+      "parentId": "w-0008fd",
+      "childrenIds": [],
+      "label": "검색",
+      "variant": "primary"
+    },
+    "w-000904": {
+      "id": "w-000904",
+      "type": "button",
+      "parentId": "w-0008fd",
+      "childrenIds": [],
+      "label": "초기화",
+      "variant": "secondary"
+    },
+    "w-000905": {
+      "id": "w-000905",
+      "type": "row",
+      "parentId": "w-0008fc",
+      "childrenIds": [
+        "w-000906",
+        "w-000907",
+        "w-000908",
+        "w-000909"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000906": {
+      "id": "w-000906",
+      "type": "text",
+      "parentId": "w-000905",
+      "childrenIds": [],
+      "label": "검색 결과",
+      "size": "sm"
+    },
+    "w-000907": {
+      "id": "w-000907",
+      "type": "text",
+      "parentId": "w-000905",
+      "childrenIds": [],
+      "label": "총 128건 · 최근 30일 기준",
+      "size": "sm"
+    },
+    "w-000908": {
+      "id": "w-000908",
+      "type": "spacer",
+      "parentId": "w-000905",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000909": {
+      "id": "w-000909",
+      "type": "button",
+      "parentId": "w-000905",
+      "childrenIds": [],
+      "label": "CSV 내보내기",
+      "variant": "secondary"
+    },
+    "w-00090a": {
+      "id": "w-00090a",
+      "type": "column",
+      "parentId": "w-0008f9",
+      "childrenIds": [
+        "w-00090b",
+        "w-000915",
+        "w-00091f",
+        "w-000929",
+        "w-000933",
+        "w-00093d"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-00090b": {
+      "id": "w-00090b",
+      "type": "box",
+      "parentId": "w-00090a",
+      "childrenIds": [
+        "w-00090c"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n16"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-00090c": {
+      "id": "w-00090c",
+      "type": "row",
+      "parentId": "w-00090b",
+      "childrenIds": [
+        "w-00090d",
+        "w-00090e",
+        "w-00090f",
+        "w-000910",
+        "w-000911",
+        "w-000912",
+        "w-000913",
+        "w-000914"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-00090d": {
+      "id": "w-00090d",
+      "type": "text",
+      "parentId": "w-00090c",
+      "childrenIds": [],
+      "label": "ALM-20240601-001",
+      "size": "sm"
+    },
+    "w-00090e": {
+      "id": "w-00090e",
+      "type": "button",
+      "parentId": "w-00090c",
+      "childrenIds": [],
+      "label": "위험",
+      "variant": "chip"
+    },
+    "w-00090f": {
+      "id": "w-00090f",
+      "type": "text",
+      "parentId": "w-00090c",
+      "childrenIds": [],
+      "label": "배터리 과방전 감지",
+      "size": "md"
+    },
+    "w-000910": {
+      "id": "w-000910",
+      "type": "spacer",
+      "parentId": "w-00090c",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000911": {
+      "id": "w-000911",
+      "type": "text",
+      "parentId": "w-00090c",
+      "childrenIds": [],
+      "label": "로봇 R-07",
+      "size": "sm"
+    },
+    "w-000912": {
+      "id": "w-000912",
+      "type": "text",
+      "parentId": "w-00090c",
+      "childrenIds": [],
+      "label": "2024-06-01 09:12",
+      "size": "sm"
+    },
+    "w-000913": {
+      "id": "w-000913",
+      "type": "button",
+      "parentId": "w-00090c",
+      "childrenIds": [],
+      "label": "미처리",
+      "variant": "chip"
+    },
+    "w-000914": {
+      "id": "w-000914",
+      "type": "button",
+      "parentId": "w-00090c",
+      "childrenIds": [],
+      "label": "상세 보기",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n16"
+      }
+    },
+    "w-000915": {
+      "id": "w-000915",
+      "type": "box",
+      "parentId": "w-00090a",
+      "childrenIds": [
+        "w-000916"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n16"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000916": {
+      "id": "w-000916",
+      "type": "row",
+      "parentId": "w-000915",
+      "childrenIds": [
+        "w-000917",
+        "w-000918",
+        "w-000919",
+        "w-00091a",
+        "w-00091b",
+        "w-00091c",
+        "w-00091d",
+        "w-00091e"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-000917": {
+      "id": "w-000917",
+      "type": "text",
+      "parentId": "w-000916",
+      "childrenIds": [],
+      "label": "ALM-20240531-047",
+      "size": "sm"
+    },
+    "w-000918": {
+      "id": "w-000918",
+      "type": "button",
+      "parentId": "w-000916",
+      "childrenIds": [],
+      "label": "위험",
+      "variant": "chip"
+    },
+    "w-000919": {
+      "id": "w-000919",
+      "type": "text",
+      "parentId": "w-000916",
+      "childrenIds": [],
+      "label": "충돌 감지 — 비상 정지 발동",
+      "size": "md"
+    },
+    "w-00091a": {
+      "id": "w-00091a",
+      "type": "spacer",
+      "parentId": "w-000916",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-00091b": {
+      "id": "w-00091b",
+      "type": "text",
+      "parentId": "w-000916",
+      "childrenIds": [],
+      "label": "로봇 R-03",
+      "size": "sm"
+    },
+    "w-00091c": {
+      "id": "w-00091c",
+      "type": "text",
+      "parentId": "w-000916",
+      "childrenIds": [],
+      "label": "2024-05-31 14:38",
+      "size": "sm"
+    },
+    "w-00091d": {
+      "id": "w-00091d",
+      "type": "button",
+      "parentId": "w-000916",
+      "childrenIds": [],
+      "label": "처리 완료",
+      "variant": "chip"
+    },
+    "w-00091e": {
+      "id": "w-00091e",
+      "type": "button",
+      "parentId": "w-000916",
+      "childrenIds": [],
+      "label": "상세 보기",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n16"
+      }
+    },
+    "w-00091f": {
+      "id": "w-00091f",
+      "type": "box",
+      "parentId": "w-00090a",
+      "childrenIds": [
+        "w-000920"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n16"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000920": {
+      "id": "w-000920",
+      "type": "row",
+      "parentId": "w-00091f",
+      "childrenIds": [
+        "w-000921",
+        "w-000922",
+        "w-000923",
+        "w-000924",
+        "w-000925",
+        "w-000926",
+        "w-000927",
+        "w-000928"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-000921": {
+      "id": "w-000921",
+      "type": "text",
+      "parentId": "w-000920",
+      "childrenIds": [],
+      "label": "ALM-20240531-031",
+      "size": "sm"
+    },
+    "w-000922": {
+      "id": "w-000922",
+      "type": "button",
+      "parentId": "w-000920",
+      "childrenIds": [],
+      "label": "주의",
+      "variant": "chip"
+    },
+    "w-000923": {
+      "id": "w-000923",
+      "type": "text",
+      "parentId": "w-000920",
+      "childrenIds": [],
+      "label": "모터 온도 임계값 초과",
+      "size": "md"
+    },
+    "w-000924": {
+      "id": "w-000924",
+      "type": "spacer",
+      "parentId": "w-000920",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000925": {
+      "id": "w-000925",
+      "type": "text",
+      "parentId": "w-000920",
+      "childrenIds": [],
+      "label": "로봇 R-11",
+      "size": "sm"
+    },
+    "w-000926": {
+      "id": "w-000926",
+      "type": "text",
+      "parentId": "w-000920",
+      "childrenIds": [],
+      "label": "2024-05-31 11:05",
+      "size": "sm"
+    },
+    "w-000927": {
+      "id": "w-000927",
+      "type": "button",
+      "parentId": "w-000920",
+      "childrenIds": [],
+      "label": "처리 중",
+      "variant": "chip"
+    },
+    "w-000928": {
+      "id": "w-000928",
+      "type": "button",
+      "parentId": "w-000920",
+      "childrenIds": [],
+      "label": "상세 보기",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n16"
+      }
+    },
+    "w-000929": {
+      "id": "w-000929",
+      "type": "box",
+      "parentId": "w-00090a",
+      "childrenIds": [
+        "w-00092a"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n16"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-00092a": {
+      "id": "w-00092a",
+      "type": "row",
+      "parentId": "w-000929",
+      "childrenIds": [
+        "w-00092b",
+        "w-00092c",
+        "w-00092d",
+        "w-00092e",
+        "w-00092f",
+        "w-000930",
+        "w-000931",
+        "w-000932"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-00092b": {
+      "id": "w-00092b",
+      "type": "text",
+      "parentId": "w-00092a",
+      "childrenIds": [],
+      "label": "ALM-20240530-018",
+      "size": "sm"
+    },
+    "w-00092c": {
+      "id": "w-00092c",
+      "type": "button",
+      "parentId": "w-00092a",
+      "childrenIds": [],
+      "label": "주의",
+      "variant": "chip"
+    },
+    "w-00092d": {
+      "id": "w-00092d",
+      "type": "text",
+      "parentId": "w-00092a",
+      "childrenIds": [],
+      "label": "네트워크 지연 경고",
+      "size": "md"
+    },
+    "w-00092e": {
+      "id": "w-00092e",
+      "type": "spacer",
+      "parentId": "w-00092a",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-00092f": {
+      "id": "w-00092f",
+      "type": "text",
+      "parentId": "w-00092a",
+      "childrenIds": [],
+      "label": "로봇 R-02",
+      "size": "sm"
+    },
+    "w-000930": {
+      "id": "w-000930",
+      "type": "text",
+      "parentId": "w-00092a",
+      "childrenIds": [],
+      "label": "2024-05-30 17:22",
+      "size": "sm"
+    },
+    "w-000931": {
+      "id": "w-000931",
+      "type": "button",
+      "parentId": "w-00092a",
+      "childrenIds": [],
+      "label": "처리 완료",
+      "variant": "chip"
+    },
+    "w-000932": {
+      "id": "w-000932",
+      "type": "button",
+      "parentId": "w-00092a",
+      "childrenIds": [],
+      "label": "상세 보기",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n16"
+      }
+    },
+    "w-000933": {
+      "id": "w-000933",
+      "type": "box",
+      "parentId": "w-00090a",
+      "childrenIds": [
+        "w-000934"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n16"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000934": {
+      "id": "w-000934",
+      "type": "row",
+      "parentId": "w-000933",
+      "childrenIds": [
+        "w-000935",
+        "w-000936",
+        "w-000937",
+        "w-000938",
+        "w-000939",
+        "w-00093a",
+        "w-00093b",
+        "w-00093c"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-000935": {
+      "id": "w-000935",
+      "type": "text",
+      "parentId": "w-000934",
+      "childrenIds": [],
+      "label": "ALM-20240530-009",
+      "size": "sm"
+    },
+    "w-000936": {
+      "id": "w-000936",
+      "type": "button",
+      "parentId": "w-000934",
+      "childrenIds": [],
+      "label": "정보",
+      "variant": "chip"
+    },
+    "w-000937": {
+      "id": "w-000937",
+      "type": "text",
+      "parentId": "w-000934",
+      "childrenIds": [],
+      "label": "정기 점검 알림 발송",
+      "size": "md"
+    },
+    "w-000938": {
+      "id": "w-000938",
+      "type": "spacer",
+      "parentId": "w-000934",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000939": {
+      "id": "w-000939",
+      "type": "text",
+      "parentId": "w-000934",
+      "childrenIds": [],
+      "label": "로봇 R-05",
+      "size": "sm"
+    },
+    "w-00093a": {
+      "id": "w-00093a",
+      "type": "text",
+      "parentId": "w-000934",
+      "childrenIds": [],
+      "label": "2024-05-30 08:00",
+      "size": "sm"
+    },
+    "w-00093b": {
+      "id": "w-00093b",
+      "type": "button",
+      "parentId": "w-000934",
+      "childrenIds": [],
+      "label": "처리 완료",
+      "variant": "chip"
+    },
+    "w-00093c": {
+      "id": "w-00093c",
+      "type": "button",
+      "parentId": "w-000934",
+      "childrenIds": [],
+      "label": "상세 보기",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n16"
+      }
+    },
+    "w-00093d": {
+      "id": "w-00093d",
+      "type": "box",
+      "parentId": "w-00090a",
+      "childrenIds": [
+        "w-00093e"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n16"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-00093e": {
+      "id": "w-00093e",
+      "type": "row",
+      "parentId": "w-00093d",
+      "childrenIds": [
+        "w-00093f",
+        "w-000940",
+        "w-000941",
+        "w-000942",
+        "w-000943",
+        "w-000944",
+        "w-000945",
+        "w-000946"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-00093f": {
+      "id": "w-00093f",
+      "type": "text",
+      "parentId": "w-00093e",
+      "childrenIds": [],
+      "label": "ALM-20240529-063",
+      "size": "sm"
+    },
+    "w-000940": {
+      "id": "w-000940",
+      "type": "button",
+      "parentId": "w-00093e",
+      "childrenIds": [],
+      "label": "위험",
+      "variant": "chip"
+    },
+    "w-000941": {
+      "id": "w-000941",
+      "type": "text",
+      "parentId": "w-00093e",
+      "childrenIds": [],
+      "label": "소프트웨어 오류 — 재시작 필요",
+      "size": "md"
+    },
+    "w-000942": {
+      "id": "w-000942",
+      "type": "spacer",
+      "parentId": "w-00093e",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000943": {
+      "id": "w-000943",
+      "type": "text",
+      "parentId": "w-00093e",
+      "childrenIds": [],
+      "label": "로봇 R-09",
+      "size": "sm"
+    },
+    "w-000944": {
+      "id": "w-000944",
+      "type": "text",
+      "parentId": "w-00093e",
+      "childrenIds": [],
+      "label": "2024-05-29 20:44",
+      "size": "sm"
+    },
+    "w-000945": {
+      "id": "w-000945",
+      "type": "button",
+      "parentId": "w-00093e",
+      "childrenIds": [],
+      "label": "미처리",
+      "variant": "chip"
+    },
+    "w-000946": {
+      "id": "w-000946",
+      "type": "button",
+      "parentId": "w-00093e",
+      "childrenIds": [],
+      "label": "상세 보기",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n16"
+      }
+    },
+    "w-000947": {
+      "id": "w-000947",
+      "type": "row",
+      "parentId": "w-0008f9",
+      "childrenIds": [
+        "w-000948",
+        "w-000949",
+        "w-00094a",
+        "w-00094b"
+      ],
+      "layout": {
+        "gap": 8,
+        "justify": "end"
+      }
+    },
+    "w-000948": {
+      "id": "w-000948",
+      "type": "button",
+      "parentId": "w-000947",
+      "childrenIds": [],
+      "label": "1",
+      "variant": "chip"
+    },
+    "w-000949": {
+      "id": "w-000949",
+      "type": "button",
+      "parentId": "w-000947",
+      "childrenIds": [],
+      "label": "2",
+      "variant": "chip"
+    },
+    "w-00094a": {
+      "id": "w-00094a",
+      "type": "button",
+      "parentId": "w-000947",
+      "childrenIds": [],
+      "label": "3",
+      "variant": "chip"
+    },
+    "w-00094b": {
+      "id": "w-00094b",
+      "type": "button",
+      "parentId": "w-000947",
+      "childrenIds": [],
+      "label": "다음",
+      "variant": "secondary"
+    }
+  }
+}

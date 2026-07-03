@@ -1,0 +1,648 @@
+{
+  "pageNodeId": "n49",
+  "pageName": "KPI 분석 대시보드",
+  "rootId": "w-000ec7",
+  "nodes": {
+    "w-000ec7": {
+      "id": "w-000ec7",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000ec8"
+      ],
+      "label": "KPI 분석 대시보드",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000ec8": {
+      "id": "w-000ec8",
+      "type": "body",
+      "parentId": "w-000ec7",
+      "childrenIds": [
+        "w-000ec9",
+        "w-000ed0",
+        "w-000ee5",
+        "w-000eec"
+      ]
+    },
+    "w-000ec9": {
+      "id": "w-000ec9",
+      "type": "row",
+      "parentId": "w-000ec8",
+      "childrenIds": [
+        "w-000eca",
+        "w-000ecb"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000eca": {
+      "id": "w-000eca",
+      "type": "text",
+      "parentId": "w-000ec9",
+      "childrenIds": [],
+      "label": "KPI 분석 대시보드",
+      "size": "md"
+    },
+    "w-000ecb": {
+      "id": "w-000ecb",
+      "type": "row",
+      "parentId": "w-000ec9",
+      "childrenIds": [
+        "w-000ecc",
+        "w-000ecd",
+        "w-000ece",
+        "w-000ecf"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000ecc": {
+      "id": "w-000ecc",
+      "type": "input",
+      "parentId": "w-000ecb",
+      "childrenIds": [],
+      "label": "조회 기간",
+      "inputType": "select",
+      "attributes": {
+        "options": "오늘,이번 주,이번 달,지난 달,직접 입력"
+      }
+    },
+    "w-000ecd": {
+      "id": "w-000ecd",
+      "type": "input",
+      "parentId": "w-000ecb",
+      "childrenIds": [],
+      "label": "로봇 그룹",
+      "inputType": "select",
+      "attributes": {
+        "options": "전체,그룹 A,그룹 B,그룹 C"
+      }
+    },
+    "w-000ece": {
+      "id": "w-000ece",
+      "type": "input",
+      "parentId": "w-000ecb",
+      "childrenIds": [],
+      "label": "상태 조건",
+      "inputType": "select",
+      "attributes": {
+        "options": "전체,정상,주의,위험,오프라인"
+      }
+    },
+    "w-000ecf": {
+      "id": "w-000ecf",
+      "type": "button",
+      "parentId": "w-000ecb",
+      "childrenIds": [],
+      "label": "데이터 내보내기",
+      "variant": "primary"
+    },
+    "w-000ed0": {
+      "id": "w-000ed0",
+      "type": "row",
+      "parentId": "w-000ec8",
+      "childrenIds": [
+        "w-000ed1",
+        "w-000ed5",
+        "w-000ed9",
+        "w-000edd",
+        "w-000ee1"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000ed1": {
+      "id": "w-000ed1",
+      "type": "box",
+      "parentId": "w-000ed0",
+      "childrenIds": [
+        "w-000ed2",
+        "w-000ed3",
+        "w-000ed4"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000ed2": {
+      "id": "w-000ed2",
+      "type": "text",
+      "parentId": "w-000ed1",
+      "childrenIds": [],
+      "label": "전체 가동률",
+      "size": "sm"
+    },
+    "w-000ed3": {
+      "id": "w-000ed3",
+      "type": "text",
+      "parentId": "w-000ed1",
+      "childrenIds": [],
+      "label": "98.4%",
+      "size": "xl"
+    },
+    "w-000ed4": {
+      "id": "w-000ed4",
+      "type": "text",
+      "parentId": "w-000ed1",
+      "childrenIds": [],
+      "label": "전주 대비 +1.2%",
+      "size": "sm"
+    },
+    "w-000ed5": {
+      "id": "w-000ed5",
+      "type": "box",
+      "parentId": "w-000ed0",
+      "childrenIds": [
+        "w-000ed6",
+        "w-000ed7",
+        "w-000ed8"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000ed6": {
+      "id": "w-000ed6",
+      "type": "text",
+      "parentId": "w-000ed5",
+      "childrenIds": [],
+      "label": "평균 작업 완료 시간",
+      "size": "sm"
+    },
+    "w-000ed7": {
+      "id": "w-000ed7",
+      "type": "text",
+      "parentId": "w-000ed5",
+      "childrenIds": [],
+      "label": "4분 32초",
+      "size": "xl"
+    },
+    "w-000ed8": {
+      "id": "w-000ed8",
+      "type": "text",
+      "parentId": "w-000ed5",
+      "childrenIds": [],
+      "label": "전주 대비 -0.3%",
+      "size": "sm"
+    },
+    "w-000ed9": {
+      "id": "w-000ed9",
+      "type": "box",
+      "parentId": "w-000ed0",
+      "childrenIds": [
+        "w-000eda",
+        "w-000edb",
+        "w-000edc"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000eda": {
+      "id": "w-000eda",
+      "type": "text",
+      "parentId": "w-000ed9",
+      "childrenIds": [],
+      "label": "장애 발생 건수",
+      "size": "sm"
+    },
+    "w-000edb": {
+      "id": "w-000edb",
+      "type": "text",
+      "parentId": "w-000ed9",
+      "childrenIds": [],
+      "label": "7건",
+      "size": "xl"
+    },
+    "w-000edc": {
+      "id": "w-000edc",
+      "type": "text",
+      "parentId": "w-000ed9",
+      "childrenIds": [],
+      "label": "이번 달 누적",
+      "size": "sm"
+    },
+    "w-000edd": {
+      "id": "w-000edd",
+      "type": "box",
+      "parentId": "w-000ed0",
+      "childrenIds": [
+        "w-000ede",
+        "w-000edf",
+        "w-000ee0"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000ede": {
+      "id": "w-000ede",
+      "type": "text",
+      "parentId": "w-000edd",
+      "childrenIds": [],
+      "label": "원격 제어 성공률",
+      "size": "sm"
+    },
+    "w-000edf": {
+      "id": "w-000edf",
+      "type": "text",
+      "parentId": "w-000edd",
+      "childrenIds": [],
+      "label": "99.1%",
+      "size": "xl"
+    },
+    "w-000ee0": {
+      "id": "w-000ee0",
+      "type": "text",
+      "parentId": "w-000edd",
+      "childrenIds": [],
+      "label": "전주 대비 +0.4%",
+      "size": "sm"
+    },
+    "w-000ee1": {
+      "id": "w-000ee1",
+      "type": "box",
+      "parentId": "w-000ed0",
+      "childrenIds": [
+        "w-000ee2",
+        "w-000ee3",
+        "w-000ee4"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000ee2": {
+      "id": "w-000ee2",
+      "type": "text",
+      "parentId": "w-000ee1",
+      "childrenIds": [],
+      "label": "오프라인 로봇 수",
+      "size": "sm"
+    },
+    "w-000ee3": {
+      "id": "w-000ee3",
+      "type": "text",
+      "parentId": "w-000ee1",
+      "childrenIds": [],
+      "label": "2대",
+      "size": "xl"
+    },
+    "w-000ee4": {
+      "id": "w-000ee4",
+      "type": "text",
+      "parentId": "w-000ee1",
+      "childrenIds": [],
+      "label": "현재 기준",
+      "size": "sm"
+    },
+    "w-000ee5": {
+      "id": "w-000ee5",
+      "type": "row",
+      "parentId": "w-000ec8",
+      "childrenIds": [
+        "w-000ee6",
+        "w-000ee9"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000ee6": {
+      "id": "w-000ee6",
+      "type": "box",
+      "parentId": "w-000ee5",
+      "childrenIds": [
+        "w-000ee7",
+        "w-000ee8"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000ee7": {
+      "id": "w-000ee7",
+      "type": "text",
+      "parentId": "w-000ee6",
+      "childrenIds": [],
+      "label": "가동률 추이",
+      "size": "md"
+    },
+    "w-000ee8": {
+      "id": "w-000ee8",
+      "type": "image",
+      "parentId": "w-000ee6",
+      "childrenIds": [],
+      "label": "가동률 추이 라인 차트",
+      "layout": {
+        "height": 200
+      }
+    },
+    "w-000ee9": {
+      "id": "w-000ee9",
+      "type": "box",
+      "parentId": "w-000ee5",
+      "childrenIds": [
+        "w-000eea",
+        "w-000eeb"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000eea": {
+      "id": "w-000eea",
+      "type": "text",
+      "parentId": "w-000ee9",
+      "childrenIds": [],
+      "label": "장애 발생 추이",
+      "size": "md"
+    },
+    "w-000eeb": {
+      "id": "w-000eeb",
+      "type": "image",
+      "parentId": "w-000ee9",
+      "childrenIds": [],
+      "label": "장애 발생 막대 차트",
+      "layout": {
+        "height": 200
+      }
+    },
+    "w-000eec": {
+      "id": "w-000eec",
+      "type": "box",
+      "parentId": "w-000ec8",
+      "childrenIds": [
+        "w-000eed",
+        "w-000eee",
+        "w-000ef0",
+        "w-000ef5",
+        "w-000efa",
+        "w-000eff",
+        "w-000f04"
+      ]
+    },
+    "w-000eed": {
+      "id": "w-000eed",
+      "type": "text",
+      "parentId": "w-000eec",
+      "childrenIds": [],
+      "label": "세부 KPI 지표",
+      "size": "md"
+    },
+    "w-000eee": {
+      "id": "w-000eee",
+      "type": "row",
+      "parentId": "w-000eec",
+      "childrenIds": [
+        "w-000eef"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000eef": {
+      "id": "w-000eef",
+      "type": "text",
+      "parentId": "w-000eee",
+      "childrenIds": [],
+      "label": "항목별 드릴다운",
+      "size": "sm"
+    },
+    "w-000ef0": {
+      "id": "w-000ef0",
+      "type": "box",
+      "parentId": "w-000eec",
+      "childrenIds": [
+        "w-000ef1"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000ef1": {
+      "id": "w-000ef1",
+      "type": "row",
+      "parentId": "w-000ef0",
+      "childrenIds": [
+        "w-000ef2",
+        "w-000ef3",
+        "w-000ef4"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000ef2": {
+      "id": "w-000ef2",
+      "type": "text",
+      "parentId": "w-000ef1",
+      "childrenIds": [],
+      "label": "로봇별 가동률"
+    },
+    "w-000ef3": {
+      "id": "w-000ef3",
+      "type": "text",
+      "parentId": "w-000ef1",
+      "childrenIds": [],
+      "size": "sm"
+    },
+    "w-000ef4": {
+      "id": "w-000ef4",
+      "type": "button",
+      "parentId": "w-000ef1",
+      "childrenIds": [],
+      "label": "드릴다운 조회"
+    },
+    "w-000ef5": {
+      "id": "w-000ef5",
+      "type": "box",
+      "parentId": "w-000eec",
+      "childrenIds": [
+        "w-000ef6"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000ef6": {
+      "id": "w-000ef6",
+      "type": "row",
+      "parentId": "w-000ef5",
+      "childrenIds": [
+        "w-000ef7",
+        "w-000ef8",
+        "w-000ef9"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000ef7": {
+      "id": "w-000ef7",
+      "type": "text",
+      "parentId": "w-000ef6",
+      "childrenIds": [],
+      "label": "장애 유형별 발생 현황"
+    },
+    "w-000ef8": {
+      "id": "w-000ef8",
+      "type": "text",
+      "parentId": "w-000ef6",
+      "childrenIds": [],
+      "size": "sm"
+    },
+    "w-000ef9": {
+      "id": "w-000ef9",
+      "type": "button",
+      "parentId": "w-000ef6",
+      "childrenIds": [],
+      "label": "드릴다운 조회"
+    },
+    "w-000efa": {
+      "id": "w-000efa",
+      "type": "box",
+      "parentId": "w-000eec",
+      "childrenIds": [
+        "w-000efb"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000efb": {
+      "id": "w-000efb",
+      "type": "row",
+      "parentId": "w-000efa",
+      "childrenIds": [
+        "w-000efc",
+        "w-000efd",
+        "w-000efe"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000efc": {
+      "id": "w-000efc",
+      "type": "text",
+      "parentId": "w-000efb",
+      "childrenIds": [],
+      "label": "원격 제어 명령 성공/실패 비율"
+    },
+    "w-000efd": {
+      "id": "w-000efd",
+      "type": "text",
+      "parentId": "w-000efb",
+      "childrenIds": [],
+      "size": "sm"
+    },
+    "w-000efe": {
+      "id": "w-000efe",
+      "type": "button",
+      "parentId": "w-000efb",
+      "childrenIds": [],
+      "label": "드릴다운 조회"
+    },
+    "w-000eff": {
+      "id": "w-000eff",
+      "type": "box",
+      "parentId": "w-000eec",
+      "childrenIds": [
+        "w-000f00"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000f00": {
+      "id": "w-000f00",
+      "type": "row",
+      "parentId": "w-000eff",
+      "childrenIds": [
+        "w-000f01",
+        "w-000f02",
+        "w-000f03"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000f01": {
+      "id": "w-000f01",
+      "type": "text",
+      "parentId": "w-000f00",
+      "childrenIds": [],
+      "label": "평균 응답 시간 분포"
+    },
+    "w-000f02": {
+      "id": "w-000f02",
+      "type": "text",
+      "parentId": "w-000f00",
+      "childrenIds": [],
+      "size": "sm"
+    },
+    "w-000f03": {
+      "id": "w-000f03",
+      "type": "button",
+      "parentId": "w-000f00",
+      "childrenIds": [],
+      "label": "드릴다운 조회"
+    },
+    "w-000f04": {
+      "id": "w-000f04",
+      "type": "box",
+      "parentId": "w-000eec",
+      "childrenIds": [
+        "w-000f05"
+      ]
+    },
+    "w-000f05": {
+      "id": "w-000f05",
+      "type": "row",
+      "parentId": "w-000f04",
+      "childrenIds": [
+        "w-000f06",
+        "w-000f07",
+        "w-000f08"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000f06": {
+      "id": "w-000f06",
+      "type": "text",
+      "parentId": "w-000f05",
+      "childrenIds": [],
+      "label": "작업 완료율 추이"
+    },
+    "w-000f07": {
+      "id": "w-000f07",
+      "type": "text",
+      "parentId": "w-000f05",
+      "childrenIds": [],
+      "size": "sm"
+    },
+    "w-000f08": {
+      "id": "w-000f08",
+      "type": "button",
+      "parentId": "w-000f05",
+      "childrenIds": [],
+      "label": "드릴다운 조회"
+    }
+  }
+}

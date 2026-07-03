@@ -1,0 +1,100 @@
+{
+  "userFlows": [
+    {
+      "id": "8dce816c-e1d1-434e-9e94-f69537e1119f",
+      "name": "모니터링 알람 대응 원격 제어 맵 배포",
+      "versions": [
+        {
+          "id": "ff27ed62-da7e-45d3-84ea-f881a8503922",
+          "name": "AMR/AGV 통합 원격 관제 플랫폼",
+          "versionNumber": 1,
+          "referencedFeatureCount": 0
+        }
+      ]
+    },
+    {
+      "id": "c85a43a3-480f-4e6a-bea6-c8a923a3d559",
+      "name": "운영자 로봇 모니터링 조치",
+      "versions": [
+        {
+          "id": "a592483d-2266-4e51-8832-a858867da2c1",
+          "name": "운영자 핵심 유저 플로우",
+          "versionNumber": 1,
+          "referencedFeatureCount": 0
+        }
+      ]
+    },
+    {
+      "id": "0b0b3e1b-3bc3-4d43-9291-b8982a5d9ad2",
+      "name": "관리자 계정 및 권한 관리",
+      "versions": [
+        {
+          "id": "4b3a581a-ef07-4aa4-97fb-124470e01cf0",
+          "name": "관리자 계정·권한·감사 플로우",
+          "versionNumber": 1,
+          "referencedFeatureCount": 0
+        }
+      ]
+    },
+    {
+      "id": "542278b1-26c9-41ce-8be1-02e54368e371",
+      "name": "관리자 계정 권한 관리",
+      "versions": [
+        {
+          "id": "5091b6f6-b935-458e-94dd-d110c2986721",
+          "name": "관리자 계정·권한·감사 플로우",
+          "versionNumber": 1,
+          "referencedFeatureCount": 0
+        }
+      ]
+    },
+    {
+      "id": "4cb5d7f0-ba6b-4890-ae9e-5de404e81ae9",
+      "name": "로봇 유지보수 관리",
+      "versions": [
+        {
+          "id": "e8e92c27-dada-47ff-a63a-88f2816372e0",
+          "name": "유지보수 엔지니어 운영 플로우",
+          "versionNumber": 1,
+          "referencedFeatureCount": 0
+        }
+      ]
+    },
+    {
+      "id": "81bd1b14-fd2d-4104-9668-c611ab1f0af0",
+      "name": "로봇 유지보수 현장 관리",
+      "versions": [
+        {
+          "id": "48fa3bdc-fec7-472d-bdbf-92fc6aff3e6d",
+          "name": "유지보수 엔지니어 플로우",
+          "versionNumber": 1,
+          "referencedFeatureCount": 0
+        }
+      ]
+    },
+    {
+      "id": "07127e3c-b6f2-49c6-ba24-25a71591a079",
+      "name": "운영자 모니터링 조치 관리",
+      "versions": [
+        {
+          "id": "4f89f88f-458a-4bf7-83d8-3e87149ea4ee",
+          "name": "운영자 플로우 (AMR/AGV 관제)",
+          "versionNumber": 1,
+          "referencedFeatureCount": 0
+        }
+      ]
+    },
+    {
+      "id": "0cee8210-21ea-4d8b-8248-7a3590ae13be",
+      "name": "새 플로우 1",
+      "versions": [
+        {
+          "id": "a952fab9-ee00-4d3c-8520-0c3e69c2151e",
+          "name": "새 플로우 1",
+          "versionNumber": 1,
+          "referencedFeatureCount": 0
+        }
+      ]
+    }
+  ]
+}

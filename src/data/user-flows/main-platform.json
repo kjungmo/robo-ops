@@ -1,0 +1,755 @@
+{
+  "version": {
+    "id": "ff27ed62-da7e-45d3-84ea-f881a8503922",
+    "name": "AMR/AGV 통합 원격 관제 플랫폼",
+    "versionNumber": 1,
+    "referencedFeatureIds": [],
+    "flowData": {
+      "schemaVersion": 1,
+      "nodes": [
+        {
+          "id": "n1",
+          "type": "start",
+          "label": "시스템 진입",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n2",
+          "type": "main_page",
+          "label": "로그인 화면",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n3",
+          "type": "page",
+          "label": "역할 선택/인증",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n4",
+          "type": "action",
+          "label": "로그인",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n5",
+          "type": "action",
+          "label": "2FA 인증",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n6",
+          "type": "main_page",
+          "label": "통합 관제 대시보드",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n7",
+          "type": "page",
+          "label": "로봇 목록/그리드",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n8",
+          "type": "page",
+          "label": "지도 기반 실시간 뷰",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n9",
+          "type": "page",
+          "label": "로봇 상세 상태 패널",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n10",
+          "type": "action",
+          "label": "로봇 선택",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n11",
+          "type": "action",
+          "label": "필터/정렬 적용",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n12",
+          "type": "action",
+          "label": "지도 로봇 클릭",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n13",
+          "type": "main_page",
+          "label": "알람·장애 관리",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n14",
+          "type": "page",
+          "label": "실시간 알람 수신",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n15",
+          "type": "page",
+          "label": "알람/장애 이력 조회",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n16",
+          "type": "page",
+          "label": "장애 티켓 상세",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n17",
+          "type": "page",
+          "label": "센서 데이터 수집",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n18",
+          "type": "action",
+          "label": "알람 확인",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n19",
+          "type": "action",
+          "label": "티켓 생성",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n20",
+          "type": "action",
+          "label": "담당자 지정",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n21",
+          "type": "action",
+          "label": "조치 기록 저장",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n22",
+          "type": "action",
+          "label": "센서 데이터 수동 수집",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n23",
+          "type": "main_page",
+          "label": "원격 제어",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n24",
+          "type": "page",
+          "label": "비상/일반 정지",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n25",
+          "type": "page",
+          "label": "재시작 제어",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n26",
+          "type": "page",
+          "label": "수동 조이스틱 제어",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n27",
+          "type": "page",
+          "label": "미션 개입",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n28",
+          "type": "action",
+          "label": "비상 정지 실행",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n29",
+          "type": "action",
+          "label": "재시작 명령 전송",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n30",
+          "type": "action",
+          "label": "수동 주행 조작",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n31",
+          "type": "action",
+          "label": "미션 취소/재할당",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n32",
+          "type": "action",
+          "label": "목적지 재지정",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n33",
+          "type": "main_page",
+          "label": "맵 관리",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n34",
+          "type": "page",
+          "label": "맵 목록",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n35",
+          "type": "page",
+          "label": "맵 생성/가져오기",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n36",
+          "type": "page",
+          "label": "맵 편집기",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n37",
+          "type": "page",
+          "label": "맵 버전/배포 관리",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n38",
+          "type": "page",
+          "label": "경로/목적지 설정",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n39",
+          "type": "action",
+          "label": "장애물/금지구역 편집",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n40",
+          "type": "action",
+          "label": "맵 배포 실행",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n41",
+          "type": "action",
+          "label": "롤백(이전버전 복귀)",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n42",
+          "type": "action",
+          "label": "경로 충돌 경고 확인",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n43",
+          "type": "main_page",
+          "label": "시스템 관리",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n44",
+          "type": "page",
+          "label": "사용자 계정 관리",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n45",
+          "type": "page",
+          "label": "역할/권한(RBAC) 설정",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n46",
+          "type": "page",
+          "label": "로봇 등록/수정",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n47",
+          "type": "page",
+          "label": "현장·구역 관리",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n48",
+          "type": "page",
+          "label": "연동 헬스체크",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n49",
+          "type": "page",
+          "label": "KPI 분석 대시보드",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n50",
+          "type": "page",
+          "label": "감사 로그 조회",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n51",
+          "type": "action",
+          "label": "계정 생성/수정/삭제",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n52",
+          "type": "action",
+          "label": "권한 변경 저장",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n53",
+          "type": "action",
+          "label": "로봇 등록/비활성화",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n54",
+          "type": "action",
+          "label": "KPI 드릴다운 조회",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n55",
+          "type": "action",
+          "label": "분석 데이터 내보내기",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n56",
+          "type": "action",
+          "label": "감사 로그 필터/내보내기",
+          "sectionId": "s6"
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1",
+          "source": "n1",
+          "target": "n2"
+        },
+        {
+          "id": "e2",
+          "source": "n2",
+          "target": "n3"
+        },
+        {
+          "id": "e3",
+          "source": "n3",
+          "target": "n4"
+        },
+        {
+          "id": "e4",
+          "source": "n4",
+          "target": "n5"
+        },
+        {
+          "id": "e5",
+          "source": "n5",
+          "target": "n6"
+        },
+        {
+          "id": "e6",
+          "source": "n4",
+          "target": "n6"
+        },
+        {
+          "id": "e7",
+          "source": "n6",
+          "target": "n7"
+        },
+        {
+          "id": "e8",
+          "source": "n6",
+          "target": "n8"
+        },
+        {
+          "id": "e9",
+          "source": "n7",
+          "target": "n10"
+        },
+        {
+          "id": "e10",
+          "source": "n7",
+          "target": "n11"
+        },
+        {
+          "id": "e11",
+          "source": "n10",
+          "target": "n9"
+        },
+        {
+          "id": "e12",
+          "source": "n8",
+          "target": "n12"
+        },
+        {
+          "id": "e13",
+          "source": "n12",
+          "target": "n9"
+        },
+        {
+          "id": "e14",
+          "source": "n6",
+          "target": "n13"
+        },
+        {
+          "id": "e15",
+          "source": "n9",
+          "target": "n13"
+        },
+        {
+          "id": "e16",
+          "source": "n13",
+          "target": "n14"
+        },
+        {
+          "id": "e17",
+          "source": "n13",
+          "target": "n15"
+        },
+        {
+          "id": "e18",
+          "source": "n14",
+          "target": "n18"
+        },
+        {
+          "id": "e19",
+          "source": "n18",
+          "target": "n19"
+        },
+        {
+          "id": "e20",
+          "source": "n19",
+          "target": "n16"
+        },
+        {
+          "id": "e21",
+          "source": "n16",
+          "target": "n20"
+        },
+        {
+          "id": "e22",
+          "source": "n16",
+          "target": "n21"
+        },
+        {
+          "id": "e23",
+          "source": "n16",
+          "target": "n17"
+        },
+        {
+          "id": "e24",
+          "source": "n17",
+          "target": "n22"
+        },
+        {
+          "id": "e25",
+          "source": "n9",
+          "target": "n23"
+        },
+        {
+          "id": "e26",
+          "source": "n14",
+          "target": "n23"
+        },
+        {
+          "id": "e27",
+          "source": "n23",
+          "target": "n24"
+        },
+        {
+          "id": "e28",
+          "source": "n23",
+          "target": "n25"
+        },
+        {
+          "id": "e29",
+          "source": "n23",
+          "target": "n26"
+        },
+        {
+          "id": "e30",
+          "source": "n23",
+          "target": "n27"
+        },
+        {
+          "id": "e31",
+          "source": "n24",
+          "target": "n28"
+        },
+        {
+          "id": "e32",
+          "source": "n25",
+          "target": "n29"
+        },
+        {
+          "id": "e33",
+          "source": "n26",
+          "target": "n30"
+        },
+        {
+          "id": "e34",
+          "source": "n27",
+          "target": "n31"
+        },
+        {
+          "id": "e35",
+          "source": "n27",
+          "target": "n32"
+        },
+        {
+          "id": "e36",
+          "source": "n6",
+          "target": "n33"
+        },
+        {
+          "id": "e37",
+          "source": "n33",
+          "target": "n34"
+        },
+        {
+          "id": "e38",
+          "source": "n34",
+          "target": "n35"
+        },
+        {
+          "id": "e39",
+          "source": "n34",
+          "target": "n36"
+        },
+        {
+          "id": "e40",
+          "source": "n36",
+          "target": "n39"
+        },
+        {
+          "id": "e41",
+          "source": "n34",
+          "target": "n37"
+        },
+        {
+          "id": "e42",
+          "source": "n37",
+          "target": "n40"
+        },
+        {
+          "id": "e43",
+          "source": "n37",
+          "target": "n41"
+        },
+        {
+          "id": "e44",
+          "source": "n33",
+          "target": "n38"
+        },
+        {
+          "id": "e45",
+          "source": "n38",
+          "target": "n42"
+        },
+        {
+          "id": "e46",
+          "source": "n6",
+          "target": "n43"
+        },
+        {
+          "id": "e47",
+          "source": "n43",
+          "target": "n44"
+        },
+        {
+          "id": "e48",
+          "source": "n43",
+          "target": "n45"
+        },
+        {
+          "id": "e49",
+          "source": "n43",
+          "target": "n46"
+        },
+        {
+          "id": "e50",
+          "source": "n43",
+          "target": "n47"
+        },
+        {
+          "id": "e51",
+          "source": "n43",
+          "target": "n48"
+        },
+        {
+          "id": "e52",
+          "source": "n43",
+          "target": "n49"
+        },
+        {
+          "id": "e53",
+          "source": "n43",
+          "target": "n50"
+        },
+        {
+          "id": "e54",
+          "source": "n44",
+          "target": "n51"
+        },
+        {
+          "id": "e55",
+          "source": "n45",
+          "target": "n52"
+        },
+        {
+          "id": "e56",
+          "source": "n46",
+          "target": "n53"
+        },
+        {
+          "id": "e57",
+          "source": "n49",
+          "target": "n54"
+        },
+        {
+          "id": "e58",
+          "source": "n49",
+          "target": "n55"
+        },
+        {
+          "id": "e59",
+          "source": "n50",
+          "target": "n56"
+        },
+        {
+          "id": "e60",
+          "source": "n28",
+          "target": "n13"
+        },
+        {
+          "id": "e61",
+          "source": "n41",
+          "target": "n37"
+        },
+        {
+          "id": "e62",
+          "source": "n15",
+          "target": "n16"
+        }
+      ],
+      "sections": [
+        {
+          "id": "s1",
+          "name": "인증",
+          "nodeIds": [
+            "n1",
+            "n2",
+            "n3",
+            "n4",
+            "n5"
+          ]
+        },
+        {
+          "id": "s2",
+          "name": "실시간 모니터링",
+          "nodeIds": [
+            "n6",
+            "n7",
+            "n8",
+            "n9",
+            "n10",
+            "n11",
+            "n12"
+          ]
+        },
+        {
+          "id": "s3",
+          "name": "알람·장애 관리",
+          "nodeIds": [
+            "n13",
+            "n14",
+            "n15",
+            "n16",
+            "n17",
+            "n18",
+            "n19",
+            "n20",
+            "n21",
+            "n22"
+          ]
+        },
+        {
+          "id": "s4",
+          "name": "원격 제어",
+          "nodeIds": [
+            "n23",
+            "n24",
+            "n25",
+            "n26",
+            "n27",
+            "n28",
+            "n29",
+            "n30",
+            "n31",
+            "n32"
+          ]
+        },
+        {
+          "id": "s5",
+          "name": "맵 관리",
+          "nodeIds": [
+            "n33",
+            "n34",
+            "n35",
+            "n36",
+            "n37",
+            "n38",
+            "n39",
+            "n40",
+            "n41",
+            "n42"
+          ]
+        },
+        {
+          "id": "s6",
+          "name": "시스템 관리",
+          "nodeIds": [
+            "n43",
+            "n44",
+            "n45",
+            "n46",
+            "n47",
+            "n48",
+            "n49",
+            "n50",
+            "n51",
+            "n52",
+            "n53",
+            "n54",
+            "n55",
+            "n56"
+          ]
+        }
+      ]
+    }
+  }
+}

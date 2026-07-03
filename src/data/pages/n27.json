@@ -1,0 +1,714 @@
+{
+  "pageNodeId": "n27",
+  "pageName": "미션 개입",
+  "rootId": "w-000bbe",
+  "nodes": {
+    "w-000bbe": {
+      "id": "w-000bbe",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000bbf",
+        "w-000bf3",
+        "w-000bfa",
+        "w-000c01"
+      ],
+      "label": "미션 개입",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000bbf": {
+      "id": "w-000bbf",
+      "type": "body",
+      "parentId": "w-000bbe",
+      "childrenIds": [
+        "w-000bc0",
+        "w-000bc1",
+        "w-000bd6",
+        "w-000be0",
+        "w-000bea",
+        "w-000bf2"
+      ]
+    },
+    "w-000bc0": {
+      "id": "w-000bc0",
+      "type": "text",
+      "parentId": "w-000bbf",
+      "childrenIds": [],
+      "label": "미션 개입",
+      "size": "md"
+    },
+    "w-000bc1": {
+      "id": "w-000bc1",
+      "type": "box",
+      "parentId": "w-000bbf",
+      "childrenIds": [
+        "w-000bc2",
+        "w-000bc3"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000bc2": {
+      "id": "w-000bc2",
+      "type": "text",
+      "parentId": "w-000bc1",
+      "childrenIds": [],
+      "label": "현재 미션 상태",
+      "size": "md"
+    },
+    "w-000bc3": {
+      "id": "w-000bc3",
+      "type": "row",
+      "parentId": "w-000bc1",
+      "childrenIds": [
+        "w-000bc4",
+        "w-000bc7",
+        "w-000bca",
+        "w-000bcd",
+        "w-000bd0",
+        "w-000bd3"
+      ],
+      "layout": {
+        "gap": 24
+      }
+    },
+    "w-000bc4": {
+      "id": "w-000bc4",
+      "type": "column",
+      "parentId": "w-000bc3",
+      "childrenIds": [
+        "w-000bc5",
+        "w-000bc6"
+      ]
+    },
+    "w-000bc5": {
+      "id": "w-000bc5",
+      "type": "text",
+      "parentId": "w-000bc4",
+      "childrenIds": [],
+      "label": "미션 ID",
+      "size": "sm"
+    },
+    "w-000bc6": {
+      "id": "w-000bc6",
+      "type": "text",
+      "parentId": "w-000bc4",
+      "childrenIds": [],
+      "label": "MSN-20240612-047"
+    },
+    "w-000bc7": {
+      "id": "w-000bc7",
+      "type": "column",
+      "parentId": "w-000bc3",
+      "childrenIds": [
+        "w-000bc8",
+        "w-000bc9"
+      ]
+    },
+    "w-000bc8": {
+      "id": "w-000bc8",
+      "type": "text",
+      "parentId": "w-000bc7",
+      "childrenIds": [],
+      "label": "할당 로봇",
+      "size": "sm"
+    },
+    "w-000bc9": {
+      "id": "w-000bc9",
+      "type": "text",
+      "parentId": "w-000bc7",
+      "childrenIds": [],
+      "label": "AGV-03"
+    },
+    "w-000bca": {
+      "id": "w-000bca",
+      "type": "column",
+      "parentId": "w-000bc3",
+      "childrenIds": [
+        "w-000bcb",
+        "w-000bcc"
+      ]
+    },
+    "w-000bcb": {
+      "id": "w-000bcb",
+      "type": "text",
+      "parentId": "w-000bca",
+      "childrenIds": [],
+      "label": "현재 상태",
+      "size": "sm"
+    },
+    "w-000bcc": {
+      "id": "w-000bcc",
+      "type": "text",
+      "parentId": "w-000bca",
+      "childrenIds": [],
+      "label": "이동 중"
+    },
+    "w-000bcd": {
+      "id": "w-000bcd",
+      "type": "column",
+      "parentId": "w-000bc3",
+      "childrenIds": [
+        "w-000bce",
+        "w-000bcf"
+      ]
+    },
+    "w-000bce": {
+      "id": "w-000bce",
+      "type": "text",
+      "parentId": "w-000bcd",
+      "childrenIds": [],
+      "label": "현재 위치",
+      "size": "sm"
+    },
+    "w-000bcf": {
+      "id": "w-000bcf",
+      "type": "text",
+      "parentId": "w-000bcd",
+      "childrenIds": [],
+      "label": "B구역 3번 통로"
+    },
+    "w-000bd0": {
+      "id": "w-000bd0",
+      "type": "column",
+      "parentId": "w-000bc3",
+      "childrenIds": [
+        "w-000bd1",
+        "w-000bd2"
+      ]
+    },
+    "w-000bd1": {
+      "id": "w-000bd1",
+      "type": "text",
+      "parentId": "w-000bd0",
+      "childrenIds": [],
+      "label": "목적지",
+      "size": "sm"
+    },
+    "w-000bd2": {
+      "id": "w-000bd2",
+      "type": "text",
+      "parentId": "w-000bd0",
+      "childrenIds": [],
+      "label": "C구역 출하 도크 2"
+    },
+    "w-000bd3": {
+      "id": "w-000bd3",
+      "type": "column",
+      "parentId": "w-000bc3",
+      "childrenIds": [
+        "w-000bd4",
+        "w-000bd5"
+      ]
+    },
+    "w-000bd4": {
+      "id": "w-000bd4",
+      "type": "text",
+      "parentId": "w-000bd3",
+      "childrenIds": [],
+      "label": "진행률",
+      "size": "sm"
+    },
+    "w-000bd5": {
+      "id": "w-000bd5",
+      "type": "text",
+      "parentId": "w-000bd3",
+      "childrenIds": [],
+      "label": "47%"
+    },
+    "w-000bd6": {
+      "id": "w-000bd6",
+      "type": "box",
+      "parentId": "w-000bbf",
+      "childrenIds": [
+        "w-000bd7",
+        "w-000bd8"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000bd7": {
+      "id": "w-000bd7",
+      "type": "text",
+      "parentId": "w-000bd6",
+      "childrenIds": [],
+      "label": "목적지 재지정",
+      "size": "md"
+    },
+    "w-000bd8": {
+      "id": "w-000bd8",
+      "type": "column",
+      "parentId": "w-000bd6",
+      "childrenIds": [
+        "w-000bd9",
+        "w-000bda",
+        "w-000bdb"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-000bd9": {
+      "id": "w-000bd9",
+      "type": "input",
+      "parentId": "w-000bd8",
+      "childrenIds": [],
+      "label": "새 목적지 좌표 또는 구역명"
+    },
+    "w-000bda": {
+      "id": "w-000bda",
+      "type": "input",
+      "parentId": "w-000bd8",
+      "childrenIds": [],
+      "label": "재지정 사유",
+      "inputType": "area"
+    },
+    "w-000bdb": {
+      "id": "w-000bdb",
+      "type": "row",
+      "parentId": "w-000bd8",
+      "childrenIds": [
+        "w-000bdc",
+        "w-000bde",
+        "w-000bdf"
+      ]
+    },
+    "w-000bdc": {
+      "id": "w-000bdc",
+      "type": "box",
+      "parentId": "w-000bdb",
+      "childrenIds": [
+        "w-000bdd"
+      ]
+    },
+    "w-000bdd": {
+      "id": "w-000bdd",
+      "type": "text",
+      "parentId": "w-000bdc",
+      "childrenIds": [],
+      "label": "⚠ 목적지를 변경하면 현재 경로가 즉시 폐기되고 새 경로가 계산됩니다.",
+      "size": "sm"
+    },
+    "w-000bde": {
+      "id": "w-000bde",
+      "type": "spacer",
+      "parentId": "w-000bdb",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000bdf": {
+      "id": "w-000bdf",
+      "type": "button",
+      "parentId": "w-000bdb",
+      "childrenIds": [],
+      "label": "목적지 변경 적용",
+      "variant": "primary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "confirm-destination"
+      }
+    },
+    "w-000be0": {
+      "id": "w-000be0",
+      "type": "box",
+      "parentId": "w-000bbf",
+      "childrenIds": [
+        "w-000be1",
+        "w-000be2"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000be1": {
+      "id": "w-000be1",
+      "type": "text",
+      "parentId": "w-000be0",
+      "childrenIds": [],
+      "label": "미션 재할당",
+      "size": "md"
+    },
+    "w-000be2": {
+      "id": "w-000be2",
+      "type": "column",
+      "parentId": "w-000be0",
+      "childrenIds": [
+        "w-000be3",
+        "w-000be4",
+        "w-000be5"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-000be3": {
+      "id": "w-000be3",
+      "type": "input",
+      "parentId": "w-000be2",
+      "childrenIds": [],
+      "label": "대상 로봇 ID",
+      "inputType": "select",
+      "attributes": {
+        "options": "AGV-01,AGV-02,AGV-04,AGV-05"
+      }
+    },
+    "w-000be4": {
+      "id": "w-000be4",
+      "type": "input",
+      "parentId": "w-000be2",
+      "childrenIds": [],
+      "label": "재할당 사유",
+      "inputType": "area"
+    },
+    "w-000be5": {
+      "id": "w-000be5",
+      "type": "row",
+      "parentId": "w-000be2",
+      "childrenIds": [
+        "w-000be6",
+        "w-000be8",
+        "w-000be9"
+      ]
+    },
+    "w-000be6": {
+      "id": "w-000be6",
+      "type": "box",
+      "parentId": "w-000be5",
+      "childrenIds": [
+        "w-000be7"
+      ]
+    },
+    "w-000be7": {
+      "id": "w-000be7",
+      "type": "text",
+      "parentId": "w-000be6",
+      "childrenIds": [],
+      "label": "⚠ 재할당 시 현재 로봇은 대기 상태로 전환되며 미션이 지정 로봇에게 이관됩니다.",
+      "size": "sm"
+    },
+    "w-000be8": {
+      "id": "w-000be8",
+      "type": "spacer",
+      "parentId": "w-000be5",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000be9": {
+      "id": "w-000be9",
+      "type": "button",
+      "parentId": "w-000be5",
+      "childrenIds": [],
+      "label": "미션 재할당",
+      "variant": "primary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "confirm-reassign"
+      }
+    },
+    "w-000bea": {
+      "id": "w-000bea",
+      "type": "box",
+      "parentId": "w-000bbf",
+      "childrenIds": [
+        "w-000beb",
+        "w-000bec"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000beb": {
+      "id": "w-000beb",
+      "type": "text",
+      "parentId": "w-000bea",
+      "childrenIds": [],
+      "label": "미션 취소",
+      "size": "md"
+    },
+    "w-000bec": {
+      "id": "w-000bec",
+      "type": "row",
+      "parentId": "w-000bea",
+      "childrenIds": [
+        "w-000bed",
+        "w-000bf0",
+        "w-000bf1"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000bed": {
+      "id": "w-000bed",
+      "type": "column",
+      "parentId": "w-000bec",
+      "childrenIds": [
+        "w-000bee",
+        "w-000bef"
+      ]
+    },
+    "w-000bee": {
+      "id": "w-000bee",
+      "type": "text",
+      "parentId": "w-000bed",
+      "childrenIds": [],
+      "label": "미션을 취소하면 해당 작업이 즉시 중단되고 관련 스케줄에서 제거됩니다.",
+      "size": "sm"
+    },
+    "w-000bef": {
+      "id": "w-000bef",
+      "type": "text",
+      "parentId": "w-000bed",
+      "childrenIds": [],
+      "label": "취소된 미션은 복구할 수 없으며 수동으로 재등록해야 합니다.",
+      "size": "sm"
+    },
+    "w-000bf0": {
+      "id": "w-000bf0",
+      "type": "spacer",
+      "parentId": "w-000bec",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000bf1": {
+      "id": "w-000bf1",
+      "type": "button",
+      "parentId": "w-000bec",
+      "childrenIds": [],
+      "label": "미션 취소",
+      "variant": "danger",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "confirm-cancel"
+      }
+    },
+    "w-000bf2": {
+      "id": "w-000bf2",
+      "type": "button",
+      "parentId": "w-000bbf",
+      "childrenIds": [],
+      "label": "이전 화면으로 돌아가기",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n23"
+      }
+    },
+    "w-000bf3": {
+      "id": "w-000bf3",
+      "type": "overlay",
+      "parentId": "w-000bbe",
+      "childrenIds": [
+        "w-000bf4",
+        "w-000bf5",
+        "w-000bf6",
+        "w-000bf7"
+      ],
+      "overlayId": "confirm-destination"
+    },
+    "w-000bf4": {
+      "id": "w-000bf4",
+      "type": "text",
+      "parentId": "w-000bf3",
+      "childrenIds": [],
+      "label": "목적지 변경 확인",
+      "size": "md"
+    },
+    "w-000bf5": {
+      "id": "w-000bf5",
+      "type": "text",
+      "parentId": "w-000bf3",
+      "childrenIds": [],
+      "label": "현재 미션의 목적지를 변경하시겠습니까?",
+      "size": "sm"
+    },
+    "w-000bf6": {
+      "id": "w-000bf6",
+      "type": "text",
+      "parentId": "w-000bf3",
+      "childrenIds": [],
+      "label": "기존 경로가 폐기되고 새 경로 계산이 즉시 시작됩니다.",
+      "size": "sm"
+    },
+    "w-000bf7": {
+      "id": "w-000bf7",
+      "type": "row",
+      "parentId": "w-000bf3",
+      "childrenIds": [
+        "w-000bf8",
+        "w-000bf9"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000bf8": {
+      "id": "w-000bf8",
+      "type": "button",
+      "parentId": "w-000bf7",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000bf9": {
+      "id": "w-000bf9",
+      "type": "button",
+      "parentId": "w-000bf7",
+      "childrenIds": [],
+      "label": "변경 적용",
+      "variant": "primary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000bfa": {
+      "id": "w-000bfa",
+      "type": "overlay",
+      "parentId": "w-000bbe",
+      "childrenIds": [
+        "w-000bfb",
+        "w-000bfc",
+        "w-000bfd",
+        "w-000bfe"
+      ],
+      "overlayId": "confirm-reassign"
+    },
+    "w-000bfb": {
+      "id": "w-000bfb",
+      "type": "text",
+      "parentId": "w-000bfa",
+      "childrenIds": [],
+      "label": "미션 재할당 확인",
+      "size": "md"
+    },
+    "w-000bfc": {
+      "id": "w-000bfc",
+      "type": "text",
+      "parentId": "w-000bfa",
+      "childrenIds": [],
+      "label": "선택한 로봇에게 미션을 재할당하시겠습니까?",
+      "size": "sm"
+    },
+    "w-000bfd": {
+      "id": "w-000bfd",
+      "type": "text",
+      "parentId": "w-000bfa",
+      "childrenIds": [],
+      "label": "현재 로봇 AGV-03은 대기 상태로 전환됩니다.",
+      "size": "sm"
+    },
+    "w-000bfe": {
+      "id": "w-000bfe",
+      "type": "row",
+      "parentId": "w-000bfa",
+      "childrenIds": [
+        "w-000bff",
+        "w-000c00"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000bff": {
+      "id": "w-000bff",
+      "type": "button",
+      "parentId": "w-000bfe",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000c00": {
+      "id": "w-000c00",
+      "type": "button",
+      "parentId": "w-000bfe",
+      "childrenIds": [],
+      "label": "재할당 실행",
+      "variant": "primary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000c01": {
+      "id": "w-000c01",
+      "type": "overlay",
+      "parentId": "w-000bbe",
+      "childrenIds": [
+        "w-000c02",
+        "w-000c03",
+        "w-000c04",
+        "w-000c05"
+      ],
+      "overlayId": "confirm-cancel"
+    },
+    "w-000c02": {
+      "id": "w-000c02",
+      "type": "text",
+      "parentId": "w-000c01",
+      "childrenIds": [],
+      "label": "⚠ 미션 취소 확인",
+      "size": "md"
+    },
+    "w-000c03": {
+      "id": "w-000c03",
+      "type": "text",
+      "parentId": "w-000c01",
+      "childrenIds": [],
+      "label": "미션 MSN-20240612-047을 취소하시겠습니까?",
+      "size": "sm"
+    },
+    "w-000c04": {
+      "id": "w-000c04",
+      "type": "text",
+      "parentId": "w-000c01",
+      "childrenIds": [],
+      "label": "이 작업은 되돌릴 수 없습니다. 취소된 미션은 수동으로 재등록해야 합니다.",
+      "size": "sm"
+    },
+    "w-000c05": {
+      "id": "w-000c05",
+      "type": "row",
+      "parentId": "w-000c01",
+      "childrenIds": [
+        "w-000c06",
+        "w-000c07"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000c06": {
+      "id": "w-000c06",
+      "type": "button",
+      "parentId": "w-000c05",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000c07": {
+      "id": "w-000c07",
+      "type": "button",
+      "parentId": "w-000c05",
+      "childrenIds": [],
+      "label": "미션 취소 확정",
+      "variant": "danger",
+      "action": {
+        "type": "close"
+      }
+    }
+  }
+}

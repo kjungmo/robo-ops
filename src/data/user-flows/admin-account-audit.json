@@ -1,0 +1,728 @@
+{
+  "version": {
+    "id": "4b3a581a-ef07-4aa4-97fb-124470e01cf0",
+    "name": "관리자 계정·권한·감사 플로우",
+    "versionNumber": 1,
+    "referencedFeatureIds": [],
+    "flowData": {
+      "schemaVersion": 1,
+      "nodes": [
+        {
+          "id": "n1",
+          "type": "start",
+          "label": "시작",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n2",
+          "type": "main_page",
+          "label": "로그인 화면",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n3",
+          "type": "page",
+          "label": "비밀번호 입력",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n4",
+          "type": "page",
+          "label": "2FA 인증 화면",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n5",
+          "type": "action",
+          "label": "로그인 시도",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n6",
+          "type": "page",
+          "label": "권한 부족 오류 화면",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n7",
+          "type": "action",
+          "label": "계정 잠금 알림",
+          "sectionId": "s1"
+        },
+        {
+          "id": "n8",
+          "type": "main_page",
+          "label": "관리자 홈 대시보드",
+          "sectionId": "s2"
+        },
+        {
+          "id": "n9",
+          "type": "main_page",
+          "label": "사용자 계정 관리",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n10",
+          "type": "page",
+          "label": "사용자 목록",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n11",
+          "type": "action",
+          "label": "사용자 계정 생성",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n12",
+          "type": "page",
+          "label": "계정 생성 폼",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n13",
+          "type": "action",
+          "label": "저장 (계정 생성)",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n14",
+          "type": "action",
+          "label": "사용자 계정 수정",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n15",
+          "type": "page",
+          "label": "계정 수정 폼",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n16",
+          "type": "page",
+          "label": "민감 필드 마스킹",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n17",
+          "type": "action",
+          "label": "저장 (계정 수정)",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n18",
+          "type": "action",
+          "label": "사용자 계정 삭제",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n19",
+          "type": "page",
+          "label": "삭제 확인 다이얼로그",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n20",
+          "type": "action",
+          "label": "삭제 확정",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n21",
+          "type": "page",
+          "label": "권한 부족 차단 안내",
+          "sectionId": "s3"
+        },
+        {
+          "id": "n22",
+          "type": "main_page",
+          "label": "RBAC 권한 설정",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n23",
+          "type": "page",
+          "label": "역할 목록",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n24",
+          "type": "action",
+          "label": "역할 선택",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n25",
+          "type": "page",
+          "label": "역할별 권한 편집",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n26",
+          "type": "action",
+          "label": "권한 항목 토글",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n27",
+          "type": "action",
+          "label": "권한 변경 저장",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n28",
+          "type": "page",
+          "label": "변경 확인 다이얼로그",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n29",
+          "type": "action",
+          "label": "권한 변경 확정",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n30",
+          "type": "page",
+          "label": "권한 부족 차단 안내",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n31",
+          "type": "page",
+          "label": "사용자-역할 할당",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n32",
+          "type": "action",
+          "label": "역할 할당 저장",
+          "sectionId": "s4"
+        },
+        {
+          "id": "n33",
+          "type": "main_page",
+          "label": "보안 정책 설정",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n34",
+          "type": "page",
+          "label": "비밀번호 정책 설정",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n35",
+          "type": "action",
+          "label": "정책 저장",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n36",
+          "type": "page",
+          "label": "세션 관리 설정",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n37",
+          "type": "action",
+          "label": "세션 설정 저장",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n38",
+          "type": "page",
+          "label": "2FA 정책 설정",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n39",
+          "type": "action",
+          "label": "2FA 정책 저장",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n40",
+          "type": "page",
+          "label": "계정 잠금 정책 설정",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n41",
+          "type": "action",
+          "label": "잠금 정책 저장",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n42",
+          "type": "page",
+          "label": "권한 부족 차단 안내",
+          "sectionId": "s5"
+        },
+        {
+          "id": "n43",
+          "type": "main_page",
+          "label": "감사 로그 관리",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n44",
+          "type": "page",
+          "label": "감사 로그 목록",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n45",
+          "type": "action",
+          "label": "검색/필터 적용",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n46",
+          "type": "page",
+          "label": "필터 패널",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n47",
+          "type": "page",
+          "label": "감사 로그 상세",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n48",
+          "type": "action",
+          "label": "내보내기 요청",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n49",
+          "type": "page",
+          "label": "내보내기 진행 화면",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n50",
+          "type": "page",
+          "label": "내보내기 완료 알림",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n51",
+          "type": "page",
+          "label": "내보내기 실패 알림",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n52",
+          "type": "action",
+          "label": "파일 다운로드",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n53",
+          "type": "page",
+          "label": "권한 부족 차단 안내",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n54",
+          "type": "page",
+          "label": "권한 변경 감사 추적",
+          "sectionId": "s6"
+        },
+        {
+          "id": "n55",
+          "type": "action",
+          "label": "권한 변경 이벤트 조회",
+          "sectionId": "s6"
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1",
+          "source": "n1",
+          "target": "n2"
+        },
+        {
+          "id": "e2",
+          "source": "n2",
+          "target": "n3"
+        },
+        {
+          "id": "e3",
+          "source": "n3",
+          "target": "n5"
+        },
+        {
+          "id": "e4",
+          "source": "n5",
+          "target": "n4"
+        },
+        {
+          "id": "e5",
+          "source": "n4",
+          "target": "n8"
+        },
+        {
+          "id": "e6",
+          "source": "n5",
+          "target": "n6"
+        },
+        {
+          "id": "e7",
+          "source": "n5",
+          "target": "n7"
+        },
+        {
+          "id": "e8",
+          "source": "n6",
+          "target": "n2"
+        },
+        {
+          "id": "e9",
+          "source": "n8",
+          "target": "n9"
+        },
+        {
+          "id": "e10",
+          "source": "n8",
+          "target": "n22"
+        },
+        {
+          "id": "e11",
+          "source": "n8",
+          "target": "n33"
+        },
+        {
+          "id": "e12",
+          "source": "n8",
+          "target": "n43"
+        },
+        {
+          "id": "e13",
+          "source": "n9",
+          "target": "n10"
+        },
+        {
+          "id": "e14",
+          "source": "n10",
+          "target": "n11"
+        },
+        {
+          "id": "e15",
+          "source": "n11",
+          "target": "n12"
+        },
+        {
+          "id": "e16",
+          "source": "n12",
+          "target": "n13"
+        },
+        {
+          "id": "e17",
+          "source": "n10",
+          "target": "n14"
+        },
+        {
+          "id": "e18",
+          "source": "n14",
+          "target": "n15"
+        },
+        {
+          "id": "e19",
+          "source": "n15",
+          "target": "n16"
+        },
+        {
+          "id": "e20",
+          "source": "n15",
+          "target": "n17"
+        },
+        {
+          "id": "e21",
+          "source": "n10",
+          "target": "n18"
+        },
+        {
+          "id": "e22",
+          "source": "n18",
+          "target": "n19"
+        },
+        {
+          "id": "e23",
+          "source": "n19",
+          "target": "n20"
+        },
+        {
+          "id": "e24",
+          "source": "n9",
+          "target": "n21"
+        },
+        {
+          "id": "e25",
+          "source": "n22",
+          "target": "n23"
+        },
+        {
+          "id": "e26",
+          "source": "n23",
+          "target": "n24"
+        },
+        {
+          "id": "e27",
+          "source": "n24",
+          "target": "n25"
+        },
+        {
+          "id": "e28",
+          "source": "n25",
+          "target": "n26"
+        },
+        {
+          "id": "e29",
+          "source": "n26",
+          "target": "n27"
+        },
+        {
+          "id": "e30",
+          "source": "n27",
+          "target": "n28"
+        },
+        {
+          "id": "e31",
+          "source": "n28",
+          "target": "n29"
+        },
+        {
+          "id": "e32",
+          "source": "n22",
+          "target": "n30"
+        },
+        {
+          "id": "e33",
+          "source": "n23",
+          "target": "n31"
+        },
+        {
+          "id": "e34",
+          "source": "n31",
+          "target": "n32"
+        },
+        {
+          "id": "e35",
+          "source": "n33",
+          "target": "n34"
+        },
+        {
+          "id": "e36",
+          "source": "n34",
+          "target": "n35"
+        },
+        {
+          "id": "e37",
+          "source": "n33",
+          "target": "n36"
+        },
+        {
+          "id": "e38",
+          "source": "n36",
+          "target": "n37"
+        },
+        {
+          "id": "e39",
+          "source": "n33",
+          "target": "n38"
+        },
+        {
+          "id": "e40",
+          "source": "n38",
+          "target": "n39"
+        },
+        {
+          "id": "e41",
+          "source": "n33",
+          "target": "n40"
+        },
+        {
+          "id": "e42",
+          "source": "n40",
+          "target": "n41"
+        },
+        {
+          "id": "e43",
+          "source": "n33",
+          "target": "n42"
+        },
+        {
+          "id": "e44",
+          "source": "n43",
+          "target": "n44"
+        },
+        {
+          "id": "e45",
+          "source": "n44",
+          "target": "n45"
+        },
+        {
+          "id": "e46",
+          "source": "n45",
+          "target": "n46"
+        },
+        {
+          "id": "e47",
+          "source": "n46",
+          "target": "n44"
+        },
+        {
+          "id": "e48",
+          "source": "n44",
+          "target": "n47"
+        },
+        {
+          "id": "e49",
+          "source": "n44",
+          "target": "n48"
+        },
+        {
+          "id": "e50",
+          "source": "n48",
+          "target": "n49"
+        },
+        {
+          "id": "e51",
+          "source": "n49",
+          "target": "n50"
+        },
+        {
+          "id": "e52",
+          "source": "n49",
+          "target": "n51"
+        },
+        {
+          "id": "e53",
+          "source": "n50",
+          "target": "n52"
+        },
+        {
+          "id": "e54",
+          "source": "n43",
+          "target": "n53"
+        },
+        {
+          "id": "e55",
+          "source": "n43",
+          "target": "n54"
+        },
+        {
+          "id": "e56",
+          "source": "n54",
+          "target": "n55"
+        },
+        {
+          "id": "e57",
+          "source": "n29",
+          "target": "n54"
+        },
+        {
+          "id": "e58",
+          "source": "n32",
+          "target": "n54"
+        }
+      ],
+      "sections": [
+        {
+          "id": "s1",
+          "name": "인증 및 보안 진입",
+          "nodeIds": [
+            "n1",
+            "n2",
+            "n3",
+            "n4",
+            "n5",
+            "n6",
+            "n7"
+          ]
+        },
+        {
+          "id": "s2",
+          "name": "관리자 홈",
+          "nodeIds": [
+            "n8"
+          ]
+        },
+        {
+          "id": "s3",
+          "name": "사용자 계정 관리",
+          "nodeIds": [
+            "n9",
+            "n10",
+            "n11",
+            "n12",
+            "n13",
+            "n14",
+            "n15",
+            "n16",
+            "n17",
+            "n18",
+            "n19",
+            "n20",
+            "n21"
+          ]
+        },
+        {
+          "id": "s4",
+          "name": "RBAC 권한 설정",
+          "nodeIds": [
+            "n22",
+            "n23",
+            "n24",
+            "n25",
+            "n26",
+            "n27",
+            "n28",
+            "n29",
+            "n30",
+            "n31",
+            "n32"
+          ]
+        },
+        {
+          "id": "s5",
+          "name": "보안 정책 설정",
+          "nodeIds": [
+            "n33",
+            "n34",
+            "n35",
+            "n36",
+            "n37",
+            "n38",
+            "n39",
+            "n40",
+            "n41",
+            "n42"
+          ]
+        },
+        {
+          "id": "s6",
+          "name": "감사 로그 관리",
+          "nodeIds": [
+            "n43",
+            "n44",
+            "n45",
+            "n46",
+            "n47",
+            "n48",
+            "n49",
+            "n50",
+            "n51",
+            "n52",
+            "n53",
+            "n54",
+            "n55"
+          ]
+        }
+      ]
+    }
+  }
+}

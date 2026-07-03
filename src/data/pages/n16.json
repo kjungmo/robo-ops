@@ -1,0 +1,813 @@
+{
+  "pageNodeId": "n16",
+  "pageName": "장애 티켓 상세",
+  "rootId": "w-0008a6",
+  "nodes": {
+    "w-0008a6": {
+      "id": "w-0008a6",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-0008a7"
+      ],
+      "label": "장애 티켓 상세",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-0008a7": {
+      "id": "w-0008a7",
+      "type": "body",
+      "parentId": "w-0008a6",
+      "childrenIds": [
+        "w-0008a8",
+        "w-0008ac"
+      ]
+    },
+    "w-0008a8": {
+      "id": "w-0008a8",
+      "type": "row",
+      "parentId": "w-0008a7",
+      "childrenIds": [
+        "w-0008a9",
+        "w-0008aa",
+        "w-0008ab"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-0008a9": {
+      "id": "w-0008a9",
+      "type": "text",
+      "parentId": "w-0008a8",
+      "childrenIds": [],
+      "label": "장애 티켓 상세",
+      "size": "lg"
+    },
+    "w-0008aa": {
+      "id": "w-0008aa",
+      "type": "spacer",
+      "parentId": "w-0008a8",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-0008ab": {
+      "id": "w-0008ab",
+      "type": "button",
+      "parentId": "w-0008a8",
+      "childrenIds": [],
+      "label": "알람/장애 이력으로",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n15"
+      }
+    },
+    "w-0008ac": {
+      "id": "w-0008ac",
+      "type": "row",
+      "parentId": "w-0008a7",
+      "childrenIds": [
+        "w-0008ad",
+        "w-0008d7"
+      ],
+      "layout": {
+        "gap": 24,
+        "align": "start"
+      }
+    },
+    "w-0008ad": {
+      "id": "w-0008ad",
+      "type": "column",
+      "parentId": "w-0008ac",
+      "childrenIds": [
+        "w-0008ae",
+        "w-0008ca",
+        "w-0008cf"
+      ],
+      "layout": {
+        "gap": 16,
+        "width": 720
+      }
+    },
+    "w-0008ae": {
+      "id": "w-0008ae",
+      "type": "box",
+      "parentId": "w-0008ad",
+      "childrenIds": [
+        "w-0008af",
+        "w-0008b0",
+        "w-0008bd",
+        "w-0008c7",
+        "w-0008c8",
+        "w-0008c9"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0008af": {
+      "id": "w-0008af",
+      "type": "text",
+      "parentId": "w-0008ae",
+      "childrenIds": [],
+      "label": "티켓 기본 정보",
+      "size": "md"
+    },
+    "w-0008b0": {
+      "id": "w-0008b0",
+      "type": "row",
+      "parentId": "w-0008ae",
+      "childrenIds": [
+        "w-0008b1",
+        "w-0008b4",
+        "w-0008b7",
+        "w-0008ba"
+      ],
+      "layout": {
+        "gap": 24
+      }
+    },
+    "w-0008b1": {
+      "id": "w-0008b1",
+      "type": "column",
+      "parentId": "w-0008b0",
+      "childrenIds": [
+        "w-0008b2",
+        "w-0008b3"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0008b2": {
+      "id": "w-0008b2",
+      "type": "text",
+      "parentId": "w-0008b1",
+      "childrenIds": [],
+      "label": "티켓 ID",
+      "size": "sm"
+    },
+    "w-0008b3": {
+      "id": "w-0008b3",
+      "type": "text",
+      "parentId": "w-0008b1",
+      "childrenIds": [],
+      "label": "INC-20240581"
+    },
+    "w-0008b4": {
+      "id": "w-0008b4",
+      "type": "column",
+      "parentId": "w-0008b0",
+      "childrenIds": [
+        "w-0008b5",
+        "w-0008b6"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0008b5": {
+      "id": "w-0008b5",
+      "type": "text",
+      "parentId": "w-0008b4",
+      "childrenIds": [],
+      "label": "발생 시각",
+      "size": "sm"
+    },
+    "w-0008b6": {
+      "id": "w-0008b6",
+      "type": "text",
+      "parentId": "w-0008b4",
+      "childrenIds": [],
+      "label": "2024-05-31 14:22:07"
+    },
+    "w-0008b7": {
+      "id": "w-0008b7",
+      "type": "column",
+      "parentId": "w-0008b0",
+      "childrenIds": [
+        "w-0008b8",
+        "w-0008b9"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0008b8": {
+      "id": "w-0008b8",
+      "type": "text",
+      "parentId": "w-0008b7",
+      "childrenIds": [],
+      "label": "상태",
+      "size": "sm"
+    },
+    "w-0008b9": {
+      "id": "w-0008b9",
+      "type": "button",
+      "parentId": "w-0008b7",
+      "childrenIds": [],
+      "label": "처리 중",
+      "variant": "chip"
+    },
+    "w-0008ba": {
+      "id": "w-0008ba",
+      "type": "column",
+      "parentId": "w-0008b0",
+      "childrenIds": [
+        "w-0008bb",
+        "w-0008bc"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0008bb": {
+      "id": "w-0008bb",
+      "type": "text",
+      "parentId": "w-0008ba",
+      "childrenIds": [],
+      "label": "심각도",
+      "size": "sm"
+    },
+    "w-0008bc": {
+      "id": "w-0008bc",
+      "type": "button",
+      "parentId": "w-0008ba",
+      "childrenIds": [],
+      "label": "위험",
+      "variant": "chip"
+    },
+    "w-0008bd": {
+      "id": "w-0008bd",
+      "type": "row",
+      "parentId": "w-0008ae",
+      "childrenIds": [
+        "w-0008be",
+        "w-0008c1",
+        "w-0008c4"
+      ],
+      "layout": {
+        "gap": 24
+      }
+    },
+    "w-0008be": {
+      "id": "w-0008be",
+      "type": "column",
+      "parentId": "w-0008bd",
+      "childrenIds": [
+        "w-0008bf",
+        "w-0008c0"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0008bf": {
+      "id": "w-0008bf",
+      "type": "text",
+      "parentId": "w-0008be",
+      "childrenIds": [],
+      "label": "발생 위치",
+      "size": "sm"
+    },
+    "w-0008c0": {
+      "id": "w-0008c0",
+      "type": "text",
+      "parentId": "w-0008be",
+      "childrenIds": [],
+      "label": "구역 B — 로봇 R-07"
+    },
+    "w-0008c1": {
+      "id": "w-0008c1",
+      "type": "column",
+      "parentId": "w-0008bd",
+      "childrenIds": [
+        "w-0008c2",
+        "w-0008c3"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0008c2": {
+      "id": "w-0008c2",
+      "type": "text",
+      "parentId": "w-0008c1",
+      "childrenIds": [],
+      "label": "장애 유형",
+      "size": "sm"
+    },
+    "w-0008c3": {
+      "id": "w-0008c3",
+      "type": "text",
+      "parentId": "w-0008c1",
+      "childrenIds": [],
+      "label": "센서 응답 없음"
+    },
+    "w-0008c4": {
+      "id": "w-0008c4",
+      "type": "column",
+      "parentId": "w-0008bd",
+      "childrenIds": [
+        "w-0008c5",
+        "w-0008c6"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0008c5": {
+      "id": "w-0008c5",
+      "type": "text",
+      "parentId": "w-0008c4",
+      "childrenIds": [],
+      "label": "최초 감지",
+      "size": "sm"
+    },
+    "w-0008c6": {
+      "id": "w-0008c6",
+      "type": "text",
+      "parentId": "w-0008c4",
+      "childrenIds": [],
+      "label": "온도 센서 임계 초과"
+    },
+    "w-0008c7": {
+      "id": "w-0008c7",
+      "type": "text",
+      "parentId": "w-0008ae",
+      "childrenIds": [],
+      "label": "장애 설명",
+      "size": "sm"
+    },
+    "w-0008c8": {
+      "id": "w-0008c8",
+      "type": "text",
+      "parentId": "w-0008ae",
+      "childrenIds": []
+    },
+    "w-0008c9": {
+      "id": "w-0008c9",
+      "type": "text",
+      "parentId": "w-0008ae",
+      "childrenIds": []
+    },
+    "w-0008ca": {
+      "id": "w-0008ca",
+      "type": "box",
+      "parentId": "w-0008ad",
+      "childrenIds": [
+        "w-0008cb",
+        "w-0008cc",
+        "w-0008cd"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0008cb": {
+      "id": "w-0008cb",
+      "type": "text",
+      "parentId": "w-0008ca",
+      "childrenIds": [],
+      "label": "담당자 지정",
+      "size": "md"
+    },
+    "w-0008cc": {
+      "id": "w-0008cc",
+      "type": "input",
+      "parentId": "w-0008ca",
+      "childrenIds": [],
+      "label": "담당자 선택",
+      "inputType": "select",
+      "attributes": {
+        "options": "김민준,이서연,박지훈,최수아,미지정"
+      }
+    },
+    "w-0008cd": {
+      "id": "w-0008cd",
+      "type": "row",
+      "parentId": "w-0008ca",
+      "childrenIds": [
+        "w-0008ce"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-0008ce": {
+      "id": "w-0008ce",
+      "type": "button",
+      "parentId": "w-0008cd",
+      "childrenIds": [],
+      "label": "담당자 저장",
+      "variant": "primary"
+    },
+    "w-0008cf": {
+      "id": "w-0008cf",
+      "type": "box",
+      "parentId": "w-0008ad",
+      "childrenIds": [
+        "w-0008d0",
+        "w-0008d1",
+        "w-0008d2",
+        "w-0008d5"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0008d0": {
+      "id": "w-0008d0",
+      "type": "text",
+      "parentId": "w-0008cf",
+      "childrenIds": [],
+      "label": "조치 기록 입력",
+      "size": "md"
+    },
+    "w-0008d1": {
+      "id": "w-0008d1",
+      "type": "input",
+      "parentId": "w-0008cf",
+      "childrenIds": [],
+      "label": "조치 내용을 입력하세요",
+      "inputType": "area"
+    },
+    "w-0008d2": {
+      "id": "w-0008d2",
+      "type": "row",
+      "parentId": "w-0008cf",
+      "childrenIds": [
+        "w-0008d3",
+        "w-0008d4"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-0008d3": {
+      "id": "w-0008d3",
+      "type": "input",
+      "parentId": "w-0008d2",
+      "childrenIds": [],
+      "label": "조치 유형",
+      "inputType": "select",
+      "attributes": {
+        "options": "현장 점검,원격 처리,부품 교체,재기동,에스컬레이션"
+      }
+    },
+    "w-0008d4": {
+      "id": "w-0008d4",
+      "type": "input",
+      "parentId": "w-0008d2",
+      "childrenIds": [],
+      "label": "처리 시각",
+      "inputType": "select",
+      "attributes": {
+        "options": "현재 시각 자동 입력"
+      }
+    },
+    "w-0008d5": {
+      "id": "w-0008d5",
+      "type": "row",
+      "parentId": "w-0008cf",
+      "childrenIds": [
+        "w-0008d6"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-0008d6": {
+      "id": "w-0008d6",
+      "type": "button",
+      "parentId": "w-0008d5",
+      "childrenIds": [],
+      "label": "조치 기록 저장",
+      "variant": "primary"
+    },
+    "w-0008d7": {
+      "id": "w-0008d7",
+      "type": "column",
+      "parentId": "w-0008ac",
+      "childrenIds": [
+        "w-0008d8",
+        "w-0008ef"
+      ],
+      "layout": {
+        "gap": 16,
+        "width": 400
+      }
+    },
+    "w-0008d8": {
+      "id": "w-0008d8",
+      "type": "box",
+      "parentId": "w-0008d7",
+      "childrenIds": [
+        "w-0008d9",
+        "w-0008da",
+        "w-0008e1",
+        "w-0008e8"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0008d9": {
+      "id": "w-0008d9",
+      "type": "text",
+      "parentId": "w-0008d8",
+      "childrenIds": [],
+      "label": "조치 이력",
+      "size": "md"
+    },
+    "w-0008da": {
+      "id": "w-0008da",
+      "type": "box",
+      "parentId": "w-0008d8",
+      "childrenIds": [
+        "w-0008db",
+        "w-0008df",
+        "w-0008e0"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0008db": {
+      "id": "w-0008db",
+      "type": "row",
+      "parentId": "w-0008da",
+      "childrenIds": [
+        "w-0008dc",
+        "w-0008dd",
+        "w-0008de"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-0008dc": {
+      "id": "w-0008dc",
+      "type": "text",
+      "parentId": "w-0008db",
+      "childrenIds": [],
+      "label": "현장 점검 완료",
+      "size": "sm"
+    },
+    "w-0008dd": {
+      "id": "w-0008dd",
+      "type": "spacer",
+      "parentId": "w-0008db",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-0008de": {
+      "id": "w-0008de",
+      "type": "text",
+      "parentId": "w-0008db",
+      "childrenIds": [],
+      "label": "14:35",
+      "size": "sm"
+    },
+    "w-0008df": {
+      "id": "w-0008df",
+      "type": "text",
+      "parentId": "w-0008da",
+      "childrenIds": [],
+      "label": "담당자: 김민준",
+      "size": "sm"
+    },
+    "w-0008e0": {
+      "id": "w-0008e0",
+      "type": "text",
+      "parentId": "w-0008da",
+      "childrenIds": [],
+      "size": "sm"
+    },
+    "w-0008e1": {
+      "id": "w-0008e1",
+      "type": "box",
+      "parentId": "w-0008d8",
+      "childrenIds": [
+        "w-0008e2",
+        "w-0008e6",
+        "w-0008e7"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0008e2": {
+      "id": "w-0008e2",
+      "type": "row",
+      "parentId": "w-0008e1",
+      "childrenIds": [
+        "w-0008e3",
+        "w-0008e4",
+        "w-0008e5"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-0008e3": {
+      "id": "w-0008e3",
+      "type": "text",
+      "parentId": "w-0008e2",
+      "childrenIds": [],
+      "label": "원격 재기동 시도",
+      "size": "sm"
+    },
+    "w-0008e4": {
+      "id": "w-0008e4",
+      "type": "spacer",
+      "parentId": "w-0008e2",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-0008e5": {
+      "id": "w-0008e5",
+      "type": "text",
+      "parentId": "w-0008e2",
+      "childrenIds": [],
+      "label": "14:28",
+      "size": "sm"
+    },
+    "w-0008e6": {
+      "id": "w-0008e6",
+      "type": "text",
+      "parentId": "w-0008e1",
+      "childrenIds": [],
+      "label": "담당자: 이서연",
+      "size": "sm"
+    },
+    "w-0008e7": {
+      "id": "w-0008e7",
+      "type": "text",
+      "parentId": "w-0008e1",
+      "childrenIds": [],
+      "size": "sm"
+    },
+    "w-0008e8": {
+      "id": "w-0008e8",
+      "type": "box",
+      "parentId": "w-0008d8",
+      "childrenIds": [
+        "w-0008e9",
+        "w-0008ed",
+        "w-0008ee"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0008e9": {
+      "id": "w-0008e9",
+      "type": "row",
+      "parentId": "w-0008e8",
+      "childrenIds": [
+        "w-0008ea",
+        "w-0008eb",
+        "w-0008ec"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-0008ea": {
+      "id": "w-0008ea",
+      "type": "text",
+      "parentId": "w-0008e9",
+      "childrenIds": [],
+      "label": "최초 경보 수신",
+      "size": "sm"
+    },
+    "w-0008eb": {
+      "id": "w-0008eb",
+      "type": "spacer",
+      "parentId": "w-0008e9",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-0008ec": {
+      "id": "w-0008ec",
+      "type": "text",
+      "parentId": "w-0008e9",
+      "childrenIds": [],
+      "label": "14:22",
+      "size": "sm"
+    },
+    "w-0008ed": {
+      "id": "w-0008ed",
+      "type": "text",
+      "parentId": "w-0008e8",
+      "childrenIds": [],
+      "label": "시스템 자동 등록",
+      "size": "sm"
+    },
+    "w-0008ee": {
+      "id": "w-0008ee",
+      "type": "text",
+      "parentId": "w-0008e8",
+      "childrenIds": [],
+      "size": "sm"
+    },
+    "w-0008ef": {
+      "id": "w-0008ef",
+      "type": "box",
+      "parentId": "w-0008d7",
+      "childrenIds": [
+        "w-0008f0",
+        "w-0008f1",
+        "w-0008f2",
+        "w-0008f5"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0008f0": {
+      "id": "w-0008f0",
+      "type": "text",
+      "parentId": "w-0008ef",
+      "childrenIds": [],
+      "label": "관련 정보",
+      "size": "md"
+    },
+    "w-0008f1": {
+      "id": "w-0008f1",
+      "type": "button",
+      "parentId": "w-0008ef",
+      "childrenIds": [],
+      "label": "센서 데이터 수집 확인",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n17"
+      }
+    },
+    "w-0008f2": {
+      "id": "w-0008f2",
+      "type": "row",
+      "parentId": "w-0008ef",
+      "childrenIds": [
+        "w-0008f3",
+        "w-0008f4"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-0008f3": {
+      "id": "w-0008f3",
+      "type": "text",
+      "parentId": "w-0008f2",
+      "childrenIds": [],
+      "label": "연관 알람 수",
+      "size": "sm"
+    },
+    "w-0008f4": {
+      "id": "w-0008f4",
+      "type": "text",
+      "parentId": "w-0008f2",
+      "childrenIds": [],
+      "label": "3건",
+      "size": "sm"
+    },
+    "w-0008f5": {
+      "id": "w-0008f5",
+      "type": "row",
+      "parentId": "w-0008ef",
+      "childrenIds": [
+        "w-0008f6",
+        "w-0008f7"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-0008f6": {
+      "id": "w-0008f6",
+      "type": "text",
+      "parentId": "w-0008f5",
+      "childrenIds": [],
+      "label": "동일 구역 최근 장애",
+      "size": "sm"
+    },
+    "w-0008f7": {
+      "id": "w-0008f7",
+      "type": "text",
+      "parentId": "w-0008f5",
+      "childrenIds": [],
+      "label": "2건 (7일 이내)",
+      "size": "sm"
+    }
+  }
+}

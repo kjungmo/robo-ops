@@ -1,0 +1,805 @@
+{
+  "pageNodeId": "n14",
+  "pageName": "실시간 알람 수신",
+  "rootId": "w-0009aa",
+  "nodes": {
+    "w-0009aa": {
+      "id": "w-0009aa",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-0009ab"
+      ],
+      "label": "실시간 알람 수신",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-0009ab": {
+      "id": "w-0009ab",
+      "type": "body",
+      "parentId": "w-0009aa",
+      "childrenIds": [
+        "w-0009ac",
+        "w-0009af",
+        "w-0009b7",
+        "w-0009e5"
+      ]
+    },
+    "w-0009ac": {
+      "id": "w-0009ac",
+      "type": "row",
+      "parentId": "w-0009ab",
+      "childrenIds": [
+        "w-0009ad",
+        "w-0009ae"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-0009ad": {
+      "id": "w-0009ad",
+      "type": "text",
+      "parentId": "w-0009ac",
+      "childrenIds": [],
+      "label": "실시간 알람 수신",
+      "size": "md"
+    },
+    "w-0009ae": {
+      "id": "w-0009ae",
+      "type": "button",
+      "parentId": "w-0009ac",
+      "childrenIds": [],
+      "label": "원격 제어로 이동",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n23"
+      }
+    },
+    "w-0009af": {
+      "id": "w-0009af",
+      "type": "row",
+      "parentId": "w-0009ab",
+      "childrenIds": [
+        "w-0009b0",
+        "w-0009b1",
+        "w-0009b2",
+        "w-0009b3",
+        "w-0009b4",
+        "w-0009b5",
+        "w-0009b6"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-0009b0": {
+      "id": "w-0009b0",
+      "type": "text",
+      "parentId": "w-0009af",
+      "childrenIds": [],
+      "label": "전체",
+      "size": "sm"
+    },
+    "w-0009b1": {
+      "id": "w-0009b1",
+      "type": "button",
+      "parentId": "w-0009af",
+      "childrenIds": [],
+      "label": "위험",
+      "variant": "chip"
+    },
+    "w-0009b2": {
+      "id": "w-0009b2",
+      "type": "button",
+      "parentId": "w-0009af",
+      "childrenIds": [],
+      "label": "주의",
+      "variant": "chip"
+    },
+    "w-0009b3": {
+      "id": "w-0009b3",
+      "type": "button",
+      "parentId": "w-0009af",
+      "childrenIds": [],
+      "label": "오프라인",
+      "variant": "chip"
+    },
+    "w-0009b4": {
+      "id": "w-0009b4",
+      "type": "button",
+      "parentId": "w-0009af",
+      "childrenIds": [],
+      "label": "정상",
+      "variant": "chip"
+    },
+    "w-0009b5": {
+      "id": "w-0009b5",
+      "type": "spacer",
+      "parentId": "w-0009af",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-0009b6": {
+      "id": "w-0009b6",
+      "type": "input",
+      "parentId": "w-0009af",
+      "childrenIds": [],
+      "inputType": "search"
+    },
+    "w-0009b7": {
+      "id": "w-0009b7",
+      "type": "column",
+      "parentId": "w-0009ab",
+      "childrenIds": [
+        "w-0009b8",
+        "w-0009c1",
+        "w-0009ca",
+        "w-0009d3",
+        "w-0009dc"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-0009b8": {
+      "id": "w-0009b8",
+      "type": "box",
+      "parentId": "w-0009b7",
+      "childrenIds": [
+        "w-0009b9",
+        "w-0009be",
+        "w-0009bf"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0009b9": {
+      "id": "w-0009b9",
+      "type": "row",
+      "parentId": "w-0009b8",
+      "childrenIds": [
+        "w-0009ba",
+        "w-0009bd"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-0009ba": {
+      "id": "w-0009ba",
+      "type": "row",
+      "parentId": "w-0009b9",
+      "childrenIds": [
+        "w-0009bb",
+        "w-0009bc"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-0009bb": {
+      "id": "w-0009bb",
+      "type": "text",
+      "parentId": "w-0009ba",
+      "childrenIds": [],
+      "label": "🔴",
+      "size": "sm"
+    },
+    "w-0009bc": {
+      "id": "w-0009bc",
+      "type": "text",
+      "parentId": "w-0009ba",
+      "childrenIds": [],
+      "label": "로봇 #A03 — 구동부 과열 감지",
+      "size": "md"
+    },
+    "w-0009bd": {
+      "id": "w-0009bd",
+      "type": "text",
+      "parentId": "w-0009b9",
+      "childrenIds": [],
+      "label": "14:32:05",
+      "size": "sm"
+    },
+    "w-0009be": {
+      "id": "w-0009be",
+      "type": "text",
+      "parentId": "w-0009b8",
+      "childrenIds": [],
+      "label": "좌측 구동 모터 온도 92°C 초과. 즉각 점검 필요.",
+      "size": "sm"
+    },
+    "w-0009bf": {
+      "id": "w-0009bf",
+      "type": "row",
+      "parentId": "w-0009b8",
+      "childrenIds": [
+        "w-0009c0"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-0009c0": {
+      "id": "w-0009c0",
+      "type": "button",
+      "parentId": "w-0009bf",
+      "childrenIds": [],
+      "label": "원격 제어",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n23"
+      }
+    },
+    "w-0009c1": {
+      "id": "w-0009c1",
+      "type": "box",
+      "parentId": "w-0009b7",
+      "childrenIds": [
+        "w-0009c2",
+        "w-0009c7",
+        "w-0009c8"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0009c2": {
+      "id": "w-0009c2",
+      "type": "row",
+      "parentId": "w-0009c1",
+      "childrenIds": [
+        "w-0009c3",
+        "w-0009c6"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-0009c3": {
+      "id": "w-0009c3",
+      "type": "row",
+      "parentId": "w-0009c2",
+      "childrenIds": [
+        "w-0009c4",
+        "w-0009c5"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-0009c4": {
+      "id": "w-0009c4",
+      "type": "text",
+      "parentId": "w-0009c3",
+      "childrenIds": [],
+      "label": "🟡",
+      "size": "sm"
+    },
+    "w-0009c5": {
+      "id": "w-0009c5",
+      "type": "text",
+      "parentId": "w-0009c3",
+      "childrenIds": [],
+      "label": "로봇 #B11 — 배터리 잔량 경고",
+      "size": "md"
+    },
+    "w-0009c6": {
+      "id": "w-0009c6",
+      "type": "text",
+      "parentId": "w-0009c2",
+      "childrenIds": [],
+      "label": "14:29:51",
+      "size": "sm"
+    },
+    "w-0009c7": {
+      "id": "w-0009c7",
+      "type": "text",
+      "parentId": "w-0009c1",
+      "childrenIds": [],
+      "label": "배터리 잔량 12%. 충전 스테이션 복귀 권장.",
+      "size": "sm"
+    },
+    "w-0009c8": {
+      "id": "w-0009c8",
+      "type": "row",
+      "parentId": "w-0009c1",
+      "childrenIds": [
+        "w-0009c9"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-0009c9": {
+      "id": "w-0009c9",
+      "type": "button",
+      "parentId": "w-0009c8",
+      "childrenIds": [],
+      "label": "원격 제어",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n23"
+      }
+    },
+    "w-0009ca": {
+      "id": "w-0009ca",
+      "type": "box",
+      "parentId": "w-0009b7",
+      "childrenIds": [
+        "w-0009cb",
+        "w-0009d0",
+        "w-0009d1"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0009cb": {
+      "id": "w-0009cb",
+      "type": "row",
+      "parentId": "w-0009ca",
+      "childrenIds": [
+        "w-0009cc",
+        "w-0009cf"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-0009cc": {
+      "id": "w-0009cc",
+      "type": "row",
+      "parentId": "w-0009cb",
+      "childrenIds": [
+        "w-0009cd",
+        "w-0009ce"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-0009cd": {
+      "id": "w-0009cd",
+      "type": "text",
+      "parentId": "w-0009cc",
+      "childrenIds": [],
+      "label": "⚫",
+      "size": "sm"
+    },
+    "w-0009ce": {
+      "id": "w-0009ce",
+      "type": "text",
+      "parentId": "w-0009cc",
+      "childrenIds": [],
+      "label": "로봇 #C07 — 통신 두절",
+      "size": "md"
+    },
+    "w-0009cf": {
+      "id": "w-0009cf",
+      "type": "text",
+      "parentId": "w-0009cb",
+      "childrenIds": [],
+      "label": "14:21:18",
+      "size": "sm"
+    },
+    "w-0009d0": {
+      "id": "w-0009d0",
+      "type": "text",
+      "parentId": "w-0009ca",
+      "childrenIds": [],
+      "label": "마지막 응답 이후 120초 경과. 네트워크 또는 하드웨어 이상.",
+      "size": "sm"
+    },
+    "w-0009d1": {
+      "id": "w-0009d1",
+      "type": "row",
+      "parentId": "w-0009ca",
+      "childrenIds": [
+        "w-0009d2"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-0009d2": {
+      "id": "w-0009d2",
+      "type": "button",
+      "parentId": "w-0009d1",
+      "childrenIds": [],
+      "label": "원격 제어",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n23"
+      }
+    },
+    "w-0009d3": {
+      "id": "w-0009d3",
+      "type": "box",
+      "parentId": "w-0009b7",
+      "childrenIds": [
+        "w-0009d4",
+        "w-0009d9",
+        "w-0009da"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0009d4": {
+      "id": "w-0009d4",
+      "type": "row",
+      "parentId": "w-0009d3",
+      "childrenIds": [
+        "w-0009d5",
+        "w-0009d8"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-0009d5": {
+      "id": "w-0009d5",
+      "type": "row",
+      "parentId": "w-0009d4",
+      "childrenIds": [
+        "w-0009d6",
+        "w-0009d7"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-0009d6": {
+      "id": "w-0009d6",
+      "type": "text",
+      "parentId": "w-0009d5",
+      "childrenIds": [],
+      "label": "🟡",
+      "size": "sm"
+    },
+    "w-0009d7": {
+      "id": "w-0009d7",
+      "type": "text",
+      "parentId": "w-0009d5",
+      "childrenIds": [],
+      "label": "로봇 #A09 — 장애물 감지 반복",
+      "size": "md"
+    },
+    "w-0009d8": {
+      "id": "w-0009d8",
+      "type": "text",
+      "parentId": "w-0009d4",
+      "childrenIds": [],
+      "label": "14:18:44",
+      "size": "sm"
+    },
+    "w-0009d9": {
+      "id": "w-0009d9",
+      "type": "text",
+      "parentId": "w-0009d3",
+      "childrenIds": [],
+      "label": "동일 구역에서 5회 연속 장애물 감지. 경로 재설정 필요.",
+      "size": "sm"
+    },
+    "w-0009da": {
+      "id": "w-0009da",
+      "type": "row",
+      "parentId": "w-0009d3",
+      "childrenIds": [
+        "w-0009db"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-0009db": {
+      "id": "w-0009db",
+      "type": "button",
+      "parentId": "w-0009da",
+      "childrenIds": [],
+      "label": "원격 제어",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n23"
+      }
+    },
+    "w-0009dc": {
+      "id": "w-0009dc",
+      "type": "box",
+      "parentId": "w-0009b7",
+      "childrenIds": [
+        "w-0009dd",
+        "w-0009e2",
+        "w-0009e3"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0009dd": {
+      "id": "w-0009dd",
+      "type": "row",
+      "parentId": "w-0009dc",
+      "childrenIds": [
+        "w-0009de",
+        "w-0009e1"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-0009de": {
+      "id": "w-0009de",
+      "type": "row",
+      "parentId": "w-0009dd",
+      "childrenIds": [
+        "w-0009df",
+        "w-0009e0"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-0009df": {
+      "id": "w-0009df",
+      "type": "text",
+      "parentId": "w-0009de",
+      "childrenIds": [],
+      "label": "🔴",
+      "size": "sm"
+    },
+    "w-0009e0": {
+      "id": "w-0009e0",
+      "type": "text",
+      "parentId": "w-0009de",
+      "childrenIds": [],
+      "label": "로봇 #D02 — 비상 정지 트리거",
+      "size": "md"
+    },
+    "w-0009e1": {
+      "id": "w-0009e1",
+      "type": "text",
+      "parentId": "w-0009dd",
+      "childrenIds": [],
+      "label": "14:10:09",
+      "size": "sm"
+    },
+    "w-0009e2": {
+      "id": "w-0009e2",
+      "type": "text",
+      "parentId": "w-0009dc",
+      "childrenIds": [],
+      "label": "충돌 방지 센서 작동으로 비상 정지 발생. 현장 확인 필요.",
+      "size": "sm"
+    },
+    "w-0009e3": {
+      "id": "w-0009e3",
+      "type": "row",
+      "parentId": "w-0009dc",
+      "childrenIds": [
+        "w-0009e4"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-0009e4": {
+      "id": "w-0009e4",
+      "type": "button",
+      "parentId": "w-0009e3",
+      "childrenIds": [],
+      "label": "원격 제어",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n23"
+      }
+    },
+    "w-0009e5": {
+      "id": "w-0009e5",
+      "type": "box",
+      "parentId": "w-0009ab",
+      "childrenIds": [
+        "w-0009e6",
+        "w-0009e7",
+        "w-0009f4",
+        "w-0009f5",
+        "w-0009f6"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0009e6": {
+      "id": "w-0009e6",
+      "type": "text",
+      "parentId": "w-0009e5",
+      "childrenIds": [],
+      "label": "알람 상세",
+      "size": "md"
+    },
+    "w-0009e7": {
+      "id": "w-0009e7",
+      "type": "row",
+      "parentId": "w-0009e5",
+      "childrenIds": [
+        "w-0009e8",
+        "w-0009eb",
+        "w-0009ee",
+        "w-0009f1"
+      ],
+      "layout": {
+        "gap": 24,
+        "align": "start"
+      }
+    },
+    "w-0009e8": {
+      "id": "w-0009e8",
+      "type": "column",
+      "parentId": "w-0009e7",
+      "childrenIds": [
+        "w-0009e9",
+        "w-0009ea"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0009e9": {
+      "id": "w-0009e9",
+      "type": "text",
+      "parentId": "w-0009e8",
+      "childrenIds": [],
+      "label": "발생 시각",
+      "size": "sm"
+    },
+    "w-0009ea": {
+      "id": "w-0009ea",
+      "type": "text",
+      "parentId": "w-0009e8",
+      "childrenIds": [],
+      "label": "14:32:05"
+    },
+    "w-0009eb": {
+      "id": "w-0009eb",
+      "type": "column",
+      "parentId": "w-0009e7",
+      "childrenIds": [
+        "w-0009ec",
+        "w-0009ed"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0009ec": {
+      "id": "w-0009ec",
+      "type": "text",
+      "parentId": "w-0009eb",
+      "childrenIds": [],
+      "label": "대상 장비",
+      "size": "sm"
+    },
+    "w-0009ed": {
+      "id": "w-0009ed",
+      "type": "text",
+      "parentId": "w-0009eb",
+      "childrenIds": [],
+      "label": "로봇 #A03"
+    },
+    "w-0009ee": {
+      "id": "w-0009ee",
+      "type": "column",
+      "parentId": "w-0009e7",
+      "childrenIds": [
+        "w-0009ef",
+        "w-0009f0"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0009ef": {
+      "id": "w-0009ef",
+      "type": "text",
+      "parentId": "w-0009ee",
+      "childrenIds": [],
+      "label": "알람 등급",
+      "size": "sm"
+    },
+    "w-0009f0": {
+      "id": "w-0009f0",
+      "type": "text",
+      "parentId": "w-0009ee",
+      "childrenIds": [],
+      "label": "위험"
+    },
+    "w-0009f1": {
+      "id": "w-0009f1",
+      "type": "column",
+      "parentId": "w-0009e7",
+      "childrenIds": [
+        "w-0009f2",
+        "w-0009f3"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0009f2": {
+      "id": "w-0009f2",
+      "type": "text",
+      "parentId": "w-0009f1",
+      "childrenIds": [],
+      "label": "상태",
+      "size": "sm"
+    },
+    "w-0009f3": {
+      "id": "w-0009f3",
+      "type": "text",
+      "parentId": "w-0009f1",
+      "childrenIds": [],
+      "label": "미처리"
+    },
+    "w-0009f4": {
+      "id": "w-0009f4",
+      "type": "text",
+      "parentId": "w-0009e5",
+      "childrenIds": [],
+      "label": "상세 내용",
+      "size": "sm"
+    },
+    "w-0009f5": {
+      "id": "w-0009f5",
+      "type": "text",
+      "parentId": "w-0009e5",
+      "childrenIds": [],
+      "label": "좌측 구동 모터 온도 92°C 초과. 정상 범위(75°C 이하) 대비 17°C 이상 상승. 즉각적인 점검 및 냉각 조치가 필요합니다."
+    },
+    "w-0009f6": {
+      "id": "w-0009f6",
+      "type": "row",
+      "parentId": "w-0009e5",
+      "childrenIds": [
+        "w-0009f7"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-0009f7": {
+      "id": "w-0009f7",
+      "type": "button",
+      "parentId": "w-0009f6",
+      "childrenIds": [],
+      "label": "원격 제어로 이동",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n23"
+      }
+    }
+  }
+}

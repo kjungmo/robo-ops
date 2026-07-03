@@ -1,0 +1,1269 @@
+{
+  "pageNodeId": "n7",
+  "pageName": "로봇 목록/그리드",
+  "rootId": "w-0006f2",
+  "nodes": {
+    "w-0006f2": {
+      "id": "w-0006f2",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-0006f3"
+      ],
+      "label": "로봇 목록/그리드",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-0006f3": {
+      "id": "w-0006f3",
+      "type": "body",
+      "parentId": "w-0006f2",
+      "childrenIds": [
+        "w-0006f4",
+        "w-0006fc",
+        "w-00070c",
+        "w-000711",
+        "w-00071f",
+        "w-00072d",
+        "w-00073b",
+        "w-000749",
+        "w-000757",
+        "w-000765"
+      ]
+    },
+    "w-0006f4": {
+      "id": "w-0006f4",
+      "type": "row",
+      "parentId": "w-0006f3",
+      "childrenIds": [
+        "w-0006f5",
+        "w-0006f6"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-0006f5": {
+      "id": "w-0006f5",
+      "type": "text",
+      "parentId": "w-0006f4",
+      "childrenIds": [],
+      "label": "로봇 목록",
+      "size": "lg"
+    },
+    "w-0006f6": {
+      "id": "w-0006f6",
+      "type": "row",
+      "parentId": "w-0006f4",
+      "childrenIds": [
+        "w-0006f7",
+        "w-0006f8",
+        "w-0006f9",
+        "w-0006fa",
+        "w-0006fb"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0006f7": {
+      "id": "w-0006f7",
+      "type": "button",
+      "parentId": "w-0006f6",
+      "childrenIds": [],
+      "label": "전체",
+      "variant": "chip",
+      "activeIndex": 0
+    },
+    "w-0006f8": {
+      "id": "w-0006f8",
+      "type": "button",
+      "parentId": "w-0006f6",
+      "childrenIds": [],
+      "label": "정상",
+      "variant": "chip"
+    },
+    "w-0006f9": {
+      "id": "w-0006f9",
+      "type": "button",
+      "parentId": "w-0006f6",
+      "childrenIds": [],
+      "label": "주의",
+      "variant": "chip"
+    },
+    "w-0006fa": {
+      "id": "w-0006fa",
+      "type": "button",
+      "parentId": "w-0006f6",
+      "childrenIds": [],
+      "label": "위험",
+      "variant": "chip"
+    },
+    "w-0006fb": {
+      "id": "w-0006fb",
+      "type": "button",
+      "parentId": "w-0006f6",
+      "childrenIds": [],
+      "label": "오프라인",
+      "variant": "chip"
+    },
+    "w-0006fc": {
+      "id": "w-0006fc",
+      "type": "row",
+      "parentId": "w-0006f3",
+      "childrenIds": [
+        "w-0006fd",
+        "w-000700",
+        "w-000703",
+        "w-000706",
+        "w-000709"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-0006fd": {
+      "id": "w-0006fd",
+      "type": "box",
+      "parentId": "w-0006fc",
+      "childrenIds": [
+        "w-0006fe",
+        "w-0006ff"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0006fe": {
+      "id": "w-0006fe",
+      "type": "text",
+      "parentId": "w-0006fd",
+      "childrenIds": [],
+      "label": "전체 로봇",
+      "size": "sm"
+    },
+    "w-0006ff": {
+      "id": "w-0006ff",
+      "type": "text",
+      "parentId": "w-0006fd",
+      "childrenIds": [],
+      "label": "48",
+      "size": "xl"
+    },
+    "w-000700": {
+      "id": "w-000700",
+      "type": "box",
+      "parentId": "w-0006fc",
+      "childrenIds": [
+        "w-000701",
+        "w-000702"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000701": {
+      "id": "w-000701",
+      "type": "text",
+      "parentId": "w-000700",
+      "childrenIds": [],
+      "label": "정상 가동",
+      "size": "sm"
+    },
+    "w-000702": {
+      "id": "w-000702",
+      "type": "text",
+      "parentId": "w-000700",
+      "childrenIds": [],
+      "label": "31",
+      "size": "xl"
+    },
+    "w-000703": {
+      "id": "w-000703",
+      "type": "box",
+      "parentId": "w-0006fc",
+      "childrenIds": [
+        "w-000704",
+        "w-000705"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000704": {
+      "id": "w-000704",
+      "type": "text",
+      "parentId": "w-000703",
+      "childrenIds": [],
+      "label": "주의 필요",
+      "size": "sm"
+    },
+    "w-000705": {
+      "id": "w-000705",
+      "type": "text",
+      "parentId": "w-000703",
+      "childrenIds": [],
+      "label": "9",
+      "size": "xl"
+    },
+    "w-000706": {
+      "id": "w-000706",
+      "type": "box",
+      "parentId": "w-0006fc",
+      "childrenIds": [
+        "w-000707",
+        "w-000708"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000707": {
+      "id": "w-000707",
+      "type": "text",
+      "parentId": "w-000706",
+      "childrenIds": [],
+      "label": "위험",
+      "size": "sm"
+    },
+    "w-000708": {
+      "id": "w-000708",
+      "type": "text",
+      "parentId": "w-000706",
+      "childrenIds": [],
+      "label": "4",
+      "size": "xl"
+    },
+    "w-000709": {
+      "id": "w-000709",
+      "type": "box",
+      "parentId": "w-0006fc",
+      "childrenIds": [
+        "w-00070a",
+        "w-00070b"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-00070a": {
+      "id": "w-00070a",
+      "type": "text",
+      "parentId": "w-000709",
+      "childrenIds": [],
+      "label": "오프라인",
+      "size": "sm"
+    },
+    "w-00070b": {
+      "id": "w-00070b",
+      "type": "text",
+      "parentId": "w-000709",
+      "childrenIds": [],
+      "label": "4",
+      "size": "xl"
+    },
+    "w-00070c": {
+      "id": "w-00070c",
+      "type": "row",
+      "parentId": "w-0006f3",
+      "childrenIds": [
+        "w-00070d",
+        "w-00070e",
+        "w-00070f",
+        "w-000710"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-00070d": {
+      "id": "w-00070d",
+      "type": "input",
+      "parentId": "w-00070c",
+      "childrenIds": [],
+      "inputType": "search"
+    },
+    "w-00070e": {
+      "id": "w-00070e",
+      "type": "input",
+      "parentId": "w-00070c",
+      "childrenIds": [],
+      "label": "구역",
+      "inputType": "select",
+      "attributes": {
+        "options": "전체 구역,A구역,B구역,C구역,D구역"
+      }
+    },
+    "w-00070f": {
+      "id": "w-00070f",
+      "type": "input",
+      "parentId": "w-00070c",
+      "childrenIds": [],
+      "label": "모델",
+      "inputType": "select",
+      "attributes": {
+        "options": "전체 모델,AMR-100,AMR-200,AGV-300"
+      }
+    },
+    "w-000710": {
+      "id": "w-000710",
+      "type": "input",
+      "parentId": "w-00070c",
+      "childrenIds": [],
+      "label": "정렬",
+      "inputType": "select",
+      "attributes": {
+        "options": "이름순,상태순,배터리순,마지막 갱신순"
+      }
+    },
+    "w-000711": {
+      "id": "w-000711",
+      "type": "box",
+      "parentId": "w-0006f3",
+      "childrenIds": [
+        "w-000712"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n9"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000712": {
+      "id": "w-000712",
+      "type": "row",
+      "parentId": "w-000711",
+      "childrenIds": [
+        "w-000713",
+        "w-000718",
+        "w-00071e"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000713": {
+      "id": "w-000713",
+      "type": "row",
+      "parentId": "w-000712",
+      "childrenIds": [
+        "w-000714",
+        "w-000715"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000714": {
+      "id": "w-000714",
+      "type": "image",
+      "parentId": "w-000713",
+      "childrenIds": [],
+      "label": "R",
+      "imageRound": true,
+      "imageSize": 32
+    },
+    "w-000715": {
+      "id": "w-000715",
+      "type": "column",
+      "parentId": "w-000713",
+      "childrenIds": [
+        "w-000716",
+        "w-000717"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000716": {
+      "id": "w-000716",
+      "type": "text",
+      "parentId": "w-000715",
+      "childrenIds": [],
+      "label": "AMR-001",
+      "size": "md"
+    },
+    "w-000717": {
+      "id": "w-000717",
+      "type": "text",
+      "parentId": "w-000715",
+      "childrenIds": [],
+      "label": "A구역 3번 라인",
+      "size": "sm"
+    },
+    "w-000718": {
+      "id": "w-000718",
+      "type": "row",
+      "parentId": "w-000712",
+      "childrenIds": [
+        "w-000719",
+        "w-00071a",
+        "w-00071b",
+        "w-00071c",
+        "w-00071d"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000719": {
+      "id": "w-000719",
+      "type": "text",
+      "parentId": "w-000718",
+      "childrenIds": [],
+      "label": "정상",
+      "size": "sm"
+    },
+    "w-00071a": {
+      "id": "w-00071a",
+      "type": "text",
+      "parentId": "w-000718",
+      "childrenIds": [],
+      "label": "배터리 87%",
+      "size": "sm"
+    },
+    "w-00071b": {
+      "id": "w-00071b",
+      "type": "text",
+      "parentId": "w-000718",
+      "childrenIds": [],
+      "label": "속도 1.2 m/s",
+      "size": "sm"
+    },
+    "w-00071c": {
+      "id": "w-00071c",
+      "type": "text",
+      "parentId": "w-000718",
+      "childrenIds": [],
+      "label": "작업 중",
+      "size": "sm"
+    },
+    "w-00071d": {
+      "id": "w-00071d",
+      "type": "text",
+      "parentId": "w-000718",
+      "childrenIds": [],
+      "label": "갱신 5초 전",
+      "size": "sm"
+    },
+    "w-00071e": {
+      "id": "w-00071e",
+      "type": "button",
+      "parentId": "w-000712",
+      "childrenIds": [],
+      "label": "상세 보기",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n9"
+      }
+    },
+    "w-00071f": {
+      "id": "w-00071f",
+      "type": "box",
+      "parentId": "w-0006f3",
+      "childrenIds": [
+        "w-000720"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n9"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000720": {
+      "id": "w-000720",
+      "type": "row",
+      "parentId": "w-00071f",
+      "childrenIds": [
+        "w-000721",
+        "w-000726",
+        "w-00072c"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000721": {
+      "id": "w-000721",
+      "type": "row",
+      "parentId": "w-000720",
+      "childrenIds": [
+        "w-000722",
+        "w-000723"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000722": {
+      "id": "w-000722",
+      "type": "image",
+      "parentId": "w-000721",
+      "childrenIds": [],
+      "label": "R",
+      "imageRound": true,
+      "imageSize": 32
+    },
+    "w-000723": {
+      "id": "w-000723",
+      "type": "column",
+      "parentId": "w-000721",
+      "childrenIds": [
+        "w-000724",
+        "w-000725"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000724": {
+      "id": "w-000724",
+      "type": "text",
+      "parentId": "w-000723",
+      "childrenIds": [],
+      "label": "AMR-002",
+      "size": "md"
+    },
+    "w-000725": {
+      "id": "w-000725",
+      "type": "text",
+      "parentId": "w-000723",
+      "childrenIds": [],
+      "label": "B구역 1번 라인",
+      "size": "sm"
+    },
+    "w-000726": {
+      "id": "w-000726",
+      "type": "row",
+      "parentId": "w-000720",
+      "childrenIds": [
+        "w-000727",
+        "w-000728",
+        "w-000729",
+        "w-00072a",
+        "w-00072b"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000727": {
+      "id": "w-000727",
+      "type": "text",
+      "parentId": "w-000726",
+      "childrenIds": [],
+      "label": "정상",
+      "size": "sm"
+    },
+    "w-000728": {
+      "id": "w-000728",
+      "type": "text",
+      "parentId": "w-000726",
+      "childrenIds": [],
+      "label": "배터리 72%",
+      "size": "sm"
+    },
+    "w-000729": {
+      "id": "w-000729",
+      "type": "text",
+      "parentId": "w-000726",
+      "childrenIds": [],
+      "label": "속도 0.9 m/s",
+      "size": "sm"
+    },
+    "w-00072a": {
+      "id": "w-00072a",
+      "type": "text",
+      "parentId": "w-000726",
+      "childrenIds": [],
+      "label": "이동 중",
+      "size": "sm"
+    },
+    "w-00072b": {
+      "id": "w-00072b",
+      "type": "text",
+      "parentId": "w-000726",
+      "childrenIds": [],
+      "label": "갱신 3초 전",
+      "size": "sm"
+    },
+    "w-00072c": {
+      "id": "w-00072c",
+      "type": "button",
+      "parentId": "w-000720",
+      "childrenIds": [],
+      "label": "상세 보기",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n9"
+      }
+    },
+    "w-00072d": {
+      "id": "w-00072d",
+      "type": "box",
+      "parentId": "w-0006f3",
+      "childrenIds": [
+        "w-00072e"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n9"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-00072e": {
+      "id": "w-00072e",
+      "type": "row",
+      "parentId": "w-00072d",
+      "childrenIds": [
+        "w-00072f",
+        "w-000734",
+        "w-00073a"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-00072f": {
+      "id": "w-00072f",
+      "type": "row",
+      "parentId": "w-00072e",
+      "childrenIds": [
+        "w-000730",
+        "w-000731"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000730": {
+      "id": "w-000730",
+      "type": "image",
+      "parentId": "w-00072f",
+      "childrenIds": [],
+      "label": "R",
+      "imageRound": true,
+      "imageSize": 32
+    },
+    "w-000731": {
+      "id": "w-000731",
+      "type": "column",
+      "parentId": "w-00072f",
+      "childrenIds": [
+        "w-000732",
+        "w-000733"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000732": {
+      "id": "w-000732",
+      "type": "text",
+      "parentId": "w-000731",
+      "childrenIds": [],
+      "label": "AMR-007",
+      "size": "md"
+    },
+    "w-000733": {
+      "id": "w-000733",
+      "type": "text",
+      "parentId": "w-000731",
+      "childrenIds": [],
+      "label": "A구역 1번 라인",
+      "size": "sm"
+    },
+    "w-000734": {
+      "id": "w-000734",
+      "type": "row",
+      "parentId": "w-00072e",
+      "childrenIds": [
+        "w-000735",
+        "w-000736",
+        "w-000737",
+        "w-000738",
+        "w-000739"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000735": {
+      "id": "w-000735",
+      "type": "text",
+      "parentId": "w-000734",
+      "childrenIds": [],
+      "label": "주의",
+      "size": "sm"
+    },
+    "w-000736": {
+      "id": "w-000736",
+      "type": "text",
+      "parentId": "w-000734",
+      "childrenIds": [],
+      "label": "배터리 31%",
+      "size": "sm"
+    },
+    "w-000737": {
+      "id": "w-000737",
+      "type": "text",
+      "parentId": "w-000734",
+      "childrenIds": [],
+      "label": "속도 0.4 m/s",
+      "size": "sm"
+    },
+    "w-000738": {
+      "id": "w-000738",
+      "type": "text",
+      "parentId": "w-000734",
+      "childrenIds": [],
+      "label": "저속 운행",
+      "size": "sm"
+    },
+    "w-000739": {
+      "id": "w-000739",
+      "type": "text",
+      "parentId": "w-000734",
+      "childrenIds": [],
+      "label": "갱신 8초 전",
+      "size": "sm"
+    },
+    "w-00073a": {
+      "id": "w-00073a",
+      "type": "button",
+      "parentId": "w-00072e",
+      "childrenIds": [],
+      "label": "상세 보기",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n9"
+      }
+    },
+    "w-00073b": {
+      "id": "w-00073b",
+      "type": "box",
+      "parentId": "w-0006f3",
+      "childrenIds": [
+        "w-00073c"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n9"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-00073c": {
+      "id": "w-00073c",
+      "type": "row",
+      "parentId": "w-00073b",
+      "childrenIds": [
+        "w-00073d",
+        "w-000742",
+        "w-000748"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-00073d": {
+      "id": "w-00073d",
+      "type": "row",
+      "parentId": "w-00073c",
+      "childrenIds": [
+        "w-00073e",
+        "w-00073f"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-00073e": {
+      "id": "w-00073e",
+      "type": "image",
+      "parentId": "w-00073d",
+      "childrenIds": [],
+      "label": "R",
+      "imageRound": true,
+      "imageSize": 32
+    },
+    "w-00073f": {
+      "id": "w-00073f",
+      "type": "column",
+      "parentId": "w-00073d",
+      "childrenIds": [
+        "w-000740",
+        "w-000741"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000740": {
+      "id": "w-000740",
+      "type": "text",
+      "parentId": "w-00073f",
+      "childrenIds": [],
+      "label": "AGV-015",
+      "size": "md"
+    },
+    "w-000741": {
+      "id": "w-000741",
+      "type": "text",
+      "parentId": "w-00073f",
+      "childrenIds": [],
+      "label": "C구역 2번 라인",
+      "size": "sm"
+    },
+    "w-000742": {
+      "id": "w-000742",
+      "type": "row",
+      "parentId": "w-00073c",
+      "childrenIds": [
+        "w-000743",
+        "w-000744",
+        "w-000745",
+        "w-000746",
+        "w-000747"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000743": {
+      "id": "w-000743",
+      "type": "text",
+      "parentId": "w-000742",
+      "childrenIds": [],
+      "label": "위험",
+      "size": "sm"
+    },
+    "w-000744": {
+      "id": "w-000744",
+      "type": "text",
+      "parentId": "w-000742",
+      "childrenIds": [],
+      "label": "배터리 12%",
+      "size": "sm"
+    },
+    "w-000745": {
+      "id": "w-000745",
+      "type": "text",
+      "parentId": "w-000742",
+      "childrenIds": [],
+      "label": "속도 0.0 m/s",
+      "size": "sm"
+    },
+    "w-000746": {
+      "id": "w-000746",
+      "type": "text",
+      "parentId": "w-000742",
+      "childrenIds": [],
+      "label": "장애 감지",
+      "size": "sm"
+    },
+    "w-000747": {
+      "id": "w-000747",
+      "type": "text",
+      "parentId": "w-000742",
+      "childrenIds": [],
+      "label": "갱신 2초 전",
+      "size": "sm"
+    },
+    "w-000748": {
+      "id": "w-000748",
+      "type": "button",
+      "parentId": "w-00073c",
+      "childrenIds": [],
+      "label": "상세 보기",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n9"
+      }
+    },
+    "w-000749": {
+      "id": "w-000749",
+      "type": "box",
+      "parentId": "w-0006f3",
+      "childrenIds": [
+        "w-00074a"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n9"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-00074a": {
+      "id": "w-00074a",
+      "type": "row",
+      "parentId": "w-000749",
+      "childrenIds": [
+        "w-00074b",
+        "w-000750",
+        "w-000756"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-00074b": {
+      "id": "w-00074b",
+      "type": "row",
+      "parentId": "w-00074a",
+      "childrenIds": [
+        "w-00074c",
+        "w-00074d"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-00074c": {
+      "id": "w-00074c",
+      "type": "image",
+      "parentId": "w-00074b",
+      "childrenIds": [],
+      "label": "R",
+      "imageRound": true,
+      "imageSize": 32
+    },
+    "w-00074d": {
+      "id": "w-00074d",
+      "type": "column",
+      "parentId": "w-00074b",
+      "childrenIds": [
+        "w-00074e",
+        "w-00074f"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-00074e": {
+      "id": "w-00074e",
+      "type": "text",
+      "parentId": "w-00074d",
+      "childrenIds": [],
+      "label": "AGV-022",
+      "size": "md"
+    },
+    "w-00074f": {
+      "id": "w-00074f",
+      "type": "text",
+      "parentId": "w-00074d",
+      "childrenIds": [],
+      "label": "D구역 4번 라인",
+      "size": "sm"
+    },
+    "w-000750": {
+      "id": "w-000750",
+      "type": "row",
+      "parentId": "w-00074a",
+      "childrenIds": [
+        "w-000751",
+        "w-000752",
+        "w-000753",
+        "w-000754",
+        "w-000755"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000751": {
+      "id": "w-000751",
+      "type": "text",
+      "parentId": "w-000750",
+      "childrenIds": [],
+      "label": "오프라인",
+      "size": "sm"
+    },
+    "w-000752": {
+      "id": "w-000752",
+      "type": "text",
+      "parentId": "w-000750",
+      "childrenIds": [],
+      "label": "배터리 —",
+      "size": "sm"
+    },
+    "w-000753": {
+      "id": "w-000753",
+      "type": "text",
+      "parentId": "w-000750",
+      "childrenIds": [],
+      "label": "속도 —",
+      "size": "sm"
+    },
+    "w-000754": {
+      "id": "w-000754",
+      "type": "text",
+      "parentId": "w-000750",
+      "childrenIds": [],
+      "label": "연결 끊김",
+      "size": "sm"
+    },
+    "w-000755": {
+      "id": "w-000755",
+      "type": "text",
+      "parentId": "w-000750",
+      "childrenIds": [],
+      "label": "갱신 4분 전",
+      "size": "sm"
+    },
+    "w-000756": {
+      "id": "w-000756",
+      "type": "button",
+      "parentId": "w-00074a",
+      "childrenIds": [],
+      "label": "상세 보기",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n9"
+      }
+    },
+    "w-000757": {
+      "id": "w-000757",
+      "type": "box",
+      "parentId": "w-0006f3",
+      "childrenIds": [
+        "w-000758"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n9"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000758": {
+      "id": "w-000758",
+      "type": "row",
+      "parentId": "w-000757",
+      "childrenIds": [
+        "w-000759",
+        "w-00075e",
+        "w-000764"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000759": {
+      "id": "w-000759",
+      "type": "row",
+      "parentId": "w-000758",
+      "childrenIds": [
+        "w-00075a",
+        "w-00075b"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-00075a": {
+      "id": "w-00075a",
+      "type": "image",
+      "parentId": "w-000759",
+      "childrenIds": [],
+      "label": "R",
+      "imageRound": true,
+      "imageSize": 32
+    },
+    "w-00075b": {
+      "id": "w-00075b",
+      "type": "column",
+      "parentId": "w-000759",
+      "childrenIds": [
+        "w-00075c",
+        "w-00075d"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-00075c": {
+      "id": "w-00075c",
+      "type": "text",
+      "parentId": "w-00075b",
+      "childrenIds": [],
+      "label": "AMR-034",
+      "size": "md"
+    },
+    "w-00075d": {
+      "id": "w-00075d",
+      "type": "text",
+      "parentId": "w-00075b",
+      "childrenIds": [],
+      "label": "B구역 2번 라인",
+      "size": "sm"
+    },
+    "w-00075e": {
+      "id": "w-00075e",
+      "type": "row",
+      "parentId": "w-000758",
+      "childrenIds": [
+        "w-00075f",
+        "w-000760",
+        "w-000761",
+        "w-000762",
+        "w-000763"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-00075f": {
+      "id": "w-00075f",
+      "type": "text",
+      "parentId": "w-00075e",
+      "childrenIds": [],
+      "label": "정상",
+      "size": "sm"
+    },
+    "w-000760": {
+      "id": "w-000760",
+      "type": "text",
+      "parentId": "w-00075e",
+      "childrenIds": [],
+      "label": "배터리 95%",
+      "size": "sm"
+    },
+    "w-000761": {
+      "id": "w-000761",
+      "type": "text",
+      "parentId": "w-00075e",
+      "childrenIds": [],
+      "label": "속도 1.5 m/s",
+      "size": "sm"
+    },
+    "w-000762": {
+      "id": "w-000762",
+      "type": "text",
+      "parentId": "w-00075e",
+      "childrenIds": [],
+      "label": "작업 중",
+      "size": "sm"
+    },
+    "w-000763": {
+      "id": "w-000763",
+      "type": "text",
+      "parentId": "w-00075e",
+      "childrenIds": [],
+      "label": "갱신 1초 전",
+      "size": "sm"
+    },
+    "w-000764": {
+      "id": "w-000764",
+      "type": "button",
+      "parentId": "w-000758",
+      "childrenIds": [],
+      "label": "상세 보기",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n9"
+      }
+    },
+    "w-000765": {
+      "id": "w-000765",
+      "type": "row",
+      "parentId": "w-0006f3",
+      "childrenIds": [
+        "w-000766",
+        "w-000767"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000766": {
+      "id": "w-000766",
+      "type": "text",
+      "parentId": "w-000765",
+      "childrenIds": [],
+      "label": "총 48대 중 6대 표시",
+      "size": "sm"
+    },
+    "w-000767": {
+      "id": "w-000767",
+      "type": "row",
+      "parentId": "w-000765",
+      "childrenIds": [
+        "w-000768",
+        "w-000769",
+        "w-00076a",
+        "w-00076b"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-000768": {
+      "id": "w-000768",
+      "type": "button",
+      "parentId": "w-000767",
+      "childrenIds": [],
+      "label": "1"
+    },
+    "w-000769": {
+      "id": "w-000769",
+      "type": "button",
+      "parentId": "w-000767",
+      "childrenIds": [],
+      "label": "2"
+    },
+    "w-00076a": {
+      "id": "w-00076a",
+      "type": "button",
+      "parentId": "w-000767",
+      "childrenIds": [],
+      "label": "3"
+    },
+    "w-00076b": {
+      "id": "w-00076b",
+      "type": "button",
+      "parentId": "w-000767",
+      "childrenIds": [],
+      "label": "다음",
+      "variant": "secondary"
+    }
+  }
+}

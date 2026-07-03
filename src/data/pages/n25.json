@@ -1,0 +1,428 @@
+{
+  "pageNodeId": "n25",
+  "pageName": "재시작 제어",
+  "rootId": "w-0009f8",
+  "nodes": {
+    "w-0009f8": {
+      "id": "w-0009f8",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-0009f9",
+        "w-000a1b"
+      ],
+      "label": "재시작 제어",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-0009f9": {
+      "id": "w-0009f9",
+      "type": "body",
+      "parentId": "w-0009f8",
+      "childrenIds": [
+        "w-0009fa",
+        "w-0009fb"
+      ]
+    },
+    "w-0009fa": {
+      "id": "w-0009fa",
+      "type": "text",
+      "parentId": "w-0009f9",
+      "childrenIds": [],
+      "label": "재시작 제어",
+      "size": "md"
+    },
+    "w-0009fb": {
+      "id": "w-0009fb",
+      "type": "row",
+      "parentId": "w-0009f9",
+      "childrenIds": [
+        "w-0009fc",
+        "w-000a17"
+      ],
+      "layout": {
+        "gap": 24
+      }
+    },
+    "w-0009fc": {
+      "id": "w-0009fc",
+      "type": "column",
+      "parentId": "w-0009fb",
+      "childrenIds": [
+        "w-0009fd",
+        "w-000a05"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-0009fd": {
+      "id": "w-0009fd",
+      "type": "box",
+      "parentId": "w-0009fc",
+      "childrenIds": [
+        "w-0009fe",
+        "w-0009ff",
+        "w-000a00",
+        "w-000a01",
+        "w-000a02",
+        "w-000a03"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0009fe": {
+      "id": "w-0009fe",
+      "type": "text",
+      "parentId": "w-0009fd",
+      "childrenIds": [],
+      "label": "재시작 명령 전송",
+      "size": "md"
+    },
+    "w-0009ff": {
+      "id": "w-0009ff",
+      "type": "text",
+      "parentId": "w-0009fd",
+      "childrenIds": [],
+      "label": "선택한 로봇에 재시작 명령을 전송합니다. 실행 중인 작업이 중단될 수 있습니다.",
+      "size": "sm"
+    },
+    "w-000a00": {
+      "id": "w-000a00",
+      "type": "input",
+      "parentId": "w-0009fd",
+      "childrenIds": [],
+      "label": "대상 로봇 선택",
+      "inputType": "select",
+      "attributes": {
+        "options": "로봇-001,로봇-002,로봇-003,로봇-004"
+      }
+    },
+    "w-000a01": {
+      "id": "w-000a01",
+      "type": "input",
+      "parentId": "w-0009fd",
+      "childrenIds": [],
+      "label": "재시작 유형",
+      "inputType": "select",
+      "attributes": {
+        "options": "소프트 재시작,하드 재시작,전체 시스템 재시작"
+      }
+    },
+    "w-000a02": {
+      "id": "w-000a02",
+      "type": "input",
+      "parentId": "w-0009fd",
+      "childrenIds": [],
+      "label": "재시작 사유",
+      "inputType": "area"
+    },
+    "w-000a03": {
+      "id": "w-000a03",
+      "type": "row",
+      "parentId": "w-0009fd",
+      "childrenIds": [
+        "w-000a04"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000a04": {
+      "id": "w-000a04",
+      "type": "button",
+      "parentId": "w-000a03",
+      "childrenIds": [],
+      "label": "재시작 명령 전송",
+      "variant": "primary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "restart-confirm"
+      }
+    },
+    "w-000a05": {
+      "id": "w-000a05",
+      "type": "box",
+      "parentId": "w-0009fc",
+      "childrenIds": [
+        "w-000a06",
+        "w-000a07",
+        "w-000a0d",
+        "w-000a13"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a06": {
+      "id": "w-000a06",
+      "type": "text",
+      "parentId": "w-000a05",
+      "childrenIds": [],
+      "label": "실행 상태",
+      "size": "md"
+    },
+    "w-000a07": {
+      "id": "w-000a07",
+      "type": "row",
+      "parentId": "w-000a05",
+      "childrenIds": [
+        "w-000a08",
+        "w-000a09",
+        "w-000a0a",
+        "w-000a0b",
+        "w-000a0c"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000a08": {
+      "id": "w-000a08",
+      "type": "text",
+      "parentId": "w-000a07",
+      "childrenIds": [],
+      "label": "대상 로봇",
+      "size": "sm"
+    },
+    "w-000a09": {
+      "id": "w-000a09",
+      "type": "text",
+      "parentId": "w-000a07",
+      "childrenIds": [],
+      "label": "로봇-001",
+      "size": "sm"
+    },
+    "w-000a0a": {
+      "id": "w-000a0a",
+      "type": "spacer",
+      "parentId": "w-000a07",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000a0b": {
+      "id": "w-000a0b",
+      "type": "text",
+      "parentId": "w-000a07",
+      "childrenIds": [],
+      "label": "상태",
+      "size": "sm"
+    },
+    "w-000a0c": {
+      "id": "w-000a0c",
+      "type": "text",
+      "parentId": "w-000a07",
+      "childrenIds": [],
+      "label": "대기 중",
+      "size": "sm"
+    },
+    "w-000a0d": {
+      "id": "w-000a0d",
+      "type": "row",
+      "parentId": "w-000a05",
+      "childrenIds": [
+        "w-000a0e",
+        "w-000a0f",
+        "w-000a10",
+        "w-000a11",
+        "w-000a12"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000a0e": {
+      "id": "w-000a0e",
+      "type": "text",
+      "parentId": "w-000a0d",
+      "childrenIds": [],
+      "label": "명령 유형",
+      "size": "sm"
+    },
+    "w-000a0f": {
+      "id": "w-000a0f",
+      "type": "text",
+      "parentId": "w-000a0d",
+      "childrenIds": [],
+      "label": "소프트 재시작",
+      "size": "sm"
+    },
+    "w-000a10": {
+      "id": "w-000a10",
+      "type": "spacer",
+      "parentId": "w-000a0d",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000a11": {
+      "id": "w-000a11",
+      "type": "text",
+      "parentId": "w-000a0d",
+      "childrenIds": [],
+      "label": "전송 시각",
+      "size": "sm"
+    },
+    "w-000a12": {
+      "id": "w-000a12",
+      "type": "text",
+      "parentId": "w-000a0d",
+      "childrenIds": [],
+      "size": "sm"
+    },
+    "w-000a13": {
+      "id": "w-000a13",
+      "type": "row",
+      "parentId": "w-000a05",
+      "childrenIds": [
+        "w-000a14",
+        "w-000a15",
+        "w-000a16"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000a14": {
+      "id": "w-000a14",
+      "type": "text",
+      "parentId": "w-000a13",
+      "childrenIds": [],
+      "label": "진행률",
+      "size": "sm"
+    },
+    "w-000a15": {
+      "id": "w-000a15",
+      "type": "spacer",
+      "parentId": "w-000a13",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000a16": {
+      "id": "w-000a16",
+      "type": "text",
+      "parentId": "w-000a13",
+      "childrenIds": [],
+      "label": "—",
+      "size": "sm"
+    },
+    "w-000a17": {
+      "id": "w-000a17",
+      "type": "column",
+      "parentId": "w-0009fb",
+      "childrenIds": [
+        "w-000a18"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000a18": {
+      "id": "w-000a18",
+      "type": "box",
+      "parentId": "w-000a17",
+      "childrenIds": [
+        "w-000a19",
+        "w-000a1a"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a19": {
+      "id": "w-000a19",
+      "type": "text",
+      "parentId": "w-000a18",
+      "childrenIds": [],
+      "label": "최근 재시작 이력",
+      "size": "md"
+    },
+    "w-000a1a": {
+      "id": "w-000a1a",
+      "type": "table",
+      "parentId": "w-000a18",
+      "childrenIds": [],
+      "label": "시각,대상 로봇,유형,사유,결과,처리자",
+      "listRows": 6
+    },
+    "w-000a1b": {
+      "id": "w-000a1b",
+      "type": "overlay",
+      "parentId": "w-0009f8",
+      "childrenIds": [
+        "w-000a1c",
+        "w-000a1d",
+        "w-000a1e",
+        "w-000a1f"
+      ],
+      "overlayId": "restart-confirm"
+    },
+    "w-000a1c": {
+      "id": "w-000a1c",
+      "type": "text",
+      "parentId": "w-000a1b",
+      "childrenIds": [],
+      "label": "재시작 명령 확인",
+      "size": "md"
+    },
+    "w-000a1d": {
+      "id": "w-000a1d",
+      "type": "text",
+      "parentId": "w-000a1b",
+      "childrenIds": [],
+      "label": "선택한 로봇에 재시작 명령을 전송합니다. 진행 중인 작업이 즉시 중단됩니다.",
+      "size": "sm"
+    },
+    "w-000a1e": {
+      "id": "w-000a1e",
+      "type": "text",
+      "parentId": "w-000a1b",
+      "childrenIds": [],
+      "label": "계속 진행하시겠습니까?",
+      "size": "sm"
+    },
+    "w-000a1f": {
+      "id": "w-000a1f",
+      "type": "row",
+      "parentId": "w-000a1b",
+      "childrenIds": [
+        "w-000a20",
+        "w-000a21"
+      ],
+      "layout": {
+        "gap": 8,
+        "justify": "end"
+      }
+    },
+    "w-000a20": {
+      "id": "w-000a20",
+      "type": "button",
+      "parentId": "w-000a1f",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000a21": {
+      "id": "w-000a21",
+      "type": "button",
+      "parentId": "w-000a1f",
+      "childrenIds": [],
+      "label": "재시작 실행",
+      "variant": "primary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "restart-confirm"
+      }
+    }
+  }
+}

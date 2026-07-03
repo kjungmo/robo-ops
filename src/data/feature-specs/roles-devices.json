@@ -1,0 +1,26 @@
+{
+  "roles": [
+    {
+      "id": "OSQUSH",
+      "name": "운영자"
+    },
+    {
+      "id": "VCFJRJ",
+      "name": "관리자"
+    },
+    {
+      "id": "SOJQMU",
+      "name": "유지보수 담당"
+    }
+  ],
+  "devices": [
+    {
+      "id": "SSUGKE",
+      "name": "Web"
+    },
+    {
+      "id": "XEFKYW",
+      "name": "Desktop"
+    }
+  ]
+}

@@ -1,0 +1,749 @@
+{
+  "pageNodeId": "n33",
+  "pageName": "맵 관리",
+  "rootId": "w-000b72",
+  "nodes": {
+    "w-000b72": {
+      "id": "w-000b72",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000b73"
+      ],
+      "label": "맵 관리",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000b73": {
+      "id": "w-000b73",
+      "type": "body",
+      "parentId": "w-000b72",
+      "childrenIds": [
+        "w-000b74",
+        "w-000b78",
+        "w-000b94",
+        "w-000b95",
+        "w-000b96",
+        "w-000b97",
+        "w-000bbc"
+      ]
+    },
+    "w-000b74": {
+      "id": "w-000b74",
+      "type": "row",
+      "parentId": "w-000b73",
+      "childrenIds": [
+        "w-000b75",
+        "w-000b76",
+        "w-000b77"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000b75": {
+      "id": "w-000b75",
+      "type": "text",
+      "parentId": "w-000b74",
+      "childrenIds": [],
+      "label": "맵 관리",
+      "size": "md"
+    },
+    "w-000b76": {
+      "id": "w-000b76",
+      "type": "spacer",
+      "parentId": "w-000b74",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000b77": {
+      "id": "w-000b77",
+      "type": "button",
+      "parentId": "w-000b74",
+      "childrenIds": [],
+      "label": "맵 목록으로",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n34"
+      }
+    },
+    "w-000b78": {
+      "id": "w-000b78",
+      "type": "row",
+      "parentId": "w-000b73",
+      "childrenIds": [
+        "w-000b79",
+        "w-000b88"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000b79": {
+      "id": "w-000b79",
+      "type": "box",
+      "parentId": "w-000b78",
+      "childrenIds": [
+        "w-000b7a",
+        "w-000b7b"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000b7a": {
+      "id": "w-000b7a",
+      "type": "text",
+      "parentId": "w-000b79",
+      "childrenIds": [],
+      "label": "현재 맵 상태",
+      "size": "sm"
+    },
+    "w-000b7b": {
+      "id": "w-000b7b",
+      "type": "row",
+      "parentId": "w-000b79",
+      "childrenIds": [
+        "w-000b7c",
+        "w-000b7f",
+        "w-000b82",
+        "w-000b85"
+      ],
+      "layout": {
+        "gap": 24,
+        "align": "center"
+      }
+    },
+    "w-000b7c": {
+      "id": "w-000b7c",
+      "type": "column",
+      "parentId": "w-000b7b",
+      "childrenIds": [
+        "w-000b7d",
+        "w-000b7e"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000b7d": {
+      "id": "w-000b7d",
+      "type": "text",
+      "parentId": "w-000b7c",
+      "childrenIds": [],
+      "label": "맵 이름",
+      "size": "sm"
+    },
+    "w-000b7e": {
+      "id": "w-000b7e",
+      "type": "text",
+      "parentId": "w-000b7c",
+      "childrenIds": [],
+      "label": "B1F_MAIN_v3"
+    },
+    "w-000b7f": {
+      "id": "w-000b7f",
+      "type": "column",
+      "parentId": "w-000b7b",
+      "childrenIds": [
+        "w-000b80",
+        "w-000b81"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000b80": {
+      "id": "w-000b80",
+      "type": "text",
+      "parentId": "w-000b7f",
+      "childrenIds": [],
+      "label": "배포 상태",
+      "size": "sm"
+    },
+    "w-000b81": {
+      "id": "w-000b81",
+      "type": "text",
+      "parentId": "w-000b7f",
+      "childrenIds": [],
+      "label": "운영 중"
+    },
+    "w-000b82": {
+      "id": "w-000b82",
+      "type": "column",
+      "parentId": "w-000b7b",
+      "childrenIds": [
+        "w-000b83",
+        "w-000b84"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000b83": {
+      "id": "w-000b83",
+      "type": "text",
+      "parentId": "w-000b82",
+      "childrenIds": [],
+      "label": "활성 로봇",
+      "size": "sm"
+    },
+    "w-000b84": {
+      "id": "w-000b84",
+      "type": "text",
+      "parentId": "w-000b82",
+      "childrenIds": [],
+      "label": "12대"
+    },
+    "w-000b85": {
+      "id": "w-000b85",
+      "type": "column",
+      "parentId": "w-000b7b",
+      "childrenIds": [
+        "w-000b86",
+        "w-000b87"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000b86": {
+      "id": "w-000b86",
+      "type": "text",
+      "parentId": "w-000b85",
+      "childrenIds": [],
+      "label": "마지막 갱신",
+      "size": "sm"
+    },
+    "w-000b87": {
+      "id": "w-000b87",
+      "type": "text",
+      "parentId": "w-000b85",
+      "childrenIds": [],
+      "label": "2025-07-14 09:22"
+    },
+    "w-000b88": {
+      "id": "w-000b88",
+      "type": "box",
+      "parentId": "w-000b78",
+      "childrenIds": [
+        "w-000b89",
+        "w-000b8a"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000b89": {
+      "id": "w-000b89",
+      "type": "text",
+      "parentId": "w-000b88",
+      "childrenIds": [],
+      "label": "경로/목적지 현황",
+      "size": "sm"
+    },
+    "w-000b8a": {
+      "id": "w-000b8a",
+      "type": "row",
+      "parentId": "w-000b88",
+      "childrenIds": [
+        "w-000b8b",
+        "w-000b8e",
+        "w-000b91"
+      ],
+      "layout": {
+        "gap": 24,
+        "align": "center"
+      }
+    },
+    "w-000b8b": {
+      "id": "w-000b8b",
+      "type": "column",
+      "parentId": "w-000b8a",
+      "childrenIds": [
+        "w-000b8c",
+        "w-000b8d"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000b8c": {
+      "id": "w-000b8c",
+      "type": "text",
+      "parentId": "w-000b8b",
+      "childrenIds": [],
+      "label": "등록 경로",
+      "size": "sm"
+    },
+    "w-000b8d": {
+      "id": "w-000b8d",
+      "type": "text",
+      "parentId": "w-000b8b",
+      "childrenIds": [],
+      "label": "34개"
+    },
+    "w-000b8e": {
+      "id": "w-000b8e",
+      "type": "column",
+      "parentId": "w-000b8a",
+      "childrenIds": [
+        "w-000b8f",
+        "w-000b90"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000b8f": {
+      "id": "w-000b8f",
+      "type": "text",
+      "parentId": "w-000b8e",
+      "childrenIds": [],
+      "label": "목적지 노드",
+      "size": "sm"
+    },
+    "w-000b90": {
+      "id": "w-000b90",
+      "type": "text",
+      "parentId": "w-000b8e",
+      "childrenIds": [],
+      "label": "18개"
+    },
+    "w-000b91": {
+      "id": "w-000b91",
+      "type": "column",
+      "parentId": "w-000b8a",
+      "childrenIds": [
+        "w-000b92",
+        "w-000b93"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000b92": {
+      "id": "w-000b92",
+      "type": "text",
+      "parentId": "w-000b91",
+      "childrenIds": [],
+      "label": "비활성 경로",
+      "size": "sm"
+    },
+    "w-000b93": {
+      "id": "w-000b93",
+      "type": "text",
+      "parentId": "w-000b91",
+      "childrenIds": [],
+      "label": "2개"
+    },
+    "w-000b94": {
+      "id": "w-000b94",
+      "type": "text",
+      "parentId": "w-000b73",
+      "childrenIds": [],
+      "label": "맵 버전 및 배포 이력",
+      "size": "md"
+    },
+    "w-000b95": {
+      "id": "w-000b95",
+      "type": "table",
+      "parentId": "w-000b73",
+      "childrenIds": [],
+      "label": "버전,배포일시,배포자,상태,비고",
+      "listRows": 5
+    },
+    "w-000b96": {
+      "id": "w-000b96",
+      "type": "text",
+      "parentId": "w-000b73",
+      "childrenIds": [],
+      "label": "경로/목적지 설정 현황",
+      "size": "md"
+    },
+    "w-000b97": {
+      "id": "w-000b97",
+      "type": "row",
+      "parentId": "w-000b73",
+      "childrenIds": [
+        "w-000b98",
+        "w-000ba4",
+        "w-000bb0"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000b98": {
+      "id": "w-000b98",
+      "type": "box",
+      "parentId": "w-000b97",
+      "childrenIds": [
+        "w-000b99",
+        "w-000b9a"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000b99": {
+      "id": "w-000b99",
+      "type": "text",
+      "parentId": "w-000b98",
+      "childrenIds": [],
+      "label": "경로 A — 1층 메인 복도",
+      "size": "sm"
+    },
+    "w-000b9a": {
+      "id": "w-000b9a",
+      "type": "row",
+      "parentId": "w-000b98",
+      "childrenIds": [
+        "w-000b9b",
+        "w-000b9e",
+        "w-000ba1"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000b9b": {
+      "id": "w-000b9b",
+      "type": "column",
+      "parentId": "w-000b9a",
+      "childrenIds": [
+        "w-000b9c",
+        "w-000b9d"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000b9c": {
+      "id": "w-000b9c",
+      "type": "text",
+      "parentId": "w-000b9b",
+      "childrenIds": [],
+      "label": "길이",
+      "size": "sm"
+    },
+    "w-000b9d": {
+      "id": "w-000b9d",
+      "type": "text",
+      "parentId": "w-000b9b",
+      "childrenIds": [],
+      "label": "142m"
+    },
+    "w-000b9e": {
+      "id": "w-000b9e",
+      "type": "column",
+      "parentId": "w-000b9a",
+      "childrenIds": [
+        "w-000b9f",
+        "w-000ba0"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000b9f": {
+      "id": "w-000b9f",
+      "type": "text",
+      "parentId": "w-000b9e",
+      "childrenIds": [],
+      "label": "노드 수",
+      "size": "sm"
+    },
+    "w-000ba0": {
+      "id": "w-000ba0",
+      "type": "text",
+      "parentId": "w-000b9e",
+      "childrenIds": [],
+      "label": "8개"
+    },
+    "w-000ba1": {
+      "id": "w-000ba1",
+      "type": "column",
+      "parentId": "w-000b9a",
+      "childrenIds": [
+        "w-000ba2",
+        "w-000ba3"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000ba2": {
+      "id": "w-000ba2",
+      "type": "text",
+      "parentId": "w-000ba1",
+      "childrenIds": [],
+      "label": "상태",
+      "size": "sm"
+    },
+    "w-000ba3": {
+      "id": "w-000ba3",
+      "type": "text",
+      "parentId": "w-000ba1",
+      "childrenIds": [],
+      "label": "활성"
+    },
+    "w-000ba4": {
+      "id": "w-000ba4",
+      "type": "box",
+      "parentId": "w-000b97",
+      "childrenIds": [
+        "w-000ba5",
+        "w-000ba6"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000ba5": {
+      "id": "w-000ba5",
+      "type": "text",
+      "parentId": "w-000ba4",
+      "childrenIds": [],
+      "label": "경로 B — 엘리베이터 구간",
+      "size": "sm"
+    },
+    "w-000ba6": {
+      "id": "w-000ba6",
+      "type": "row",
+      "parentId": "w-000ba4",
+      "childrenIds": [
+        "w-000ba7",
+        "w-000baa",
+        "w-000bad"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000ba7": {
+      "id": "w-000ba7",
+      "type": "column",
+      "parentId": "w-000ba6",
+      "childrenIds": [
+        "w-000ba8",
+        "w-000ba9"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000ba8": {
+      "id": "w-000ba8",
+      "type": "text",
+      "parentId": "w-000ba7",
+      "childrenIds": [],
+      "label": "길이",
+      "size": "sm"
+    },
+    "w-000ba9": {
+      "id": "w-000ba9",
+      "type": "text",
+      "parentId": "w-000ba7",
+      "childrenIds": [],
+      "label": "68m"
+    },
+    "w-000baa": {
+      "id": "w-000baa",
+      "type": "column",
+      "parentId": "w-000ba6",
+      "childrenIds": [
+        "w-000bab",
+        "w-000bac"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000bab": {
+      "id": "w-000bab",
+      "type": "text",
+      "parentId": "w-000baa",
+      "childrenIds": [],
+      "label": "노드 수",
+      "size": "sm"
+    },
+    "w-000bac": {
+      "id": "w-000bac",
+      "type": "text",
+      "parentId": "w-000baa",
+      "childrenIds": [],
+      "label": "4개"
+    },
+    "w-000bad": {
+      "id": "w-000bad",
+      "type": "column",
+      "parentId": "w-000ba6",
+      "childrenIds": [
+        "w-000bae",
+        "w-000baf"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000bae": {
+      "id": "w-000bae",
+      "type": "text",
+      "parentId": "w-000bad",
+      "childrenIds": [],
+      "label": "상태",
+      "size": "sm"
+    },
+    "w-000baf": {
+      "id": "w-000baf",
+      "type": "text",
+      "parentId": "w-000bad",
+      "childrenIds": [],
+      "label": "활성"
+    },
+    "w-000bb0": {
+      "id": "w-000bb0",
+      "type": "box",
+      "parentId": "w-000b97",
+      "childrenIds": [
+        "w-000bb1",
+        "w-000bb2"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000bb1": {
+      "id": "w-000bb1",
+      "type": "text",
+      "parentId": "w-000bb0",
+      "childrenIds": [],
+      "label": "경로 C — 창고 진입로",
+      "size": "sm"
+    },
+    "w-000bb2": {
+      "id": "w-000bb2",
+      "type": "row",
+      "parentId": "w-000bb0",
+      "childrenIds": [
+        "w-000bb3",
+        "w-000bb6",
+        "w-000bb9"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000bb3": {
+      "id": "w-000bb3",
+      "type": "column",
+      "parentId": "w-000bb2",
+      "childrenIds": [
+        "w-000bb4",
+        "w-000bb5"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000bb4": {
+      "id": "w-000bb4",
+      "type": "text",
+      "parentId": "w-000bb3",
+      "childrenIds": [],
+      "label": "길이",
+      "size": "sm"
+    },
+    "w-000bb5": {
+      "id": "w-000bb5",
+      "type": "text",
+      "parentId": "w-000bb3",
+      "childrenIds": [],
+      "label": "55m"
+    },
+    "w-000bb6": {
+      "id": "w-000bb6",
+      "type": "column",
+      "parentId": "w-000bb2",
+      "childrenIds": [
+        "w-000bb7",
+        "w-000bb8"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000bb7": {
+      "id": "w-000bb7",
+      "type": "text",
+      "parentId": "w-000bb6",
+      "childrenIds": [],
+      "label": "노드 수",
+      "size": "sm"
+    },
+    "w-000bb8": {
+      "id": "w-000bb8",
+      "type": "text",
+      "parentId": "w-000bb6",
+      "childrenIds": [],
+      "label": "3개"
+    },
+    "w-000bb9": {
+      "id": "w-000bb9",
+      "type": "column",
+      "parentId": "w-000bb2",
+      "childrenIds": [
+        "w-000bba",
+        "w-000bbb"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000bba": {
+      "id": "w-000bba",
+      "type": "text",
+      "parentId": "w-000bb9",
+      "childrenIds": [],
+      "label": "상태",
+      "size": "sm"
+    },
+    "w-000bbb": {
+      "id": "w-000bbb",
+      "type": "text",
+      "parentId": "w-000bb9",
+      "childrenIds": [],
+      "label": "비활성"
+    },
+    "w-000bbc": {
+      "id": "w-000bbc",
+      "type": "row",
+      "parentId": "w-000b73",
+      "childrenIds": [
+        "w-000bbd"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000bbd": {
+      "id": "w-000bbd",
+      "type": "button",
+      "parentId": "w-000bbc",
+      "childrenIds": [],
+      "label": "경로/목적지 설정 편집",
+      "variant": "secondary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n38"
+      }
+    }
+  }
+}

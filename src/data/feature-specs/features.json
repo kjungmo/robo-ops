@@ -1,0 +1,572 @@
+[
+  {
+    "id": "F-XRKNJM",
+    "type": "feature",
+    "data": {
+      "parentId": "R-TCGRMX",
+      "name": "로봇 목록/그리드 모니터링",
+      "description": "등록된 모든 로봇을 카드/표 형태로 한 화면에서 모니터링합니다. 로봇별 온라인 상태, 배터리, 미션, 속도, 알람 요약, 마지막 업데이트 시각을 표시하고, 정렬/필터로 우선 확인 대상을 빠르게 찾습니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-CVHCSE",
+        "S-RYOZIN"
+      ]
+    }
+  },
+  {
+    "id": "F-XDQZOV",
+    "type": "feature",
+    "data": {
+      "parentId": "R-TCGRMX",
+      "name": "지도 기반 실시간 위치/경로 시각화",
+      "description": "현장 맵 위에 로봇의 실시간 위치, 방향, 계획 경로/이동 궤적을 겹쳐 표시합니다. 로봇 선택 시 상세 패널로 핵심 상태와 최근 이벤트를 확인합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-PAKIMP",
+        "S-BQUKVI"
+      ]
+    }
+  },
+  {
+    "id": "F-FJRNBR",
+    "type": "feature",
+    "data": {
+      "parentId": "R-TCGRMX",
+      "name": "로봇 상세 상태 패널",
+      "description": "선택한 로봇의 통신, 배터리, 미션, 센서/안전 상태, 최근 알람을 상세로 확인합니다. 유지보수 담당자는 장애 분석에 필요한 기본 진단 정보에 빠르게 접근합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-EMKCEJ",
+        "S-WOSPGH"
+      ]
+    }
+  },
+  {
+    "id": "F-FVMYBG",
+    "type": "feature",
+    "data": {
+      "parentId": "R-VSTSUL",
+      "name": "원격 정지/재시작 제어",
+      "description": "운영자가 로봇을 즉시 정지(비상/일반)하거나 재시작 명령을 전송하고, 실행 결과(성공/실패, 사유)를 확인합니다. 위험 작업은 권한 및 확인 절차를 거칩니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-WXPBVG",
+        "S-UYXNMG"
+      ]
+    }
+  },
+  {
+    "id": "F-JBBIRD",
+    "type": "feature",
+    "data": {
+      "parentId": "R-VSTSUL",
+      "name": "원격 수동 제어(조이스틱/키보드)",
+      "description": "운영자가 원격으로 전/후/좌/우, 속도 제한 등 수동 주행을 제어합니다. 제어 중에는 안전 상태와 지연(레이턴시)을 명확히 보여주고, 충돌 위험 시 자동 제한을 적용합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-DLNHDV",
+        "S-KAZUXC"
+      ]
+    }
+  },
+  {
+    "id": "F-CSBQAW",
+    "type": "feature",
+    "data": {
+      "parentId": "R-VSTSUL",
+      "name": "미션 개입(미션 변경/취소/재할당)",
+      "description": "진행 중인 미션을 취소하거나 다른 목적지/작업으로 변경하고, 로봇/로봇군에 미션을 재할당합니다. 변경 이력과 사유를 함께 남깁니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-ZVOZAS",
+        "S-BIZNBX"
+      ]
+    }
+  },
+  {
+    "id": "F-TOQWIK",
+    "type": "feature",
+    "data": {
+      "parentId": "R-QDDWNV",
+      "name": "맵 생성/가져오기",
+      "description": "현장 맵을 생성하거나 외부에서 생성된 맵을 가져옵니다. 맵 메타데이터(현장, 버전, 생성 시각, 생성자)를 관리합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-VPCYVQ",
+        "S-LACGVW"
+      ]
+    }
+  },
+  {
+    "id": "F-PVZHFN",
+    "type": "feature",
+    "data": {
+      "parentId": "R-QDDWNV",
+      "name": "맵 편집(장애물/금지구역/포인트)",
+      "description": "장애물, 통행 금지 구역, 관심 지점(POI), 도킹/충전 위치 등을 추가/삭제/수정합니다. 편집 내용은 변경 이력으로 기록됩니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-XUGLOT",
+        "S-WIZBRN"
+      ]
+    }
+  },
+  {
+    "id": "F-JMRSIZ",
+    "type": "feature",
+    "data": {
+      "parentId": "R-QDDWNV",
+      "name": "맵 버전 관리 및 배포",
+      "description": "맵을 버전으로 관리하고 선택한 로봇/로봇군에 배포합니다. 배포 진행률, 성공/실패, 롤백(이전 버전 복귀)을 지원합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-DNKVPW",
+        "S-CHJMUV"
+      ]
+    }
+  },
+  {
+    "id": "F-FZCMID",
+    "type": "feature",
+    "data": {
+      "parentId": "R-QDDWNV",
+      "name": "주행 경로/목적지 지정 및 충돌 경고",
+      "description": "로봇별 목적지 및 주행 경로(웨이포인트)를 지정하고, 다중 로봇 간 경로 충돌 가능성이 있는 경우 시각적 경고를 제공합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-MIBOWG",
+        "S-IAJWPR"
+      ]
+    }
+  },
+  {
+    "id": "F-CRUOJN",
+    "type": "feature",
+    "data": {
+      "parentId": "R-GPUPDU",
+      "name": "실시간 알람 수신 및 알림",
+      "description": "로봇에서 발생한 알람/에러를 실시간으로 수신하여 관제 화면에 표시하고, 중요도에 따라 소리/배너/푸시(클라이언트)로 알립니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-HOMCEG",
+        "S-DHCYPQ"
+      ]
+    }
+  },
+  {
+    "id": "F-TSVGFF",
+    "type": "feature",
+    "data": {
+      "parentId": "R-GPUPDU",
+      "name": "알람/장애 이력 조회 및 필터링",
+      "description": "발생 시각, 로봇, 유형, 심각도, 상태(신규/확인/조치중/해결)로 장애 이력을 조회하고, 검색/필터로 원인 분석 시간을 줄입니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-SZFIQH",
+        "S-HGKXCJ"
+      ]
+    }
+  },
+  {
+    "id": "F-TFNGYD",
+    "type": "feature",
+    "data": {
+      "parentId": "R-GPUPDU",
+      "name": "장애 티켓(조치 워크플로우)",
+      "description": "장애를 티켓으로 전환해 담당자 지정, 상태 변경, 조치 기록, 첨부(로그/파일)로 처리 과정을 표준화합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-CZWNAL",
+        "S-TZEHLJ"
+      ]
+    }
+  },
+  {
+    "id": "F-LHMUSA",
+    "type": "feature",
+    "data": {
+      "parentId": "R-GPUPDU",
+      "name": "자동 센서 데이터 수집/저장",
+      "description": "장애 발생 시 사전에 정의된 센서/로그 데이터를 자동으로 수집해 사건과 묶어 저장합니다. 필요 시 수동 추가 수집도 지원합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "SOJQMU",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-VSJQLF",
+        "S-EFZUQQ"
+      ]
+    }
+  },
+  {
+    "id": "F-JPYHRN",
+    "type": "feature",
+    "data": {
+      "parentId": "R-WYCGKO",
+      "name": "사용자 계정 관리(생성/수정/삭제)",
+      "description": "관리자가 사용자 계정을 생성/수정/삭제하고, 계정 상태(활성/잠금), 기본 정보, 마지막 로그인 정보를 관리합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-ZDHJHZ",
+        "S-WWPTQR"
+      ]
+    }
+  },
+  {
+    "id": "F-XAYIMT",
+    "type": "feature",
+    "data": {
+      "parentId": "R-WYCGKO",
+      "name": "역할 기반 접근 제어(RBAC)",
+      "description": "운영자/관리자/유지보수 담당 역할에 따라 메뉴 및 기능 접근 권한을 제어합니다. 권한 변경은 감사 로그로 남깁니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-LEWRGF",
+        "S-NHYMKC",
+        "S-JWXRUL"
+      ]
+    }
+  },
+  {
+    "id": "F-DKMBSU",
+    "type": "feature",
+    "data": {
+      "parentId": "R-WYCGKO",
+      "name": "로그인 및 보안 정책",
+      "description": "로그인, 비밀번호 정책, 세션 관리, 계정 잠금 등 기본 보안 정책을 제공합니다. 필요 시 2단계 인증(2FA) 확장을 고려합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-ICMPDW",
+        "S-MRDYFZ"
+      ]
+    }
+  },
+  {
+    "id": "F-BYVSLU",
+    "type": "feature",
+    "data": {
+      "parentId": "R-FALAJC",
+      "name": "로봇 등록/수정/비활성화",
+      "description": "관리자가 로봇을 등록하고 메타데이터 및 연결 정보를 수정하며, 운영 제외(비활성화)할 수 있습니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-FOSZQP",
+        "S-VNNLPU"
+      ]
+    }
+  },
+  {
+    "id": "F-LPIGWA",
+    "type": "feature",
+    "data": {
+      "parentId": "R-FALAJC",
+      "name": "현장/구역(존) 관리",
+      "description": "현장과 구역(존)을 정의하고 로봇을 할당합니다. 맵, 알람, 지표 조회의 기본 범위를 현장/구역 단위로 묶어 관리합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-KFIJEN",
+        "S-MGFFSV",
+        "S-RGWTPX"
+      ]
+    }
+  },
+  {
+    "id": "F-PTLBJB",
+    "type": "feature",
+    "data": {
+      "parentId": "R-FALAJC",
+      "name": "로봇 연동 상태 진단(헬스체크)",
+      "description": "로봇/게이트웨이/연동 서버와의 연결 상태를 점검하고, 실패 원인을 구분(인증/네트워크/타임아웃/프로토콜)해 표시합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "SOJQMU",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-CKHSUE",
+        "S-KKOUAF",
+        "S-YUUFHK"
+      ]
+    }
+  },
+  {
+    "id": "F-DLWHBR",
+    "type": "feature",
+    "data": {
+      "parentId": "R-RMPCDU",
+      "name": "KPI 대시보드(요약/추세)",
+      "description": "가동률, 장애 대응 시간, 운영자 생산성, 맵 배포 시간 등 핵심 지표를 요약 카드와 추세 그래프로 제공합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-ERENLF",
+        "S-ZTNQNM"
+      ]
+    }
+  },
+  {
+    "id": "F-ELVQBM",
+    "type": "feature",
+    "data": {
+      "parentId": "R-RMPCDU",
+      "name": "지표 드릴다운(원천 이벤트 조회)",
+      "description": "대시보드에서 지표를 클릭하면 관련 알람/장애/제어/배포 이벤트 목록으로 드릴다운하여 원인과 기여도를 파악합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-CTGERT"
+      ]
+    }
+  },
+  {
+    "id": "F-NQLMUQ",
+    "type": "feature",
+    "data": {
+      "parentId": "R-RMPCDU",
+      "name": "분석 데이터 내보내기",
+      "description": "필터링한 지표 및 원천 이벤트를 CSV 등 파일로 내보내 공유/보고에 활용합니다.",
+      "importance": "low",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-MFDFEC"
+      ]
+    }
+  },
+  {
+    "id": "F-YUUJQZ",
+    "type": "feature",
+    "data": {
+      "parentId": "R-ZWCDMD",
+      "name": "제어/배포/권한 변경 감사 로그 기록",
+      "description": "원격 제어, 맵 배포, 권한 변경 등 주요 이벤트를 표준 스키마로 기록합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-PISJCG"
+      ]
+    }
+  },
+  {
+    "id": "F-EFVCPN",
+    "type": "feature",
+    "data": {
+      "parentId": "R-ZWCDMD",
+      "name": "감사 로그 조회/검색/필터",
+      "description": "기간/사용자/이벤트 유형/대상 로봇/맵으로 감사 로그를 조회하고 검색합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ],
+      "specs": [
+        "S-FFXACB",
+        "S-EFLFNE",
+        "S-PAJUXF"
+      ]
+    }
+  }
+]

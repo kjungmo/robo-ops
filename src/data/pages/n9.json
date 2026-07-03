@@ -1,0 +1,797 @@
+{
+  "pageNodeId": "n9",
+  "pageName": "로봇 상세 상태 패널",
+  "rootId": "w-0007b7",
+  "nodes": {
+    "w-0007b7": {
+      "id": "w-0007b7",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-0007b8"
+      ],
+      "label": "로봇 상세 상태 패널",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-0007b8": {
+      "id": "w-0007b8",
+      "type": "body",
+      "parentId": "w-0007b7",
+      "childrenIds": [
+        "w-0007b9",
+        "w-0007c0",
+        "w-000801"
+      ]
+    },
+    "w-0007b9": {
+      "id": "w-0007b9",
+      "type": "row",
+      "parentId": "w-0007b8",
+      "childrenIds": [
+        "w-0007ba",
+        "w-0007bd",
+        "w-0007be",
+        "w-0007bf"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-0007ba": {
+      "id": "w-0007ba",
+      "type": "column",
+      "parentId": "w-0007b9",
+      "childrenIds": [
+        "w-0007bb",
+        "w-0007bc"
+      ]
+    },
+    "w-0007bb": {
+      "id": "w-0007bb",
+      "type": "text",
+      "parentId": "w-0007ba",
+      "childrenIds": [],
+      "label": "로봇 상세 상태 패널",
+      "size": "lg"
+    },
+    "w-0007bc": {
+      "id": "w-0007bc",
+      "type": "text",
+      "parentId": "w-0007ba",
+      "childrenIds": [],
+      "label": "AMR-042 · 구역 B-3 배치 중",
+      "size": "sm"
+    },
+    "w-0007bd": {
+      "id": "w-0007bd",
+      "type": "spacer",
+      "parentId": "w-0007b9",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-0007be": {
+      "id": "w-0007be",
+      "type": "button",
+      "parentId": "w-0007b9",
+      "childrenIds": [],
+      "label": "알람·장애 관리",
+      "variant": "secondary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n13"
+      }
+    },
+    "w-0007bf": {
+      "id": "w-0007bf",
+      "type": "button",
+      "parentId": "w-0007b9",
+      "childrenIds": [],
+      "label": "원격 제어",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n23"
+      }
+    },
+    "w-0007c0": {
+      "id": "w-0007c0",
+      "type": "row",
+      "parentId": "w-0007b8",
+      "childrenIds": [
+        "w-0007c1",
+        "w-0007db"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "stretch"
+      }
+    },
+    "w-0007c1": {
+      "id": "w-0007c1",
+      "type": "box",
+      "parentId": "w-0007c0",
+      "childrenIds": [
+        "w-0007c2",
+        "w-0007c3",
+        "w-0007ce"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0007c2": {
+      "id": "w-0007c2",
+      "type": "text",
+      "parentId": "w-0007c1",
+      "childrenIds": [],
+      "label": "로봇 상태 요약",
+      "size": "md"
+    },
+    "w-0007c3": {
+      "id": "w-0007c3",
+      "type": "row",
+      "parentId": "w-0007c1",
+      "childrenIds": [
+        "w-0007c4",
+        "w-0007c5"
+      ],
+      "layout": {
+        "gap": 24,
+        "align": "center"
+      }
+    },
+    "w-0007c4": {
+      "id": "w-0007c4",
+      "type": "image",
+      "parentId": "w-0007c3",
+      "childrenIds": [],
+      "label": "로봇 썸네일",
+      "layout": {
+        "height": 96
+      }
+    },
+    "w-0007c5": {
+      "id": "w-0007c5",
+      "type": "column",
+      "parentId": "w-0007c3",
+      "childrenIds": [
+        "w-0007c6",
+        "w-0007c9",
+        "w-0007ca",
+        "w-0007cb"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0007c6": {
+      "id": "w-0007c6",
+      "type": "row",
+      "parentId": "w-0007c5",
+      "childrenIds": [
+        "w-0007c7",
+        "w-0007c8"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-0007c7": {
+      "id": "w-0007c7",
+      "type": "text",
+      "parentId": "w-0007c6",
+      "childrenIds": [],
+      "label": "AMR-042",
+      "size": "md"
+    },
+    "w-0007c8": {
+      "id": "w-0007c8",
+      "type": "button",
+      "parentId": "w-0007c6",
+      "childrenIds": [],
+      "label": "정상 운행",
+      "variant": "chip"
+    },
+    "w-0007c9": {
+      "id": "w-0007c9",
+      "type": "text",
+      "parentId": "w-0007c5",
+      "childrenIds": [],
+      "label": "모델: AMR-Series 4 / S/N: 20240312-042",
+      "size": "sm"
+    },
+    "w-0007ca": {
+      "id": "w-0007ca",
+      "type": "text",
+      "parentId": "w-0007c5",
+      "childrenIds": [],
+      "label": "배치 구역: 창고 B-3 / 마지막 체크인: 2분 전",
+      "size": "sm"
+    },
+    "w-0007cb": {
+      "id": "w-0007cb",
+      "type": "row",
+      "parentId": "w-0007c5",
+      "childrenIds": [
+        "w-0007cc",
+        "w-0007cd"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0007cc": {
+      "id": "w-0007cc",
+      "type": "button",
+      "parentId": "w-0007cb",
+      "childrenIds": [],
+      "label": "2단계",
+      "variant": "chip"
+    },
+    "w-0007cd": {
+      "id": "w-0007cd",
+      "type": "button",
+      "parentId": "w-0007cb",
+      "childrenIds": [],
+      "label": "자율주행 모드",
+      "variant": "chip"
+    },
+    "w-0007ce": {
+      "id": "w-0007ce",
+      "type": "row",
+      "parentId": "w-0007c1",
+      "childrenIds": [
+        "w-0007cf",
+        "w-0007d2",
+        "w-0007d5",
+        "w-0007d8"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-0007cf": {
+      "id": "w-0007cf",
+      "type": "box",
+      "parentId": "w-0007ce",
+      "childrenIds": [
+        "w-0007d0",
+        "w-0007d1"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0007d0": {
+      "id": "w-0007d0",
+      "type": "text",
+      "parentId": "w-0007cf",
+      "childrenIds": [],
+      "label": "가동 시간",
+      "size": "sm"
+    },
+    "w-0007d1": {
+      "id": "w-0007d1",
+      "type": "text",
+      "parentId": "w-0007cf",
+      "childrenIds": [],
+      "label": "6h 42m",
+      "size": "md"
+    },
+    "w-0007d2": {
+      "id": "w-0007d2",
+      "type": "box",
+      "parentId": "w-0007ce",
+      "childrenIds": [
+        "w-0007d3",
+        "w-0007d4"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0007d3": {
+      "id": "w-0007d3",
+      "type": "text",
+      "parentId": "w-0007d2",
+      "childrenIds": [],
+      "label": "금일 작업 완료",
+      "size": "sm"
+    },
+    "w-0007d4": {
+      "id": "w-0007d4",
+      "type": "text",
+      "parentId": "w-0007d2",
+      "childrenIds": [],
+      "label": "37건",
+      "size": "md"
+    },
+    "w-0007d5": {
+      "id": "w-0007d5",
+      "type": "box",
+      "parentId": "w-0007ce",
+      "childrenIds": [
+        "w-0007d6",
+        "w-0007d7"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0007d6": {
+      "id": "w-0007d6",
+      "type": "text",
+      "parentId": "w-0007d5",
+      "childrenIds": [],
+      "label": "총 이동 거리",
+      "size": "sm"
+    },
+    "w-0007d7": {
+      "id": "w-0007d7",
+      "type": "text",
+      "parentId": "w-0007d5",
+      "childrenIds": [],
+      "label": "14.2 km",
+      "size": "md"
+    },
+    "w-0007d8": {
+      "id": "w-0007d8",
+      "type": "box",
+      "parentId": "w-0007ce",
+      "childrenIds": [
+        "w-0007d9",
+        "w-0007da"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0007d9": {
+      "id": "w-0007d9",
+      "type": "text",
+      "parentId": "w-0007d8",
+      "childrenIds": [],
+      "label": "오류 발생 횟수",
+      "size": "sm"
+    },
+    "w-0007da": {
+      "id": "w-0007da",
+      "type": "text",
+      "parentId": "w-0007d8",
+      "childrenIds": [],
+      "label": "2회",
+      "size": "md"
+    },
+    "w-0007db": {
+      "id": "w-0007db",
+      "type": "box",
+      "parentId": "w-0007c0",
+      "childrenIds": [
+        "w-0007dc",
+        "w-0007dd"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0007dc": {
+      "id": "w-0007dc",
+      "type": "text",
+      "parentId": "w-0007db",
+      "childrenIds": [],
+      "label": "실시간 상태 지표",
+      "size": "md"
+    },
+    "w-0007dd": {
+      "id": "w-0007dd",
+      "type": "column",
+      "parentId": "w-0007db",
+      "childrenIds": [
+        "w-0007de",
+        "w-0007e3",
+        "w-0007e8",
+        "w-0007ed",
+        "w-0007f2",
+        "w-0007f7",
+        "w-0007fc"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-0007de": {
+      "id": "w-0007de",
+      "type": "row",
+      "parentId": "w-0007dd",
+      "childrenIds": [
+        "w-0007df",
+        "w-0007e0",
+        "w-0007e1",
+        "w-0007e2"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-0007df": {
+      "id": "w-0007df",
+      "type": "text",
+      "parentId": "w-0007de",
+      "childrenIds": [],
+      "label": "배터리",
+      "size": "sm"
+    },
+    "w-0007e0": {
+      "id": "w-0007e0",
+      "type": "spacer",
+      "parentId": "w-0007de",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-0007e1": {
+      "id": "w-0007e1",
+      "type": "text",
+      "parentId": "w-0007de",
+      "childrenIds": [],
+      "label": "78%",
+      "size": "sm"
+    },
+    "w-0007e2": {
+      "id": "w-0007e2",
+      "type": "button",
+      "parentId": "w-0007de",
+      "childrenIds": [],
+      "label": "정상",
+      "variant": "chip"
+    },
+    "w-0007e3": {
+      "id": "w-0007e3",
+      "type": "row",
+      "parentId": "w-0007dd",
+      "childrenIds": [
+        "w-0007e4",
+        "w-0007e5",
+        "w-0007e6",
+        "w-0007e7"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-0007e4": {
+      "id": "w-0007e4",
+      "type": "text",
+      "parentId": "w-0007e3",
+      "childrenIds": [],
+      "label": "주행 속도",
+      "size": "sm"
+    },
+    "w-0007e5": {
+      "id": "w-0007e5",
+      "type": "spacer",
+      "parentId": "w-0007e3",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-0007e6": {
+      "id": "w-0007e6",
+      "type": "text",
+      "parentId": "w-0007e3",
+      "childrenIds": [],
+      "label": "1.2 m/s",
+      "size": "sm"
+    },
+    "w-0007e7": {
+      "id": "w-0007e7",
+      "type": "button",
+      "parentId": "w-0007e3",
+      "childrenIds": [],
+      "label": "정상",
+      "variant": "chip"
+    },
+    "w-0007e8": {
+      "id": "w-0007e8",
+      "type": "row",
+      "parentId": "w-0007dd",
+      "childrenIds": [
+        "w-0007e9",
+        "w-0007ea",
+        "w-0007eb",
+        "w-0007ec"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-0007e9": {
+      "id": "w-0007e9",
+      "type": "text",
+      "parentId": "w-0007e8",
+      "childrenIds": [],
+      "label": "CPU 사용률",
+      "size": "sm"
+    },
+    "w-0007ea": {
+      "id": "w-0007ea",
+      "type": "spacer",
+      "parentId": "w-0007e8",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-0007eb": {
+      "id": "w-0007eb",
+      "type": "text",
+      "parentId": "w-0007e8",
+      "childrenIds": [],
+      "label": "43%",
+      "size": "sm"
+    },
+    "w-0007ec": {
+      "id": "w-0007ec",
+      "type": "button",
+      "parentId": "w-0007e8",
+      "childrenIds": [],
+      "label": "정상",
+      "variant": "chip"
+    },
+    "w-0007ed": {
+      "id": "w-0007ed",
+      "type": "row",
+      "parentId": "w-0007dd",
+      "childrenIds": [
+        "w-0007ee",
+        "w-0007ef",
+        "w-0007f0",
+        "w-0007f1"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-0007ee": {
+      "id": "w-0007ee",
+      "type": "text",
+      "parentId": "w-0007ed",
+      "childrenIds": [],
+      "label": "메모리 사용률",
+      "size": "sm"
+    },
+    "w-0007ef": {
+      "id": "w-0007ef",
+      "type": "spacer",
+      "parentId": "w-0007ed",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-0007f0": {
+      "id": "w-0007f0",
+      "type": "text",
+      "parentId": "w-0007ed",
+      "childrenIds": [],
+      "label": "61%",
+      "size": "sm"
+    },
+    "w-0007f1": {
+      "id": "w-0007f1",
+      "type": "button",
+      "parentId": "w-0007ed",
+      "childrenIds": [],
+      "label": "주의",
+      "variant": "chip"
+    },
+    "w-0007f2": {
+      "id": "w-0007f2",
+      "type": "row",
+      "parentId": "w-0007dd",
+      "childrenIds": [
+        "w-0007f3",
+        "w-0007f4",
+        "w-0007f5",
+        "w-0007f6"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-0007f3": {
+      "id": "w-0007f3",
+      "type": "text",
+      "parentId": "w-0007f2",
+      "childrenIds": [],
+      "label": "센서 상태",
+      "size": "sm"
+    },
+    "w-0007f4": {
+      "id": "w-0007f4",
+      "type": "spacer",
+      "parentId": "w-0007f2",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-0007f5": {
+      "id": "w-0007f5",
+      "type": "text",
+      "parentId": "w-0007f2",
+      "childrenIds": [],
+      "label": "LiDAR · 카메라 정상",
+      "size": "sm"
+    },
+    "w-0007f6": {
+      "id": "w-0007f6",
+      "type": "button",
+      "parentId": "w-0007f2",
+      "childrenIds": [],
+      "label": "정상",
+      "variant": "chip"
+    },
+    "w-0007f7": {
+      "id": "w-0007f7",
+      "type": "row",
+      "parentId": "w-0007dd",
+      "childrenIds": [
+        "w-0007f8",
+        "w-0007f9",
+        "w-0007fa",
+        "w-0007fb"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-0007f8": {
+      "id": "w-0007f8",
+      "type": "text",
+      "parentId": "w-0007f7",
+      "childrenIds": [],
+      "label": "네트워크 신호",
+      "size": "sm"
+    },
+    "w-0007f9": {
+      "id": "w-0007f9",
+      "type": "spacer",
+      "parentId": "w-0007f7",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-0007fa": {
+      "id": "w-0007fa",
+      "type": "text",
+      "parentId": "w-0007f7",
+      "childrenIds": [],
+      "label": "Wi-Fi -52 dBm",
+      "size": "sm"
+    },
+    "w-0007fb": {
+      "id": "w-0007fb",
+      "type": "button",
+      "parentId": "w-0007f7",
+      "childrenIds": [],
+      "label": "정상",
+      "variant": "chip"
+    },
+    "w-0007fc": {
+      "id": "w-0007fc",
+      "type": "row",
+      "parentId": "w-0007dd",
+      "childrenIds": [
+        "w-0007fd",
+        "w-0007fe",
+        "w-0007ff",
+        "w-000800"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-0007fd": {
+      "id": "w-0007fd",
+      "type": "text",
+      "parentId": "w-0007fc",
+      "childrenIds": [],
+      "label": "현재 위치",
+      "size": "sm"
+    },
+    "w-0007fe": {
+      "id": "w-0007fe",
+      "type": "spacer",
+      "parentId": "w-0007fc",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-0007ff": {
+      "id": "w-0007ff",
+      "type": "text",
+      "parentId": "w-0007fc",
+      "childrenIds": [],
+      "label": "x: 12.4 / y: 8.7 / 방향: 북동",
+      "size": "sm"
+    },
+    "w-000800": {
+      "id": "w-000800",
+      "type": "button",
+      "parentId": "w-0007fc",
+      "childrenIds": [],
+      "label": "추적 중",
+      "variant": "chip"
+    },
+    "w-000801": {
+      "id": "w-000801",
+      "type": "box",
+      "parentId": "w-0007b8",
+      "childrenIds": [
+        "w-000802",
+        "w-000806"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000802": {
+      "id": "w-000802",
+      "type": "row",
+      "parentId": "w-000801",
+      "childrenIds": [
+        "w-000803",
+        "w-000804",
+        "w-000805"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000803": {
+      "id": "w-000803",
+      "type": "text",
+      "parentId": "w-000802",
+      "childrenIds": [],
+      "label": "최근 알람 및 장애 내역",
+      "size": "md"
+    },
+    "w-000804": {
+      "id": "w-000804",
+      "type": "spacer",
+      "parentId": "w-000802",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000805": {
+      "id": "w-000805",
+      "type": "button",
+      "parentId": "w-000802",
+      "childrenIds": [],
+      "label": "알람·장애 관리에서 전체 보기",
+      "variant": "secondary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n13"
+      }
+    },
+    "w-000806": {
+      "id": "w-000806",
+      "type": "table",
+      "parentId": "w-000801",
+      "childrenIds": [],
+      "label": "발생 시각,알람 유형,심각도,상태,처리자",
+      "listRows": 5
+    }
+  }
+}

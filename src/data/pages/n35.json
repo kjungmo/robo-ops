@@ -1,0 +1,223 @@
+{
+  "pageNodeId": "n35",
+  "pageName": "맵 생성/가져오기",
+  "rootId": "w-000c08",
+  "nodes": {
+    "w-000c08": {
+      "id": "w-000c08",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000c09"
+      ],
+      "label": "맵 생성/가져오기",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000c09": {
+      "id": "w-000c09",
+      "type": "body",
+      "parentId": "w-000c08",
+      "childrenIds": [
+        "w-000c0a",
+        "w-000c0b",
+        "w-000c17"
+      ]
+    },
+    "w-000c0a": {
+      "id": "w-000c0a",
+      "type": "text",
+      "parentId": "w-000c09",
+      "childrenIds": [],
+      "label": "맵 생성 / 가져오기",
+      "size": "md"
+    },
+    "w-000c0b": {
+      "id": "w-000c0b",
+      "type": "box",
+      "parentId": "w-000c09",
+      "childrenIds": [
+        "w-000c0c",
+        "w-000c0d",
+        "w-000c0e",
+        "w-000c0f",
+        "w-000c12",
+        "w-000c15"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c0c": {
+      "id": "w-000c0c",
+      "type": "text",
+      "parentId": "w-000c0b",
+      "childrenIds": [],
+      "label": "새 맵 만들기",
+      "size": "md"
+    },
+    "w-000c0d": {
+      "id": "w-000c0d",
+      "type": "input",
+      "parentId": "w-000c0b",
+      "childrenIds": [],
+      "label": "맵 이름"
+    },
+    "w-000c0e": {
+      "id": "w-000c0e",
+      "type": "text",
+      "parentId": "w-000c0b",
+      "childrenIds": [],
+      "label": "맵 생성 옵션",
+      "size": "sm"
+    },
+    "w-000c0f": {
+      "id": "w-000c0f",
+      "type": "row",
+      "parentId": "w-000c0b",
+      "childrenIds": [
+        "w-000c10",
+        "w-000c11"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-000c10": {
+      "id": "w-000c10",
+      "type": "input",
+      "parentId": "w-000c0f",
+      "childrenIds": [],
+      "label": "맵 유형",
+      "inputType": "select",
+      "attributes": {
+        "options": "2D 격자맵,2D 자유형맵,3D 맵"
+      }
+    },
+    "w-000c11": {
+      "id": "w-000c11",
+      "type": "input",
+      "parentId": "w-000c0f",
+      "childrenIds": [],
+      "label": "해상도(m/px)",
+      "inputType": "select",
+      "attributes": {
+        "options": "0.05,0.10,0.20,0.50"
+      }
+    },
+    "w-000c12": {
+      "id": "w-000c12",
+      "type": "row",
+      "parentId": "w-000c0b",
+      "childrenIds": [
+        "w-000c13",
+        "w-000c14"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-000c13": {
+      "id": "w-000c13",
+      "type": "input",
+      "parentId": "w-000c12",
+      "childrenIds": [],
+      "label": "너비(px)"
+    },
+    "w-000c14": {
+      "id": "w-000c14",
+      "type": "input",
+      "parentId": "w-000c12",
+      "childrenIds": [],
+      "label": "높이(px)"
+    },
+    "w-000c15": {
+      "id": "w-000c15",
+      "type": "row",
+      "parentId": "w-000c0b",
+      "childrenIds": [
+        "w-000c16"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000c16": {
+      "id": "w-000c16",
+      "type": "button",
+      "parentId": "w-000c15",
+      "childrenIds": [],
+      "label": "새 맵 생성",
+      "variant": "primary"
+    },
+    "w-000c17": {
+      "id": "w-000c17",
+      "type": "box",
+      "parentId": "w-000c09",
+      "childrenIds": [
+        "w-000c18",
+        "w-000c19",
+        "w-000c1a",
+        "w-000c1b",
+        "w-000c1c"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c18": {
+      "id": "w-000c18",
+      "type": "text",
+      "parentId": "w-000c17",
+      "childrenIds": [],
+      "label": "파일로 가져오기",
+      "size": "md"
+    },
+    "w-000c19": {
+      "id": "w-000c19",
+      "type": "text",
+      "parentId": "w-000c17",
+      "childrenIds": [],
+      "label": "지원 형식: .pgm, .yaml, .png, .ros2map",
+      "size": "sm"
+    },
+    "w-000c1a": {
+      "id": "w-000c1a",
+      "type": "image",
+      "parentId": "w-000c17",
+      "childrenIds": [],
+      "label": "맵 파일 업로드 영역 — 파일을 드래그하거나 클릭하여 선택",
+      "layout": {
+        "height": 120
+      }
+    },
+    "w-000c1b": {
+      "id": "w-000c1b",
+      "type": "input",
+      "parentId": "w-000c17",
+      "childrenIds": [],
+      "label": "맵 파일 선택",
+      "inputType": "search"
+    },
+    "w-000c1c": {
+      "id": "w-000c1c",
+      "type": "row",
+      "parentId": "w-000c17",
+      "childrenIds": [
+        "w-000c1d"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000c1d": {
+      "id": "w-000c1d",
+      "type": "button",
+      "parentId": "w-000c1c",
+      "childrenIds": [],
+      "label": "가져오기",
+      "variant": "primary"
+    }
+  }
+}

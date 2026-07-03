@@ -1,0 +1,491 @@
+{
+  "pageNodeId": "n38",
+  "pageName": "경로/목적지 설정",
+  "rootId": "w-000cbf",
+  "nodes": {
+    "w-000cbf": {
+      "id": "w-000cbf",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000cc0"
+      ],
+      "label": "경로/목적지 설정",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000cc0": {
+      "id": "w-000cc0",
+      "type": "body",
+      "parentId": "w-000cbf",
+      "childrenIds": [
+        "w-000cc1",
+        "w-000cc2"
+      ]
+    },
+    "w-000cc1": {
+      "id": "w-000cc1",
+      "type": "text",
+      "parentId": "w-000cc0",
+      "childrenIds": [],
+      "label": "경로/목적지 설정",
+      "size": "md"
+    },
+    "w-000cc2": {
+      "id": "w-000cc2",
+      "type": "column",
+      "parentId": "w-000cc0",
+      "childrenIds": [
+        "w-000cc3",
+        "w-000cce",
+        "w-000cd8",
+        "w-000cec"
+      ],
+      "layout": {
+        "gap": 20
+      }
+    },
+    "w-000cc3": {
+      "id": "w-000cc3",
+      "type": "box",
+      "parentId": "w-000cc2",
+      "childrenIds": [
+        "w-000cc4",
+        "w-000cc5"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000cc4": {
+      "id": "w-000cc4",
+      "type": "text",
+      "parentId": "w-000cc3",
+      "childrenIds": [],
+      "label": "경로 설정",
+      "size": "md"
+    },
+    "w-000cc5": {
+      "id": "w-000cc5",
+      "type": "column",
+      "parentId": "w-000cc3",
+      "childrenIds": [
+        "w-000cc6",
+        "w-000cc7",
+        "w-000cca",
+        "w-000ccb",
+        "w-000ccc",
+        "w-000ccd"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-000cc6": {
+      "id": "w-000cc6",
+      "type": "input",
+      "parentId": "w-000cc5",
+      "childrenIds": [],
+      "label": "경로 이름"
+    },
+    "w-000cc7": {
+      "id": "w-000cc7",
+      "type": "row",
+      "parentId": "w-000cc5",
+      "childrenIds": [
+        "w-000cc8",
+        "w-000cc9"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000cc8": {
+      "id": "w-000cc8",
+      "type": "input",
+      "parentId": "w-000cc7",
+      "childrenIds": [],
+      "label": "출발 지점"
+    },
+    "w-000cc9": {
+      "id": "w-000cc9",
+      "type": "input",
+      "parentId": "w-000cc7",
+      "childrenIds": [],
+      "label": "도착 지점"
+    },
+    "w-000cca": {
+      "id": "w-000cca",
+      "type": "input",
+      "parentId": "w-000cc5",
+      "childrenIds": [],
+      "label": "경유 지점 (선택)"
+    },
+    "w-000ccb": {
+      "id": "w-000ccb",
+      "type": "input",
+      "parentId": "w-000cc5",
+      "childrenIds": [],
+      "label": "이동 속도 제한 (m/s)"
+    },
+    "w-000ccc": {
+      "id": "w-000ccc",
+      "type": "input",
+      "parentId": "w-000cc5",
+      "childrenIds": [],
+      "label": "경로 방향",
+      "inputType": "select",
+      "attributes": {
+        "options": "단방향,양방향"
+      }
+    },
+    "w-000ccd": {
+      "id": "w-000ccd",
+      "type": "input",
+      "parentId": "w-000cc5",
+      "childrenIds": [],
+      "label": "경로 유형",
+      "inputType": "select",
+      "attributes": {
+        "options": "최단 경로,최적 경로,지정 경로"
+      }
+    },
+    "w-000cce": {
+      "id": "w-000cce",
+      "type": "box",
+      "parentId": "w-000cc2",
+      "childrenIds": [
+        "w-000ccf",
+        "w-000cd0"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000ccf": {
+      "id": "w-000ccf",
+      "type": "text",
+      "parentId": "w-000cce",
+      "childrenIds": [],
+      "label": "목적지 설정",
+      "size": "md"
+    },
+    "w-000cd0": {
+      "id": "w-000cd0",
+      "type": "column",
+      "parentId": "w-000cce",
+      "childrenIds": [
+        "w-000cd1",
+        "w-000cd2",
+        "w-000cd5",
+        "w-000cd6",
+        "w-000cd7"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-000cd1": {
+      "id": "w-000cd1",
+      "type": "input",
+      "parentId": "w-000cd0",
+      "childrenIds": [],
+      "label": "목적지 이름"
+    },
+    "w-000cd2": {
+      "id": "w-000cd2",
+      "type": "row",
+      "parentId": "w-000cd0",
+      "childrenIds": [
+        "w-000cd3",
+        "w-000cd4"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000cd3": {
+      "id": "w-000cd3",
+      "type": "input",
+      "parentId": "w-000cd2",
+      "childrenIds": [],
+      "label": "X 좌표"
+    },
+    "w-000cd4": {
+      "id": "w-000cd4",
+      "type": "input",
+      "parentId": "w-000cd2",
+      "childrenIds": [],
+      "label": "Y 좌표"
+    },
+    "w-000cd5": {
+      "id": "w-000cd5",
+      "type": "input",
+      "parentId": "w-000cd0",
+      "childrenIds": [],
+      "label": "진입 방향 (°)"
+    },
+    "w-000cd6": {
+      "id": "w-000cd6",
+      "type": "input",
+      "parentId": "w-000cd0",
+      "childrenIds": [],
+      "label": "대기 자세",
+      "inputType": "select",
+      "attributes": {
+        "options": "정지,저속 대기,충전 대기"
+      }
+    },
+    "w-000cd7": {
+      "id": "w-000cd7",
+      "type": "input",
+      "parentId": "w-000cd0",
+      "childrenIds": [],
+      "label": "목적지 유형",
+      "inputType": "select",
+      "attributes": {
+        "options": "작업 지점,충전소,대기 구역,출입구"
+      }
+    },
+    "w-000cd8": {
+      "id": "w-000cd8",
+      "type": "box",
+      "parentId": "w-000cc2",
+      "childrenIds": [
+        "w-000cd9",
+        "w-000cda"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000cd9": {
+      "id": "w-000cd9",
+      "type": "text",
+      "parentId": "w-000cd8",
+      "childrenIds": [],
+      "label": "경로 충돌 경고 확인",
+      "size": "md"
+    },
+    "w-000cda": {
+      "id": "w-000cda",
+      "type": "column",
+      "parentId": "w-000cd8",
+      "childrenIds": [
+        "w-000cdb",
+        "w-000cde",
+        "w-000ce4",
+        "w-000cea",
+        "w-000ceb"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-000cdb": {
+      "id": "w-000cdb",
+      "type": "row",
+      "parentId": "w-000cda",
+      "childrenIds": [
+        "w-000cdc",
+        "w-000cdd"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000cdc": {
+      "id": "w-000cdc",
+      "type": "text",
+      "parentId": "w-000cdb",
+      "childrenIds": [],
+      "label": "충돌 검사 결과",
+      "size": "sm"
+    },
+    "w-000cdd": {
+      "id": "w-000cdd",
+      "type": "button",
+      "parentId": "w-000cdb",
+      "childrenIds": [],
+      "label": "충돌 검사 실행",
+      "variant": "secondary"
+    },
+    "w-000cde": {
+      "id": "w-000cde",
+      "type": "box",
+      "parentId": "w-000cda",
+      "childrenIds": [
+        "w-000cdf"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000cdf": {
+      "id": "w-000cdf",
+      "type": "row",
+      "parentId": "w-000cde",
+      "childrenIds": [
+        "w-000ce0",
+        "w-000ce1"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000ce0": {
+      "id": "w-000ce0",
+      "type": "text",
+      "parentId": "w-000cdf",
+      "childrenIds": [],
+      "label": "⚠",
+      "size": "md"
+    },
+    "w-000ce1": {
+      "id": "w-000ce1",
+      "type": "column",
+      "parentId": "w-000cdf",
+      "childrenIds": [
+        "w-000ce2",
+        "w-000ce3"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000ce2": {
+      "id": "w-000ce2",
+      "type": "text",
+      "parentId": "w-000ce1",
+      "childrenIds": [],
+      "label": "경로 충돌 감지됨",
+      "size": "sm"
+    },
+    "w-000ce3": {
+      "id": "w-000ce3",
+      "type": "text",
+      "parentId": "w-000ce1",
+      "childrenIds": [],
+      "label": "출발 지점 A-3 ~ 경유 지점 B-7 구간이 로봇 #R-04의 활성 경로와 겹칩니다. 저장 전 경로를 수정하거나 우선순위를 설정하십시오.",
+      "size": "sm"
+    },
+    "w-000ce4": {
+      "id": "w-000ce4",
+      "type": "box",
+      "parentId": "w-000cda",
+      "childrenIds": [
+        "w-000ce5"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000ce5": {
+      "id": "w-000ce5",
+      "type": "row",
+      "parentId": "w-000ce4",
+      "childrenIds": [
+        "w-000ce6",
+        "w-000ce7"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000ce6": {
+      "id": "w-000ce6",
+      "type": "text",
+      "parentId": "w-000ce5",
+      "childrenIds": [],
+      "label": "✓",
+      "size": "md"
+    },
+    "w-000ce7": {
+      "id": "w-000ce7",
+      "type": "column",
+      "parentId": "w-000ce5",
+      "childrenIds": [
+        "w-000ce8",
+        "w-000ce9"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000ce8": {
+      "id": "w-000ce8",
+      "type": "text",
+      "parentId": "w-000ce7",
+      "childrenIds": [],
+      "label": "목적지 중복 없음",
+      "size": "sm"
+    },
+    "w-000ce9": {
+      "id": "w-000ce9",
+      "type": "text",
+      "parentId": "w-000ce7",
+      "childrenIds": [],
+      "label": "설정된 목적지는 기존 등록 목적지와 충돌하지 않습니다.",
+      "size": "sm"
+    },
+    "w-000cea": {
+      "id": "w-000cea",
+      "type": "input",
+      "parentId": "w-000cda",
+      "childrenIds": [],
+      "label": "충돌 발생 시 처리 방식",
+      "inputType": "select",
+      "attributes": {
+        "options": "경고 후 수동 처리,자동 우선순위 조정,경로 진입 대기"
+      }
+    },
+    "w-000ceb": {
+      "id": "w-000ceb",
+      "type": "input",
+      "parentId": "w-000cda",
+      "childrenIds": [],
+      "label": "충돌 경고 알림 수신",
+      "inputType": "toggle",
+      "attributes": {
+        "on": ""
+      }
+    },
+    "w-000cec": {
+      "id": "w-000cec",
+      "type": "row",
+      "parentId": "w-000cc2",
+      "childrenIds": [
+        "w-000ced",
+        "w-000cee"
+      ],
+      "layout": {
+        "gap": 12,
+        "justify": "end"
+      }
+    },
+    "w-000ced": {
+      "id": "w-000ced",
+      "type": "button",
+      "parentId": "w-000cec",
+      "childrenIds": [],
+      "label": "맵 관리로 돌아가기",
+      "variant": "secondary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n33"
+      }
+    },
+    "w-000cee": {
+      "id": "w-000cee",
+      "type": "button",
+      "parentId": "w-000cec",
+      "childrenIds": [],
+      "label": "설정 저장",
+      "variant": "primary"
+    }
+  }
+}

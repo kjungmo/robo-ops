@@ -1,0 +1,201 @@
+{
+  "pageNodeId": "n50",
+  "pageName": "감사 로그 조회",
+  "rootId": "w-000e4f",
+  "nodes": {
+    "w-000e4f": {
+      "id": "w-000e4f",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000e50"
+      ],
+      "label": "감사 로그 조회",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000e50": {
+      "id": "w-000e50",
+      "type": "body",
+      "parentId": "w-000e4f",
+      "childrenIds": [
+        "w-000e51",
+        "w-000e54",
+        "w-000e5e",
+        "w-000e60"
+      ]
+    },
+    "w-000e51": {
+      "id": "w-000e51",
+      "type": "row",
+      "parentId": "w-000e50",
+      "childrenIds": [
+        "w-000e52",
+        "w-000e53"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000e52": {
+      "id": "w-000e52",
+      "type": "text",
+      "parentId": "w-000e51",
+      "childrenIds": [],
+      "label": "감사 로그 조회",
+      "size": "lg"
+    },
+    "w-000e53": {
+      "id": "w-000e53",
+      "type": "button",
+      "parentId": "w-000e51",
+      "childrenIds": [],
+      "label": "시스템 관리로",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n43"
+      }
+    },
+    "w-000e54": {
+      "id": "w-000e54",
+      "type": "box",
+      "parentId": "w-000e50",
+      "childrenIds": [
+        "w-000e55"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000e55": {
+      "id": "w-000e55",
+      "type": "row",
+      "parentId": "w-000e54",
+      "childrenIds": [
+        "w-000e56",
+        "w-000e57",
+        "w-000e58",
+        "w-000e59",
+        "w-000e5a",
+        "w-000e5b",
+        "w-000e5c",
+        "w-000e5d"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "end"
+      }
+    },
+    "w-000e56": {
+      "id": "w-000e56",
+      "type": "input",
+      "parentId": "w-000e55",
+      "childrenIds": [],
+      "label": "시작일",
+      "inputType": "select",
+      "attributes": {
+        "options": "오늘,최근 7일,최근 30일,직접 입력"
+      }
+    },
+    "w-000e57": {
+      "id": "w-000e57",
+      "type": "input",
+      "parentId": "w-000e55",
+      "childrenIds": [],
+      "label": "종료일",
+      "inputType": "select",
+      "attributes": {
+        "options": "오늘,최근 7일,최근 30일,직접 입력"
+      }
+    },
+    "w-000e58": {
+      "id": "w-000e58",
+      "type": "input",
+      "parentId": "w-000e55",
+      "childrenIds": [],
+      "label": "사용자",
+      "inputType": "select",
+      "attributes": {
+        "options": "전체,관리자,운영자,뷰어"
+      }
+    },
+    "w-000e59": {
+      "id": "w-000e59",
+      "type": "input",
+      "parentId": "w-000e55",
+      "childrenIds": [],
+      "label": "이벤트 유형",
+      "inputType": "select",
+      "attributes": {
+        "options": "전체,로그인,로그아웃,설정 변경,제어 명령,사용자 관리,장애 처리"
+      }
+    },
+    "w-000e5a": {
+      "id": "w-000e5a",
+      "type": "input",
+      "parentId": "w-000e55",
+      "childrenIds": [],
+      "label": "대상 리소스",
+      "inputType": "select",
+      "attributes": {
+        "options": "전체,로봇,알람,제어,맵,시스템"
+      }
+    },
+    "w-000e5b": {
+      "id": "w-000e5b",
+      "type": "input",
+      "parentId": "w-000e55",
+      "childrenIds": [],
+      "label": "결과",
+      "inputType": "select",
+      "attributes": {
+        "options": "전체,성공,실패,경고"
+      }
+    },
+    "w-000e5c": {
+      "id": "w-000e5c",
+      "type": "button",
+      "parentId": "w-000e55",
+      "childrenIds": [],
+      "label": "조회",
+      "variant": "primary"
+    },
+    "w-000e5d": {
+      "id": "w-000e5d",
+      "type": "button",
+      "parentId": "w-000e55",
+      "childrenIds": [],
+      "label": "초기화",
+      "variant": "secondary"
+    },
+    "w-000e5e": {
+      "id": "w-000e5e",
+      "type": "row",
+      "parentId": "w-000e50",
+      "childrenIds": [
+        "w-000e5f"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000e5f": {
+      "id": "w-000e5f",
+      "type": "button",
+      "parentId": "w-000e5e",
+      "childrenIds": [],
+      "label": "CSV 내보내기",
+      "variant": "primary"
+    },
+    "w-000e60": {
+      "id": "w-000e60",
+      "type": "table",
+      "parentId": "w-000e50",
+      "childrenIds": [],
+      "label": "타임스탬프,사용자,이벤트 유형,대상 리소스,상세 내용,결과,IP 주소",
+      "listRows": 12
+    }
+  }
+}

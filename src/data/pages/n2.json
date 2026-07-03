@@ -1,0 +1,121 @@
+{
+  "pageNodeId": "n2",
+  "pageName": "로그인 화면",
+  "rootId": "w-0006e7",
+  "nodes": {
+    "w-0006e7": {
+      "id": "w-0006e7",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-0006e8"
+      ],
+      "label": "로그인 화면",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-0006e8": {
+      "id": "w-0006e8",
+      "type": "body",
+      "parentId": "w-0006e7",
+      "childrenIds": [
+        "w-0006e9"
+      ]
+    },
+    "w-0006e9": {
+      "id": "w-0006e9",
+      "type": "column",
+      "parentId": "w-0006e8",
+      "childrenIds": [
+        "w-0006ea",
+        "w-0006eb",
+        "w-0006ef"
+      ],
+      "layout": {
+        "gap": 24,
+        "align": "center",
+        "width": 400
+      }
+    },
+    "w-0006ea": {
+      "id": "w-0006ea",
+      "type": "text",
+      "parentId": "w-0006e9",
+      "childrenIds": [],
+      "label": "로그인",
+      "size": "md"
+    },
+    "w-0006eb": {
+      "id": "w-0006eb",
+      "type": "column",
+      "parentId": "w-0006e9",
+      "childrenIds": [
+        "w-0006ec",
+        "w-0006ed",
+        "w-0006ee"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-0006ec": {
+      "id": "w-0006ec",
+      "type": "input",
+      "parentId": "w-0006eb",
+      "childrenIds": [],
+      "label": "이메일"
+    },
+    "w-0006ed": {
+      "id": "w-0006ed",
+      "type": "input",
+      "parentId": "w-0006eb",
+      "childrenIds": [],
+      "label": "비밀번호"
+    },
+    "w-0006ee": {
+      "id": "w-0006ee",
+      "type": "button",
+      "parentId": "w-0006eb",
+      "childrenIds": [],
+      "label": "로그인",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n3"
+      }
+    },
+    "w-0006ef": {
+      "id": "w-0006ef",
+      "type": "row",
+      "parentId": "w-0006e9",
+      "childrenIds": [
+        "w-0006f0",
+        "w-0006f1"
+      ],
+      "layout": {
+        "gap": 8,
+        "justify": "center"
+      }
+    },
+    "w-0006f0": {
+      "id": "w-0006f0",
+      "type": "text",
+      "parentId": "w-0006ef",
+      "childrenIds": [],
+      "label": "계정이 없으신가요?",
+      "size": "sm"
+    },
+    "w-0006f1": {
+      "id": "w-0006f1",
+      "type": "button",
+      "parentId": "w-0006ef",
+      "childrenIds": [],
+      "label": "회원가입",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n2"
+      }
+    }
+  }
+}

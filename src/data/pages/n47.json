@@ -1,0 +1,768 @@
+{
+  "pageNodeId": "n47",
+  "pageName": "현장·구역 관리",
+  "rootId": "w-000dd8",
+  "nodes": {
+    "w-000dd8": {
+      "id": "w-000dd8",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000dd9"
+      ],
+      "label": "현장·구역 관리",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000dd9": {
+      "id": "w-000dd9",
+      "type": "body",
+      "parentId": "w-000dd8",
+      "childrenIds": [
+        "w-000dda",
+        "w-000ddb"
+      ]
+    },
+    "w-000dda": {
+      "id": "w-000dda",
+      "type": "text",
+      "parentId": "w-000dd9",
+      "childrenIds": [],
+      "label": "현장·구역 관리",
+      "size": "md"
+    },
+    "w-000ddb": {
+      "id": "w-000ddb",
+      "type": "row",
+      "parentId": "w-000dd9",
+      "childrenIds": [
+        "w-000ddc",
+        "w-000df7"
+      ],
+      "layout": {
+        "gap": 24,
+        "align": "start"
+      }
+    },
+    "w-000ddc": {
+      "id": "w-000ddc",
+      "type": "column",
+      "parentId": "w-000ddb",
+      "childrenIds": [
+        "w-000ddd",
+        "w-000dde",
+        "w-000de3",
+        "w-000de8",
+        "w-000ded",
+        "w-000df2"
+      ],
+      "layout": {
+        "gap": 16,
+        "width": 320
+      }
+    },
+    "w-000ddd": {
+      "id": "w-000ddd",
+      "type": "text",
+      "parentId": "w-000ddc",
+      "childrenIds": [],
+      "label": "현장 목록",
+      "size": "md"
+    },
+    "w-000dde": {
+      "id": "w-000dde",
+      "type": "box",
+      "parentId": "w-000ddc",
+      "childrenIds": [
+        "w-000ddf",
+        "w-000de2"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000ddf": {
+      "id": "w-000ddf",
+      "type": "row",
+      "parentId": "w-000dde",
+      "childrenIds": [
+        "w-000de0",
+        "w-000de1"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000de0": {
+      "id": "w-000de0",
+      "type": "text",
+      "parentId": "w-000ddf",
+      "childrenIds": [],
+      "label": "현장 A"
+    },
+    "w-000de1": {
+      "id": "w-000de1",
+      "type": "text",
+      "parentId": "w-000ddf",
+      "childrenIds": [],
+      "label": "정상",
+      "size": "sm"
+    },
+    "w-000de2": {
+      "id": "w-000de2",
+      "type": "text",
+      "parentId": "w-000dde",
+      "childrenIds": [],
+      "size": "sm"
+    },
+    "w-000de3": {
+      "id": "w-000de3",
+      "type": "box",
+      "parentId": "w-000ddc",
+      "childrenIds": [
+        "w-000de4",
+        "w-000de7"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000de4": {
+      "id": "w-000de4",
+      "type": "row",
+      "parentId": "w-000de3",
+      "childrenIds": [
+        "w-000de5",
+        "w-000de6"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000de5": {
+      "id": "w-000de5",
+      "type": "text",
+      "parentId": "w-000de4",
+      "childrenIds": [],
+      "label": "현장 B"
+    },
+    "w-000de6": {
+      "id": "w-000de6",
+      "type": "text",
+      "parentId": "w-000de4",
+      "childrenIds": [],
+      "label": "주의",
+      "size": "sm"
+    },
+    "w-000de7": {
+      "id": "w-000de7",
+      "type": "text",
+      "parentId": "w-000de3",
+      "childrenIds": [],
+      "size": "sm"
+    },
+    "w-000de8": {
+      "id": "w-000de8",
+      "type": "box",
+      "parentId": "w-000ddc",
+      "childrenIds": [
+        "w-000de9",
+        "w-000dec"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000de9": {
+      "id": "w-000de9",
+      "type": "row",
+      "parentId": "w-000de8",
+      "childrenIds": [
+        "w-000dea",
+        "w-000deb"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000dea": {
+      "id": "w-000dea",
+      "type": "text",
+      "parentId": "w-000de9",
+      "childrenIds": [],
+      "label": "현장 C"
+    },
+    "w-000deb": {
+      "id": "w-000deb",
+      "type": "text",
+      "parentId": "w-000de9",
+      "childrenIds": [],
+      "label": "정상",
+      "size": "sm"
+    },
+    "w-000dec": {
+      "id": "w-000dec",
+      "type": "text",
+      "parentId": "w-000de8",
+      "childrenIds": [],
+      "size": "sm"
+    },
+    "w-000ded": {
+      "id": "w-000ded",
+      "type": "box",
+      "parentId": "w-000ddc",
+      "childrenIds": [
+        "w-000dee",
+        "w-000df1"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000dee": {
+      "id": "w-000dee",
+      "type": "row",
+      "parentId": "w-000ded",
+      "childrenIds": [
+        "w-000def",
+        "w-000df0"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000def": {
+      "id": "w-000def",
+      "type": "text",
+      "parentId": "w-000dee",
+      "childrenIds": [],
+      "label": "현장 D"
+    },
+    "w-000df0": {
+      "id": "w-000df0",
+      "type": "text",
+      "parentId": "w-000dee",
+      "childrenIds": [],
+      "label": "오프라인",
+      "size": "sm"
+    },
+    "w-000df1": {
+      "id": "w-000df1",
+      "type": "text",
+      "parentId": "w-000ded",
+      "childrenIds": [],
+      "size": "sm"
+    },
+    "w-000df2": {
+      "id": "w-000df2",
+      "type": "box",
+      "parentId": "w-000ddc",
+      "childrenIds": [
+        "w-000df3",
+        "w-000df6"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000df3": {
+      "id": "w-000df3",
+      "type": "row",
+      "parentId": "w-000df2",
+      "childrenIds": [
+        "w-000df4",
+        "w-000df5"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000df4": {
+      "id": "w-000df4",
+      "type": "text",
+      "parentId": "w-000df3",
+      "childrenIds": [],
+      "label": "현장 E"
+    },
+    "w-000df5": {
+      "id": "w-000df5",
+      "type": "text",
+      "parentId": "w-000df3",
+      "childrenIds": [],
+      "label": "위험",
+      "size": "sm"
+    },
+    "w-000df6": {
+      "id": "w-000df6",
+      "type": "text",
+      "parentId": "w-000df2",
+      "childrenIds": [],
+      "size": "sm"
+    },
+    "w-000df7": {
+      "id": "w-000df7",
+      "type": "column",
+      "parentId": "w-000ddb",
+      "childrenIds": [
+        "w-000df8",
+        "w-000e0b"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000df8": {
+      "id": "w-000df8",
+      "type": "row",
+      "parentId": "w-000df7",
+      "childrenIds": [
+        "w-000df9"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000df9": {
+      "id": "w-000df9",
+      "type": "box",
+      "parentId": "w-000df8",
+      "childrenIds": [
+        "w-000dfa",
+        "w-000dfb"
+      ]
+    },
+    "w-000dfa": {
+      "id": "w-000dfa",
+      "type": "text",
+      "parentId": "w-000df9",
+      "childrenIds": [],
+      "label": "구역별 상태 요약",
+      "size": "md"
+    },
+    "w-000dfb": {
+      "id": "w-000dfb",
+      "type": "row",
+      "parentId": "w-000df9",
+      "childrenIds": [
+        "w-000dfc",
+        "w-000dff",
+        "w-000e02",
+        "w-000e05",
+        "w-000e08"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-000dfc": {
+      "id": "w-000dfc",
+      "type": "box",
+      "parentId": "w-000dfb",
+      "childrenIds": [
+        "w-000dfd",
+        "w-000dfe"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000dfd": {
+      "id": "w-000dfd",
+      "type": "text",
+      "parentId": "w-000dfc",
+      "childrenIds": [],
+      "label": "전체 구역",
+      "size": "sm"
+    },
+    "w-000dfe": {
+      "id": "w-000dfe",
+      "type": "text",
+      "parentId": "w-000dfc",
+      "childrenIds": [],
+      "label": "24",
+      "size": "lg"
+    },
+    "w-000dff": {
+      "id": "w-000dff",
+      "type": "box",
+      "parentId": "w-000dfb",
+      "childrenIds": [
+        "w-000e00",
+        "w-000e01"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000e00": {
+      "id": "w-000e00",
+      "type": "text",
+      "parentId": "w-000dff",
+      "childrenIds": [],
+      "label": "정상",
+      "size": "sm"
+    },
+    "w-000e01": {
+      "id": "w-000e01",
+      "type": "text",
+      "parentId": "w-000dff",
+      "childrenIds": [],
+      "label": "18",
+      "size": "lg"
+    },
+    "w-000e02": {
+      "id": "w-000e02",
+      "type": "box",
+      "parentId": "w-000dfb",
+      "childrenIds": [
+        "w-000e03",
+        "w-000e04"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000e03": {
+      "id": "w-000e03",
+      "type": "text",
+      "parentId": "w-000e02",
+      "childrenIds": [],
+      "label": "주의",
+      "size": "sm"
+    },
+    "w-000e04": {
+      "id": "w-000e04",
+      "type": "text",
+      "parentId": "w-000e02",
+      "childrenIds": [],
+      "label": "4",
+      "size": "lg"
+    },
+    "w-000e05": {
+      "id": "w-000e05",
+      "type": "box",
+      "parentId": "w-000dfb",
+      "childrenIds": [
+        "w-000e06",
+        "w-000e07"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000e06": {
+      "id": "w-000e06",
+      "type": "text",
+      "parentId": "w-000e05",
+      "childrenIds": [],
+      "label": "위험",
+      "size": "sm"
+    },
+    "w-000e07": {
+      "id": "w-000e07",
+      "type": "text",
+      "parentId": "w-000e05",
+      "childrenIds": [],
+      "label": "1",
+      "size": "lg"
+    },
+    "w-000e08": {
+      "id": "w-000e08",
+      "type": "box",
+      "parentId": "w-000dfb",
+      "childrenIds": [
+        "w-000e09",
+        "w-000e0a"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000e09": {
+      "id": "w-000e09",
+      "type": "text",
+      "parentId": "w-000e08",
+      "childrenIds": [],
+      "label": "오프라인",
+      "size": "sm"
+    },
+    "w-000e0a": {
+      "id": "w-000e0a",
+      "type": "text",
+      "parentId": "w-000e08",
+      "childrenIds": [],
+      "label": "1",
+      "size": "lg"
+    },
+    "w-000e0b": {
+      "id": "w-000e0b",
+      "type": "row",
+      "parentId": "w-000df7",
+      "childrenIds": [
+        "w-000e0c",
+        "w-000e23"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "start"
+      }
+    },
+    "w-000e0c": {
+      "id": "w-000e0c",
+      "type": "column",
+      "parentId": "w-000e0b",
+      "childrenIds": [
+        "w-000e0d",
+        "w-000e0e"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-000e0d": {
+      "id": "w-000e0d",
+      "type": "text",
+      "parentId": "w-000e0c",
+      "childrenIds": [],
+      "label": "상세 정보",
+      "size": "md"
+    },
+    "w-000e0e": {
+      "id": "w-000e0e",
+      "type": "box",
+      "parentId": "w-000e0c",
+      "childrenIds": [
+        "w-000e0f",
+        "w-000e12",
+        "w-000e15",
+        "w-000e18",
+        "w-000e1b",
+        "w-000e1e",
+        "w-000e21",
+        "w-000e22"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000e0f": {
+      "id": "w-000e0f",
+      "type": "row",
+      "parentId": "w-000e0e",
+      "childrenIds": [
+        "w-000e10",
+        "w-000e11"
+      ],
+      "layout": {
+        "justify": "between"
+      }
+    },
+    "w-000e10": {
+      "id": "w-000e10",
+      "type": "text",
+      "parentId": "w-000e0f",
+      "childrenIds": [],
+      "label": "현장명",
+      "size": "sm"
+    },
+    "w-000e11": {
+      "id": "w-000e11",
+      "type": "text",
+      "parentId": "w-000e0f",
+      "childrenIds": [],
+      "label": "현장 A"
+    },
+    "w-000e12": {
+      "id": "w-000e12",
+      "type": "row",
+      "parentId": "w-000e0e",
+      "childrenIds": [
+        "w-000e13",
+        "w-000e14"
+      ],
+      "layout": {
+        "justify": "between"
+      }
+    },
+    "w-000e13": {
+      "id": "w-000e13",
+      "type": "text",
+      "parentId": "w-000e12",
+      "childrenIds": [],
+      "label": "구역 수",
+      "size": "sm"
+    },
+    "w-000e14": {
+      "id": "w-000e14",
+      "type": "text",
+      "parentId": "w-000e12",
+      "childrenIds": [],
+      "label": "6"
+    },
+    "w-000e15": {
+      "id": "w-000e15",
+      "type": "row",
+      "parentId": "w-000e0e",
+      "childrenIds": [
+        "w-000e16",
+        "w-000e17"
+      ],
+      "layout": {
+        "justify": "between"
+      }
+    },
+    "w-000e16": {
+      "id": "w-000e16",
+      "type": "text",
+      "parentId": "w-000e15",
+      "childrenIds": [],
+      "label": "담당자",
+      "size": "sm"
+    },
+    "w-000e17": {
+      "id": "w-000e17",
+      "type": "text",
+      "parentId": "w-000e15",
+      "childrenIds": []
+    },
+    "w-000e18": {
+      "id": "w-000e18",
+      "type": "row",
+      "parentId": "w-000e0e",
+      "childrenIds": [
+        "w-000e19",
+        "w-000e1a"
+      ],
+      "layout": {
+        "justify": "between"
+      }
+    },
+    "w-000e19": {
+      "id": "w-000e19",
+      "type": "text",
+      "parentId": "w-000e18",
+      "childrenIds": [],
+      "label": "주소",
+      "size": "sm"
+    },
+    "w-000e1a": {
+      "id": "w-000e1a",
+      "type": "text",
+      "parentId": "w-000e18",
+      "childrenIds": []
+    },
+    "w-000e1b": {
+      "id": "w-000e1b",
+      "type": "row",
+      "parentId": "w-000e0e",
+      "childrenIds": [
+        "w-000e1c",
+        "w-000e1d"
+      ],
+      "layout": {
+        "justify": "between"
+      }
+    },
+    "w-000e1c": {
+      "id": "w-000e1c",
+      "type": "text",
+      "parentId": "w-000e1b",
+      "childrenIds": [],
+      "label": "등록일",
+      "size": "sm"
+    },
+    "w-000e1d": {
+      "id": "w-000e1d",
+      "type": "text",
+      "parentId": "w-000e1b",
+      "childrenIds": []
+    },
+    "w-000e1e": {
+      "id": "w-000e1e",
+      "type": "row",
+      "parentId": "w-000e0e",
+      "childrenIds": [
+        "w-000e1f",
+        "w-000e20"
+      ],
+      "layout": {
+        "justify": "between"
+      }
+    },
+    "w-000e1f": {
+      "id": "w-000e1f",
+      "type": "text",
+      "parentId": "w-000e1e",
+      "childrenIds": [],
+      "label": "마지막 갱신",
+      "size": "sm"
+    },
+    "w-000e20": {
+      "id": "w-000e20",
+      "type": "text",
+      "parentId": "w-000e1e",
+      "childrenIds": []
+    },
+    "w-000e21": {
+      "id": "w-000e21",
+      "type": "text",
+      "parentId": "w-000e0e",
+      "childrenIds": [],
+      "label": "구역 목록",
+      "size": "sm"
+    },
+    "w-000e22": {
+      "id": "w-000e22",
+      "type": "table",
+      "parentId": "w-000e0e",
+      "childrenIds": [],
+      "label": "구역명,유형,상태,로봇 수",
+      "listRows": 4
+    },
+    "w-000e23": {
+      "id": "w-000e23",
+      "type": "column",
+      "parentId": "w-000e0b",
+      "childrenIds": [
+        "w-000e24",
+        "w-000e25"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-000e24": {
+      "id": "w-000e24",
+      "type": "text",
+      "parentId": "w-000e23",
+      "childrenIds": [],
+      "label": "최근 변경 이력",
+      "size": "md"
+    },
+    "w-000e25": {
+      "id": "w-000e25",
+      "type": "box",
+      "parentId": "w-000e23",
+      "childrenIds": [
+        "w-000e26"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000e26": {
+      "id": "w-000e26",
+      "type": "table",
+      "parentId": "w-000e25",
+      "childrenIds": [],
+      "label": "일시,대상,변경 내용,처리자",
+      "listRows": 6
+    }
+  }
+}

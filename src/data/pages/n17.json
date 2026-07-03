@@ -1,0 +1,750 @@
+{
+  "pageNodeId": "n17",
+  "pageName": "센서 데이터 수집",
+  "rootId": "w-000a22",
+  "nodes": {
+    "w-000a22": {
+      "id": "w-000a22",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000a23",
+        "w-000a65"
+      ],
+      "label": "센서 데이터 수집",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000a23": {
+      "id": "w-000a23",
+      "type": "body",
+      "parentId": "w-000a22",
+      "childrenIds": [
+        "w-000a24",
+        "w-000a27",
+        "w-000a36",
+        "w-000a46",
+        "w-000a47",
+        "w-000a4d",
+        "w-000a53",
+        "w-000a59",
+        "w-000a5f"
+      ]
+    },
+    "w-000a24": {
+      "id": "w-000a24",
+      "type": "row",
+      "parentId": "w-000a23",
+      "childrenIds": [
+        "w-000a25",
+        "w-000a26"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000a25": {
+      "id": "w-000a25",
+      "type": "button",
+      "parentId": "w-000a24",
+      "childrenIds": [],
+      "label": "장애 티켓 상세로",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n16"
+      }
+    },
+    "w-000a26": {
+      "id": "w-000a26",
+      "type": "text",
+      "parentId": "w-000a24",
+      "childrenIds": [],
+      "label": "센서 데이터 수집",
+      "size": "md"
+    },
+    "w-000a27": {
+      "id": "w-000a27",
+      "type": "box",
+      "parentId": "w-000a23",
+      "childrenIds": [
+        "w-000a28",
+        "w-000a29",
+        "w-000a2d",
+        "w-000a33"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a28": {
+      "id": "w-000a28",
+      "type": "text",
+      "parentId": "w-000a27",
+      "childrenIds": [],
+      "label": "수집 대상 센서 선택",
+      "size": "md"
+    },
+    "w-000a29": {
+      "id": "w-000a29",
+      "type": "row",
+      "parentId": "w-000a27",
+      "childrenIds": [
+        "w-000a2a",
+        "w-000a2b",
+        "w-000a2c"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-000a2a": {
+      "id": "w-000a2a",
+      "type": "input",
+      "parentId": "w-000a29",
+      "childrenIds": [],
+      "label": "로봇 ID",
+      "inputType": "select",
+      "attributes": {
+        "options": "R-001,R-002,R-003,R-004,R-005"
+      }
+    },
+    "w-000a2b": {
+      "id": "w-000a2b",
+      "type": "input",
+      "parentId": "w-000a29",
+      "childrenIds": [],
+      "label": "센서 유형",
+      "inputType": "select",
+      "attributes": {
+        "options": "IMU,LiDAR,카메라,배터리,모터"
+      }
+    },
+    "w-000a2c": {
+      "id": "w-000a2c",
+      "type": "input",
+      "parentId": "w-000a29",
+      "childrenIds": [],
+      "label": "수집 범위",
+      "inputType": "select",
+      "attributes": {
+        "options": "최근 1분,최근 5분,최근 15분,최근 30분"
+      }
+    },
+    "w-000a2d": {
+      "id": "w-000a2d",
+      "type": "row",
+      "parentId": "w-000a27",
+      "childrenIds": [
+        "w-000a2e",
+        "w-000a2f",
+        "w-000a30",
+        "w-000a31",
+        "w-000a32"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000a2e": {
+      "id": "w-000a2e",
+      "type": "input",
+      "parentId": "w-000a2d",
+      "childrenIds": [],
+      "label": "IMU 센서",
+      "inputType": "check",
+      "attributes": {
+        "checked": ""
+      }
+    },
+    "w-000a2f": {
+      "id": "w-000a2f",
+      "type": "input",
+      "parentId": "w-000a2d",
+      "childrenIds": [],
+      "label": "LiDAR 센서",
+      "inputType": "check",
+      "attributes": {
+        "checked": ""
+      }
+    },
+    "w-000a30": {
+      "id": "w-000a30",
+      "type": "input",
+      "parentId": "w-000a2d",
+      "childrenIds": [],
+      "label": "카메라 센서",
+      "inputType": "check"
+    },
+    "w-000a31": {
+      "id": "w-000a31",
+      "type": "input",
+      "parentId": "w-000a2d",
+      "childrenIds": [],
+      "label": "배터리 센서",
+      "inputType": "check",
+      "attributes": {
+        "checked": ""
+      }
+    },
+    "w-000a32": {
+      "id": "w-000a32",
+      "type": "input",
+      "parentId": "w-000a2d",
+      "childrenIds": [],
+      "label": "모터 센서",
+      "inputType": "check"
+    },
+    "w-000a33": {
+      "id": "w-000a33",
+      "type": "row",
+      "parentId": "w-000a27",
+      "childrenIds": [
+        "w-000a34",
+        "w-000a35"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000a34": {
+      "id": "w-000a34",
+      "type": "button",
+      "parentId": "w-000a33",
+      "childrenIds": [],
+      "label": "선택 초기화",
+      "variant": "secondary"
+    },
+    "w-000a35": {
+      "id": "w-000a35",
+      "type": "button",
+      "parentId": "w-000a33",
+      "childrenIds": [],
+      "label": "수동 수집 실행",
+      "variant": "primary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "collect-confirm"
+      }
+    },
+    "w-000a36": {
+      "id": "w-000a36",
+      "type": "box",
+      "parentId": "w-000a23",
+      "childrenIds": [
+        "w-000a37",
+        "w-000a38",
+        "w-000a45"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a37": {
+      "id": "w-000a37",
+      "type": "text",
+      "parentId": "w-000a36",
+      "childrenIds": [],
+      "label": "수집 상태 및 결과",
+      "size": "md"
+    },
+    "w-000a38": {
+      "id": "w-000a38",
+      "type": "row",
+      "parentId": "w-000a36",
+      "childrenIds": [
+        "w-000a39",
+        "w-000a3c",
+        "w-000a3f",
+        "w-000a42"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000a39": {
+      "id": "w-000a39",
+      "type": "box",
+      "parentId": "w-000a38",
+      "childrenIds": [
+        "w-000a3a",
+        "w-000a3b"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a3a": {
+      "id": "w-000a3a",
+      "type": "text",
+      "parentId": "w-000a39",
+      "childrenIds": [],
+      "label": "마지막 수집 시각",
+      "size": "sm"
+    },
+    "w-000a3b": {
+      "id": "w-000a3b",
+      "type": "text",
+      "parentId": "w-000a39",
+      "childrenIds": [],
+      "label": "2025-07-14 09:42:31",
+      "size": "md"
+    },
+    "w-000a3c": {
+      "id": "w-000a3c",
+      "type": "box",
+      "parentId": "w-000a38",
+      "childrenIds": [
+        "w-000a3d",
+        "w-000a3e"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a3d": {
+      "id": "w-000a3d",
+      "type": "text",
+      "parentId": "w-000a3c",
+      "childrenIds": [],
+      "label": "수집 소요 시간",
+      "size": "sm"
+    },
+    "w-000a3e": {
+      "id": "w-000a3e",
+      "type": "text",
+      "parentId": "w-000a3c",
+      "childrenIds": [],
+      "label": "1.4초",
+      "size": "md"
+    },
+    "w-000a3f": {
+      "id": "w-000a3f",
+      "type": "box",
+      "parentId": "w-000a38",
+      "childrenIds": [
+        "w-000a40",
+        "w-000a41"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a40": {
+      "id": "w-000a40",
+      "type": "text",
+      "parentId": "w-000a3f",
+      "childrenIds": [],
+      "label": "수집 성공 센서",
+      "size": "sm"
+    },
+    "w-000a41": {
+      "id": "w-000a41",
+      "type": "text",
+      "parentId": "w-000a3f",
+      "childrenIds": [],
+      "label": "4 / 5",
+      "size": "md"
+    },
+    "w-000a42": {
+      "id": "w-000a42",
+      "type": "box",
+      "parentId": "w-000a38",
+      "childrenIds": [
+        "w-000a43",
+        "w-000a44"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a43": {
+      "id": "w-000a43",
+      "type": "text",
+      "parentId": "w-000a42",
+      "childrenIds": [],
+      "label": "수집 상태",
+      "size": "sm"
+    },
+    "w-000a44": {
+      "id": "w-000a44",
+      "type": "text",
+      "parentId": "w-000a42",
+      "childrenIds": [],
+      "label": "부분 성공",
+      "size": "md"
+    },
+    "w-000a45": {
+      "id": "w-000a45",
+      "type": "text",
+      "parentId": "w-000a36",
+      "childrenIds": [],
+      "label": "IMU, LiDAR, 배터리, 모터 센서 수집 완료 — 카메라 센서 응답 없음 (타임아웃)",
+      "size": "sm"
+    },
+    "w-000a46": {
+      "id": "w-000a46",
+      "type": "text",
+      "parentId": "w-000a23",
+      "childrenIds": [],
+      "label": "최근 수집 이력",
+      "size": "md"
+    },
+    "w-000a47": {
+      "id": "w-000a47",
+      "type": "box",
+      "parentId": "w-000a23",
+      "childrenIds": [
+        "w-000a48"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a48": {
+      "id": "w-000a48",
+      "type": "row",
+      "parentId": "w-000a47",
+      "childrenIds": [
+        "w-000a49",
+        "w-000a4a",
+        "w-000a4b",
+        "w-000a4c"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000a49": {
+      "id": "w-000a49",
+      "type": "text",
+      "parentId": "w-000a48",
+      "childrenIds": [],
+      "label": "2025-07-14 09:42:31",
+      "size": "sm"
+    },
+    "w-000a4a": {
+      "id": "w-000a4a",
+      "type": "text",
+      "parentId": "w-000a48",
+      "childrenIds": [],
+      "label": "R-001",
+      "size": "sm"
+    },
+    "w-000a4b": {
+      "id": "w-000a4b",
+      "type": "text",
+      "parentId": "w-000a48",
+      "childrenIds": [],
+      "label": "IMU, LiDAR, 배터리, 모터",
+      "size": "sm"
+    },
+    "w-000a4c": {
+      "id": "w-000a4c",
+      "type": "text",
+      "parentId": "w-000a48",
+      "childrenIds": [],
+      "label": "부분 성공",
+      "size": "sm"
+    },
+    "w-000a4d": {
+      "id": "w-000a4d",
+      "type": "box",
+      "parentId": "w-000a23",
+      "childrenIds": [
+        "w-000a4e"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a4e": {
+      "id": "w-000a4e",
+      "type": "row",
+      "parentId": "w-000a4d",
+      "childrenIds": [
+        "w-000a4f",
+        "w-000a50",
+        "w-000a51",
+        "w-000a52"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000a4f": {
+      "id": "w-000a4f",
+      "type": "text",
+      "parentId": "w-000a4e",
+      "childrenIds": [],
+      "label": "2025-07-14 08:15:07",
+      "size": "sm"
+    },
+    "w-000a50": {
+      "id": "w-000a50",
+      "type": "text",
+      "parentId": "w-000a4e",
+      "childrenIds": [],
+      "label": "R-001",
+      "size": "sm"
+    },
+    "w-000a51": {
+      "id": "w-000a51",
+      "type": "text",
+      "parentId": "w-000a4e",
+      "childrenIds": [],
+      "label": "IMU, LiDAR, 카메라, 배터리, 모터",
+      "size": "sm"
+    },
+    "w-000a52": {
+      "id": "w-000a52",
+      "type": "text",
+      "parentId": "w-000a4e",
+      "childrenIds": [],
+      "label": "성공",
+      "size": "sm"
+    },
+    "w-000a53": {
+      "id": "w-000a53",
+      "type": "box",
+      "parentId": "w-000a23",
+      "childrenIds": [
+        "w-000a54"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a54": {
+      "id": "w-000a54",
+      "type": "row",
+      "parentId": "w-000a53",
+      "childrenIds": [
+        "w-000a55",
+        "w-000a56",
+        "w-000a57",
+        "w-000a58"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000a55": {
+      "id": "w-000a55",
+      "type": "text",
+      "parentId": "w-000a54",
+      "childrenIds": [],
+      "label": "2025-07-13 23:55:44",
+      "size": "sm"
+    },
+    "w-000a56": {
+      "id": "w-000a56",
+      "type": "text",
+      "parentId": "w-000a54",
+      "childrenIds": [],
+      "label": "R-002",
+      "size": "sm"
+    },
+    "w-000a57": {
+      "id": "w-000a57",
+      "type": "text",
+      "parentId": "w-000a54",
+      "childrenIds": [],
+      "label": "IMU, 배터리",
+      "size": "sm"
+    },
+    "w-000a58": {
+      "id": "w-000a58",
+      "type": "text",
+      "parentId": "w-000a54",
+      "childrenIds": [],
+      "label": "성공",
+      "size": "sm"
+    },
+    "w-000a59": {
+      "id": "w-000a59",
+      "type": "box",
+      "parentId": "w-000a23",
+      "childrenIds": [
+        "w-000a5a"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a5a": {
+      "id": "w-000a5a",
+      "type": "row",
+      "parentId": "w-000a59",
+      "childrenIds": [
+        "w-000a5b",
+        "w-000a5c",
+        "w-000a5d",
+        "w-000a5e"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000a5b": {
+      "id": "w-000a5b",
+      "type": "text",
+      "parentId": "w-000a5a",
+      "childrenIds": [],
+      "label": "2025-07-13 18:30:21",
+      "size": "sm"
+    },
+    "w-000a5c": {
+      "id": "w-000a5c",
+      "type": "text",
+      "parentId": "w-000a5a",
+      "childrenIds": [],
+      "label": "R-003",
+      "size": "sm"
+    },
+    "w-000a5d": {
+      "id": "w-000a5d",
+      "type": "text",
+      "parentId": "w-000a5a",
+      "childrenIds": [],
+      "label": "LiDAR, 모터",
+      "size": "sm"
+    },
+    "w-000a5e": {
+      "id": "w-000a5e",
+      "type": "text",
+      "parentId": "w-000a5a",
+      "childrenIds": [],
+      "label": "실패",
+      "size": "sm"
+    },
+    "w-000a5f": {
+      "id": "w-000a5f",
+      "type": "box",
+      "parentId": "w-000a23",
+      "childrenIds": [
+        "w-000a60"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a60": {
+      "id": "w-000a60",
+      "type": "row",
+      "parentId": "w-000a5f",
+      "childrenIds": [
+        "w-000a61",
+        "w-000a62",
+        "w-000a63",
+        "w-000a64"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000a61": {
+      "id": "w-000a61",
+      "type": "text",
+      "parentId": "w-000a60",
+      "childrenIds": [],
+      "label": "2025-07-13 14:12:09",
+      "size": "sm"
+    },
+    "w-000a62": {
+      "id": "w-000a62",
+      "type": "text",
+      "parentId": "w-000a60",
+      "childrenIds": [],
+      "label": "R-001",
+      "size": "sm"
+    },
+    "w-000a63": {
+      "id": "w-000a63",
+      "type": "text",
+      "parentId": "w-000a60",
+      "childrenIds": [],
+      "label": "전체 센서",
+      "size": "sm"
+    },
+    "w-000a64": {
+      "id": "w-000a64",
+      "type": "text",
+      "parentId": "w-000a60",
+      "childrenIds": [],
+      "label": "성공",
+      "size": "sm"
+    },
+    "w-000a65": {
+      "id": "w-000a65",
+      "type": "overlay",
+      "parentId": "w-000a22",
+      "childrenIds": [
+        "w-000a66",
+        "w-000a67",
+        "w-000a68"
+      ],
+      "overlayId": "collect-confirm"
+    },
+    "w-000a66": {
+      "id": "w-000a66",
+      "type": "text",
+      "parentId": "w-000a65",
+      "childrenIds": [],
+      "label": "수동 수집 실행 확인",
+      "size": "md"
+    },
+    "w-000a67": {
+      "id": "w-000a67",
+      "type": "text",
+      "parentId": "w-000a65",
+      "childrenIds": [],
+      "label": "선택한 센서에 대해 데이터 수집을 즉시 실행합니다. 수집 중에는 해당 로봇의 일부 센서 응답이 지연될 수 있습니다.",
+      "size": "sm"
+    },
+    "w-000a68": {
+      "id": "w-000a68",
+      "type": "row",
+      "parentId": "w-000a65",
+      "childrenIds": [
+        "w-000a69",
+        "w-000a6a"
+      ],
+      "layout": {
+        "gap": 8,
+        "justify": "end"
+      }
+    },
+    "w-000a69": {
+      "id": "w-000a69",
+      "type": "button",
+      "parentId": "w-000a68",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000a6a": {
+      "id": "w-000a6a",
+      "type": "button",
+      "parentId": "w-000a68",
+      "childrenIds": [],
+      "label": "수집 실행",
+      "variant": "primary",
+      "action": {
+        "type": "close"
+      }
+    }
+  }
+}

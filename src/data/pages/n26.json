@@ -1,0 +1,814 @@
+{
+  "pageNodeId": "n26",
+  "pageName": "수동 조이스틱 제어",
+  "rootId": "w-000b23",
+  "nodes": {
+    "w-000b23": {
+      "id": "w-000b23",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000b24",
+        "w-000b5e",
+        "w-000b65",
+        "w-000b6c"
+      ],
+      "label": "수동 조이스틱 제어",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000b24": {
+      "id": "w-000b24",
+      "type": "body",
+      "parentId": "w-000b23",
+      "childrenIds": [
+        "w-000b25",
+        "w-000b29",
+        "w-000b5d"
+      ]
+    },
+    "w-000b25": {
+      "id": "w-000b25",
+      "type": "row",
+      "parentId": "w-000b24",
+      "childrenIds": [
+        "w-000b26",
+        "w-000b27",
+        "w-000b28"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000b26": {
+      "id": "w-000b26",
+      "type": "text",
+      "parentId": "w-000b25",
+      "childrenIds": [],
+      "label": "수동 조이스틱 제어",
+      "size": "md"
+    },
+    "w-000b27": {
+      "id": "w-000b27",
+      "type": "spacer",
+      "parentId": "w-000b25",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000b28": {
+      "id": "w-000b28",
+      "type": "button",
+      "parentId": "w-000b25",
+      "childrenIds": [],
+      "label": "비상 정지",
+      "variant": "danger",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "emergency-stop"
+      }
+    },
+    "w-000b29": {
+      "id": "w-000b29",
+      "type": "row",
+      "parentId": "w-000b24",
+      "childrenIds": [
+        "w-000b2a",
+        "w-000b4c"
+      ],
+      "layout": {
+        "gap": 24,
+        "align": "start"
+      }
+    },
+    "w-000b2a": {
+      "id": "w-000b2a",
+      "type": "column",
+      "parentId": "w-000b29",
+      "childrenIds": [
+        "w-000b2b",
+        "w-000b3a",
+        "w-000b45"
+      ],
+      "layout": {
+        "gap": 16,
+        "width": 480
+      }
+    },
+    "w-000b2b": {
+      "id": "w-000b2b",
+      "type": "box",
+      "parentId": "w-000b2a",
+      "childrenIds": [
+        "w-000b2c",
+        "w-000b2d"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000b2c": {
+      "id": "w-000b2c",
+      "type": "text",
+      "parentId": "w-000b2b",
+      "childrenIds": [],
+      "label": "주행 상태",
+      "size": "md"
+    },
+    "w-000b2d": {
+      "id": "w-000b2d",
+      "type": "row",
+      "parentId": "w-000b2b",
+      "childrenIds": [
+        "w-000b2e",
+        "w-000b31",
+        "w-000b34",
+        "w-000b37"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-000b2e": {
+      "id": "w-000b2e",
+      "type": "column",
+      "parentId": "w-000b2d",
+      "childrenIds": [
+        "w-000b2f",
+        "w-000b30"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-000b2f": {
+      "id": "w-000b2f",
+      "type": "text",
+      "parentId": "w-000b2e",
+      "childrenIds": [],
+      "label": "현재 상태",
+      "size": "sm"
+    },
+    "w-000b30": {
+      "id": "w-000b30",
+      "type": "text",
+      "parentId": "w-000b2e",
+      "childrenIds": [],
+      "label": "주행 중"
+    },
+    "w-000b31": {
+      "id": "w-000b31",
+      "type": "column",
+      "parentId": "w-000b2d",
+      "childrenIds": [
+        "w-000b32",
+        "w-000b33"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-000b32": {
+      "id": "w-000b32",
+      "type": "text",
+      "parentId": "w-000b31",
+      "childrenIds": [],
+      "label": "진행 방향",
+      "size": "sm"
+    },
+    "w-000b33": {
+      "id": "w-000b33",
+      "type": "text",
+      "parentId": "w-000b31",
+      "childrenIds": [],
+      "label": "전진"
+    },
+    "w-000b34": {
+      "id": "w-000b34",
+      "type": "column",
+      "parentId": "w-000b2d",
+      "childrenIds": [
+        "w-000b35",
+        "w-000b36"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-000b35": {
+      "id": "w-000b35",
+      "type": "text",
+      "parentId": "w-000b34",
+      "childrenIds": [],
+      "label": "현재 속도",
+      "size": "sm"
+    },
+    "w-000b36": {
+      "id": "w-000b36",
+      "type": "text",
+      "parentId": "w-000b34",
+      "childrenIds": [],
+      "label": "1.2 m/s"
+    },
+    "w-000b37": {
+      "id": "w-000b37",
+      "type": "column",
+      "parentId": "w-000b2d",
+      "childrenIds": [
+        "w-000b38",
+        "w-000b39"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-000b38": {
+      "id": "w-000b38",
+      "type": "text",
+      "parentId": "w-000b37",
+      "childrenIds": [],
+      "label": "제어 모드",
+      "size": "sm"
+    },
+    "w-000b39": {
+      "id": "w-000b39",
+      "type": "text",
+      "parentId": "w-000b37",
+      "childrenIds": [],
+      "label": "수동"
+    },
+    "w-000b3a": {
+      "id": "w-000b3a",
+      "type": "box",
+      "parentId": "w-000b2a",
+      "childrenIds": [
+        "w-000b3b",
+        "w-000b3c"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000b3b": {
+      "id": "w-000b3b",
+      "type": "text",
+      "parentId": "w-000b3a",
+      "childrenIds": [],
+      "label": "조이스틱 방향 제어",
+      "size": "md"
+    },
+    "w-000b3c": {
+      "id": "w-000b3c",
+      "type": "column",
+      "parentId": "w-000b3a",
+      "childrenIds": [
+        "w-000b3d",
+        "w-000b3f",
+        "w-000b43"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000b3d": {
+      "id": "w-000b3d",
+      "type": "row",
+      "parentId": "w-000b3c",
+      "childrenIds": [
+        "w-000b3e"
+      ],
+      "layout": {
+        "gap": 8,
+        "justify": "center"
+      }
+    },
+    "w-000b3e": {
+      "id": "w-000b3e",
+      "type": "button",
+      "parentId": "w-000b3d",
+      "childrenIds": [],
+      "label": "↑ 전진",
+      "variant": "primary"
+    },
+    "w-000b3f": {
+      "id": "w-000b3f",
+      "type": "row",
+      "parentId": "w-000b3c",
+      "childrenIds": [
+        "w-000b40",
+        "w-000b41",
+        "w-000b42"
+      ],
+      "layout": {
+        "gap": 8,
+        "justify": "center"
+      }
+    },
+    "w-000b40": {
+      "id": "w-000b40",
+      "type": "button",
+      "parentId": "w-000b3f",
+      "childrenIds": [],
+      "label": "← 좌회전",
+      "variant": "primary"
+    },
+    "w-000b41": {
+      "id": "w-000b41",
+      "type": "button",
+      "parentId": "w-000b3f",
+      "childrenIds": [],
+      "label": "■ 정지",
+      "variant": "secondary"
+    },
+    "w-000b42": {
+      "id": "w-000b42",
+      "type": "button",
+      "parentId": "w-000b3f",
+      "childrenIds": [],
+      "label": "→ 우회전",
+      "variant": "primary"
+    },
+    "w-000b43": {
+      "id": "w-000b43",
+      "type": "row",
+      "parentId": "w-000b3c",
+      "childrenIds": [
+        "w-000b44"
+      ],
+      "layout": {
+        "gap": 8,
+        "justify": "center"
+      }
+    },
+    "w-000b44": {
+      "id": "w-000b44",
+      "type": "button",
+      "parentId": "w-000b43",
+      "childrenIds": [],
+      "label": "↓ 후진",
+      "variant": "primary"
+    },
+    "w-000b45": {
+      "id": "w-000b45",
+      "type": "box",
+      "parentId": "w-000b2a",
+      "childrenIds": [
+        "w-000b46",
+        "w-000b47",
+        "w-000b48",
+        "w-000b49"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000b46": {
+      "id": "w-000b46",
+      "type": "text",
+      "parentId": "w-000b45",
+      "childrenIds": [],
+      "label": "미션 개입 상태",
+      "size": "md"
+    },
+    "w-000b47": {
+      "id": "w-000b47",
+      "type": "text",
+      "parentId": "w-000b45",
+      "childrenIds": [],
+      "label": "현재 자율 미션이 일시 중단되었습니다.",
+      "size": "sm"
+    },
+    "w-000b48": {
+      "id": "w-000b48",
+      "type": "text",
+      "parentId": "w-000b45",
+      "childrenIds": [],
+      "label": "수동 제어 종료 시 미션이 재개됩니다.",
+      "size": "sm"
+    },
+    "w-000b49": {
+      "id": "w-000b49",
+      "type": "row",
+      "parentId": "w-000b45",
+      "childrenIds": [
+        "w-000b4a",
+        "w-000b4b"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000b4a": {
+      "id": "w-000b4a",
+      "type": "text",
+      "parentId": "w-000b49",
+      "childrenIds": [],
+      "label": "개입 유형",
+      "size": "sm"
+    },
+    "w-000b4b": {
+      "id": "w-000b4b",
+      "type": "text",
+      "parentId": "w-000b49",
+      "childrenIds": [],
+      "label": "조이스틱 수동 오버라이드"
+    },
+    "w-000b4c": {
+      "id": "w-000b4c",
+      "type": "column",
+      "parentId": "w-000b29",
+      "childrenIds": [
+        "w-000b4d",
+        "w-000b52",
+        "w-000b58"
+      ],
+      "layout": {
+        "gap": 16,
+        "width": 360
+      }
+    },
+    "w-000b4d": {
+      "id": "w-000b4d",
+      "type": "box",
+      "parentId": "w-000b4c",
+      "childrenIds": [
+        "w-000b4e",
+        "w-000b4f",
+        "w-000b50",
+        "w-000b51"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000b4e": {
+      "id": "w-000b4e",
+      "type": "text",
+      "parentId": "w-000b4d",
+      "childrenIds": [],
+      "label": "속도 조절",
+      "size": "md"
+    },
+    "w-000b4f": {
+      "id": "w-000b4f",
+      "type": "input",
+      "parentId": "w-000b4d",
+      "childrenIds": [],
+      "label": "최대 속도 (m/s)",
+      "inputType": "select",
+      "attributes": {
+        "options": "0.5,1.0,1.5,2.0,2.5,3.0"
+      }
+    },
+    "w-000b50": {
+      "id": "w-000b50",
+      "type": "input",
+      "parentId": "w-000b4d",
+      "childrenIds": [],
+      "label": "가속도 (m/s²)",
+      "inputType": "select",
+      "attributes": {
+        "options": "0.2,0.5,0.8,1.0,1.5"
+      }
+    },
+    "w-000b51": {
+      "id": "w-000b51",
+      "type": "input",
+      "parentId": "w-000b4d",
+      "childrenIds": [],
+      "label": "회전 속도 (rad/s)",
+      "inputType": "select",
+      "attributes": {
+        "options": "0.3,0.5,0.8,1.0"
+      }
+    },
+    "w-000b52": {
+      "id": "w-000b52",
+      "type": "box",
+      "parentId": "w-000b4c",
+      "childrenIds": [
+        "w-000b53",
+        "w-000b54",
+        "w-000b55"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000b53": {
+      "id": "w-000b53",
+      "type": "text",
+      "parentId": "w-000b52",
+      "childrenIds": [],
+      "label": "안전 제어",
+      "size": "md"
+    },
+    "w-000b54": {
+      "id": "w-000b54",
+      "type": "text",
+      "parentId": "w-000b52",
+      "childrenIds": [],
+      "label": "로봇을 완전히 정지시키거나 정지 상태를 해제합니다.",
+      "size": "sm"
+    },
+    "w-000b55": {
+      "id": "w-000b55",
+      "type": "column",
+      "parentId": "w-000b52",
+      "childrenIds": [
+        "w-000b56",
+        "w-000b57"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-000b56": {
+      "id": "w-000b56",
+      "type": "button",
+      "parentId": "w-000b55",
+      "childrenIds": [],
+      "label": "정지 해제 / 재시작",
+      "variant": "primary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "restart-confirm"
+      }
+    },
+    "w-000b57": {
+      "id": "w-000b57",
+      "type": "button",
+      "parentId": "w-000b55",
+      "childrenIds": [],
+      "label": "소프트 정지",
+      "variant": "secondary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "soft-stop"
+      }
+    },
+    "w-000b58": {
+      "id": "w-000b58",
+      "type": "box",
+      "parentId": "w-000b4c",
+      "childrenIds": [
+        "w-000b59",
+        "w-000b5a",
+        "w-000b5b",
+        "w-000b5c"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000b59": {
+      "id": "w-000b59",
+      "type": "text",
+      "parentId": "w-000b58",
+      "childrenIds": [],
+      "label": "제어 주의사항",
+      "size": "md"
+    },
+    "w-000b5a": {
+      "id": "w-000b5a",
+      "type": "text",
+      "parentId": "w-000b58",
+      "childrenIds": [],
+      "label": "수동 조작 중에는 로봇 주변 안전 구역을 확보하십시오.",
+      "size": "sm"
+    },
+    "w-000b5b": {
+      "id": "w-000b5b",
+      "type": "text",
+      "parentId": "w-000b58",
+      "childrenIds": [],
+      "label": "비상 정지 후 재시작 전 반드시 장애물 여부를 확인하십시오.",
+      "size": "sm"
+    },
+    "w-000b5c": {
+      "id": "w-000b5c",
+      "type": "text",
+      "parentId": "w-000b58",
+      "childrenIds": [],
+      "label": "속도 2.0 m/s 초과 시 주변 인원 대피를 먼저 진행하십시오.",
+      "size": "sm"
+    },
+    "w-000b5d": {
+      "id": "w-000b5d",
+      "type": "button",
+      "parentId": "w-000b24",
+      "childrenIds": [],
+      "label": "이전 화면으로 돌아가기",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n23"
+      }
+    },
+    "w-000b5e": {
+      "id": "w-000b5e",
+      "type": "overlay",
+      "parentId": "w-000b23",
+      "childrenIds": [
+        "w-000b5f",
+        "w-000b60",
+        "w-000b61",
+        "w-000b62"
+      ],
+      "overlayId": "emergency-stop",
+      "overlayOpen": true
+    },
+    "w-000b5f": {
+      "id": "w-000b5f",
+      "type": "text",
+      "parentId": "w-000b5e",
+      "childrenIds": [],
+      "label": "비상 정지 실행",
+      "size": "md"
+    },
+    "w-000b60": {
+      "id": "w-000b60",
+      "type": "text",
+      "parentId": "w-000b5e",
+      "childrenIds": [],
+      "label": "로봇이 즉시 정지됩니다. 현재 미션은 중단되며 수동으로 재시작해야 합니다.",
+      "size": "sm"
+    },
+    "w-000b61": {
+      "id": "w-000b61",
+      "type": "text",
+      "parentId": "w-000b5e",
+      "childrenIds": [],
+      "label": "주변 인원 및 장애물을 반드시 확인한 후 실행하십시오.",
+      "size": "sm"
+    },
+    "w-000b62": {
+      "id": "w-000b62",
+      "type": "row",
+      "parentId": "w-000b5e",
+      "childrenIds": [
+        "w-000b63",
+        "w-000b64"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000b63": {
+      "id": "w-000b63",
+      "type": "button",
+      "parentId": "w-000b62",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000b64": {
+      "id": "w-000b64",
+      "type": "button",
+      "parentId": "w-000b62",
+      "childrenIds": [],
+      "label": "비상 정지 실행",
+      "variant": "danger",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000b65": {
+      "id": "w-000b65",
+      "type": "overlay",
+      "parentId": "w-000b23",
+      "childrenIds": [
+        "w-000b66",
+        "w-000b67",
+        "w-000b68",
+        "w-000b69"
+      ],
+      "overlayId": "restart-confirm"
+    },
+    "w-000b66": {
+      "id": "w-000b66",
+      "type": "text",
+      "parentId": "w-000b65",
+      "childrenIds": [],
+      "label": "정지 해제 및 재시작",
+      "size": "md"
+    },
+    "w-000b67": {
+      "id": "w-000b67",
+      "type": "text",
+      "parentId": "w-000b65",
+      "childrenIds": [],
+      "label": "로봇 주변 안전 구역이 확보되었는지 확인하셨습니까?",
+      "size": "sm"
+    },
+    "w-000b68": {
+      "id": "w-000b68",
+      "type": "text",
+      "parentId": "w-000b65",
+      "childrenIds": [],
+      "label": "확인 후 재시작 버튼을 누르면 수동 제어가 재개됩니다.",
+      "size": "sm"
+    },
+    "w-000b69": {
+      "id": "w-000b69",
+      "type": "row",
+      "parentId": "w-000b65",
+      "childrenIds": [
+        "w-000b6a",
+        "w-000b6b"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000b6a": {
+      "id": "w-000b6a",
+      "type": "button",
+      "parentId": "w-000b69",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000b6b": {
+      "id": "w-000b6b",
+      "type": "button",
+      "parentId": "w-000b69",
+      "childrenIds": [],
+      "label": "재시작 확인",
+      "variant": "primary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000b6c": {
+      "id": "w-000b6c",
+      "type": "overlay",
+      "parentId": "w-000b23",
+      "childrenIds": [
+        "w-000b6d",
+        "w-000b6e",
+        "w-000b6f"
+      ],
+      "overlayId": "soft-stop"
+    },
+    "w-000b6d": {
+      "id": "w-000b6d",
+      "type": "text",
+      "parentId": "w-000b6c",
+      "childrenIds": [],
+      "label": "소프트 정지 실행",
+      "size": "md"
+    },
+    "w-000b6e": {
+      "id": "w-000b6e",
+      "type": "text",
+      "parentId": "w-000b6c",
+      "childrenIds": [],
+      "label": "로봇이 감속하며 안전하게 정지합니다. 현재 위치를 유지합니다.",
+      "size": "sm"
+    },
+    "w-000b6f": {
+      "id": "w-000b6f",
+      "type": "row",
+      "parentId": "w-000b6c",
+      "childrenIds": [
+        "w-000b70",
+        "w-000b71"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000b70": {
+      "id": "w-000b70",
+      "type": "button",
+      "parentId": "w-000b6f",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000b71": {
+      "id": "w-000b71",
+      "type": "button",
+      "parentId": "w-000b6f",
+      "childrenIds": [],
+      "label": "정지 실행",
+      "variant": "primary",
+      "action": {
+        "type": "close"
+      }
+    }
+  }
+}

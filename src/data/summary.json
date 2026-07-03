@@ -1,0 +1,266 @@
+{
+  "versionId": "d39a599e-168b-4e13-bcaa-06487053dd8b",
+  "device": "desktop",
+  "pages": [
+    {
+      "pageNodeId": "n2",
+      "pageName": "로그인 화면",
+      "slots": [
+        "body(1)"
+      ],
+      "totalNodes": 11
+    },
+    {
+      "pageNodeId": "n3",
+      "pageName": "역할 선택/인증",
+      "slots": [
+        "body(7)"
+      ],
+      "totalNodes": 27
+    },
+    {
+      "pageNodeId": "n6",
+      "pageName": "통합 관제 대시보드",
+      "slots": [
+        "body(4)"
+      ],
+      "totalNodes": 159
+    },
+    {
+      "pageNodeId": "n7",
+      "pageName": "로봇 목록/그리드",
+      "slots": [
+        "body(10)"
+      ],
+      "totalNodes": 122
+    },
+    {
+      "pageNodeId": "n8",
+      "pageName": "지도 기반 실시간 뷰",
+      "slots": [
+        "body(2)"
+      ],
+      "totalNodes": 75
+    },
+    {
+      "pageNodeId": "n9",
+      "pageName": "로봇 상세 상태 패널",
+      "slots": [
+        "body(3)"
+      ],
+      "totalNodes": 80
+    },
+    {
+      "pageNodeId": "n13",
+      "pageName": "알람·장애 관리",
+      "slots": [
+        "body(4)"
+      ],
+      "totalNodes": 94
+    },
+    {
+      "pageNodeId": "n14",
+      "pageName": "실시간 알람 수신",
+      "slots": [
+        "body(4)"
+      ],
+      "totalNodes": 78
+    },
+    {
+      "pageNodeId": "n15",
+      "pageName": "알람/장애 이력 조회",
+      "slots": [
+        "body(4)"
+      ],
+      "totalNodes": 84
+    },
+    {
+      "pageNodeId": "n16",
+      "pageName": "장애 티켓 상세",
+      "slots": [
+        "body(2)"
+      ],
+      "totalNodes": 82
+    },
+    {
+      "pageNodeId": "n17",
+      "pageName": "센서 데이터 수집",
+      "slots": [
+        "body(9)",
+        "overlay(3)"
+      ],
+      "totalNodes": 73
+    },
+    {
+      "pageNodeId": "n23",
+      "pageName": "원격 제어",
+      "slots": [
+        "body(4)",
+        "overlay(4)",
+        "overlay(3)",
+        "overlay(4)",
+        "overlay(4)"
+      ],
+      "totalNodes": 121
+    },
+    {
+      "pageNodeId": "n24",
+      "pageName": "비상/일반 정지",
+      "slots": [
+        "body(2)",
+        "overlay(5)",
+        "overlay(5)"
+      ],
+      "totalNodes": 63
+    },
+    {
+      "pageNodeId": "n25",
+      "pageName": "재시작 제어",
+      "slots": [
+        "body(2)",
+        "overlay(4)"
+      ],
+      "totalNodes": 42
+    },
+    {
+      "pageNodeId": "n26",
+      "pageName": "수동 조이스틱 제어",
+      "slots": [
+        "body(3)",
+        "overlay(4)",
+        "overlay(4)",
+        "overlay(3)"
+      ],
+      "totalNodes": 79
+    },
+    {
+      "pageNodeId": "n27",
+      "pageName": "미션 개입",
+      "slots": [
+        "body(6)",
+        "overlay(4)",
+        "overlay(4)",
+        "overlay(4)"
+      ],
+      "totalNodes": 74
+    },
+    {
+      "pageNodeId": "n33",
+      "pageName": "맵 관리",
+      "slots": [
+        "body(7)"
+      ],
+      "totalNodes": 76
+    },
+    {
+      "pageNodeId": "n34",
+      "pageName": "맵 목록",
+      "slots": [
+        "body(7)"
+      ],
+      "totalNodes": 56
+    },
+    {
+      "pageNodeId": "n35",
+      "pageName": "맵 생성/가져오기",
+      "slots": [
+        "body(3)"
+      ],
+      "totalNodes": 22
+    },
+    {
+      "pageNodeId": "n36",
+      "pageName": "맵 편집기",
+      "slots": [
+        "body(2)"
+      ],
+      "totalNodes": 40
+    },
+    {
+      "pageNodeId": "n37",
+      "pageName": "맵 버전/배포 관리",
+      "slots": [
+        "body(8)",
+        "overlay(4)",
+        "overlay(4)"
+      ],
+      "totalNodes": 65
+    },
+    {
+      "pageNodeId": "n38",
+      "pageName": "경로/목적지 설정",
+      "slots": [
+        "body(2)"
+      ],
+      "totalNodes": 48
+    },
+    {
+      "pageNodeId": "n43",
+      "pageName": "시스템 관리",
+      "slots": [
+        "body(7)"
+      ],
+      "totalNodes": 83
+    },
+    {
+      "pageNodeId": "n44",
+      "pageName": "사용자 계정 관리",
+      "slots": [
+        "body(7)",
+        "overlay(8)",
+        "overlay(6)",
+        "overlay(3)"
+      ],
+      "totalNodes": 83
+    },
+    {
+      "pageNodeId": "n45",
+      "pageName": "역할/권한(RBAC) 설정",
+      "slots": [
+        "body(2)"
+      ],
+      "totalNodes": 67
+    },
+    {
+      "pageNodeId": "n46",
+      "pageName": "로봇 등록/수정",
+      "slots": [
+        "body(2)",
+        "overlay(3)"
+      ],
+      "totalNodes": 40
+    },
+    {
+      "pageNodeId": "n47",
+      "pageName": "현장·구역 관리",
+      "slots": [
+        "body(2)"
+      ],
+      "totalNodes": 79
+    },
+    {
+      "pageNodeId": "n48",
+      "pageName": "연동 헬스체크",
+      "slots": [
+        "body(15)"
+      ],
+      "totalNodes": 102
+    },
+    {
+      "pageNodeId": "n49",
+      "pageName": "KPI 분석 대시보드",
+      "slots": [
+        "body(4)"
+      ],
+      "totalNodes": 66
+    },
+    {
+      "pageNodeId": "n50",
+      "pageName": "감사 로그 조회",
+      "slots": [
+        "body(4)"
+      ],
+      "totalNodes": 18
+    }
+  ]
+}

@@ -1,0 +1,445 @@
+{
+  "pageNodeId": "n46",
+  "pageName": "로봇 등록/수정",
+  "rootId": "w-000e27",
+  "nodes": {
+    "w-000e27": {
+      "id": "w-000e27",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000e28",
+        "w-000e49"
+      ],
+      "label": "로봇 등록/수정",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000e28": {
+      "id": "w-000e28",
+      "type": "body",
+      "parentId": "w-000e27",
+      "childrenIds": [
+        "w-000e29",
+        "w-000e2a"
+      ]
+    },
+    "w-000e29": {
+      "id": "w-000e29",
+      "type": "text",
+      "parentId": "w-000e28",
+      "childrenIds": [],
+      "label": "로봇 등록 / 수정",
+      "size": "md"
+    },
+    "w-000e2a": {
+      "id": "w-000e2a",
+      "type": "column",
+      "parentId": "w-000e28",
+      "childrenIds": [
+        "w-000e2b",
+        "w-000e3a",
+        "w-000e44"
+      ],
+      "layout": {
+        "gap": 20
+      }
+    },
+    "w-000e2b": {
+      "id": "w-000e2b",
+      "type": "box",
+      "parentId": "w-000e2a",
+      "childrenIds": [
+        "w-000e2c",
+        "w-000e2d"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000e2c": {
+      "id": "w-000e2c",
+      "type": "text",
+      "parentId": "w-000e2b",
+      "childrenIds": [],
+      "label": "기본 정보",
+      "size": "md"
+    },
+    "w-000e2d": {
+      "id": "w-000e2d",
+      "type": "column",
+      "parentId": "w-000e2b",
+      "childrenIds": [
+        "w-000e2e",
+        "w-000e31",
+        "w-000e34",
+        "w-000e37"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-000e2e": {
+      "id": "w-000e2e",
+      "type": "row",
+      "parentId": "w-000e2d",
+      "childrenIds": [
+        "w-000e2f",
+        "w-000e30"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000e2f": {
+      "id": "w-000e2f",
+      "type": "input",
+      "parentId": "w-000e2e",
+      "childrenIds": [],
+      "label": "로봇 ID",
+      "layout": {
+        "width": 320
+      }
+    },
+    "w-000e30": {
+      "id": "w-000e30",
+      "type": "input",
+      "parentId": "w-000e2e",
+      "childrenIds": [],
+      "label": "로봇 이름",
+      "layout": {
+        "width": 320
+      }
+    },
+    "w-000e31": {
+      "id": "w-000e31",
+      "type": "row",
+      "parentId": "w-000e2d",
+      "childrenIds": [
+        "w-000e32",
+        "w-000e33"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000e32": {
+      "id": "w-000e32",
+      "type": "input",
+      "parentId": "w-000e31",
+      "childrenIds": [],
+      "label": "모델명",
+      "layout": {
+        "width": 320
+      }
+    },
+    "w-000e33": {
+      "id": "w-000e33",
+      "type": "input",
+      "parentId": "w-000e31",
+      "childrenIds": [],
+      "label": "제조사",
+      "layout": {
+        "width": 320
+      }
+    },
+    "w-000e34": {
+      "id": "w-000e34",
+      "type": "row",
+      "parentId": "w-000e2d",
+      "childrenIds": [
+        "w-000e35",
+        "w-000e36"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000e35": {
+      "id": "w-000e35",
+      "type": "input",
+      "parentId": "w-000e34",
+      "childrenIds": [],
+      "label": "시리얼 번호",
+      "layout": {
+        "width": 320
+      }
+    },
+    "w-000e36": {
+      "id": "w-000e36",
+      "type": "input",
+      "parentId": "w-000e34",
+      "childrenIds": [],
+      "label": "펌웨어 버전",
+      "layout": {
+        "width": 320
+      }
+    },
+    "w-000e37": {
+      "id": "w-000e37",
+      "type": "row",
+      "parentId": "w-000e2d",
+      "childrenIds": [
+        "w-000e38",
+        "w-000e39"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000e38": {
+      "id": "w-000e38",
+      "type": "input",
+      "parentId": "w-000e37",
+      "childrenIds": [],
+      "label": "설치 위치",
+      "layout": {
+        "width": 320
+      }
+    },
+    "w-000e39": {
+      "id": "w-000e39",
+      "type": "input",
+      "parentId": "w-000e37",
+      "childrenIds": [],
+      "label": "담당 구역",
+      "layout": {
+        "width": 320
+      }
+    },
+    "w-000e3a": {
+      "id": "w-000e3a",
+      "type": "box",
+      "parentId": "w-000e2a",
+      "childrenIds": [
+        "w-000e3b",
+        "w-000e3c"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000e3b": {
+      "id": "w-000e3b",
+      "type": "text",
+      "parentId": "w-000e3a",
+      "childrenIds": [],
+      "label": "운용 설정",
+      "size": "md"
+    },
+    "w-000e3c": {
+      "id": "w-000e3c",
+      "type": "column",
+      "parentId": "w-000e3a",
+      "childrenIds": [
+        "w-000e3d",
+        "w-000e40",
+        "w-000e43"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-000e3d": {
+      "id": "w-000e3d",
+      "type": "row",
+      "parentId": "w-000e3c",
+      "childrenIds": [
+        "w-000e3e",
+        "w-000e3f"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000e3e": {
+      "id": "w-000e3e",
+      "type": "input",
+      "parentId": "w-000e3d",
+      "childrenIds": [],
+      "label": "운용 상태",
+      "layout": {
+        "width": 320
+      },
+      "inputType": "select",
+      "attributes": {
+        "options": "활성,비활성,점검 중"
+      }
+    },
+    "w-000e3f": {
+      "id": "w-000e3f",
+      "type": "input",
+      "parentId": "w-000e3d",
+      "childrenIds": [],
+      "label": "배치 유형",
+      "layout": {
+        "width": 320
+      },
+      "inputType": "select",
+      "attributes": {
+        "options": "자율주행,원격제어,대기"
+      }
+    },
+    "w-000e40": {
+      "id": "w-000e40",
+      "type": "row",
+      "parentId": "w-000e3c",
+      "childrenIds": [
+        "w-000e41",
+        "w-000e42"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000e41": {
+      "id": "w-000e41",
+      "type": "input",
+      "parentId": "w-000e40",
+      "childrenIds": [],
+      "label": "최대 속도 (m/s)",
+      "layout": {
+        "width": 320
+      }
+    },
+    "w-000e42": {
+      "id": "w-000e42",
+      "type": "input",
+      "parentId": "w-000e40",
+      "childrenIds": [],
+      "label": "최대 탑재 중량 (kg)",
+      "layout": {
+        "width": 320
+      }
+    },
+    "w-000e43": {
+      "id": "w-000e43",
+      "type": "input",
+      "parentId": "w-000e3c",
+      "childrenIds": [],
+      "label": "비고",
+      "inputType": "area"
+    },
+    "w-000e44": {
+      "id": "w-000e44",
+      "type": "row",
+      "parentId": "w-000e2a",
+      "childrenIds": [
+        "w-000e45",
+        "w-000e46"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000e45": {
+      "id": "w-000e45",
+      "type": "button",
+      "parentId": "w-000e44",
+      "childrenIds": [],
+      "label": "비활성화",
+      "variant": "danger",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "deactivate-confirm"
+      }
+    },
+    "w-000e46": {
+      "id": "w-000e46",
+      "type": "row",
+      "parentId": "w-000e44",
+      "childrenIds": [
+        "w-000e47",
+        "w-000e48"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-000e47": {
+      "id": "w-000e47",
+      "type": "button",
+      "parentId": "w-000e46",
+      "childrenIds": [],
+      "label": "시스템 관리로",
+      "variant": "secondary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n43"
+      }
+    },
+    "w-000e48": {
+      "id": "w-000e48",
+      "type": "button",
+      "parentId": "w-000e46",
+      "childrenIds": [],
+      "label": "저장",
+      "variant": "primary"
+    },
+    "w-000e49": {
+      "id": "w-000e49",
+      "type": "overlay",
+      "parentId": "w-000e27",
+      "childrenIds": [
+        "w-000e4a",
+        "w-000e4b",
+        "w-000e4c"
+      ],
+      "overlayId": "deactivate-confirm"
+    },
+    "w-000e4a": {
+      "id": "w-000e4a",
+      "type": "text",
+      "parentId": "w-000e49",
+      "childrenIds": [],
+      "label": "로봇 비활성화 확인",
+      "size": "md"
+    },
+    "w-000e4b": {
+      "id": "w-000e4b",
+      "type": "text",
+      "parentId": "w-000e49",
+      "childrenIds": [],
+      "label": "해당 로봇을 비활성화하면 즉시 운용이 중단됩니다. 계속하시겠습니까?",
+      "size": "sm"
+    },
+    "w-000e4c": {
+      "id": "w-000e4c",
+      "type": "row",
+      "parentId": "w-000e49",
+      "childrenIds": [
+        "w-000e4d",
+        "w-000e4e"
+      ],
+      "layout": {
+        "gap": 12,
+        "justify": "end"
+      }
+    },
+    "w-000e4d": {
+      "id": "w-000e4d",
+      "type": "button",
+      "parentId": "w-000e4c",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000e4e": {
+      "id": "w-000e4e",
+      "type": "button",
+      "parentId": "w-000e4c",
+      "childrenIds": [],
+      "label": "비활성화",
+      "variant": "danger",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n43"
+      }
+    }
+  }
+}

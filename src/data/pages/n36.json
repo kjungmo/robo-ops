@@ -1,0 +1,401 @@
+{
+  "pageNodeId": "n36",
+  "pageName": "맵 편집기",
+  "rootId": "w-000c56",
+  "nodes": {
+    "w-000c56": {
+      "id": "w-000c56",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000c57"
+      ],
+      "label": "맵 편집기",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000c57": {
+      "id": "w-000c57",
+      "type": "body",
+      "parentId": "w-000c56",
+      "childrenIds": [
+        "w-000c58",
+        "w-000c5b"
+      ]
+    },
+    "w-000c58": {
+      "id": "w-000c58",
+      "type": "row",
+      "parentId": "w-000c57",
+      "childrenIds": [
+        "w-000c59",
+        "w-000c5a"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000c59": {
+      "id": "w-000c59",
+      "type": "text",
+      "parentId": "w-000c58",
+      "childrenIds": [],
+      "label": "맵 편집기",
+      "size": "md"
+    },
+    "w-000c5a": {
+      "id": "w-000c5a",
+      "type": "button",
+      "parentId": "w-000c58",
+      "childrenIds": [],
+      "label": "맵 목록으로",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n34"
+      }
+    },
+    "w-000c5b": {
+      "id": "w-000c5b",
+      "type": "row",
+      "parentId": "w-000c57",
+      "childrenIds": [
+        "w-000c5c",
+        "w-000c6a",
+        "w-000c72"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "stretch"
+      }
+    },
+    "w-000c5c": {
+      "id": "w-000c5c",
+      "type": "column",
+      "parentId": "w-000c5b",
+      "childrenIds": [
+        "w-000c5d",
+        "w-000c5e",
+        "w-000c62",
+        "w-000c66"
+      ],
+      "layout": {
+        "gap": 12,
+        "width": 200
+      }
+    },
+    "w-000c5d": {
+      "id": "w-000c5d",
+      "type": "text",
+      "parentId": "w-000c5c",
+      "childrenIds": [],
+      "label": "편집 도구",
+      "size": "sm"
+    },
+    "w-000c5e": {
+      "id": "w-000c5e",
+      "type": "box",
+      "parentId": "w-000c5c",
+      "childrenIds": [
+        "w-000c5f",
+        "w-000c60",
+        "w-000c61"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c5f": {
+      "id": "w-000c5f",
+      "type": "text",
+      "parentId": "w-000c5e",
+      "childrenIds": [],
+      "label": "장애물",
+      "size": "sm"
+    },
+    "w-000c60": {
+      "id": "w-000c60",
+      "type": "button",
+      "parentId": "w-000c5e",
+      "childrenIds": [],
+      "label": "장애물 추가",
+      "variant": "primary"
+    },
+    "w-000c61": {
+      "id": "w-000c61",
+      "type": "button",
+      "parentId": "w-000c5e",
+      "childrenIds": [],
+      "label": "장애물 삭제",
+      "variant": "danger"
+    },
+    "w-000c62": {
+      "id": "w-000c62",
+      "type": "box",
+      "parentId": "w-000c5c",
+      "childrenIds": [
+        "w-000c63",
+        "w-000c64",
+        "w-000c65"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c63": {
+      "id": "w-000c63",
+      "type": "text",
+      "parentId": "w-000c62",
+      "childrenIds": [],
+      "label": "금지구역",
+      "size": "sm"
+    },
+    "w-000c64": {
+      "id": "w-000c64",
+      "type": "button",
+      "parentId": "w-000c62",
+      "childrenIds": [],
+      "label": "금지구역 추가",
+      "variant": "primary"
+    },
+    "w-000c65": {
+      "id": "w-000c65",
+      "type": "button",
+      "parentId": "w-000c62",
+      "childrenIds": [],
+      "label": "금지구역 삭제",
+      "variant": "danger"
+    },
+    "w-000c66": {
+      "id": "w-000c66",
+      "type": "box",
+      "parentId": "w-000c5c",
+      "childrenIds": [
+        "w-000c67",
+        "w-000c68",
+        "w-000c69"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c67": {
+      "id": "w-000c67",
+      "type": "text",
+      "parentId": "w-000c66",
+      "childrenIds": [],
+      "label": "경로",
+      "size": "sm"
+    },
+    "w-000c68": {
+      "id": "w-000c68",
+      "type": "button",
+      "parentId": "w-000c66",
+      "childrenIds": [],
+      "label": "경로 추가",
+      "variant": "primary"
+    },
+    "w-000c69": {
+      "id": "w-000c69",
+      "type": "button",
+      "parentId": "w-000c66",
+      "childrenIds": [],
+      "label": "경로 삭제",
+      "variant": "danger"
+    },
+    "w-000c6a": {
+      "id": "w-000c6a",
+      "type": "column",
+      "parentId": "w-000c5b",
+      "childrenIds": [
+        "w-000c6b",
+        "w-000c6d"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-000c6b": {
+      "id": "w-000c6b",
+      "type": "box",
+      "parentId": "w-000c6a",
+      "childrenIds": [
+        "w-000c6c"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c6c": {
+      "id": "w-000c6c",
+      "type": "image",
+      "parentId": "w-000c6b",
+      "childrenIds": [],
+      "label": "맵 캔버스 편집 영역",
+      "layout": {
+        "height": 480
+      }
+    },
+    "w-000c6d": {
+      "id": "w-000c6d",
+      "type": "row",
+      "parentId": "w-000c6a",
+      "childrenIds": [
+        "w-000c6e",
+        "w-000c6f",
+        "w-000c70",
+        "w-000c71"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000c6e": {
+      "id": "w-000c6e",
+      "type": "text",
+      "parentId": "w-000c6d",
+      "childrenIds": [],
+      "label": "검증 메시지: 변경 사항이 저장되지 않았습니다.",
+      "size": "sm"
+    },
+    "w-000c6f": {
+      "id": "w-000c6f",
+      "type": "spacer",
+      "parentId": "w-000c6d",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000c70": {
+      "id": "w-000c70",
+      "type": "button",
+      "parentId": "w-000c6d",
+      "childrenIds": [],
+      "label": "미리보기",
+      "variant": "secondary"
+    },
+    "w-000c71": {
+      "id": "w-000c71",
+      "type": "button",
+      "parentId": "w-000c6d",
+      "childrenIds": [],
+      "label": "저장",
+      "variant": "primary"
+    },
+    "w-000c72": {
+      "id": "w-000c72",
+      "type": "column",
+      "parentId": "w-000c5b",
+      "childrenIds": [
+        "w-000c73"
+      ],
+      "layout": {
+        "gap": 12,
+        "width": 280
+      }
+    },
+    "w-000c73": {
+      "id": "w-000c73",
+      "type": "box",
+      "parentId": "w-000c72",
+      "childrenIds": [
+        "w-000c74",
+        "w-000c75",
+        "w-000c76",
+        "w-000c77",
+        "w-000c78",
+        "w-000c79",
+        "w-000c7a",
+        "w-000c7b",
+        "w-000c7c",
+        "w-000c7d"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c74": {
+      "id": "w-000c74",
+      "type": "text",
+      "parentId": "w-000c73",
+      "childrenIds": [],
+      "label": "속성 편집",
+      "size": "md"
+    },
+    "w-000c75": {
+      "id": "w-000c75",
+      "type": "input",
+      "parentId": "w-000c73",
+      "childrenIds": [],
+      "label": "요소 이름"
+    },
+    "w-000c76": {
+      "id": "w-000c76",
+      "type": "input",
+      "parentId": "w-000c73",
+      "childrenIds": [],
+      "label": "유형",
+      "inputType": "select",
+      "attributes": {
+        "options": "장애물,금지구역,경로"
+      }
+    },
+    "w-000c77": {
+      "id": "w-000c77",
+      "type": "input",
+      "parentId": "w-000c73",
+      "childrenIds": [],
+      "label": "X 좌표"
+    },
+    "w-000c78": {
+      "id": "w-000c78",
+      "type": "input",
+      "parentId": "w-000c73",
+      "childrenIds": [],
+      "label": "Y 좌표"
+    },
+    "w-000c79": {
+      "id": "w-000c79",
+      "type": "input",
+      "parentId": "w-000c73",
+      "childrenIds": [],
+      "label": "너비 (px)"
+    },
+    "w-000c7a": {
+      "id": "w-000c7a",
+      "type": "input",
+      "parentId": "w-000c73",
+      "childrenIds": [],
+      "label": "높이 (px)"
+    },
+    "w-000c7b": {
+      "id": "w-000c7b",
+      "type": "input",
+      "parentId": "w-000c73",
+      "childrenIds": [],
+      "label": "설명",
+      "inputType": "area"
+    },
+    "w-000c7c": {
+      "id": "w-000c7c",
+      "type": "input",
+      "parentId": "w-000c73",
+      "childrenIds": [],
+      "label": "활성화",
+      "inputType": "toggle",
+      "attributes": {
+        "on": ""
+      }
+    },
+    "w-000c7d": {
+      "id": "w-000c7d",
+      "type": "button",
+      "parentId": "w-000c73",
+      "childrenIds": [],
+      "label": "속성 적용",
+      "variant": "primary"
+    }
+  }
+}

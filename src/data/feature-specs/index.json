@@ -1,0 +1,454 @@
+{
+  "title": "AMR/AGV 통합 원격 관제 플랫폼",
+  "updatedAt": "2026-06-19T05:16:57.433Z",
+  "counts": {
+    "requirements": 8,
+    "features": 25,
+    "specs": 51
+  },
+  "tree": [
+    {
+      "requirementId": "R-TCGRMX",
+      "name": "실시간 로봇 상태 모니터링",
+      "importance": "high",
+      "progress": "todo",
+      "features": [
+        {
+          "featureId": "F-XRKNJM",
+          "name": "로봇 목록/그리드 모니터링",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-CVHCSE",
+              "name": "로봇 목록 정렬/필터/검색"
+            },
+            {
+              "specId": "S-RYOZIN",
+              "name": "로봇 카드 핵심 지표 표시"
+            }
+          ]
+        },
+        {
+          "featureId": "F-XDQZOV",
+          "name": "지도 기반 실시간 위치/경로 시각화",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-PAKIMP",
+              "name": "맵 레이어/오버레이 토글"
+            },
+            {
+              "specId": "S-BQUKVI",
+              "name": "로봇 선택/추적(팔로우) 모드"
+            }
+          ]
+        },
+        {
+          "featureId": "F-FJRNBR",
+          "name": "로봇 상세 상태 패널",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-EMKCEJ",
+              "name": "로봇 상태 상세(통신/배터리/미션)"
+            },
+            {
+              "specId": "S-WOSPGH",
+              "name": "최근 이벤트 타임라인"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirementId": "R-VSTSUL",
+      "name": "원격 로봇 제어",
+      "importance": "high",
+      "progress": "todo",
+      "features": [
+        {
+          "featureId": "F-FVMYBG",
+          "name": "원격 정지/재시작 제어",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-WXPBVG",
+              "name": "정지 명령 유형(일반/비상)"
+            },
+            {
+              "specId": "S-UYXNMG",
+              "name": "명령 전송 결과/사유 표시"
+            }
+          ]
+        },
+        {
+          "featureId": "F-JBBIRD",
+          "name": "원격 수동 제어(조이스틱/키보드)",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-DLNHDV",
+              "name": "수동 제어 세션 잠금(단일 제어자)"
+            },
+            {
+              "specId": "S-KAZUXC",
+              "name": "안전 인터록/속도 제한"
+            }
+          ]
+        },
+        {
+          "featureId": "F-CSBQAW",
+          "name": "미션 개입(미션 변경/취소/재할당)",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-ZVOZAS",
+              "name": "미션 변경 사유 입력 및 이력 기록"
+            },
+            {
+              "specId": "S-BIZNBX",
+              "name": "미션 재할당(로봇/로봇군)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirementId": "R-QDDWNV",
+      "name": "맵 관리 및 주행 경로 설정",
+      "importance": "high",
+      "progress": "todo",
+      "features": [
+        {
+          "featureId": "F-TOQWIK",
+          "name": "맵 생성/가져오기",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-VPCYVQ",
+              "name": "맵 메타데이터 관리"
+            },
+            {
+              "specId": "S-LACGVW",
+              "name": "맵 가져오기 형식 검증"
+            }
+          ]
+        },
+        {
+          "featureId": "F-PVZHFN",
+          "name": "맵 편집(장애물/금지구역/포인트)",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-XUGLOT",
+              "name": "편집 도구(장애물/금지구역/POI)"
+            },
+            {
+              "specId": "S-WIZBRN",
+              "name": "편집 변경 이력/되돌리기"
+            }
+          ]
+        },
+        {
+          "featureId": "F-JMRSIZ",
+          "name": "맵 버전 관리 및 배포",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-DNKVPW",
+              "name": "배포 대상 선택(로봇/로봇군)"
+            },
+            {
+              "specId": "S-CHJMUV",
+              "name": "배포 진행률/결과 및 롤백"
+            }
+          ]
+        },
+        {
+          "featureId": "F-FZCMID",
+          "name": "주행 경로/목적지 지정 및 충돌 경고",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-MIBOWG",
+              "name": "목적지 지정(POI 기반)"
+            },
+            {
+              "specId": "S-IAJWPR",
+              "name": "경로 충돌 가능성 시각 경고"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirementId": "R-GPUPDU",
+      "name": "알람 및 장애 관리",
+      "importance": "high",
+      "progress": "todo",
+      "features": [
+        {
+          "featureId": "F-CRUOJN",
+          "name": "실시간 알람 수신 및 알림",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-HOMCEG",
+              "name": "알람 심각도 분류 및 노이즈 억제"
+            },
+            {
+              "specId": "S-DHCYPQ",
+              "name": "알림 채널 설정"
+            }
+          ]
+        },
+        {
+          "featureId": "F-TSVGFF",
+          "name": "알람/장애 이력 조회 및 필터링",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-SZFIQH",
+              "name": "장애 상태 워크플로우(신규→조치중→해결)"
+            },
+            {
+              "specId": "S-HGKXCJ",
+              "name": "장애 상세 보기(로봇/시각/유형/조치)"
+            }
+          ]
+        },
+        {
+          "featureId": "F-TFNGYD",
+          "name": "장애 티켓(조치 워크플로우)",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-CZWNAL",
+              "name": "티켓 생성 및 담당자 지정"
+            },
+            {
+              "specId": "S-TZEHLJ",
+              "name": "조치 기록/첨부(로그/파일)"
+            }
+          ]
+        },
+        {
+          "featureId": "F-LHMUSA",
+          "name": "자동 센서 데이터 수집/저장",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-VSJQLF",
+              "name": "자동 수집 정책(트리거/대상)"
+            },
+            {
+              "specId": "S-EFZUQQ",
+              "name": "수집 데이터 묶음(사건 링크)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirementId": "R-WYCGKO",
+      "name": "사용자 및 권한 관리",
+      "importance": "medium",
+      "progress": "todo",
+      "features": [
+        {
+          "featureId": "F-JPYHRN",
+          "name": "사용자 계정 관리(생성/수정/삭제)",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-ZDHJHZ",
+              "name": "계정 상태 관리(활성/잠금)"
+            },
+            {
+              "specId": "S-WWPTQR",
+              "name": "비밀번호 초기화/임시 비밀번호"
+            }
+          ]
+        },
+        {
+          "featureId": "F-XAYIMT",
+          "name": "역할 기반 접근 제어(RBAC)",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-LEWRGF",
+              "name": "역할별 권한 매트릭스 관리"
+            },
+            {
+              "specId": "S-NHYMKC",
+              "name": "권한 변경 이력 및 감사 추적"
+            },
+            {
+              "specId": "S-JWXRUL",
+              "name": "권한 충돌 검증"
+            }
+          ]
+        },
+        {
+          "featureId": "F-DKMBSU",
+          "name": "로그인 및 보안 정책",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-ICMPDW",
+              "name": "비밀번호 정책(복잡도/만료)"
+            },
+            {
+              "specId": "S-MRDYFZ",
+              "name": "세션/동시 로그인 제어"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirementId": "R-FALAJC",
+      "name": "로봇/현장 등록 및 관리",
+      "importance": "high",
+      "progress": "todo",
+      "features": [
+        {
+          "featureId": "F-BYVSLU",
+          "name": "로봇 등록/수정/비활성화",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-FOSZQP",
+              "name": "필수 필드 검증 및 중복 방지"
+            },
+            {
+              "specId": "S-VNNLPU",
+              "name": "로봇 비활성화 시 영향 안내"
+            }
+          ]
+        },
+        {
+          "featureId": "F-LPIGWA",
+          "name": "현장/구역(존) 관리",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-KFIJEN",
+              "name": "현장/구역 생성 및 맵 연결"
+            },
+            {
+              "specId": "S-MGFFSV",
+              "name": "로봇 현장/구역 할당 및 변경"
+            },
+            {
+              "specId": "S-RGWTPX",
+              "name": "구역별 현황 집계(로봇/알람/미션)"
+            }
+          ]
+        },
+        {
+          "featureId": "F-PTLBJB",
+          "name": "로봇 연동 상태 진단(헬스체크)",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-CKHSUE",
+              "name": "헬스체크 항목 및 상태 코드 표준화"
+            },
+            {
+              "specId": "S-KKOUAF",
+              "name": "연동 상태 상세 진단(인증/네트워크/프로토콜)"
+            },
+            {
+              "specId": "S-YUUFHK",
+              "name": "자동 재연결 정책 및 수동 재시도"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirementId": "R-RMPCDU",
+      "name": "대시보드 성능 데이터 분석",
+      "importance": "medium",
+      "progress": "todo",
+      "features": [
+        {
+          "featureId": "F-DLWHBR",
+          "name": "KPI 대시보드(요약/추세)",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-ERENLF",
+              "name": "기간/현장/로봇군 필터"
+            },
+            {
+              "specId": "S-ZTNQNM",
+              "name": "지표 카드(가동률/대응시간 등)"
+            }
+          ]
+        },
+        {
+          "featureId": "F-ELVQBM",
+          "name": "지표 드릴다운(원천 이벤트 조회)",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-CTGERT",
+              "name": "지표→이벤트 목록 드릴다운"
+            }
+          ]
+        },
+        {
+          "featureId": "F-NQLMUQ",
+          "name": "분석 데이터 내보내기",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-MFDFEC",
+              "name": "CSV 내보내기(필터 반영)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirementId": "R-ZWCDMD",
+      "name": "운영 로그 및 감사 추적",
+      "importance": "medium",
+      "progress": "todo",
+      "features": [
+        {
+          "featureId": "F-YUUJQZ",
+          "name": "제어/배포/권한 변경 감사 로그 기록",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-PISJCG",
+              "name": "감사 로그 스키마(누가/무엇/결과)"
+            }
+          ]
+        },
+        {
+          "featureId": "F-EFVCPN",
+          "name": "감사 로그 조회/검색/필터",
+          "progress": "todo",
+          "specs": [
+            {
+              "specId": "S-FFXACB",
+              "name": "감사 로그 내보내기(CSV)"
+            },
+            {
+              "specId": "S-EFLFNE",
+              "name": "감사 로그 내보내기 권한/마스킹"
+            },
+            {
+              "specId": "S-PAJUXF",
+              "name": "대용량 내보내기(비동기 작업)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

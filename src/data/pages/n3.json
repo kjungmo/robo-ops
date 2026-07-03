@@ -1,0 +1,279 @@
+{
+  "pageNodeId": "n3",
+  "pageName": "역할 선택/인증",
+  "rootId": "w-0006cc",
+  "nodes": {
+    "w-0006cc": {
+      "id": "w-0006cc",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-0006cd"
+      ],
+      "label": "역할 선택/인증",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-0006cd": {
+      "id": "w-0006cd",
+      "type": "body",
+      "parentId": "w-0006cc",
+      "childrenIds": [
+        "w-0006ce",
+        "w-0006cf",
+        "w-0006d0",
+        "w-0006dd",
+        "w-0006de",
+        "w-0006df",
+        "w-0006e4"
+      ]
+    },
+    "w-0006ce": {
+      "id": "w-0006ce",
+      "type": "text",
+      "parentId": "w-0006cd",
+      "childrenIds": [],
+      "label": "역할 선택",
+      "size": "md"
+    },
+    "w-0006cf": {
+      "id": "w-0006cf",
+      "type": "text",
+      "parentId": "w-0006cd",
+      "childrenIds": [],
+      "label": "접근할 역할을 선택하세요",
+      "size": "sm"
+    },
+    "w-0006d0": {
+      "id": "w-0006d0",
+      "type": "column",
+      "parentId": "w-0006cd",
+      "childrenIds": [
+        "w-0006d1",
+        "w-0006d5",
+        "w-0006d9"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-0006d1": {
+      "id": "w-0006d1",
+      "type": "box",
+      "parentId": "w-0006d0",
+      "childrenIds": [
+        "w-0006d2",
+        "w-0006d3",
+        "w-0006d4"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0006d2": {
+      "id": "w-0006d2",
+      "type": "text",
+      "parentId": "w-0006d1",
+      "childrenIds": [],
+      "label": "관리자",
+      "size": "md"
+    },
+    "w-0006d3": {
+      "id": "w-0006d3",
+      "type": "text",
+      "parentId": "w-0006d1",
+      "childrenIds": [],
+      "label": "전체 시스템 관리 권한",
+      "size": "sm"
+    },
+    "w-0006d4": {
+      "id": "w-0006d4",
+      "type": "button",
+      "parentId": "w-0006d1",
+      "childrenIds": [],
+      "label": "선택",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n6"
+      }
+    },
+    "w-0006d5": {
+      "id": "w-0006d5",
+      "type": "box",
+      "parentId": "w-0006d0",
+      "childrenIds": [
+        "w-0006d6",
+        "w-0006d7",
+        "w-0006d8"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0006d6": {
+      "id": "w-0006d6",
+      "type": "text",
+      "parentId": "w-0006d5",
+      "childrenIds": [],
+      "label": "운영자",
+      "size": "md"
+    },
+    "w-0006d7": {
+      "id": "w-0006d7",
+      "type": "text",
+      "parentId": "w-0006d5",
+      "childrenIds": [],
+      "label": "실시간 모니터링 및 제어 권한",
+      "size": "sm"
+    },
+    "w-0006d8": {
+      "id": "w-0006d8",
+      "type": "button",
+      "parentId": "w-0006d5",
+      "childrenIds": [],
+      "label": "선택",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n6"
+      }
+    },
+    "w-0006d9": {
+      "id": "w-0006d9",
+      "type": "box",
+      "parentId": "w-0006d0",
+      "childrenIds": [
+        "w-0006da",
+        "w-0006db",
+        "w-0006dc"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-0006da": {
+      "id": "w-0006da",
+      "type": "text",
+      "parentId": "w-0006d9",
+      "childrenIds": [],
+      "label": "보안담당자",
+      "size": "md"
+    },
+    "w-0006db": {
+      "id": "w-0006db",
+      "type": "text",
+      "parentId": "w-0006d9",
+      "childrenIds": [],
+      "label": "로그 조회 및 보안 설정 권한",
+      "size": "sm"
+    },
+    "w-0006dc": {
+      "id": "w-0006dc",
+      "type": "button",
+      "parentId": "w-0006d9",
+      "childrenIds": [],
+      "label": "선택",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n6"
+      }
+    },
+    "w-0006dd": {
+      "id": "w-0006dd",
+      "type": "text",
+      "parentId": "w-0006cd",
+      "childrenIds": [],
+      "label": "추가 인증",
+      "size": "md"
+    },
+    "w-0006de": {
+      "id": "w-0006de",
+      "type": "text",
+      "parentId": "w-0006cd",
+      "childrenIds": [],
+      "label": "선택한 역할로의 접근을 위해 추가 인증을 진행하세요",
+      "size": "sm"
+    },
+    "w-0006df": {
+      "id": "w-0006df",
+      "type": "column",
+      "parentId": "w-0006cd",
+      "childrenIds": [
+        "w-0006e0",
+        "w-0006e1",
+        "w-0006e2",
+        "w-0006e3"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-0006e0": {
+      "id": "w-0006e0",
+      "type": "input",
+      "parentId": "w-0006df",
+      "childrenIds": [],
+      "label": "인증 코드"
+    },
+    "w-0006e1": {
+      "id": "w-0006e1",
+      "type": "text",
+      "parentId": "w-0006df",
+      "childrenIds": [],
+      "label": "등록된 이메일로 발송된 6자리 코드를 입력하세요",
+      "size": "sm"
+    },
+    "w-0006e2": {
+      "id": "w-0006e2",
+      "type": "input",
+      "parentId": "w-0006df",
+      "childrenIds": [],
+      "label": "보안 질문"
+    },
+    "w-0006e3": {
+      "id": "w-0006e3",
+      "type": "text",
+      "parentId": "w-0006df",
+      "childrenIds": [],
+      "label": "사전 등록한 보안 질문에 답변하세요",
+      "size": "sm"
+    },
+    "w-0006e4": {
+      "id": "w-0006e4",
+      "type": "row",
+      "parentId": "w-0006cd",
+      "childrenIds": [
+        "w-0006e5",
+        "w-0006e6"
+      ],
+      "layout": {
+        "gap": 12,
+        "justify": "end"
+      }
+    },
+    "w-0006e5": {
+      "id": "w-0006e5",
+      "type": "button",
+      "parentId": "w-0006e4",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n2"
+      }
+    },
+    "w-0006e6": {
+      "id": "w-0006e6",
+      "type": "button",
+      "parentId": "w-0006e4",
+      "childrenIds": [],
+      "label": "인증 완료",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n6"
+      }
+    }
+  }
+}

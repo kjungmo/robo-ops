@@ -1,0 +1,640 @@
+{
+  "pageNodeId": "n24",
+  "pageName": "비상/일반 정지",
+  "rootId": "w-000a6b",
+  "nodes": {
+    "w-000a6b": {
+      "id": "w-000a6b",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000a6c",
+        "w-000a9a",
+        "w-000aa2"
+      ],
+      "label": "비상/일반 정지",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000a6c": {
+      "id": "w-000a6c",
+      "type": "body",
+      "parentId": "w-000a6b",
+      "childrenIds": [
+        "w-000a6d",
+        "w-000a70"
+      ]
+    },
+    "w-000a6d": {
+      "id": "w-000a6d",
+      "type": "row",
+      "parentId": "w-000a6c",
+      "childrenIds": [
+        "w-000a6e",
+        "w-000a6f"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000a6e": {
+      "id": "w-000a6e",
+      "type": "button",
+      "parentId": "w-000a6d",
+      "childrenIds": [],
+      "label": "원격 제어로",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n23"
+      }
+    },
+    "w-000a6f": {
+      "id": "w-000a6f",
+      "type": "text",
+      "parentId": "w-000a6d",
+      "childrenIds": [],
+      "label": "비상/일반 정지",
+      "size": "md"
+    },
+    "w-000a70": {
+      "id": "w-000a70",
+      "type": "row",
+      "parentId": "w-000a6c",
+      "childrenIds": [
+        "w-000a71",
+        "w-000a8a"
+      ],
+      "layout": {
+        "gap": 24
+      }
+    },
+    "w-000a71": {
+      "id": "w-000a71",
+      "type": "column",
+      "parentId": "w-000a70",
+      "childrenIds": [
+        "w-000a72",
+        "w-000a85"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000a72": {
+      "id": "w-000a72",
+      "type": "box",
+      "parentId": "w-000a71",
+      "childrenIds": [
+        "w-000a73",
+        "w-000a74"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a73": {
+      "id": "w-000a73",
+      "type": "text",
+      "parentId": "w-000a72",
+      "childrenIds": [],
+      "label": "현재 로봇 상태",
+      "size": "sm"
+    },
+    "w-000a74": {
+      "id": "w-000a74",
+      "type": "row",
+      "parentId": "w-000a72",
+      "childrenIds": [
+        "w-000a75",
+        "w-000a79",
+        "w-000a7d",
+        "w-000a81"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "center"
+      }
+    },
+    "w-000a75": {
+      "id": "w-000a75",
+      "type": "box",
+      "parentId": "w-000a74",
+      "childrenIds": [
+        "w-000a76",
+        "w-000a77",
+        "w-000a78"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a76": {
+      "id": "w-000a76",
+      "type": "text",
+      "parentId": "w-000a75",
+      "childrenIds": [],
+      "label": "로봇 ID",
+      "size": "sm"
+    },
+    "w-000a77": {
+      "id": "w-000a77",
+      "type": "text",
+      "parentId": "w-000a75",
+      "childrenIds": [],
+      "label": "AMR-001",
+      "size": "md"
+    },
+    "w-000a78": {
+      "id": "w-000a78",
+      "type": "text",
+      "parentId": "w-000a75",
+      "childrenIds": [],
+      "label": "운행 중",
+      "size": "sm"
+    },
+    "w-000a79": {
+      "id": "w-000a79",
+      "type": "box",
+      "parentId": "w-000a74",
+      "childrenIds": [
+        "w-000a7a",
+        "w-000a7b",
+        "w-000a7c"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a7a": {
+      "id": "w-000a7a",
+      "type": "text",
+      "parentId": "w-000a79",
+      "childrenIds": [],
+      "label": "로봇 ID",
+      "size": "sm"
+    },
+    "w-000a7b": {
+      "id": "w-000a7b",
+      "type": "text",
+      "parentId": "w-000a79",
+      "childrenIds": [],
+      "label": "AMR-002",
+      "size": "md"
+    },
+    "w-000a7c": {
+      "id": "w-000a7c",
+      "type": "text",
+      "parentId": "w-000a79",
+      "childrenIds": [],
+      "label": "운행 중",
+      "size": "sm"
+    },
+    "w-000a7d": {
+      "id": "w-000a7d",
+      "type": "box",
+      "parentId": "w-000a74",
+      "childrenIds": [
+        "w-000a7e",
+        "w-000a7f",
+        "w-000a80"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a7e": {
+      "id": "w-000a7e",
+      "type": "text",
+      "parentId": "w-000a7d",
+      "childrenIds": [],
+      "label": "로봇 ID",
+      "size": "sm"
+    },
+    "w-000a7f": {
+      "id": "w-000a7f",
+      "type": "text",
+      "parentId": "w-000a7d",
+      "childrenIds": [],
+      "label": "AMR-003",
+      "size": "md"
+    },
+    "w-000a80": {
+      "id": "w-000a80",
+      "type": "text",
+      "parentId": "w-000a7d",
+      "childrenIds": [],
+      "label": "정지",
+      "size": "sm"
+    },
+    "w-000a81": {
+      "id": "w-000a81",
+      "type": "box",
+      "parentId": "w-000a74",
+      "childrenIds": [
+        "w-000a82",
+        "w-000a83",
+        "w-000a84"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a82": {
+      "id": "w-000a82",
+      "type": "text",
+      "parentId": "w-000a81",
+      "childrenIds": [],
+      "label": "로봇 ID",
+      "size": "sm"
+    },
+    "w-000a83": {
+      "id": "w-000a83",
+      "type": "text",
+      "parentId": "w-000a81",
+      "childrenIds": [],
+      "label": "AMR-004",
+      "size": "md"
+    },
+    "w-000a84": {
+      "id": "w-000a84",
+      "type": "text",
+      "parentId": "w-000a81",
+      "childrenIds": [],
+      "label": "오프라인",
+      "size": "sm"
+    },
+    "w-000a85": {
+      "id": "w-000a85",
+      "type": "box",
+      "parentId": "w-000a71",
+      "childrenIds": [
+        "w-000a86",
+        "w-000a87",
+        "w-000a88",
+        "w-000a89"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a86": {
+      "id": "w-000a86",
+      "type": "text",
+      "parentId": "w-000a85",
+      "childrenIds": [],
+      "label": "⚠ 정지 명령 실행 전 반드시 확인하십시오",
+      "size": "md"
+    },
+    "w-000a87": {
+      "id": "w-000a87",
+      "type": "text",
+      "parentId": "w-000a85",
+      "childrenIds": [],
+      "label": "비상 정지는 즉시 모든 구동을 차단하며, 로봇 및 주변 설비에 손상을 줄 수 있습니다.",
+      "size": "sm"
+    },
+    "w-000a88": {
+      "id": "w-000a88",
+      "type": "text",
+      "parentId": "w-000a85",
+      "childrenIds": [],
+      "label": "일반 정지는 현재 작업을 완료한 뒤 안전하게 정지합니다.",
+      "size": "sm"
+    },
+    "w-000a89": {
+      "id": "w-000a89",
+      "type": "text",
+      "parentId": "w-000a85",
+      "childrenIds": [],
+      "label": "정지 명령은 선택한 로봇 전체에 동시 적용됩니다. 실행 전 대상 로봇을 반드시 확인하십시오.",
+      "size": "sm"
+    },
+    "w-000a8a": {
+      "id": "w-000a8a",
+      "type": "column",
+      "parentId": "w-000a70",
+      "childrenIds": [
+        "w-000a8b",
+        "w-000a90",
+        "w-000a95"
+      ],
+      "layout": {
+        "gap": 16,
+        "width": 320
+      }
+    },
+    "w-000a8b": {
+      "id": "w-000a8b",
+      "type": "box",
+      "parentId": "w-000a8a",
+      "childrenIds": [
+        "w-000a8c",
+        "w-000a8d",
+        "w-000a8e",
+        "w-000a8f"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a8c": {
+      "id": "w-000a8c",
+      "type": "text",
+      "parentId": "w-000a8b",
+      "childrenIds": [],
+      "label": "비상 정지",
+      "size": "md"
+    },
+    "w-000a8d": {
+      "id": "w-000a8d",
+      "type": "text",
+      "parentId": "w-000a8b",
+      "childrenIds": [],
+      "label": "모든 로봇을 즉시 강제 정지합니다.",
+      "size": "sm"
+    },
+    "w-000a8e": {
+      "id": "w-000a8e",
+      "type": "text",
+      "parentId": "w-000a8b",
+      "childrenIds": [],
+      "label": "진행 중인 작업이 중단되며 복구 절차가 필요할 수 있습니다.",
+      "size": "sm"
+    },
+    "w-000a8f": {
+      "id": "w-000a8f",
+      "type": "button",
+      "parentId": "w-000a8b",
+      "childrenIds": [],
+      "label": "비상 정지 실행",
+      "variant": "danger",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "emergency-stop"
+      }
+    },
+    "w-000a90": {
+      "id": "w-000a90",
+      "type": "box",
+      "parentId": "w-000a8a",
+      "childrenIds": [
+        "w-000a91",
+        "w-000a92",
+        "w-000a93",
+        "w-000a94"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a91": {
+      "id": "w-000a91",
+      "type": "text",
+      "parentId": "w-000a90",
+      "childrenIds": [],
+      "label": "일반 정지",
+      "size": "md"
+    },
+    "w-000a92": {
+      "id": "w-000a92",
+      "type": "text",
+      "parentId": "w-000a90",
+      "childrenIds": [],
+      "label": "현재 작업을 완료한 후 로봇을 순차 정지합니다.",
+      "size": "sm"
+    },
+    "w-000a93": {
+      "id": "w-000a93",
+      "type": "text",
+      "parentId": "w-000a90",
+      "childrenIds": [],
+      "label": "안전한 위치에 정차 후 대기 상태로 전환됩니다.",
+      "size": "sm"
+    },
+    "w-000a94": {
+      "id": "w-000a94",
+      "type": "button",
+      "parentId": "w-000a90",
+      "childrenIds": [],
+      "label": "일반 정지 실행",
+      "variant": "primary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "normal-stop"
+      }
+    },
+    "w-000a95": {
+      "id": "w-000a95",
+      "type": "box",
+      "parentId": "w-000a8a",
+      "childrenIds": [
+        "w-000a96",
+        "w-000a97",
+        "w-000a98",
+        "w-000a99"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000a96": {
+      "id": "w-000a96",
+      "type": "text",
+      "parentId": "w-000a95",
+      "childrenIds": [],
+      "label": "정지 상태 확인",
+      "size": "sm"
+    },
+    "w-000a97": {
+      "id": "w-000a97",
+      "type": "text",
+      "parentId": "w-000a95",
+      "childrenIds": [],
+      "label": "정지 명령 전송 후 각 로봇의 상태가 '정지'로 변경되었는지 확인하십시오.",
+      "size": "sm"
+    },
+    "w-000a98": {
+      "id": "w-000a98",
+      "type": "text",
+      "parentId": "w-000a95",
+      "childrenIds": [],
+      "label": "상태가 변경되지 않으면 알람·장애 관리 화면에서 추가 조치를 취하십시오.",
+      "size": "sm"
+    },
+    "w-000a99": {
+      "id": "w-000a99",
+      "type": "button",
+      "parentId": "w-000a95",
+      "childrenIds": [],
+      "label": "알람·장애 관리",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n13"
+      }
+    },
+    "w-000a9a": {
+      "id": "w-000a9a",
+      "type": "overlay",
+      "parentId": "w-000a6b",
+      "childrenIds": [
+        "w-000a9b",
+        "w-000a9c",
+        "w-000a9d",
+        "w-000a9e",
+        "w-000a9f"
+      ],
+      "overlayId": "emergency-stop"
+    },
+    "w-000a9b": {
+      "id": "w-000a9b",
+      "type": "text",
+      "parentId": "w-000a9a",
+      "childrenIds": [],
+      "label": "⚠ 비상 정지 최종 확인",
+      "size": "md"
+    },
+    "w-000a9c": {
+      "id": "w-000a9c",
+      "type": "text",
+      "parentId": "w-000a9a",
+      "childrenIds": [],
+      "label": "이 작업은 모든 운행 중인 로봇을 즉시 강제 정지합니다.",
+      "size": "sm"
+    },
+    "w-000a9d": {
+      "id": "w-000a9d",
+      "type": "text",
+      "parentId": "w-000a9a",
+      "childrenIds": [],
+      "label": "진행 중인 모든 작업이 중단되며, 재가동 전 안전 점검이 필요합니다.",
+      "size": "sm"
+    },
+    "w-000a9e": {
+      "id": "w-000a9e",
+      "type": "text",
+      "parentId": "w-000a9a",
+      "childrenIds": [],
+      "label": "정말 비상 정지를 실행하시겠습니까?",
+      "size": "sm"
+    },
+    "w-000a9f": {
+      "id": "w-000a9f",
+      "type": "row",
+      "parentId": "w-000a9a",
+      "childrenIds": [
+        "w-000aa0",
+        "w-000aa1"
+      ],
+      "layout": {
+        "gap": 12,
+        "justify": "end"
+      }
+    },
+    "w-000aa0": {
+      "id": "w-000aa0",
+      "type": "button",
+      "parentId": "w-000a9f",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000aa1": {
+      "id": "w-000aa1",
+      "type": "button",
+      "parentId": "w-000a9f",
+      "childrenIds": [],
+      "label": "비상 정지 실행",
+      "variant": "danger",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n13"
+      }
+    },
+    "w-000aa2": {
+      "id": "w-000aa2",
+      "type": "overlay",
+      "parentId": "w-000a6b",
+      "childrenIds": [
+        "w-000aa3",
+        "w-000aa4",
+        "w-000aa5",
+        "w-000aa6",
+        "w-000aa7"
+      ],
+      "overlayId": "normal-stop"
+    },
+    "w-000aa3": {
+      "id": "w-000aa3",
+      "type": "text",
+      "parentId": "w-000aa2",
+      "childrenIds": [],
+      "label": "일반 정지 최종 확인",
+      "size": "md"
+    },
+    "w-000aa4": {
+      "id": "w-000aa4",
+      "type": "text",
+      "parentId": "w-000aa2",
+      "childrenIds": [],
+      "label": "운행 중인 로봇이 현재 작업을 마친 후 순차적으로 정지합니다.",
+      "size": "sm"
+    },
+    "w-000aa5": {
+      "id": "w-000aa5",
+      "type": "text",
+      "parentId": "w-000aa2",
+      "childrenIds": [],
+      "label": "정지 완료까지 수 분이 소요될 수 있습니다.",
+      "size": "sm"
+    },
+    "w-000aa6": {
+      "id": "w-000aa6",
+      "type": "text",
+      "parentId": "w-000aa2",
+      "childrenIds": [],
+      "label": "일반 정지를 실행하시겠습니까?",
+      "size": "sm"
+    },
+    "w-000aa7": {
+      "id": "w-000aa7",
+      "type": "row",
+      "parentId": "w-000aa2",
+      "childrenIds": [
+        "w-000aa8",
+        "w-000aa9"
+      ],
+      "layout": {
+        "gap": 12,
+        "justify": "end"
+      }
+    },
+    "w-000aa8": {
+      "id": "w-000aa8",
+      "type": "button",
+      "parentId": "w-000aa7",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000aa9": {
+      "id": "w-000aa9",
+      "type": "button",
+      "parentId": "w-000aa7",
+      "childrenIds": [],
+      "label": "일반 정지 실행",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n13"
+      }
+    }
+  }
+}

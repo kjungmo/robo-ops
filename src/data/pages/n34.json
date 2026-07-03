@@ -1,0 +1,608 @@
+{
+  "pageNodeId": "n34",
+  "pageName": "맵 목록",
+  "rootId": "w-000c1e",
+  "nodes": {
+    "w-000c1e": {
+      "id": "w-000c1e",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000c1f"
+      ],
+      "label": "맵 목록",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000c1f": {
+      "id": "w-000c1f",
+      "type": "body",
+      "parentId": "w-000c1e",
+      "childrenIds": [
+        "w-000c20",
+        "w-000c23",
+        "w-000c29",
+        "w-000c32",
+        "w-000c3b",
+        "w-000c44",
+        "w-000c4d"
+      ]
+    },
+    "w-000c20": {
+      "id": "w-000c20",
+      "type": "row",
+      "parentId": "w-000c1f",
+      "childrenIds": [
+        "w-000c21",
+        "w-000c22"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000c21": {
+      "id": "w-000c21",
+      "type": "text",
+      "parentId": "w-000c20",
+      "childrenIds": [],
+      "label": "맵 목록",
+      "size": "lg"
+    },
+    "w-000c22": {
+      "id": "w-000c22",
+      "type": "button",
+      "parentId": "w-000c20",
+      "childrenIds": [],
+      "label": "맵 생성 / 가져오기",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n35"
+      }
+    },
+    "w-000c23": {
+      "id": "w-000c23",
+      "type": "row",
+      "parentId": "w-000c1f",
+      "childrenIds": [
+        "w-000c24",
+        "w-000c25",
+        "w-000c26",
+        "w-000c27",
+        "w-000c28"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000c24": {
+      "id": "w-000c24",
+      "type": "input",
+      "parentId": "w-000c23",
+      "childrenIds": [],
+      "label": "맵 이름, 설명 검색",
+      "inputType": "search"
+    },
+    "w-000c25": {
+      "id": "w-000c25",
+      "type": "button",
+      "parentId": "w-000c23",
+      "childrenIds": [],
+      "label": "전체",
+      "variant": "chip",
+      "activeIndex": 0
+    },
+    "w-000c26": {
+      "id": "w-000c26",
+      "type": "button",
+      "parentId": "w-000c23",
+      "childrenIds": [],
+      "label": "정상",
+      "variant": "chip"
+    },
+    "w-000c27": {
+      "id": "w-000c27",
+      "type": "button",
+      "parentId": "w-000c23",
+      "childrenIds": [],
+      "label": "주의",
+      "variant": "chip"
+    },
+    "w-000c28": {
+      "id": "w-000c28",
+      "type": "button",
+      "parentId": "w-000c23",
+      "childrenIds": [],
+      "label": "오프라인",
+      "variant": "chip"
+    },
+    "w-000c29": {
+      "id": "w-000c29",
+      "type": "box",
+      "parentId": "w-000c1f",
+      "childrenIds": [
+        "w-000c2a"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c2a": {
+      "id": "w-000c2a",
+      "type": "row",
+      "parentId": "w-000c29",
+      "childrenIds": [
+        "w-000c2b",
+        "w-000c2e"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000c2b": {
+      "id": "w-000c2b",
+      "type": "column",
+      "parentId": "w-000c2a",
+      "childrenIds": [
+        "w-000c2c",
+        "w-000c2d"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000c2c": {
+      "id": "w-000c2c",
+      "type": "text",
+      "parentId": "w-000c2b",
+      "childrenIds": [],
+      "label": "1층 로비 — B동",
+      "size": "md"
+    },
+    "w-000c2d": {
+      "id": "w-000c2d",
+      "type": "text",
+      "parentId": "w-000c2b",
+      "childrenIds": [],
+      "label": "최종 수정: 2025-06-10  ·  버전 v3.2",
+      "size": "sm"
+    },
+    "w-000c2e": {
+      "id": "w-000c2e",
+      "type": "row",
+      "parentId": "w-000c2a",
+      "childrenIds": [
+        "w-000c2f",
+        "w-000c30",
+        "w-000c31"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000c2f": {
+      "id": "w-000c2f",
+      "type": "text",
+      "parentId": "w-000c2e",
+      "childrenIds": [],
+      "label": "정상",
+      "size": "sm"
+    },
+    "w-000c30": {
+      "id": "w-000c30",
+      "type": "button",
+      "parentId": "w-000c2e",
+      "childrenIds": [],
+      "label": "편집기",
+      "variant": "secondary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n36"
+      }
+    },
+    "w-000c31": {
+      "id": "w-000c31",
+      "type": "button",
+      "parentId": "w-000c2e",
+      "childrenIds": [],
+      "label": "버전 / 배포",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n37"
+      }
+    },
+    "w-000c32": {
+      "id": "w-000c32",
+      "type": "box",
+      "parentId": "w-000c1f",
+      "childrenIds": [
+        "w-000c33"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c33": {
+      "id": "w-000c33",
+      "type": "row",
+      "parentId": "w-000c32",
+      "childrenIds": [
+        "w-000c34",
+        "w-000c37"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000c34": {
+      "id": "w-000c34",
+      "type": "column",
+      "parentId": "w-000c33",
+      "childrenIds": [
+        "w-000c35",
+        "w-000c36"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000c35": {
+      "id": "w-000c35",
+      "type": "text",
+      "parentId": "w-000c34",
+      "childrenIds": [],
+      "label": "2층 사무구역 — A동",
+      "size": "md"
+    },
+    "w-000c36": {
+      "id": "w-000c36",
+      "type": "text",
+      "parentId": "w-000c34",
+      "childrenIds": [],
+      "label": "최종 수정: 2025-05-28  ·  버전 v2.0",
+      "size": "sm"
+    },
+    "w-000c37": {
+      "id": "w-000c37",
+      "type": "row",
+      "parentId": "w-000c33",
+      "childrenIds": [
+        "w-000c38",
+        "w-000c39",
+        "w-000c3a"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000c38": {
+      "id": "w-000c38",
+      "type": "text",
+      "parentId": "w-000c37",
+      "childrenIds": [],
+      "label": "주의",
+      "size": "sm"
+    },
+    "w-000c39": {
+      "id": "w-000c39",
+      "type": "button",
+      "parentId": "w-000c37",
+      "childrenIds": [],
+      "label": "편집기",
+      "variant": "secondary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n36"
+      }
+    },
+    "w-000c3a": {
+      "id": "w-000c3a",
+      "type": "button",
+      "parentId": "w-000c37",
+      "childrenIds": [],
+      "label": "버전 / 배포",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n37"
+      }
+    },
+    "w-000c3b": {
+      "id": "w-000c3b",
+      "type": "box",
+      "parentId": "w-000c1f",
+      "childrenIds": [
+        "w-000c3c"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c3c": {
+      "id": "w-000c3c",
+      "type": "row",
+      "parentId": "w-000c3b",
+      "childrenIds": [
+        "w-000c3d",
+        "w-000c40"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000c3d": {
+      "id": "w-000c3d",
+      "type": "column",
+      "parentId": "w-000c3c",
+      "childrenIds": [
+        "w-000c3e",
+        "w-000c3f"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000c3e": {
+      "id": "w-000c3e",
+      "type": "text",
+      "parentId": "w-000c3d",
+      "childrenIds": [],
+      "label": "지하 1층 주차장",
+      "size": "md"
+    },
+    "w-000c3f": {
+      "id": "w-000c3f",
+      "type": "text",
+      "parentId": "w-000c3d",
+      "childrenIds": [],
+      "label": "최종 수정: 2025-05-15  ·  버전 v1.8",
+      "size": "sm"
+    },
+    "w-000c40": {
+      "id": "w-000c40",
+      "type": "row",
+      "parentId": "w-000c3c",
+      "childrenIds": [
+        "w-000c41",
+        "w-000c42",
+        "w-000c43"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000c41": {
+      "id": "w-000c41",
+      "type": "text",
+      "parentId": "w-000c40",
+      "childrenIds": [],
+      "label": "정상",
+      "size": "sm"
+    },
+    "w-000c42": {
+      "id": "w-000c42",
+      "type": "button",
+      "parentId": "w-000c40",
+      "childrenIds": [],
+      "label": "편집기",
+      "variant": "secondary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n36"
+      }
+    },
+    "w-000c43": {
+      "id": "w-000c43",
+      "type": "button",
+      "parentId": "w-000c40",
+      "childrenIds": [],
+      "label": "버전 / 배포",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n37"
+      }
+    },
+    "w-000c44": {
+      "id": "w-000c44",
+      "type": "box",
+      "parentId": "w-000c1f",
+      "childrenIds": [
+        "w-000c45"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c45": {
+      "id": "w-000c45",
+      "type": "row",
+      "parentId": "w-000c44",
+      "childrenIds": [
+        "w-000c46",
+        "w-000c49"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000c46": {
+      "id": "w-000c46",
+      "type": "column",
+      "parentId": "w-000c45",
+      "childrenIds": [
+        "w-000c47",
+        "w-000c48"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000c47": {
+      "id": "w-000c47",
+      "type": "text",
+      "parentId": "w-000c46",
+      "childrenIds": [],
+      "label": "옥상 설비구역",
+      "size": "md"
+    },
+    "w-000c48": {
+      "id": "w-000c48",
+      "type": "text",
+      "parentId": "w-000c46",
+      "childrenIds": [],
+      "label": "최종 수정: 2025-04-30  ·  버전 v1.1",
+      "size": "sm"
+    },
+    "w-000c49": {
+      "id": "w-000c49",
+      "type": "row",
+      "parentId": "w-000c45",
+      "childrenIds": [
+        "w-000c4a",
+        "w-000c4b",
+        "w-000c4c"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000c4a": {
+      "id": "w-000c4a",
+      "type": "text",
+      "parentId": "w-000c49",
+      "childrenIds": [],
+      "label": "오프라인",
+      "size": "sm"
+    },
+    "w-000c4b": {
+      "id": "w-000c4b",
+      "type": "button",
+      "parentId": "w-000c49",
+      "childrenIds": [],
+      "label": "편집기",
+      "variant": "secondary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n36"
+      }
+    },
+    "w-000c4c": {
+      "id": "w-000c4c",
+      "type": "button",
+      "parentId": "w-000c49",
+      "childrenIds": [],
+      "label": "버전 / 배포",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n37"
+      }
+    },
+    "w-000c4d": {
+      "id": "w-000c4d",
+      "type": "box",
+      "parentId": "w-000c1f",
+      "childrenIds": [
+        "w-000c4e"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c4e": {
+      "id": "w-000c4e",
+      "type": "row",
+      "parentId": "w-000c4d",
+      "childrenIds": [
+        "w-000c4f",
+        "w-000c52"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-000c4f": {
+      "id": "w-000c4f",
+      "type": "column",
+      "parentId": "w-000c4e",
+      "childrenIds": [
+        "w-000c50",
+        "w-000c51"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000c50": {
+      "id": "w-000c50",
+      "type": "text",
+      "parentId": "w-000c4f",
+      "childrenIds": [],
+      "label": "3층 물류센터 — C동",
+      "size": "md"
+    },
+    "w-000c51": {
+      "id": "w-000c51",
+      "type": "text",
+      "parentId": "w-000c4f",
+      "childrenIds": [],
+      "label": "최종 수정: 2025-04-12  ·  버전 v2.5",
+      "size": "sm"
+    },
+    "w-000c52": {
+      "id": "w-000c52",
+      "type": "row",
+      "parentId": "w-000c4e",
+      "childrenIds": [
+        "w-000c53",
+        "w-000c54",
+        "w-000c55"
+      ],
+      "layout": {
+        "gap": 8,
+        "align": "center"
+      }
+    },
+    "w-000c53": {
+      "id": "w-000c53",
+      "type": "text",
+      "parentId": "w-000c52",
+      "childrenIds": [],
+      "label": "정상",
+      "size": "sm"
+    },
+    "w-000c54": {
+      "id": "w-000c54",
+      "type": "button",
+      "parentId": "w-000c52",
+      "childrenIds": [],
+      "label": "편집기",
+      "variant": "secondary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n36"
+      }
+    },
+    "w-000c55": {
+      "id": "w-000c55",
+      "type": "button",
+      "parentId": "w-000c52",
+      "childrenIds": [],
+      "label": "버전 / 배포",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n37"
+      }
+    }
+  }
+}

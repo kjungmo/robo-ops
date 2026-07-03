@@ -1,0 +1,1892 @@
+{
+  "id": "bd2b0ed1-5259-4835-8b25-6a9d944cbeaf",
+  "metaData": {
+    "title": "AMR/AGV 통합 원격 관제 플랫폼",
+    "description": "",
+    "groupId": "eef90e90-fb69-410e-bbe2-4f675d2cf2a9",
+    "isDeleted": false,
+    "createdAt": "",
+    "updatedAt": "2026-06-19T05:16:57.433Z"
+  },
+  "isActiveSession": true,
+  "activeUsers": [
+    {
+      "id": "358a7686-2501-4cb9-bc5d-be2853a02546",
+      "email": "kangjmo91@gmail.com"
+    }
+  ],
+  "projectData": {
+    "metaData": {
+      "groupId": "eef90e90-fb69-410e-bbe2-4f675d2cf2a9",
+      "isDeleted": false,
+      "updatedAt": "2026-06-19T05:16:57.433Z",
+      "title": "AMR/AGV 통합 원격 관제 플랫폼",
+      "description": ""
+    },
+    "prd": {
+      "data": {
+        "subject": "AMR/AGV 통합 원격 관제 플랫폼",
+        "goal": "AMR/AGV의 통합 원격 관제를 통해 운영자 1인이 관리할 수 있는 로봇 대수를 확대하고, 실시간 로봇 상태 파악 및 장애 대응 속도를 향상시켜 로봇 운영 효율성과 가동률을 극대화합니다.",
+        "background": "현재 다수의 AMR/AGV가 로봇별로 수동 운영되어 실시간 상태 파악이 어렵고, 장애 발생 시 현장 접근 및 원인 파악에 시간이 소요되며, 운영 대수 확장에 한계가 있습니다. 이러한 비효율성을 해소하고 로봇 운영 생산성을 높이기 위한 통합 솔루션이 필요합니다.",
+        "userProblem": "로봇의 실시간 상태를 파악하기 어렵고, 수동 운영으로 인한 비효율성이 발생합니다. 장애 발생 시 현장 접근과 원인 파악에 시간이 지연되며, 로봇 운영 대수 확장 시 관리의 한계에 직면합니다.",
+        "solution": "웹 또는 전용 클라이언트를 통해 다수의 로봇 상태를 실시간으로 모니터링하고 원격으로 제어할 수 있는 통합 관제 플랫폼을 제공합니다. 장애 발생 시 센서 데이터 자동 수집 기능을 통해 원인 분석 및 대응 시간을 단축하고, 맵 관리 및 경로 계획 기능을 통합하여 운영 효율성을 높입니다.",
+        "differentiation": "부분적인 외부 모니터링 도구 활용이나 수동 운영 방식과 달리, 본 시스템은 로봇의 실시간 감시, 원격 제어, 맵 관리, 장애 이력 관리 등을 하나의 플랫폼에서 통합적으로 제공하여 운영의 복잡성을 줄이고 생산성을 극대화합니다.",
+        "targetUser": "현장 로봇 운영자(로봇 감시, 원격 제어, 미션 개입), 로봇 시스템 관리자(맵, 사용자, 로봇 버전 관리), 로봇 유지보수 담당자(장애 분석, 이력 관리) 등 AMR/AGV를 운영하는 모든 관계자를 대상으로 합니다. 이들은 로봇 운영의 효율성 증대와 장애 대응 시간 단축을 통해 생산성 향상을 기대합니다.",
+        "scenario": "현장 운영자는 웹 또는 전용 클라이언트에 접속하여 다수의 AMR/AGV 로봇 위치, 주행 상태, 배터리 잔량, 미션 진행률 등을 실시간으로 모니터링합니다. 특정 로봇에 문제가 발생하면, 즉시 해당 로봇을 원격으로 정지시키거나 재시작하고, 필요시 수동 제어 또는 목적지를 재지정하여 미션을 개입합니다. 장애 발생 시 시스템이 자동으로 수집한 센서 데이터를 확인하여 유지보수 담당자와 협력하여 신속하게 문제를 해결하고, 관리자는 맵을 편집하고 로봇에 배포하여 최적의 주행 환경을 유지합니다.",
+        "kpi": "로봇 가동률 10% 향상, 장애 대응 시간 30% 단축, 운영자 1인당 관리 로봇 대수 20% 증가, 맵 편집 및 배포 시간 25% 단축.",
+        "risk": "실시간 데이터 처리 지연으로 인한 로봇 제어 오작동 또는 정보 불일치, 시스템 장애 시 로봇 운영 전체 마비 위험, 민감한 로봇 운영 데이터에 대한 보안 위협, 다양한 로봇 제조사의 인터페이스 표준화 문제로 인한 확장성 저해.",
+        "category": "productivity",
+        "roles": [
+          {
+            "id": "OSQUSH",
+            "name": "운영자"
+          },
+          {
+            "id": "VCFJRJ",
+            "name": "관리자"
+          },
+          {
+            "id": "SOJQMU",
+            "name": "유지보수 담당"
+          }
+        ],
+        "devices": [
+          {
+            "id": "SSUGKE",
+            "name": "Web"
+          },
+          {
+            "id": "XEFKYW",
+            "name": "Desktop"
+          }
+        ],
+        "requirements": [
+          "R-TCGRMX",
+          "R-VSTSUL",
+          "R-QDDWNV",
+          "R-GPUPDU",
+          "R-WYCGKO",
+          "R-FALAJC",
+          "R-RMPCDU",
+          "R-ZWCDMD"
+        ]
+      },
+      "overview": {
+        "subject": "AMR/AGV 통합 원격 관제 플랫폼",
+        "goal": "AMR/AGV의 통합 원격 관제를 통해 운영자 1인이 관리할 수 있는 로봇 대수를 확대하고, 실시간 로봇 상태 파악 및 장애 대응 속도를 향상시켜 로봇 운영 효율성과 가동률을 극대화합니다.",
+        "background": "현재 다수의 AMR/AGV가 로봇별로 수동 운영되어 실시간 상태 파악이 어렵고, 장애 발생 시 현장 접근 및 원인 파악에 시간이 소요되며, 운영 대수 확장에 한계가 있습니다. 이러한 비효율성을 해소하고 로봇 운영 생산성을 높이기 위한 통합 솔루션이 필요합니다."
+      },
+      "coreValue": {
+        "userProblem": "로봇의 실시간 상태를 파악하기 어렵고, 수동 운영으로 인한 비효율성이 발생합니다. 장애 발생 시 현장 접근과 원인 파악에 시간이 지연되며, 로봇 운영 대수 확장 시 관리의 한계에 직면합니다.",
+        "solution": "웹 또는 전용 클라이언트를 통해 다수의 로봇 상태를 실시간으로 모니터링하고 원격으로 제어할 수 있는 통합 관제 플랫폼을 제공합니다. 장애 발생 시 센서 데이터 자동 수집 기능을 통해 원인 분석 및 대응 시간을 단축하고, 맵 관리 및 경로 계획 기능을 통합하여 운영 효율성을 높입니다.",
+        "differentiation": "부분적인 외부 모니터링 도구 활용이나 수동 운영 방식과 달리, 본 시스템은 로봇의 실시간 감시, 원격 제어, 맵 관리, 장애 이력 관리 등을 하나의 플랫폼에서 통합적으로 제공하여 운영의 복잡성을 줄이고 생산성을 극대화합니다."
+      },
+      "target": {
+        "targetUser": "현장 로봇 운영자(로봇 감시, 원격 제어, 미션 개입), 로봇 시스템 관리자(맵, 사용자, 로봇 버전 관리), 로봇 유지보수 담당자(장애 분석, 이력 관리) 등 AMR/AGV를 운영하는 모든 관계자를 대상으로 합니다. 이들은 로봇 운영의 효율성 증대와 장애 대응 시간 단축을 통해 생산성 향상을 기대합니다.",
+        "scenario": "현장 운영자는 웹 또는 전용 클라이언트에 접속하여 다수의 AMR/AGV 로봇 위치, 주행 상태, 배터리 잔량, 미션 진행률 등을 실시간으로 모니터링합니다. 특정 로봇에 문제가 발생하면, 즉시 해당 로봇을 원격으로 정지시키거나 재시작하고, 필요시 수동 제어 또는 목적지를 재지정하여 미션을 개입합니다. 장애 발생 시 시스템이 자동으로 수집한 센서 데이터를 확인하여 유지보수 담당자와 협력하여 신속하게 문제를 해결하고, 관리자는 맵을 편집하고 로봇에 배포하여 최적의 주행 환경을 유지합니다."
+      },
+      "success": {
+        "kpi": "로봇 가동률 10% 향상, 장애 대응 시간 30% 단축, 운영자 1인당 관리 로봇 대수 20% 증가, 맵 편집 및 배포 시간 25% 단축.",
+        "risk": "실시간 데이터 처리 지연으로 인한 로봇 제어 오작동 또는 정보 불일치, 시스템 장애 시 로봇 운영 전체 마비 위험, 민감한 로봇 운영 데이터에 대한 보안 위협, 다양한 로봇 제조사의 인터페이스 표준화 문제로 인한 확장성 저해."
+      },
+      "attribute": {
+        "category": "productivity",
+        "roles": [
+          {
+            "id": "OSQUSH",
+            "name": "운영자"
+          },
+          {
+            "id": "VCFJRJ",
+            "name": "관리자"
+          },
+          {
+            "id": "SOJQMU",
+            "name": "유지보수 담당"
+          }
+        ],
+        "devices": [
+          {
+            "id": "SSUGKE",
+            "name": "Web"
+          },
+          {
+            "id": "XEFKYW",
+            "name": "Desktop"
+          }
+        ]
+      },
+      "requirements": [
+        "R-TCGRMX",
+        "R-VSTSUL",
+        "R-QDDWNV",
+        "R-GPUPDU",
+        "R-WYCGKO",
+        "R-FALAJC",
+        "R-RMPCDU",
+        "R-ZWCDMD"
+      ]
+    },
+    "requirements": [
+      {
+        "id": "R-TCGRMX",
+        "type": "requirement",
+        "data": {
+          "name": "실시간 로봇 상태 모니터링",
+          "description": "다수의 AMR/AGV 로봇의 현재 위치, 주행 상태, 배터리 잔량, 속도, 미션 진행률, 통신 상태 등을 웹 또는 전용 클라이언트에서 실시간으로 시각화하여 표시합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "acceptanceCriteria": [
+            {
+              "description": "모든 등록된 로봇의 주요 상태 정보(위치, 배터리, 미션)가 1초 이내로 업데이트되어 표시되어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "지도 상에 로봇의 실시간 위치와 주행 경로가 정확하게 표시되어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "로봇 상태 이상 발생 시 시각적/청각적 알림이 즉시 제공되어야 합니다.",
+              "isDone": false
+            }
+          ],
+          "features": [
+            "F-XRKNJM",
+            "F-XDQZOV",
+            "F-FJRNBR"
+          ]
+        }
+      },
+      {
+        "id": "R-VSTSUL",
+        "type": "requirement",
+        "data": {
+          "name": "원격 로봇 제어",
+          "description": "운영자가 관제 시스템을 통해 개별 또는 그룹 로봇에 대해 정지, 재시작, 수동 제어, 목적지 재지정 등의 명령을 원격으로 하달하고 그 결과를 확인할 수 있습니다.",
+          "importance": "high",
+          "progress": "todo",
+          "acceptanceCriteria": [
+            {
+              "description": "원격 제어 명령이 2초 이내에 로봇에 전달되어 실행되어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "수동 제어 시 로봇의 움직임이 관제 화면에 실시간으로 반영되어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "목적지 재지정 시 해당 로봇이 새로운 목적지로 경로를 재계획하고 이동을 시작해야 합니다.",
+              "isDone": false
+            }
+          ],
+          "features": [
+            "F-FVMYBG",
+            "F-JBBIRD",
+            "F-CSBQAW"
+          ]
+        }
+      },
+      {
+        "id": "R-QDDWNV",
+        "type": "requirement",
+        "data": {
+          "name": "맵 관리 및 주행 경로 설정",
+          "description": "로봇이 사용하는 맵을 시스템 내에서 작성, 편집, 배포할 수 있으며, 로봇의 주행 경로와 목적지를 지정하고 관리할 수 있습니다.",
+          "importance": "high",
+          "progress": "todo",
+          "acceptanceCriteria": [
+            {
+              "description": "맵 편집 기능을 통해 장애물, 통행 금지 구역 등을 추가/삭제하고 즉시 로봇에 배포할 수 있어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "관제 시스템 내에서 특정 로봇에 대한 주행 경로 및 목적지를 설정하고 할당할 수 있어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "여러 로봇의 경로가 충돌할 가능성이 있을 때 시각적으로 경고를 표시해야 합니다.",
+              "isDone": false
+            }
+          ],
+          "features": [
+            "F-TOQWIK",
+            "F-PVZHFN",
+            "F-JMRSIZ",
+            "F-FZCMID"
+          ]
+        }
+      },
+      {
+        "id": "R-GPUPDU",
+        "type": "requirement",
+        "data": {
+          "name": "알람 및 장애 관리",
+          "description": "로봇의 운행 중 발생하는 알람 및 에러를 실시간으로 관리하고, 운행 로그 및 장애 이력을 조회할 수 있습니다. 장애 발생 시 LiDAR, 카메라, IMU, odometry, TF, rosbag 등의 센서 데이터를 자동/수동으로 수집하여 원인 분석 및 재현 테스트에 활용합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "acceptanceCriteria": [
+            {
+              "description": "로봇에서 발생한 모든 알람 및 에러가 시스템에 기록되고 관리자에게 실시간으로 알림이 전송되어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "장애 이력 조회 시 발생 시각, 로봇 ID, 장애 유형, 조치 내용 등 상세 정보가 제공되어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "장애 발생 시 지정된 센서 데이터가 자동으로 수집되어 저장되고, 필요시 수동으로 추가 수집할 수 있어야 합니다.",
+              "isDone": false
+            }
+          ],
+          "features": [
+            "F-CRUOJN",
+            "F-TSVGFF",
+            "F-TFNGYD",
+            "F-LHMUSA"
+          ]
+        }
+      },
+      {
+        "id": "R-WYCGKO",
+        "type": "requirement",
+        "data": {
+          "name": "사용자 및 권한 관리",
+          "description": "시스템 사용자의 계정을 관리하고, 현장 운영자, 관리자, 유지보수 담당 등 역할에 따라 기능 접근 권한을 차등 부여합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "acceptanceCriteria": [
+            {
+              "description": "관리자는 사용자 계정을 생성, 수정, 삭제할 수 있어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "각 역할별로 접근 가능한 메뉴와 기능이 명확히 구분되고 정확하게 적용되어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "사용자 로그인 시 강력한 인증 메커니즘을 적용하여 보안성을 확보해야 합니다.",
+              "isDone": false
+            }
+          ],
+          "features": [
+            "F-JPYHRN",
+            "F-XAYIMT",
+            "F-DKMBSU"
+          ]
+        }
+      },
+      {
+        "id": "R-FALAJC",
+        "type": "requirement",
+        "data": {
+          "name": "로봇/현장 등록 및 관리",
+          "description": "관제 대상 로봇과 운영 현장(사이트/구역)을 시스템에 등록하고, 로봇 메타데이터 및 통신 연결 정보를 관리합니다. 제조사/모델/펌웨어(또는 SW 버전), 로봇 식별자, 운행 가능 구역, 연동 엔드포인트(URL, 토큰/키) 등을 표준 필드로 관리하여 다수 로봇 확장 시 등록·변경 작업을 일관되게 수행할 수 있게 합니다.",
+          "acceptanceCriteria": [
+            {
+              "description": "관리자는 로봇을 등록/수정/비활성화(운영 제외)할 수 있어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "로봇별 필수 메타데이터(제조사, 모델, 식별자, 버전, 통신 엔드포인트)가 누락되면 저장할 수 없어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "로봇 목록에서 상태(온라인/오프라인), 마지막 통신 시각, 할당 현장/구역을 한눈에 확인할 수 있어야 합니다.",
+              "isDone": false
+            }
+          ],
+          "importance": "high",
+          "progress": "todo",
+          "features": [
+            "F-BYVSLU",
+            "F-LPIGWA",
+            "F-PTLBJB"
+          ]
+        }
+      },
+      {
+        "id": "R-RMPCDU",
+        "type": "requirement",
+        "data": {
+          "name": "대시보드 성능 데이터 분석",
+          "description": "관리자가 시스템 전반의 성능 데이터(가동률, 장애 빈도/유형, 대응 시간, 맵 배포 소요 시간, 운영자 개입 빈도 등)를 기간/현장/로봇군(제조사·모델) 단위로 분석하여 병목과 개선 포인트를 파악할 수 있게 합니다. 지표는 요약 카드와 추세 그래프로 제공하고, 상세 데이터는 다운로드(예: CSV) 가능한 형태로 제공합니다.",
+          "acceptanceCriteria": [
+            {
+              "description": "관리자는 기간(일/주/월)과 현장/로봇 필터로 지표를 조회할 수 있어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "핵심 지표(가동률, 장애 대응 시간, 운영자 1인당 관리 로봇 대수, 맵 편집/배포 시간)의 추세가 시각화되어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "지표의 원천 이벤트(알람/장애/제어/배포 로그)를 기준으로 상세 목록을 조회할 수 있어야 합니다.",
+              "isDone": false
+            }
+          ],
+          "importance": "medium",
+          "progress": "todo",
+          "features": [
+            "F-DLWHBR",
+            "F-ELVQBM",
+            "F-NQLMUQ"
+          ]
+        }
+      },
+      {
+        "id": "R-ZWCDMD",
+        "type": "requirement",
+        "data": {
+          "name": "운영 로그 및 감사 추적",
+          "description": "원격 제어, 맵 편집/배포, 사용자 권한 변경, 장애 처리 등 주요 행위를 감사 추적(누가/언제/무엇을/결과) 형태로 기록하고 조회합니다. 운영 사고 조사와 권한 오남용 방지, 규정 준수를 위해 검색/필터/내보내기를 제공합니다.",
+          "acceptanceCriteria": [
+            {
+              "description": "시스템은 제어/배포/권한 변경 등 주요 이벤트를 사용자, 대상(로봇/맵), 결과(성공/실패), 사유(선택)와 함께 기록해야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "관리자는 기간/사용자/이벤트 유형/로봇으로 로그를 검색 및 필터할 수 있어야 합니다.",
+              "isDone": false
+            },
+            {
+              "description": "감사 로그는 수정/삭제가 불가능해야 하며(읽기 전용), 내보내기 기능을 제공해야 합니다.",
+              "isDone": false
+            }
+          ],
+          "importance": "medium",
+          "progress": "todo",
+          "features": [
+            "F-YUUJQZ",
+            "F-EFVCPN"
+          ]
+        }
+      }
+    ],
+    "features": [
+      {
+        "id": "F-XRKNJM",
+        "type": "feature",
+        "data": {
+          "parentId": "R-TCGRMX",
+          "name": "로봇 목록/그리드 모니터링",
+          "description": "등록된 모든 로봇을 카드/표 형태로 한 화면에서 모니터링합니다. 로봇별 온라인 상태, 배터리, 미션, 속도, 알람 요약, 마지막 업데이트 시각을 표시하고, 정렬/필터로 우선 확인 대상을 빠르게 찾습니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-CVHCSE",
+            "S-RYOZIN"
+          ]
+        }
+      },
+      {
+        "id": "F-XDQZOV",
+        "type": "feature",
+        "data": {
+          "parentId": "R-TCGRMX",
+          "name": "지도 기반 실시간 위치/경로 시각화",
+          "description": "현장 맵 위에 로봇의 실시간 위치, 방향, 계획 경로/이동 궤적을 겹쳐 표시합니다. 로봇 선택 시 상세 패널로 핵심 상태와 최근 이벤트를 확인합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-PAKIMP",
+            "S-BQUKVI"
+          ]
+        }
+      },
+      {
+        "id": "F-FJRNBR",
+        "type": "feature",
+        "data": {
+          "parentId": "R-TCGRMX",
+          "name": "로봇 상세 상태 패널",
+          "description": "선택한 로봇의 통신, 배터리, 미션, 센서/안전 상태, 최근 알람을 상세로 확인합니다. 유지보수 담당자는 장애 분석에 필요한 기본 진단 정보에 빠르게 접근합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-EMKCEJ",
+            "S-WOSPGH"
+          ]
+        }
+      },
+      {
+        "id": "F-FVMYBG",
+        "type": "feature",
+        "data": {
+          "parentId": "R-VSTSUL",
+          "name": "원격 정지/재시작 제어",
+          "description": "운영자가 로봇을 즉시 정지(비상/일반)하거나 재시작 명령을 전송하고, 실행 결과(성공/실패, 사유)를 확인합니다. 위험 작업은 권한 및 확인 절차를 거칩니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-WXPBVG",
+            "S-UYXNMG"
+          ]
+        }
+      },
+      {
+        "id": "F-JBBIRD",
+        "type": "feature",
+        "data": {
+          "parentId": "R-VSTSUL",
+          "name": "원격 수동 제어(조이스틱/키보드)",
+          "description": "운영자가 원격으로 전/후/좌/우, 속도 제한 등 수동 주행을 제어합니다. 제어 중에는 안전 상태와 지연(레이턴시)을 명확히 보여주고, 충돌 위험 시 자동 제한을 적용합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-DLNHDV",
+            "S-KAZUXC"
+          ]
+        }
+      },
+      {
+        "id": "F-CSBQAW",
+        "type": "feature",
+        "data": {
+          "parentId": "R-VSTSUL",
+          "name": "미션 개입(미션 변경/취소/재할당)",
+          "description": "진행 중인 미션을 취소하거나 다른 목적지/작업으로 변경하고, 로봇/로봇군에 미션을 재할당합니다. 변경 이력과 사유를 함께 남깁니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-ZVOZAS",
+            "S-BIZNBX"
+          ]
+        }
+      },
+      {
+        "id": "F-TOQWIK",
+        "type": "feature",
+        "data": {
+          "parentId": "R-QDDWNV",
+          "name": "맵 생성/가져오기",
+          "description": "현장 맵을 생성하거나 외부에서 생성된 맵을 가져옵니다. 맵 메타데이터(현장, 버전, 생성 시각, 생성자)를 관리합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-VPCYVQ",
+            "S-LACGVW"
+          ]
+        }
+      },
+      {
+        "id": "F-PVZHFN",
+        "type": "feature",
+        "data": {
+          "parentId": "R-QDDWNV",
+          "name": "맵 편집(장애물/금지구역/포인트)",
+          "description": "장애물, 통행 금지 구역, 관심 지점(POI), 도킹/충전 위치 등을 추가/삭제/수정합니다. 편집 내용은 변경 이력으로 기록됩니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-XUGLOT",
+            "S-WIZBRN"
+          ]
+        }
+      },
+      {
+        "id": "F-JMRSIZ",
+        "type": "feature",
+        "data": {
+          "parentId": "R-QDDWNV",
+          "name": "맵 버전 관리 및 배포",
+          "description": "맵을 버전으로 관리하고 선택한 로봇/로봇군에 배포합니다. 배포 진행률, 성공/실패, 롤백(이전 버전 복귀)을 지원합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-DNKVPW",
+            "S-CHJMUV"
+          ]
+        }
+      },
+      {
+        "id": "F-FZCMID",
+        "type": "feature",
+        "data": {
+          "parentId": "R-QDDWNV",
+          "name": "주행 경로/목적지 지정 및 충돌 경고",
+          "description": "로봇별 목적지 및 주행 경로(웨이포인트)를 지정하고, 다중 로봇 간 경로 충돌 가능성이 있는 경우 시각적 경고를 제공합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-MIBOWG",
+            "S-IAJWPR"
+          ]
+        }
+      },
+      {
+        "id": "F-CRUOJN",
+        "type": "feature",
+        "data": {
+          "parentId": "R-GPUPDU",
+          "name": "실시간 알람 수신 및 알림",
+          "description": "로봇에서 발생한 알람/에러를 실시간으로 수신하여 관제 화면에 표시하고, 중요도에 따라 소리/배너/푸시(클라이언트)로 알립니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-HOMCEG",
+            "S-DHCYPQ"
+          ]
+        }
+      },
+      {
+        "id": "F-TSVGFF",
+        "type": "feature",
+        "data": {
+          "parentId": "R-GPUPDU",
+          "name": "알람/장애 이력 조회 및 필터링",
+          "description": "발생 시각, 로봇, 유형, 심각도, 상태(신규/확인/조치중/해결)로 장애 이력을 조회하고, 검색/필터로 원인 분석 시간을 줄입니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-SZFIQH",
+            "S-HGKXCJ"
+          ]
+        }
+      },
+      {
+        "id": "F-TFNGYD",
+        "type": "feature",
+        "data": {
+          "parentId": "R-GPUPDU",
+          "name": "장애 티켓(조치 워크플로우)",
+          "description": "장애를 티켓으로 전환해 담당자 지정, 상태 변경, 조치 기록, 첨부(로그/파일)로 처리 과정을 표준화합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-CZWNAL",
+            "S-TZEHLJ"
+          ]
+        }
+      },
+      {
+        "id": "F-LHMUSA",
+        "type": "feature",
+        "data": {
+          "parentId": "R-GPUPDU",
+          "name": "자동 센서 데이터 수집/저장",
+          "description": "장애 발생 시 사전에 정의된 센서/로그 데이터를 자동으로 수집해 사건과 묶어 저장합니다. 필요 시 수동 추가 수집도 지원합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "SOJQMU",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-VSJQLF",
+            "S-EFZUQQ"
+          ]
+        }
+      },
+      {
+        "id": "F-JPYHRN",
+        "type": "feature",
+        "data": {
+          "parentId": "R-WYCGKO",
+          "name": "사용자 계정 관리(생성/수정/삭제)",
+          "description": "관리자가 사용자 계정을 생성/수정/삭제하고, 계정 상태(활성/잠금), 기본 정보, 마지막 로그인 정보를 관리합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-ZDHJHZ",
+            "S-WWPTQR"
+          ]
+        }
+      },
+      {
+        "id": "F-XAYIMT",
+        "type": "feature",
+        "data": {
+          "parentId": "R-WYCGKO",
+          "name": "역할 기반 접근 제어(RBAC)",
+          "description": "운영자/관리자/유지보수 담당 역할에 따라 메뉴 및 기능 접근 권한을 제어합니다. 권한 변경은 감사 로그로 남깁니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-LEWRGF",
+            "S-NHYMKC",
+            "S-JWXRUL"
+          ]
+        }
+      },
+      {
+        "id": "F-DKMBSU",
+        "type": "feature",
+        "data": {
+          "parentId": "R-WYCGKO",
+          "name": "로그인 및 보안 정책",
+          "description": "로그인, 비밀번호 정책, 세션 관리, 계정 잠금 등 기본 보안 정책을 제공합니다. 필요 시 2단계 인증(2FA) 확장을 고려합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-ICMPDW",
+            "S-MRDYFZ"
+          ]
+        }
+      },
+      {
+        "id": "F-BYVSLU",
+        "type": "feature",
+        "data": {
+          "parentId": "R-FALAJC",
+          "name": "로봇 등록/수정/비활성화",
+          "description": "관리자가 로봇을 등록하고 메타데이터 및 연결 정보를 수정하며, 운영 제외(비활성화)할 수 있습니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-FOSZQP",
+            "S-VNNLPU"
+          ]
+        }
+      },
+      {
+        "id": "F-LPIGWA",
+        "type": "feature",
+        "data": {
+          "parentId": "R-FALAJC",
+          "name": "현장/구역(존) 관리",
+          "description": "현장과 구역(존)을 정의하고 로봇을 할당합니다. 맵, 알람, 지표 조회의 기본 범위를 현장/구역 단위로 묶어 관리합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-KFIJEN",
+            "S-MGFFSV",
+            "S-RGWTPX"
+          ]
+        }
+      },
+      {
+        "id": "F-PTLBJB",
+        "type": "feature",
+        "data": {
+          "parentId": "R-FALAJC",
+          "name": "로봇 연동 상태 진단(헬스체크)",
+          "description": "로봇/게이트웨이/연동 서버와의 연결 상태를 점검하고, 실패 원인을 구분(인증/네트워크/타임아웃/프로토콜)해 표시합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "SOJQMU",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-CKHSUE",
+            "S-KKOUAF",
+            "S-YUUFHK"
+          ]
+        }
+      },
+      {
+        "id": "F-DLWHBR",
+        "type": "feature",
+        "data": {
+          "parentId": "R-RMPCDU",
+          "name": "KPI 대시보드(요약/추세)",
+          "description": "가동률, 장애 대응 시간, 운영자 생산성, 맵 배포 시간 등 핵심 지표를 요약 카드와 추세 그래프로 제공합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-ERENLF",
+            "S-ZTNQNM"
+          ]
+        }
+      },
+      {
+        "id": "F-ELVQBM",
+        "type": "feature",
+        "data": {
+          "parentId": "R-RMPCDU",
+          "name": "지표 드릴다운(원천 이벤트 조회)",
+          "description": "대시보드에서 지표를 클릭하면 관련 알람/장애/제어/배포 이벤트 목록으로 드릴다운하여 원인과 기여도를 파악합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-CTGERT"
+          ]
+        }
+      },
+      {
+        "id": "F-NQLMUQ",
+        "type": "feature",
+        "data": {
+          "parentId": "R-RMPCDU",
+          "name": "분석 데이터 내보내기",
+          "description": "필터링한 지표 및 원천 이벤트를 CSV 등 파일로 내보내 공유/보고에 활용합니다.",
+          "importance": "low",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-MFDFEC"
+          ]
+        }
+      },
+      {
+        "id": "F-YUUJQZ",
+        "type": "feature",
+        "data": {
+          "parentId": "R-ZWCDMD",
+          "name": "제어/배포/권한 변경 감사 로그 기록",
+          "description": "원격 제어, 맵 배포, 권한 변경 등 주요 이벤트를 표준 스키마로 기록합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-PISJCG"
+          ]
+        }
+      },
+      {
+        "id": "F-EFVCPN",
+        "type": "feature",
+        "data": {
+          "parentId": "R-ZWCDMD",
+          "name": "감사 로그 조회/검색/필터",
+          "description": "기간/사용자/이벤트 유형/대상 로봇/맵으로 감사 로그를 조회하고 검색합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ],
+          "specs": [
+            "S-FFXACB",
+            "S-EFLFNE",
+            "S-PAJUXF"
+          ]
+        }
+      }
+    ],
+    "specs": [
+      {
+        "id": "S-CVHCSE",
+        "type": "spec",
+        "data": {
+          "parentId": "F-XRKNJM",
+          "name": "로봇 목록 정렬/필터/검색",
+          "description": "로봇 이름/ID, 제조사/모델, 현장/구역, 온라인 상태, 알람 유무, 배터리 구간 등으로 검색/필터하고, 배터리/알람 심각도/미션 상태/마지막 업데이트 기준 정렬을 제공합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-RYOZIN",
+        "type": "spec",
+        "data": {
+          "parentId": "F-XRKNJM",
+          "name": "로봇 카드 핵심 지표 표시",
+          "description": "각 로봇 카드에 온라인 상태, 배터리, 현재 미션, 속도, 최근 알람 1건, 마지막 업데이트 시각을 표시하고, 이상 상태는 색상/아이콘으로 강조합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-PAKIMP",
+        "type": "spec",
+        "data": {
+          "parentId": "F-XDQZOV",
+          "name": "맵 레이어/오버레이 토글",
+          "description": "로봇 경로, 이동 궤적, 금지 구역, POI 등 레이어를 켜고 끌 수 있습니다. 복잡한 현장에서도 필요한 정보만 집중할 수 있게 합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-BQUKVI",
+        "type": "spec",
+        "data": {
+          "parentId": "F-XDQZOV",
+          "name": "로봇 선택/추적(팔로우) 모드",
+          "description": "특정 로봇을 선택하면 지도 중심이 로봇을 따라가며, 확대/축소 수준을 유지합니다. 로봇 전환 시 부드럽게 포커스를 이동합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-EMKCEJ",
+        "type": "spec",
+        "data": {
+          "parentId": "F-FJRNBR",
+          "name": "로봇 상태 상세(통신/배터리/미션)",
+          "description": "통신 품질, 마지막 하트비트, 배터리 잔량/온도(가능 시), 미션 단계/ETA 등 상세 정보를 섹션으로 보여줍니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-WOSPGH",
+        "type": "spec",
+        "data": {
+          "parentId": "F-FJRNBR",
+          "name": "최근 이벤트 타임라인",
+          "description": "최근 알람, 제어 명령, 미션 변경, 맵 배포 등 이벤트를 시간순으로 나열하고, 각 이벤트의 상세로 이동합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-WXPBVG",
+        "type": "spec",
+        "data": {
+          "parentId": "F-FVMYBG",
+          "name": "정지 명령 유형(일반/비상)",
+          "description": "정지 명령을 일반 정지와 비상 정지로 구분하고, 권한이 있는 사용자만 비상 정지를 실행할 수 있게 합니다. 비상 정지는 추가 확인(2단계 확인)을 요구합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-UYXNMG",
+        "type": "spec",
+        "data": {
+          "parentId": "F-FVMYBG",
+          "name": "명령 전송 결과/사유 표시",
+          "description": "정지/재시작 명령의 전송 시각, 수신/실행 여부, 실패 사유(타임아웃, 권한, 로봇 상태 불가 등)를 UI에서 확인할 수 있어야 합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-DLNHDV",
+        "type": "spec",
+        "data": {
+          "parentId": "F-JBBIRD",
+          "name": "수동 제어 세션 잠금(단일 제어자)",
+          "description": "동시에 2명 이상이 같은 로봇을 제어하지 못하도록 제어 세션을 잠금합니다. 세션 소유자와 시작 시각을 표시하고 강제 해제는 관리자만 가능하게 합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-KAZUXC",
+        "type": "spec",
+        "data": {
+          "parentId": "F-JBBIRD",
+          "name": "안전 인터록/속도 제한",
+          "description": "로봇이 알람 상태이거나 네트워크 지연이 임계치를 넘으면 속도 제한 또는 제어 차단을 적용합니다. 제한 조건과 해제 방법을 명확히 안내합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-ZVOZAS",
+        "type": "spec",
+        "data": {
+          "parentId": "F-CSBQAW",
+          "name": "미션 변경 사유 입력 및 이력 기록",
+          "description": "미션 변경/취소 시 사유를 선택/입력하고, 누가/언제/무엇을 어떻게 바꿨는지 감사 로그 및 로봇 이벤트 타임라인에 남깁니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-BIZNBX",
+        "type": "spec",
+        "data": {
+          "parentId": "F-CSBQAW",
+          "name": "미션 재할당(로봇/로봇군)",
+          "description": "미션을 특정 로봇 또는 로봇군에 재할당하고, 대기열(큐) 우선순위를 지정합니다. 충돌 시(오프라인 등) 대체 로봇 추천(가능 시)을 제공합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-VPCYVQ",
+        "type": "spec",
+        "data": {
+          "parentId": "F-TOQWIK",
+          "name": "맵 메타데이터 관리",
+          "description": "맵 이름, 현장/구역, 버전, 생성자, 생성 시각, 설명(변경 요약)을 필드로 관리하고 목록에서 확인합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-LACGVW",
+        "type": "spec",
+        "data": {
+          "parentId": "F-TOQWIK",
+          "name": "맵 가져오기 형식 검증",
+          "description": "가져오기 시 지원 형식/버전을 검증하고, 누락/불일치(좌표계/해상도 등)를 오류로 안내합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-XUGLOT",
+        "type": "spec",
+        "data": {
+          "parentId": "F-PVZHFN",
+          "name": "편집 도구(장애물/금지구역/POI)",
+          "description": "도형/브러시/다각형 등 편집 도구로 장애물과 금지구역을 편집하고, POI는 이름/유형/좌표를 지정해 생성합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-WIZBRN",
+        "type": "spec",
+        "data": {
+          "parentId": "F-PVZHFN",
+          "name": "편집 변경 이력/되돌리기",
+          "description": "편집 작업을 단계별로 되돌리기/다시하기 할 수 있고, 변경 요약과 함께 저장 이력을 남깁니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-DNKVPW",
+        "type": "spec",
+        "data": {
+          "parentId": "F-JMRSIZ",
+          "name": "배포 대상 선택(로봇/로봇군)",
+          "description": "맵 배포 시 대상 로봇 또는 로봇군을 선택하고, 배포 전 호환성(버전/현장 일치) 검증을 수행합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-CHJMUV",
+        "type": "spec",
+        "data": {
+          "parentId": "F-JMRSIZ",
+          "name": "배포 진행률/결과 및 롤백",
+          "description": "배포 진행률과 성공/실패 목록, 실패 사유를 보여주고, 필요 시 이전 버전으로 롤백할 수 있습니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-MIBOWG",
+        "type": "spec",
+        "data": {
+          "parentId": "F-FZCMID",
+          "name": "목적지 지정(POI 기반)",
+          "description": "지도에서 POI를 선택하거나 좌표를 클릭해 목적지를 지정합니다. 목적지 유효성(금지구역/장애물)을 검증합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-IAJWPR",
+        "type": "spec",
+        "data": {
+          "parentId": "F-FZCMID",
+          "name": "경로 충돌 가능성 시각 경고",
+          "description": "동일 구역에서 다수 로봇의 경로가 교차/병목이 예상되면 경로 색상과 배너로 경고하고, 대체 경로 재계획을 유도합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-HOMCEG",
+        "type": "spec",
+        "data": {
+          "parentId": "F-CRUOJN",
+          "name": "알람 심각도 분류 및 노이즈 억제",
+          "description": "알람을 심각도(치명/경고/정보)로 분류하고, 동일 알람의 반복은 묶어서 보여주며(스레드), 과도한 알림은 제한합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-DHCYPQ",
+        "type": "spec",
+        "data": {
+          "parentId": "F-CRUOJN",
+          "name": "알림 채널 설정",
+          "description": "사용자/역할별로 알림 채널(앱 내 배너/소리/데스크톱 알림)과 수신 조건을 설정합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-SZFIQH",
+        "type": "spec",
+        "data": {
+          "parentId": "F-TSVGFF",
+          "name": "장애 상태 워크플로우(신규→조치중→해결)",
+          "description": "장애 항목의 상태를 표준 단계로 관리하고, 상태 변경 시 담당자/조치 기록을 남깁니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-HGKXCJ",
+        "type": "spec",
+        "data": {
+          "parentId": "F-TSVGFF",
+          "name": "장애 상세 보기(로봇/시각/유형/조치)",
+          "description": "장애 상세 화면에서 발생 시각, 로봇 ID, 유형, 심각도, 연관 로그/센서 데이터, 조치 내역을 한 화면에 제공합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-CZWNAL",
+        "type": "spec",
+        "data": {
+          "parentId": "F-TFNGYD",
+          "name": "티켓 생성 및 담당자 지정",
+          "description": "장애 항목에서 티켓을 생성하고 담당자(유지보수 담당자 등)를 지정합니다. SLA(목표 응답 시간) 설정을 옵션으로 둡니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-TZEHLJ",
+        "type": "spec",
+        "data": {
+          "parentId": "F-TFNGYD",
+          "name": "조치 기록/첨부(로그/파일)",
+          "description": "티켓에 조치 내용을 기록하고 로그/파일을 첨부합니다. 첨부는 사건(알람)과 함께 보관됩니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-VSJQLF",
+        "type": "spec",
+        "data": {
+          "parentId": "F-LHMUSA",
+          "name": "자동 수집 정책(트리거/대상)",
+          "description": "어떤 알람/장애에서 어떤 데이터(rosbag, LiDAR, 카메라, IMU, odometry, TF, 시스템 로그)를 얼마 동안 수집할지 정책으로 설정합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "SOJQMU",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-EFZUQQ",
+        "type": "spec",
+        "data": {
+          "parentId": "F-LHMUSA",
+          "name": "수집 데이터 묶음(사건 링크)",
+          "description": "수집된 데이터는 사건(장애/티켓)과 자동으로 연결되고, 다운로드/재생(가능 시) 링크를 제공합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "SOJQMU",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-ZDHJHZ",
+        "type": "spec",
+        "data": {
+          "parentId": "F-JPYHRN",
+          "name": "계정 상태 관리(활성/잠금)",
+          "description": "관리자가 계정을 잠그거나 해제할 수 있고, 잠금 사유 및 시각을 기록합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-WWPTQR",
+        "type": "spec",
+        "data": {
+          "parentId": "F-JPYHRN",
+          "name": "비밀번호 초기화/임시 비밀번호",
+          "description": "관리자가 사용자 비밀번호를 초기화하거나 임시 비밀번호를 발급합니다. 최초 로그인 시 비밀번호 변경을 요구합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-LEWRGF",
+        "type": "spec",
+        "data": {
+          "parentId": "F-XAYIMT",
+          "name": "역할별 권한 매트릭스 관리",
+          "description": "역할별로 메뉴/기능 권한을 매트릭스로 관리하고, 변경 시 영향(접근 가능 화면)을 미리 확인합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-ICMPDW",
+        "type": "spec",
+        "data": {
+          "parentId": "F-DKMBSU",
+          "name": "비밀번호 정책(복잡도/만료)",
+          "description": "최소 길이, 복잡도(문자 조합), 만료, 재사용 금지 등을 정책으로 설정합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-MRDYFZ",
+        "type": "spec",
+        "data": {
+          "parentId": "F-DKMBSU",
+          "name": "세션/동시 로그인 제어",
+          "description": "세션 만료 시간, 동시 로그인 제한, 비정상 로그인 감지(옵션)를 제공합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-FOSZQP",
+        "type": "spec",
+        "data": {
+          "parentId": "F-BYVSLU",
+          "name": "필수 필드 검증 및 중복 방지",
+          "description": "로봇 등록 시 필수 필드 누락을 막고, 로봇 ID/연동 식별자 중복을 방지합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-VNNLPU",
+        "type": "spec",
+        "data": {
+          "parentId": "F-BYVSLU",
+          "name": "로봇 비활성화 시 영향 안내",
+          "description": "로봇을 비활성화하면 모니터링/제어/미션 할당에서 제외됨을 명확히 안내하고 확인을 받습니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-KFIJEN",
+        "type": "spec",
+        "data": {
+          "parentId": "F-LPIGWA",
+          "name": "현장/구역 생성 및 맵 연결",
+          "description": "현장/구역을 생성하고 해당 구역에 사용할 기본 맵 버전을 연결합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-CKHSUE",
+        "type": "spec",
+        "data": {
+          "parentId": "F-PTLBJB",
+          "name": "헬스체크 항목 및 상태 코드 표준화",
+          "description": "연결 점검 항목을 표준화하고(인증, 네트워크, 프로토콜, 타임아웃), 상태 코드를 공통 형식으로 제공합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "SOJQMU",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-ERENLF",
+        "type": "spec",
+        "data": {
+          "parentId": "F-DLWHBR",
+          "name": "기간/현장/로봇군 필터",
+          "description": "대시보드에서 기간(일/주/월), 현장/구역, 제조사/모델 등 로봇군 기준으로 필터를 제공합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-ZTNQNM",
+        "type": "spec",
+        "data": {
+          "parentId": "F-DLWHBR",
+          "name": "지표 카드(가동률/대응시간 등)",
+          "description": "핵심 지표를 카드로 요약 표시하고, 목표 대비(옵션)와 전 기간 대비 증감(%)을 보여줍니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-CTGERT",
+        "type": "spec",
+        "data": {
+          "parentId": "F-ELVQBM",
+          "name": "지표→이벤트 목록 드릴다운",
+          "description": "지표를 클릭하면 해당 지표를 구성하는 이벤트(장애, 알람, 제어, 배포) 목록으로 이동합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-MFDFEC",
+        "type": "spec",
+        "data": {
+          "parentId": "F-NQLMUQ",
+          "name": "CSV 내보내기(필터 반영)",
+          "description": "현재 필터/기간 조건을 반영하여 지표 및 이벤트 목록을 CSV로 내보냅니다.",
+          "importance": "low",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-PISJCG",
+        "type": "spec",
+        "data": {
+          "parentId": "F-YUUJQZ",
+          "name": "감사 로그 스키마(누가/무엇/결과)",
+          "description": "이벤트마다 사용자, 대상(로봇/맵/사용자), 요청 파라미터(요약), 결과(성공/실패), 실패 사유, IP/클라이언트 정보를 표준 필드로 기록합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-FFXACB",
+        "type": "spec",
+        "data": {
+          "parentId": "F-EFVCPN",
+          "name": "감사 로그 내보내기(CSV)",
+          "description": "현재 검색/필터 조건을 반영해 감사 로그를 CSV로 내보냅니다. 내보내기 파일에는 내보낸 시각, 조건 요약(기간/사용자/이벤트 유형 등), 컬럼 정의를 포함합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-EFLFNE",
+        "type": "spec",
+        "data": {
+          "parentId": "F-EFVCPN",
+          "name": "감사 로그 내보내기 권한/마스킹",
+          "description": "내보내기는 관리자만 가능하게 하며, 민감 필드(예: 토큰/키/개인정보)는 마스킹 또는 제외 정책을 적용합니다. 정책 변경 이력은 감사 로그에 남깁니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-PAJUXF",
+        "type": "spec",
+        "data": {
+          "parentId": "F-EFVCPN",
+          "name": "대용량 내보내기(비동기 작업)",
+          "description": "조회 결과가 큰 경우 내보내기를 비동기 작업으로 전환하고 진행률/완료 알림을 제공합니다. 작업 만료 시간과 재다운로드 가능 기간을 설정합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-NHYMKC",
+        "type": "spec",
+        "data": {
+          "parentId": "F-XAYIMT",
+          "name": "권한 변경 이력 및 감사 추적",
+          "description": "역할별 권한 변경 시 변경 전/후 상태, 변경자, 변경 시각을 기록하고, 감사 로그에 남겨 권한 오남용 방지 및 규정 준수를 지원합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-JWXRUL",
+        "type": "spec",
+        "data": {
+          "parentId": "F-XAYIMT",
+          "name": "권한 충돌 검증",
+          "description": "역할에 상충하는 권한을 할당하려 할 때(예: 비활성화 사용자에게 권한 부여) 경고를 표시하고 저장을 방지합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-MGFFSV",
+        "type": "spec",
+        "data": {
+          "parentId": "F-LPIGWA",
+          "name": "로봇 현장/구역 할당 및 변경",
+          "description": "로봇을 특정 현장/구역에 할당하거나 변경하고, 기존 할당 정보와의 충돌을 감지하여 안내합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-RGWTPX",
+        "type": "spec",
+        "data": {
+          "parentId": "F-LPIGWA",
+          "name": "구역별 현황 집계(로봇/알람/미션)",
+          "description": "현장/구역 상세 화면에서 해당 구역 내 로봇 수, 온라인/오프라인 수, 미션 중인 로봇 수, 미해결 알람 수를 실시간으로 표시합니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "OSQUSH",
+            "VCFJRJ",
+            "SOJQMU"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-KKOUAF",
+        "type": "spec",
+        "data": {
+          "parentId": "F-PTLBJB",
+          "name": "연동 상태 상세 진단(인증/네트워크/프로토콜)",
+          "description": "로봇과의 연결 실패 원인을 세부 항목별(인증 실패, 네트워크 타임아웃, 프로토콜 버전 불일치 등)로 분류하여 표시하고 해결 방법을 제시합니다.",
+          "importance": "high",
+          "progress": "todo",
+          "roles": [
+            "SOJQMU",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      },
+      {
+        "id": "S-YUUFHK",
+        "type": "spec",
+        "data": {
+          "parentId": "F-PTLBJB",
+          "name": "자동 재연결 정책 및 수동 재시도",
+          "description": "연결 실패 시 재연결을 자동으로 시도하고, 재시도 횟수/간격을 정책으로 설정합니다. 사용자는 수동으로 즉시 재시도할 수 있습니다.",
+          "importance": "medium",
+          "progress": "todo",
+          "roles": [
+            "SOJQMU",
+            "VCFJRJ"
+          ],
+          "devices": [
+            "SSUGKE",
+            "XEFKYW"
+          ]
+        }
+      }
+    ]
+  }
+}

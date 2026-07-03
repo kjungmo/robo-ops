@@ -1,0 +1,912 @@
+{
+  "pageNodeId": "n13",
+  "pageName": "알람·장애 관리",
+  "rootId": "w-00094c",
+  "nodes": {
+    "w-00094c": {
+      "id": "w-00094c",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-00094d"
+      ],
+      "label": "알람·장애 관리",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-00094d": {
+      "id": "w-00094d",
+      "type": "body",
+      "parentId": "w-00094c",
+      "childrenIds": [
+        "w-00094e",
+        "w-000951",
+        "w-00095e",
+        "w-0009a7"
+      ]
+    },
+    "w-00094e": {
+      "id": "w-00094e",
+      "type": "row",
+      "parentId": "w-00094d",
+      "childrenIds": [
+        "w-00094f",
+        "w-000950"
+      ],
+      "layout": {
+        "align": "center",
+        "justify": "between"
+      }
+    },
+    "w-00094f": {
+      "id": "w-00094f",
+      "type": "text",
+      "parentId": "w-00094e",
+      "childrenIds": [],
+      "label": "알람·장애 관리",
+      "size": "md"
+    },
+    "w-000950": {
+      "id": "w-000950",
+      "type": "button",
+      "parentId": "w-00094e",
+      "childrenIds": [],
+      "label": "실시간 알람 수신",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n14"
+      }
+    },
+    "w-000951": {
+      "id": "w-000951",
+      "type": "row",
+      "parentId": "w-00094d",
+      "childrenIds": [
+        "w-000952",
+        "w-000955",
+        "w-000958",
+        "w-00095b"
+      ],
+      "layout": {
+        "gap": 16
+      }
+    },
+    "w-000952": {
+      "id": "w-000952",
+      "type": "box",
+      "parentId": "w-000951",
+      "childrenIds": [
+        "w-000953",
+        "w-000954"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000953": {
+      "id": "w-000953",
+      "type": "text",
+      "parentId": "w-000952",
+      "childrenIds": [],
+      "label": "전체 알람",
+      "size": "sm"
+    },
+    "w-000954": {
+      "id": "w-000954",
+      "type": "text",
+      "parentId": "w-000952",
+      "childrenIds": [],
+      "label": "24",
+      "size": "lg"
+    },
+    "w-000955": {
+      "id": "w-000955",
+      "type": "box",
+      "parentId": "w-000951",
+      "childrenIds": [
+        "w-000956",
+        "w-000957"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000956": {
+      "id": "w-000956",
+      "type": "text",
+      "parentId": "w-000955",
+      "childrenIds": [],
+      "label": "미확인",
+      "size": "sm"
+    },
+    "w-000957": {
+      "id": "w-000957",
+      "type": "text",
+      "parentId": "w-000955",
+      "childrenIds": [],
+      "label": "7",
+      "size": "lg"
+    },
+    "w-000958": {
+      "id": "w-000958",
+      "type": "box",
+      "parentId": "w-000951",
+      "childrenIds": [
+        "w-000959",
+        "w-00095a"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000959": {
+      "id": "w-000959",
+      "type": "text",
+      "parentId": "w-000958",
+      "childrenIds": [],
+      "label": "처리 중",
+      "size": "sm"
+    },
+    "w-00095a": {
+      "id": "w-00095a",
+      "type": "text",
+      "parentId": "w-000958",
+      "childrenIds": [],
+      "label": "5",
+      "size": "lg"
+    },
+    "w-00095b": {
+      "id": "w-00095b",
+      "type": "box",
+      "parentId": "w-000951",
+      "childrenIds": [
+        "w-00095c",
+        "w-00095d"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-00095c": {
+      "id": "w-00095c",
+      "type": "text",
+      "parentId": "w-00095b",
+      "childrenIds": [],
+      "label": "정상 복구",
+      "size": "sm"
+    },
+    "w-00095d": {
+      "id": "w-00095d",
+      "type": "text",
+      "parentId": "w-00095b",
+      "childrenIds": [],
+      "label": "12",
+      "size": "lg"
+    },
+    "w-00095e": {
+      "id": "w-00095e",
+      "type": "row",
+      "parentId": "w-00094d",
+      "childrenIds": [
+        "w-00095f",
+        "w-000989"
+      ],
+      "layout": {
+        "gap": 16,
+        "align": "start"
+      }
+    },
+    "w-00095f": {
+      "id": "w-00095f",
+      "type": "column",
+      "parentId": "w-00095e",
+      "childrenIds": [
+        "w-000960",
+        "w-000961",
+        "w-000969",
+        "w-000971",
+        "w-000979",
+        "w-000981"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-000960": {
+      "id": "w-000960",
+      "type": "text",
+      "parentId": "w-00095f",
+      "childrenIds": [],
+      "label": "발생 중인 알람",
+      "size": "md"
+    },
+    "w-000961": {
+      "id": "w-000961",
+      "type": "box",
+      "parentId": "w-00095f",
+      "childrenIds": [
+        "w-000962"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000962": {
+      "id": "w-000962",
+      "type": "row",
+      "parentId": "w-000961",
+      "childrenIds": [
+        "w-000963",
+        "w-000964",
+        "w-000967",
+        "w-000968"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000963": {
+      "id": "w-000963",
+      "type": "text",
+      "parentId": "w-000962",
+      "childrenIds": [],
+      "label": "위험",
+      "size": "sm"
+    },
+    "w-000964": {
+      "id": "w-000964",
+      "type": "column",
+      "parentId": "w-000962",
+      "childrenIds": [
+        "w-000965",
+        "w-000966"
+      ]
+    },
+    "w-000965": {
+      "id": "w-000965",
+      "type": "text",
+      "parentId": "w-000964",
+      "childrenIds": [],
+      "label": "로봇 R-04 구동부 과열"
+    },
+    "w-000966": {
+      "id": "w-000966",
+      "type": "text",
+      "parentId": "w-000964",
+      "childrenIds": [],
+      "label": "2025-07-10 14:32 · 미확인",
+      "size": "sm"
+    },
+    "w-000967": {
+      "id": "w-000967",
+      "type": "spacer",
+      "parentId": "w-000962",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000968": {
+      "id": "w-000968",
+      "type": "text",
+      "parentId": "w-000962",
+      "childrenIds": [],
+      "label": "위험",
+      "size": "sm"
+    },
+    "w-000969": {
+      "id": "w-000969",
+      "type": "box",
+      "parentId": "w-00095f",
+      "childrenIds": [
+        "w-00096a"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-00096a": {
+      "id": "w-00096a",
+      "type": "row",
+      "parentId": "w-000969",
+      "childrenIds": [
+        "w-00096b",
+        "w-00096c",
+        "w-00096f",
+        "w-000970"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-00096b": {
+      "id": "w-00096b",
+      "type": "text",
+      "parentId": "w-00096a",
+      "childrenIds": [],
+      "label": "주의",
+      "size": "sm"
+    },
+    "w-00096c": {
+      "id": "w-00096c",
+      "type": "column",
+      "parentId": "w-00096a",
+      "childrenIds": [
+        "w-00096d",
+        "w-00096e"
+      ]
+    },
+    "w-00096d": {
+      "id": "w-00096d",
+      "type": "text",
+      "parentId": "w-00096c",
+      "childrenIds": [],
+      "label": "로봇 R-11 배터리 잔량 부족"
+    },
+    "w-00096e": {
+      "id": "w-00096e",
+      "type": "text",
+      "parentId": "w-00096c",
+      "childrenIds": [],
+      "label": "2025-07-10 14:28 · 처리 중",
+      "size": "sm"
+    },
+    "w-00096f": {
+      "id": "w-00096f",
+      "type": "spacer",
+      "parentId": "w-00096a",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000970": {
+      "id": "w-000970",
+      "type": "text",
+      "parentId": "w-00096a",
+      "childrenIds": [],
+      "label": "주의",
+      "size": "sm"
+    },
+    "w-000971": {
+      "id": "w-000971",
+      "type": "box",
+      "parentId": "w-00095f",
+      "childrenIds": [
+        "w-000972"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000972": {
+      "id": "w-000972",
+      "type": "row",
+      "parentId": "w-000971",
+      "childrenIds": [
+        "w-000973",
+        "w-000974",
+        "w-000977",
+        "w-000978"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000973": {
+      "id": "w-000973",
+      "type": "text",
+      "parentId": "w-000972",
+      "childrenIds": [],
+      "label": "위험",
+      "size": "sm"
+    },
+    "w-000974": {
+      "id": "w-000974",
+      "type": "column",
+      "parentId": "w-000972",
+      "childrenIds": [
+        "w-000975",
+        "w-000976"
+      ]
+    },
+    "w-000975": {
+      "id": "w-000975",
+      "type": "text",
+      "parentId": "w-000974",
+      "childrenIds": [],
+      "label": "로봇 R-07 통신 두절"
+    },
+    "w-000976": {
+      "id": "w-000976",
+      "type": "text",
+      "parentId": "w-000974",
+      "childrenIds": [],
+      "label": "2025-07-10 14:15 · 미확인",
+      "size": "sm"
+    },
+    "w-000977": {
+      "id": "w-000977",
+      "type": "spacer",
+      "parentId": "w-000972",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000978": {
+      "id": "w-000978",
+      "type": "text",
+      "parentId": "w-000972",
+      "childrenIds": [],
+      "label": "위험",
+      "size": "sm"
+    },
+    "w-000979": {
+      "id": "w-000979",
+      "type": "box",
+      "parentId": "w-00095f",
+      "childrenIds": [
+        "w-00097a"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-00097a": {
+      "id": "w-00097a",
+      "type": "row",
+      "parentId": "w-000979",
+      "childrenIds": [
+        "w-00097b",
+        "w-00097c",
+        "w-00097f",
+        "w-000980"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-00097b": {
+      "id": "w-00097b",
+      "type": "text",
+      "parentId": "w-00097a",
+      "childrenIds": [],
+      "label": "주의",
+      "size": "sm"
+    },
+    "w-00097c": {
+      "id": "w-00097c",
+      "type": "column",
+      "parentId": "w-00097a",
+      "childrenIds": [
+        "w-00097d",
+        "w-00097e"
+      ]
+    },
+    "w-00097d": {
+      "id": "w-00097d",
+      "type": "text",
+      "parentId": "w-00097c",
+      "childrenIds": [],
+      "label": "로봇 R-02 이동 경로 이탈"
+    },
+    "w-00097e": {
+      "id": "w-00097e",
+      "type": "text",
+      "parentId": "w-00097c",
+      "childrenIds": [],
+      "label": "2025-07-10 13:58 · 처리 중",
+      "size": "sm"
+    },
+    "w-00097f": {
+      "id": "w-00097f",
+      "type": "spacer",
+      "parentId": "w-00097a",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000980": {
+      "id": "w-000980",
+      "type": "text",
+      "parentId": "w-00097a",
+      "childrenIds": [],
+      "label": "주의",
+      "size": "sm"
+    },
+    "w-000981": {
+      "id": "w-000981",
+      "type": "box",
+      "parentId": "w-00095f",
+      "childrenIds": [
+        "w-000982"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000982": {
+      "id": "w-000982",
+      "type": "row",
+      "parentId": "w-000981",
+      "childrenIds": [
+        "w-000983",
+        "w-000984",
+        "w-000987",
+        "w-000988"
+      ],
+      "layout": {
+        "gap": 12,
+        "align": "center"
+      }
+    },
+    "w-000983": {
+      "id": "w-000983",
+      "type": "text",
+      "parentId": "w-000982",
+      "childrenIds": [],
+      "label": "오프라인",
+      "size": "sm"
+    },
+    "w-000984": {
+      "id": "w-000984",
+      "type": "column",
+      "parentId": "w-000982",
+      "childrenIds": [
+        "w-000985",
+        "w-000986"
+      ]
+    },
+    "w-000985": {
+      "id": "w-000985",
+      "type": "text",
+      "parentId": "w-000984",
+      "childrenIds": [],
+      "label": "로봇 R-09 연결 끊김"
+    },
+    "w-000986": {
+      "id": "w-000986",
+      "type": "text",
+      "parentId": "w-000984",
+      "childrenIds": [],
+      "label": "2025-07-10 13:41 · 미확인",
+      "size": "sm"
+    },
+    "w-000987": {
+      "id": "w-000987",
+      "type": "spacer",
+      "parentId": "w-000982",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000988": {
+      "id": "w-000988",
+      "type": "text",
+      "parentId": "w-000982",
+      "childrenIds": [],
+      "label": "오프라인",
+      "size": "sm"
+    },
+    "w-000989": {
+      "id": "w-000989",
+      "type": "column",
+      "parentId": "w-00095e",
+      "childrenIds": [
+        "w-00098a",
+        "w-00098b"
+      ],
+      "layout": {
+        "gap": 12,
+        "width": 420
+      }
+    },
+    "w-00098a": {
+      "id": "w-00098a",
+      "type": "text",
+      "parentId": "w-000989",
+      "childrenIds": [],
+      "label": "알람 상세 정보",
+      "size": "md"
+    },
+    "w-00098b": {
+      "id": "w-00098b",
+      "type": "box",
+      "parentId": "w-000989",
+      "childrenIds": [
+        "w-00098c"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-00098c": {
+      "id": "w-00098c",
+      "type": "column",
+      "parentId": "w-00098b",
+      "childrenIds": [
+        "w-00098d",
+        "w-00098e",
+        "w-000998",
+        "w-0009a2",
+        "w-0009a3",
+        "w-0009a4",
+        "w-0009a5"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-00098d": {
+      "id": "w-00098d",
+      "type": "text",
+      "parentId": "w-00098c",
+      "childrenIds": [],
+      "label": "로봇 R-04 구동부 과열",
+      "size": "md"
+    },
+    "w-00098e": {
+      "id": "w-00098e",
+      "type": "row",
+      "parentId": "w-00098c",
+      "childrenIds": [
+        "w-00098f",
+        "w-000992",
+        "w-000995"
+      ],
+      "layout": {
+        "gap": 24
+      }
+    },
+    "w-00098f": {
+      "id": "w-00098f",
+      "type": "column",
+      "parentId": "w-00098e",
+      "childrenIds": [
+        "w-000990",
+        "w-000991"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000990": {
+      "id": "w-000990",
+      "type": "text",
+      "parentId": "w-00098f",
+      "childrenIds": [],
+      "label": "발생 시각",
+      "size": "sm"
+    },
+    "w-000991": {
+      "id": "w-000991",
+      "type": "text",
+      "parentId": "w-00098f",
+      "childrenIds": [],
+      "label": "2025-07-10 14:32"
+    },
+    "w-000992": {
+      "id": "w-000992",
+      "type": "column",
+      "parentId": "w-00098e",
+      "childrenIds": [
+        "w-000993",
+        "w-000994"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000993": {
+      "id": "w-000993",
+      "type": "text",
+      "parentId": "w-000992",
+      "childrenIds": [],
+      "label": "심각도",
+      "size": "sm"
+    },
+    "w-000994": {
+      "id": "w-000994",
+      "type": "text",
+      "parentId": "w-000992",
+      "childrenIds": [],
+      "label": "위험"
+    },
+    "w-000995": {
+      "id": "w-000995",
+      "type": "column",
+      "parentId": "w-00098e",
+      "childrenIds": [
+        "w-000996",
+        "w-000997"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-000996": {
+      "id": "w-000996",
+      "type": "text",
+      "parentId": "w-000995",
+      "childrenIds": [],
+      "label": "확인 상태",
+      "size": "sm"
+    },
+    "w-000997": {
+      "id": "w-000997",
+      "type": "text",
+      "parentId": "w-000995",
+      "childrenIds": [],
+      "label": "미확인"
+    },
+    "w-000998": {
+      "id": "w-000998",
+      "type": "row",
+      "parentId": "w-00098c",
+      "childrenIds": [
+        "w-000999",
+        "w-00099c",
+        "w-00099f"
+      ],
+      "layout": {
+        "gap": 24
+      }
+    },
+    "w-000999": {
+      "id": "w-000999",
+      "type": "column",
+      "parentId": "w-000998",
+      "childrenIds": [
+        "w-00099a",
+        "w-00099b"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-00099a": {
+      "id": "w-00099a",
+      "type": "text",
+      "parentId": "w-000999",
+      "childrenIds": [],
+      "label": "로봇 ID",
+      "size": "sm"
+    },
+    "w-00099b": {
+      "id": "w-00099b",
+      "type": "text",
+      "parentId": "w-000999",
+      "childrenIds": [],
+      "label": "R-04"
+    },
+    "w-00099c": {
+      "id": "w-00099c",
+      "type": "column",
+      "parentId": "w-000998",
+      "childrenIds": [
+        "w-00099d",
+        "w-00099e"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-00099d": {
+      "id": "w-00099d",
+      "type": "text",
+      "parentId": "w-00099c",
+      "childrenIds": [],
+      "label": "위치",
+      "size": "sm"
+    },
+    "w-00099e": {
+      "id": "w-00099e",
+      "type": "text",
+      "parentId": "w-00099c",
+      "childrenIds": [],
+      "label": "구역 B-3"
+    },
+    "w-00099f": {
+      "id": "w-00099f",
+      "type": "column",
+      "parentId": "w-000998",
+      "childrenIds": [
+        "w-0009a0",
+        "w-0009a1"
+      ],
+      "layout": {
+        "gap": 4
+      }
+    },
+    "w-0009a0": {
+      "id": "w-0009a0",
+      "type": "text",
+      "parentId": "w-00099f",
+      "childrenIds": [],
+      "label": "담당자",
+      "size": "sm"
+    },
+    "w-0009a1": {
+      "id": "w-0009a1",
+      "type": "text",
+      "parentId": "w-00099f",
+      "childrenIds": [],
+      "label": "김운영"
+    },
+    "w-0009a2": {
+      "id": "w-0009a2",
+      "type": "text",
+      "parentId": "w-00098c",
+      "childrenIds": [],
+      "label": "상세 내용",
+      "size": "sm"
+    },
+    "w-0009a3": {
+      "id": "w-0009a3",
+      "type": "text",
+      "parentId": "w-00098c",
+      "childrenIds": []
+    },
+    "w-0009a4": {
+      "id": "w-0009a4",
+      "type": "text",
+      "parentId": "w-00098c",
+      "childrenIds": []
+    },
+    "w-0009a5": {
+      "id": "w-0009a5",
+      "type": "row",
+      "parentId": "w-00098c",
+      "childrenIds": [
+        "w-0009a6"
+      ],
+      "layout": {
+        "gap": 8,
+        "justify": "end"
+      }
+    },
+    "w-0009a6": {
+      "id": "w-0009a6",
+      "type": "button",
+      "parentId": "w-0009a5",
+      "childrenIds": [],
+      "label": "알람/장애 이력 조회",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n15"
+      }
+    },
+    "w-0009a7": {
+      "id": "w-0009a7",
+      "type": "column",
+      "parentId": "w-00094d",
+      "childrenIds": [
+        "w-0009a8",
+        "w-0009a9"
+      ],
+      "layout": {
+        "gap": 12
+      }
+    },
+    "w-0009a8": {
+      "id": "w-0009a8",
+      "type": "text",
+      "parentId": "w-0009a7",
+      "childrenIds": [],
+      "label": "장애 이력 및 처리 상태",
+      "size": "md"
+    },
+    "w-0009a9": {
+      "id": "w-0009a9",
+      "type": "table",
+      "parentId": "w-0009a7",
+      "childrenIds": [],
+      "label": "발생 시각,로봇 ID,알람 유형,심각도,처리 상태,담당자",
+      "listRows": 6
+    }
+  }
+}

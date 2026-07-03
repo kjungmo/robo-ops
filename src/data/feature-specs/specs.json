@@ -1,0 +1,954 @@
+[
+  {
+    "id": "S-CVHCSE",
+    "type": "spec",
+    "data": {
+      "parentId": "F-XRKNJM",
+      "name": "로봇 목록 정렬/필터/검색",
+      "description": "로봇 이름/ID, 제조사/모델, 현장/구역, 온라인 상태, 알람 유무, 배터리 구간 등으로 검색/필터하고, 배터리/알람 심각도/미션 상태/마지막 업데이트 기준 정렬을 제공합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-RYOZIN",
+    "type": "spec",
+    "data": {
+      "parentId": "F-XRKNJM",
+      "name": "로봇 카드 핵심 지표 표시",
+      "description": "각 로봇 카드에 온라인 상태, 배터리, 현재 미션, 속도, 최근 알람 1건, 마지막 업데이트 시각을 표시하고, 이상 상태는 색상/아이콘으로 강조합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-PAKIMP",
+    "type": "spec",
+    "data": {
+      "parentId": "F-XDQZOV",
+      "name": "맵 레이어/오버레이 토글",
+      "description": "로봇 경로, 이동 궤적, 금지 구역, POI 등 레이어를 켜고 끌 수 있습니다. 복잡한 현장에서도 필요한 정보만 집중할 수 있게 합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-BQUKVI",
+    "type": "spec",
+    "data": {
+      "parentId": "F-XDQZOV",
+      "name": "로봇 선택/추적(팔로우) 모드",
+      "description": "특정 로봇을 선택하면 지도 중심이 로봇을 따라가며, 확대/축소 수준을 유지합니다. 로봇 전환 시 부드럽게 포커스를 이동합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-EMKCEJ",
+    "type": "spec",
+    "data": {
+      "parentId": "F-FJRNBR",
+      "name": "로봇 상태 상세(통신/배터리/미션)",
+      "description": "통신 품질, 마지막 하트비트, 배터리 잔량/온도(가능 시), 미션 단계/ETA 등 상세 정보를 섹션으로 보여줍니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-WOSPGH",
+    "type": "spec",
+    "data": {
+      "parentId": "F-FJRNBR",
+      "name": "최근 이벤트 타임라인",
+      "description": "최근 알람, 제어 명령, 미션 변경, 맵 배포 등 이벤트를 시간순으로 나열하고, 각 이벤트의 상세로 이동합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-WXPBVG",
+    "type": "spec",
+    "data": {
+      "parentId": "F-FVMYBG",
+      "name": "정지 명령 유형(일반/비상)",
+      "description": "정지 명령을 일반 정지와 비상 정지로 구분하고, 권한이 있는 사용자만 비상 정지를 실행할 수 있게 합니다. 비상 정지는 추가 확인(2단계 확인)을 요구합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-UYXNMG",
+    "type": "spec",
+    "data": {
+      "parentId": "F-FVMYBG",
+      "name": "명령 전송 결과/사유 표시",
+      "description": "정지/재시작 명령의 전송 시각, 수신/실행 여부, 실패 사유(타임아웃, 권한, 로봇 상태 불가 등)를 UI에서 확인할 수 있어야 합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-DLNHDV",
+    "type": "spec",
+    "data": {
+      "parentId": "F-JBBIRD",
+      "name": "수동 제어 세션 잠금(단일 제어자)",
+      "description": "동시에 2명 이상이 같은 로봇을 제어하지 못하도록 제어 세션을 잠금합니다. 세션 소유자와 시작 시각을 표시하고 강제 해제는 관리자만 가능하게 합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-KAZUXC",
+    "type": "spec",
+    "data": {
+      "parentId": "F-JBBIRD",
+      "name": "안전 인터록/속도 제한",
+      "description": "로봇이 알람 상태이거나 네트워크 지연이 임계치를 넘으면 속도 제한 또는 제어 차단을 적용합니다. 제한 조건과 해제 방법을 명확히 안내합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-ZVOZAS",
+    "type": "spec",
+    "data": {
+      "parentId": "F-CSBQAW",
+      "name": "미션 변경 사유 입력 및 이력 기록",
+      "description": "미션 변경/취소 시 사유를 선택/입력하고, 누가/언제/무엇을 어떻게 바꿨는지 감사 로그 및 로봇 이벤트 타임라인에 남깁니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-BIZNBX",
+    "type": "spec",
+    "data": {
+      "parentId": "F-CSBQAW",
+      "name": "미션 재할당(로봇/로봇군)",
+      "description": "미션을 특정 로봇 또는 로봇군에 재할당하고, 대기열(큐) 우선순위를 지정합니다. 충돌 시(오프라인 등) 대체 로봇 추천(가능 시)을 제공합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-VPCYVQ",
+    "type": "spec",
+    "data": {
+      "parentId": "F-TOQWIK",
+      "name": "맵 메타데이터 관리",
+      "description": "맵 이름, 현장/구역, 버전, 생성자, 생성 시각, 설명(변경 요약)을 필드로 관리하고 목록에서 확인합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-LACGVW",
+    "type": "spec",
+    "data": {
+      "parentId": "F-TOQWIK",
+      "name": "맵 가져오기 형식 검증",
+      "description": "가져오기 시 지원 형식/버전을 검증하고, 누락/불일치(좌표계/해상도 등)를 오류로 안내합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-XUGLOT",
+    "type": "spec",
+    "data": {
+      "parentId": "F-PVZHFN",
+      "name": "편집 도구(장애물/금지구역/POI)",
+      "description": "도형/브러시/다각형 등 편집 도구로 장애물과 금지구역을 편집하고, POI는 이름/유형/좌표를 지정해 생성합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-WIZBRN",
+    "type": "spec",
+    "data": {
+      "parentId": "F-PVZHFN",
+      "name": "편집 변경 이력/되돌리기",
+      "description": "편집 작업을 단계별로 되돌리기/다시하기 할 수 있고, 변경 요약과 함께 저장 이력을 남깁니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-DNKVPW",
+    "type": "spec",
+    "data": {
+      "parentId": "F-JMRSIZ",
+      "name": "배포 대상 선택(로봇/로봇군)",
+      "description": "맵 배포 시 대상 로봇 또는 로봇군을 선택하고, 배포 전 호환성(버전/현장 일치) 검증을 수행합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-CHJMUV",
+    "type": "spec",
+    "data": {
+      "parentId": "F-JMRSIZ",
+      "name": "배포 진행률/결과 및 롤백",
+      "description": "배포 진행률과 성공/실패 목록, 실패 사유를 보여주고, 필요 시 이전 버전으로 롤백할 수 있습니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-MIBOWG",
+    "type": "spec",
+    "data": {
+      "parentId": "F-FZCMID",
+      "name": "목적지 지정(POI 기반)",
+      "description": "지도에서 POI를 선택하거나 좌표를 클릭해 목적지를 지정합니다. 목적지 유효성(금지구역/장애물)을 검증합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-IAJWPR",
+    "type": "spec",
+    "data": {
+      "parentId": "F-FZCMID",
+      "name": "경로 충돌 가능성 시각 경고",
+      "description": "동일 구역에서 다수 로봇의 경로가 교차/병목이 예상되면 경로 색상과 배너로 경고하고, 대체 경로 재계획을 유도합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-HOMCEG",
+    "type": "spec",
+    "data": {
+      "parentId": "F-CRUOJN",
+      "name": "알람 심각도 분류 및 노이즈 억제",
+      "description": "알람을 심각도(치명/경고/정보)로 분류하고, 동일 알람의 반복은 묶어서 보여주며(스레드), 과도한 알림은 제한합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-DHCYPQ",
+    "type": "spec",
+    "data": {
+      "parentId": "F-CRUOJN",
+      "name": "알림 채널 설정",
+      "description": "사용자/역할별로 알림 채널(앱 내 배너/소리/데스크톱 알림)과 수신 조건을 설정합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-SZFIQH",
+    "type": "spec",
+    "data": {
+      "parentId": "F-TSVGFF",
+      "name": "장애 상태 워크플로우(신규→조치중→해결)",
+      "description": "장애 항목의 상태를 표준 단계로 관리하고, 상태 변경 시 담당자/조치 기록을 남깁니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-HGKXCJ",
+    "type": "spec",
+    "data": {
+      "parentId": "F-TSVGFF",
+      "name": "장애 상세 보기(로봇/시각/유형/조치)",
+      "description": "장애 상세 화면에서 발생 시각, 로봇 ID, 유형, 심각도, 연관 로그/센서 데이터, 조치 내역을 한 화면에 제공합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-CZWNAL",
+    "type": "spec",
+    "data": {
+      "parentId": "F-TFNGYD",
+      "name": "티켓 생성 및 담당자 지정",
+      "description": "장애 항목에서 티켓을 생성하고 담당자(유지보수 담당자 등)를 지정합니다. SLA(목표 응답 시간) 설정을 옵션으로 둡니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-TZEHLJ",
+    "type": "spec",
+    "data": {
+      "parentId": "F-TFNGYD",
+      "name": "조치 기록/첨부(로그/파일)",
+      "description": "티켓에 조치 내용을 기록하고 로그/파일을 첨부합니다. 첨부는 사건(알람)과 함께 보관됩니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-VSJQLF",
+    "type": "spec",
+    "data": {
+      "parentId": "F-LHMUSA",
+      "name": "자동 수집 정책(트리거/대상)",
+      "description": "어떤 알람/장애에서 어떤 데이터(rosbag, LiDAR, 카메라, IMU, odometry, TF, 시스템 로그)를 얼마 동안 수집할지 정책으로 설정합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "SOJQMU",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-EFZUQQ",
+    "type": "spec",
+    "data": {
+      "parentId": "F-LHMUSA",
+      "name": "수집 데이터 묶음(사건 링크)",
+      "description": "수집된 데이터는 사건(장애/티켓)과 자동으로 연결되고, 다운로드/재생(가능 시) 링크를 제공합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "SOJQMU",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-ZDHJHZ",
+    "type": "spec",
+    "data": {
+      "parentId": "F-JPYHRN",
+      "name": "계정 상태 관리(활성/잠금)",
+      "description": "관리자가 계정을 잠그거나 해제할 수 있고, 잠금 사유 및 시각을 기록합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-WWPTQR",
+    "type": "spec",
+    "data": {
+      "parentId": "F-JPYHRN",
+      "name": "비밀번호 초기화/임시 비밀번호",
+      "description": "관리자가 사용자 비밀번호를 초기화하거나 임시 비밀번호를 발급합니다. 최초 로그인 시 비밀번호 변경을 요구합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-LEWRGF",
+    "type": "spec",
+    "data": {
+      "parentId": "F-XAYIMT",
+      "name": "역할별 권한 매트릭스 관리",
+      "description": "역할별로 메뉴/기능 권한을 매트릭스로 관리하고, 변경 시 영향(접근 가능 화면)을 미리 확인합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-ICMPDW",
+    "type": "spec",
+    "data": {
+      "parentId": "F-DKMBSU",
+      "name": "비밀번호 정책(복잡도/만료)",
+      "description": "최소 길이, 복잡도(문자 조합), 만료, 재사용 금지 등을 정책으로 설정합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-MRDYFZ",
+    "type": "spec",
+    "data": {
+      "parentId": "F-DKMBSU",
+      "name": "세션/동시 로그인 제어",
+      "description": "세션 만료 시간, 동시 로그인 제한, 비정상 로그인 감지(옵션)를 제공합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-FOSZQP",
+    "type": "spec",
+    "data": {
+      "parentId": "F-BYVSLU",
+      "name": "필수 필드 검증 및 중복 방지",
+      "description": "로봇 등록 시 필수 필드 누락을 막고, 로봇 ID/연동 식별자 중복을 방지합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-VNNLPU",
+    "type": "spec",
+    "data": {
+      "parentId": "F-BYVSLU",
+      "name": "로봇 비활성화 시 영향 안내",
+      "description": "로봇을 비활성화하면 모니터링/제어/미션 할당에서 제외됨을 명확히 안내하고 확인을 받습니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-KFIJEN",
+    "type": "spec",
+    "data": {
+      "parentId": "F-LPIGWA",
+      "name": "현장/구역 생성 및 맵 연결",
+      "description": "현장/구역을 생성하고 해당 구역에 사용할 기본 맵 버전을 연결합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-CKHSUE",
+    "type": "spec",
+    "data": {
+      "parentId": "F-PTLBJB",
+      "name": "헬스체크 항목 및 상태 코드 표준화",
+      "description": "연결 점검 항목을 표준화하고(인증, 네트워크, 프로토콜, 타임아웃), 상태 코드를 공통 형식으로 제공합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "SOJQMU",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-ERENLF",
+    "type": "spec",
+    "data": {
+      "parentId": "F-DLWHBR",
+      "name": "기간/현장/로봇군 필터",
+      "description": "대시보드에서 기간(일/주/월), 현장/구역, 제조사/모델 등 로봇군 기준으로 필터를 제공합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-ZTNQNM",
+    "type": "spec",
+    "data": {
+      "parentId": "F-DLWHBR",
+      "name": "지표 카드(가동률/대응시간 등)",
+      "description": "핵심 지표를 카드로 요약 표시하고, 목표 대비(옵션)와 전 기간 대비 증감(%)을 보여줍니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-CTGERT",
+    "type": "spec",
+    "data": {
+      "parentId": "F-ELVQBM",
+      "name": "지표→이벤트 목록 드릴다운",
+      "description": "지표를 클릭하면 해당 지표를 구성하는 이벤트(장애, 알람, 제어, 배포) 목록으로 이동합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-MFDFEC",
+    "type": "spec",
+    "data": {
+      "parentId": "F-NQLMUQ",
+      "name": "CSV 내보내기(필터 반영)",
+      "description": "현재 필터/기간 조건을 반영하여 지표 및 이벤트 목록을 CSV로 내보냅니다.",
+      "importance": "low",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-PISJCG",
+    "type": "spec",
+    "data": {
+      "parentId": "F-YUUJQZ",
+      "name": "감사 로그 스키마(누가/무엇/결과)",
+      "description": "이벤트마다 사용자, 대상(로봇/맵/사용자), 요청 파라미터(요약), 결과(성공/실패), 실패 사유, IP/클라이언트 정보를 표준 필드로 기록합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-FFXACB",
+    "type": "spec",
+    "data": {
+      "parentId": "F-EFVCPN",
+      "name": "감사 로그 내보내기(CSV)",
+      "description": "현재 검색/필터 조건을 반영해 감사 로그를 CSV로 내보냅니다. 내보내기 파일에는 내보낸 시각, 조건 요약(기간/사용자/이벤트 유형 등), 컬럼 정의를 포함합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-EFLFNE",
+    "type": "spec",
+    "data": {
+      "parentId": "F-EFVCPN",
+      "name": "감사 로그 내보내기 권한/마스킹",
+      "description": "내보내기는 관리자만 가능하게 하며, 민감 필드(예: 토큰/키/개인정보)는 마스킹 또는 제외 정책을 적용합니다. 정책 변경 이력은 감사 로그에 남깁니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-PAJUXF",
+    "type": "spec",
+    "data": {
+      "parentId": "F-EFVCPN",
+      "name": "대용량 내보내기(비동기 작업)",
+      "description": "조회 결과가 큰 경우 내보내기를 비동기 작업으로 전환하고 진행률/완료 알림을 제공합니다. 작업 만료 시간과 재다운로드 가능 기간을 설정합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-NHYMKC",
+    "type": "spec",
+    "data": {
+      "parentId": "F-XAYIMT",
+      "name": "권한 변경 이력 및 감사 추적",
+      "description": "역할별 권한 변경 시 변경 전/후 상태, 변경자, 변경 시각을 기록하고, 감사 로그에 남겨 권한 오남용 방지 및 규정 준수를 지원합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-JWXRUL",
+    "type": "spec",
+    "data": {
+      "parentId": "F-XAYIMT",
+      "name": "권한 충돌 검증",
+      "description": "역할에 상충하는 권한을 할당하려 할 때(예: 비활성화 사용자에게 권한 부여) 경고를 표시하고 저장을 방지합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-MGFFSV",
+    "type": "spec",
+    "data": {
+      "parentId": "F-LPIGWA",
+      "name": "로봇 현장/구역 할당 및 변경",
+      "description": "로봇을 특정 현장/구역에 할당하거나 변경하고, 기존 할당 정보와의 충돌을 감지하여 안내합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-RGWTPX",
+    "type": "spec",
+    "data": {
+      "parentId": "F-LPIGWA",
+      "name": "구역별 현황 집계(로봇/알람/미션)",
+      "description": "현장/구역 상세 화면에서 해당 구역 내 로봇 수, 온라인/오프라인 수, 미션 중인 로봇 수, 미해결 알람 수를 실시간으로 표시합니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "OSQUSH",
+        "VCFJRJ",
+        "SOJQMU"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-KKOUAF",
+    "type": "spec",
+    "data": {
+      "parentId": "F-PTLBJB",
+      "name": "연동 상태 상세 진단(인증/네트워크/프로토콜)",
+      "description": "로봇과의 연결 실패 원인을 세부 항목별(인증 실패, 네트워크 타임아웃, 프로토콜 버전 불일치 등)로 분류하여 표시하고 해결 방법을 제시합니다.",
+      "importance": "high",
+      "progress": "todo",
+      "roles": [
+        "SOJQMU",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  },
+  {
+    "id": "S-YUUFHK",
+    "type": "spec",
+    "data": {
+      "parentId": "F-PTLBJB",
+      "name": "자동 재연결 정책 및 수동 재시도",
+      "description": "연결 실패 시 재연결을 자동으로 시도하고, 재시도 횟수/간격을 정책으로 설정합니다. 사용자는 수동으로 즉시 재시도할 수 있습니다.",
+      "importance": "medium",
+      "progress": "todo",
+      "roles": [
+        "SOJQMU",
+        "VCFJRJ"
+      ],
+      "devices": [
+        "SSUGKE",
+        "XEFKYW"
+      ]
+    }
+  }
+]

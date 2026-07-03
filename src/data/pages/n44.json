@@ -1,0 +1,875 @@
+{
+  "pageNodeId": "n44",
+  "pageName": "사용자 계정 관리",
+  "rootId": "w-000cef",
+  "nodes": {
+    "w-000cef": {
+      "id": "w-000cef",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000cf0",
+        "w-000d28",
+        "w-000d33",
+        "w-000d3c"
+      ],
+      "label": "사용자 계정 관리",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000cf0": {
+      "id": "w-000cf0",
+      "type": "body",
+      "parentId": "w-000cef",
+      "childrenIds": [
+        "w-000cf1",
+        "w-000cf5",
+        "w-000cf6",
+        "w-000d00",
+        "w-000d0a",
+        "w-000d14",
+        "w-000d1e"
+      ]
+    },
+    "w-000cf1": {
+      "id": "w-000cf1",
+      "type": "row",
+      "parentId": "w-000cf0",
+      "childrenIds": [
+        "w-000cf2",
+        "w-000cf3",
+        "w-000cf4"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000cf2": {
+      "id": "w-000cf2",
+      "type": "text",
+      "parentId": "w-000cf1",
+      "childrenIds": [],
+      "label": "사용자 계정 관리",
+      "size": "md"
+    },
+    "w-000cf3": {
+      "id": "w-000cf3",
+      "type": "spacer",
+      "parentId": "w-000cf1",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000cf4": {
+      "id": "w-000cf4",
+      "type": "button",
+      "parentId": "w-000cf1",
+      "childrenIds": [],
+      "label": "새 계정 추가",
+      "variant": "primary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "create-account"
+      }
+    },
+    "w-000cf5": {
+      "id": "w-000cf5",
+      "type": "input",
+      "parentId": "w-000cf0",
+      "childrenIds": [],
+      "inputType": "search"
+    },
+    "w-000cf6": {
+      "id": "w-000cf6",
+      "type": "box",
+      "parentId": "w-000cf0",
+      "childrenIds": [
+        "w-000cf7"
+      ],
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "edit-account"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000cf7": {
+      "id": "w-000cf7",
+      "type": "row",
+      "parentId": "w-000cf6",
+      "childrenIds": [
+        "w-000cf8",
+        "w-000cfb",
+        "w-000cfc",
+        "w-000cfd"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000cf8": {
+      "id": "w-000cf8",
+      "type": "column",
+      "parentId": "w-000cf7",
+      "childrenIds": [
+        "w-000cf9",
+        "w-000cfa"
+      ]
+    },
+    "w-000cf9": {
+      "id": "w-000cf9",
+      "type": "text",
+      "parentId": "w-000cf8",
+      "childrenIds": [],
+      "label": "홍길동",
+      "size": "md"
+    },
+    "w-000cfa": {
+      "id": "w-000cfa",
+      "type": "text",
+      "parentId": "w-000cf8",
+      "childrenIds": [],
+      "label": "hong@example.com",
+      "size": "sm"
+    },
+    "w-000cfb": {
+      "id": "w-000cfb",
+      "type": "text",
+      "parentId": "w-000cf7",
+      "childrenIds": [],
+      "label": "관리자",
+      "size": "sm"
+    },
+    "w-000cfc": {
+      "id": "w-000cfc",
+      "type": "text",
+      "parentId": "w-000cf7",
+      "childrenIds": [],
+      "label": "활성",
+      "size": "sm"
+    },
+    "w-000cfd": {
+      "id": "w-000cfd",
+      "type": "row",
+      "parentId": "w-000cf7",
+      "childrenIds": [
+        "w-000cfe",
+        "w-000cff"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-000cfe": {
+      "id": "w-000cfe",
+      "type": "button",
+      "parentId": "w-000cfd",
+      "childrenIds": [],
+      "label": "수정",
+      "variant": "secondary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "edit-account"
+      }
+    },
+    "w-000cff": {
+      "id": "w-000cff",
+      "type": "button",
+      "parentId": "w-000cfd",
+      "childrenIds": [],
+      "label": "삭제",
+      "variant": "danger",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "delete-account"
+      }
+    },
+    "w-000d00": {
+      "id": "w-000d00",
+      "type": "box",
+      "parentId": "w-000cf0",
+      "childrenIds": [
+        "w-000d01"
+      ],
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "edit-account"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000d01": {
+      "id": "w-000d01",
+      "type": "row",
+      "parentId": "w-000d00",
+      "childrenIds": [
+        "w-000d02",
+        "w-000d05",
+        "w-000d06",
+        "w-000d07"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000d02": {
+      "id": "w-000d02",
+      "type": "column",
+      "parentId": "w-000d01",
+      "childrenIds": [
+        "w-000d03",
+        "w-000d04"
+      ]
+    },
+    "w-000d03": {
+      "id": "w-000d03",
+      "type": "text",
+      "parentId": "w-000d02",
+      "childrenIds": [],
+      "label": "김민준",
+      "size": "md"
+    },
+    "w-000d04": {
+      "id": "w-000d04",
+      "type": "text",
+      "parentId": "w-000d02",
+      "childrenIds": [],
+      "label": "minjun@example.com",
+      "size": "sm"
+    },
+    "w-000d05": {
+      "id": "w-000d05",
+      "type": "text",
+      "parentId": "w-000d01",
+      "childrenIds": [],
+      "label": "운영자",
+      "size": "sm"
+    },
+    "w-000d06": {
+      "id": "w-000d06",
+      "type": "text",
+      "parentId": "w-000d01",
+      "childrenIds": [],
+      "label": "활성",
+      "size": "sm"
+    },
+    "w-000d07": {
+      "id": "w-000d07",
+      "type": "row",
+      "parentId": "w-000d01",
+      "childrenIds": [
+        "w-000d08",
+        "w-000d09"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-000d08": {
+      "id": "w-000d08",
+      "type": "button",
+      "parentId": "w-000d07",
+      "childrenIds": [],
+      "label": "수정",
+      "variant": "secondary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "edit-account"
+      }
+    },
+    "w-000d09": {
+      "id": "w-000d09",
+      "type": "button",
+      "parentId": "w-000d07",
+      "childrenIds": [],
+      "label": "삭제",
+      "variant": "danger",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "delete-account"
+      }
+    },
+    "w-000d0a": {
+      "id": "w-000d0a",
+      "type": "box",
+      "parentId": "w-000cf0",
+      "childrenIds": [
+        "w-000d0b"
+      ],
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "edit-account"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000d0b": {
+      "id": "w-000d0b",
+      "type": "row",
+      "parentId": "w-000d0a",
+      "childrenIds": [
+        "w-000d0c",
+        "w-000d0f",
+        "w-000d10",
+        "w-000d11"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000d0c": {
+      "id": "w-000d0c",
+      "type": "column",
+      "parentId": "w-000d0b",
+      "childrenIds": [
+        "w-000d0d",
+        "w-000d0e"
+      ]
+    },
+    "w-000d0d": {
+      "id": "w-000d0d",
+      "type": "text",
+      "parentId": "w-000d0c",
+      "childrenIds": [],
+      "label": "이수연",
+      "size": "md"
+    },
+    "w-000d0e": {
+      "id": "w-000d0e",
+      "type": "text",
+      "parentId": "w-000d0c",
+      "childrenIds": [],
+      "label": "sooyeon@example.com",
+      "size": "sm"
+    },
+    "w-000d0f": {
+      "id": "w-000d0f",
+      "type": "text",
+      "parentId": "w-000d0b",
+      "childrenIds": [],
+      "label": "뷰어",
+      "size": "sm"
+    },
+    "w-000d10": {
+      "id": "w-000d10",
+      "type": "text",
+      "parentId": "w-000d0b",
+      "childrenIds": [],
+      "label": "비활성",
+      "size": "sm"
+    },
+    "w-000d11": {
+      "id": "w-000d11",
+      "type": "row",
+      "parentId": "w-000d0b",
+      "childrenIds": [
+        "w-000d12",
+        "w-000d13"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-000d12": {
+      "id": "w-000d12",
+      "type": "button",
+      "parentId": "w-000d11",
+      "childrenIds": [],
+      "label": "수정",
+      "variant": "secondary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "edit-account"
+      }
+    },
+    "w-000d13": {
+      "id": "w-000d13",
+      "type": "button",
+      "parentId": "w-000d11",
+      "childrenIds": [],
+      "label": "삭제",
+      "variant": "danger",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "delete-account"
+      }
+    },
+    "w-000d14": {
+      "id": "w-000d14",
+      "type": "box",
+      "parentId": "w-000cf0",
+      "childrenIds": [
+        "w-000d15"
+      ],
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "edit-account"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000d15": {
+      "id": "w-000d15",
+      "type": "row",
+      "parentId": "w-000d14",
+      "childrenIds": [
+        "w-000d16",
+        "w-000d19",
+        "w-000d1a",
+        "w-000d1b"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000d16": {
+      "id": "w-000d16",
+      "type": "column",
+      "parentId": "w-000d15",
+      "childrenIds": [
+        "w-000d17",
+        "w-000d18"
+      ]
+    },
+    "w-000d17": {
+      "id": "w-000d17",
+      "type": "text",
+      "parentId": "w-000d16",
+      "childrenIds": [],
+      "label": "박지훈",
+      "size": "md"
+    },
+    "w-000d18": {
+      "id": "w-000d18",
+      "type": "text",
+      "parentId": "w-000d16",
+      "childrenIds": [],
+      "label": "jihoon@example.com",
+      "size": "sm"
+    },
+    "w-000d19": {
+      "id": "w-000d19",
+      "type": "text",
+      "parentId": "w-000d15",
+      "childrenIds": [],
+      "label": "운영자",
+      "size": "sm"
+    },
+    "w-000d1a": {
+      "id": "w-000d1a",
+      "type": "text",
+      "parentId": "w-000d15",
+      "childrenIds": [],
+      "label": "활성",
+      "size": "sm"
+    },
+    "w-000d1b": {
+      "id": "w-000d1b",
+      "type": "row",
+      "parentId": "w-000d15",
+      "childrenIds": [
+        "w-000d1c",
+        "w-000d1d"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-000d1c": {
+      "id": "w-000d1c",
+      "type": "button",
+      "parentId": "w-000d1b",
+      "childrenIds": [],
+      "label": "수정",
+      "variant": "secondary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "edit-account"
+      }
+    },
+    "w-000d1d": {
+      "id": "w-000d1d",
+      "type": "button",
+      "parentId": "w-000d1b",
+      "childrenIds": [],
+      "label": "삭제",
+      "variant": "danger",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "delete-account"
+      }
+    },
+    "w-000d1e": {
+      "id": "w-000d1e",
+      "type": "box",
+      "parentId": "w-000cf0",
+      "childrenIds": [
+        "w-000d1f"
+      ],
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "edit-account"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000d1f": {
+      "id": "w-000d1f",
+      "type": "row",
+      "parentId": "w-000d1e",
+      "childrenIds": [
+        "w-000d20",
+        "w-000d23",
+        "w-000d24",
+        "w-000d25"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000d20": {
+      "id": "w-000d20",
+      "type": "column",
+      "parentId": "w-000d1f",
+      "childrenIds": [
+        "w-000d21",
+        "w-000d22"
+      ]
+    },
+    "w-000d21": {
+      "id": "w-000d21",
+      "type": "text",
+      "parentId": "w-000d20",
+      "childrenIds": [],
+      "label": "최예린",
+      "size": "md"
+    },
+    "w-000d22": {
+      "id": "w-000d22",
+      "type": "text",
+      "parentId": "w-000d20",
+      "childrenIds": [],
+      "label": "yerin@example.com",
+      "size": "sm"
+    },
+    "w-000d23": {
+      "id": "w-000d23",
+      "type": "text",
+      "parentId": "w-000d1f",
+      "childrenIds": [],
+      "label": "뷰어",
+      "size": "sm"
+    },
+    "w-000d24": {
+      "id": "w-000d24",
+      "type": "text",
+      "parentId": "w-000d1f",
+      "childrenIds": [],
+      "label": "활성",
+      "size": "sm"
+    },
+    "w-000d25": {
+      "id": "w-000d25",
+      "type": "row",
+      "parentId": "w-000d1f",
+      "childrenIds": [
+        "w-000d26",
+        "w-000d27"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-000d26": {
+      "id": "w-000d26",
+      "type": "button",
+      "parentId": "w-000d25",
+      "childrenIds": [],
+      "label": "수정",
+      "variant": "secondary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "edit-account"
+      }
+    },
+    "w-000d27": {
+      "id": "w-000d27",
+      "type": "button",
+      "parentId": "w-000d25",
+      "childrenIds": [],
+      "label": "삭제",
+      "variant": "danger",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "delete-account"
+      }
+    },
+    "w-000d28": {
+      "id": "w-000d28",
+      "type": "overlay",
+      "parentId": "w-000cef",
+      "childrenIds": [
+        "w-000d29",
+        "w-000d2a",
+        "w-000d2b",
+        "w-000d2c",
+        "w-000d2d",
+        "w-000d2e",
+        "w-000d2f",
+        "w-000d30"
+      ],
+      "overlayId": "create-account"
+    },
+    "w-000d29": {
+      "id": "w-000d29",
+      "type": "text",
+      "parentId": "w-000d28",
+      "childrenIds": [],
+      "label": "새 계정 추가",
+      "size": "md"
+    },
+    "w-000d2a": {
+      "id": "w-000d2a",
+      "type": "input",
+      "parentId": "w-000d28",
+      "childrenIds": [],
+      "label": "이름"
+    },
+    "w-000d2b": {
+      "id": "w-000d2b",
+      "type": "input",
+      "parentId": "w-000d28",
+      "childrenIds": [],
+      "label": "이메일"
+    },
+    "w-000d2c": {
+      "id": "w-000d2c",
+      "type": "input",
+      "parentId": "w-000d28",
+      "childrenIds": [],
+      "label": "비밀번호"
+    },
+    "w-000d2d": {
+      "id": "w-000d2d",
+      "type": "input",
+      "parentId": "w-000d28",
+      "childrenIds": [],
+      "label": "비밀번호 확인"
+    },
+    "w-000d2e": {
+      "id": "w-000d2e",
+      "type": "input",
+      "parentId": "w-000d28",
+      "childrenIds": [],
+      "label": "역할",
+      "inputType": "select",
+      "attributes": {
+        "options": "관리자,운영자,뷰어"
+      }
+    },
+    "w-000d2f": {
+      "id": "w-000d2f",
+      "type": "input",
+      "parentId": "w-000d28",
+      "childrenIds": [],
+      "label": "계정 상태",
+      "inputType": "toggle",
+      "attributes": {
+        "on": ""
+      }
+    },
+    "w-000d30": {
+      "id": "w-000d30",
+      "type": "row",
+      "parentId": "w-000d28",
+      "childrenIds": [
+        "w-000d31",
+        "w-000d32"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000d31": {
+      "id": "w-000d31",
+      "type": "button",
+      "parentId": "w-000d30",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000d32": {
+      "id": "w-000d32",
+      "type": "button",
+      "parentId": "w-000d30",
+      "childrenIds": [],
+      "label": "계정 생성",
+      "variant": "primary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000d33": {
+      "id": "w-000d33",
+      "type": "overlay",
+      "parentId": "w-000cef",
+      "childrenIds": [
+        "w-000d34",
+        "w-000d35",
+        "w-000d36",
+        "w-000d37",
+        "w-000d38",
+        "w-000d39"
+      ],
+      "overlayId": "edit-account"
+    },
+    "w-000d34": {
+      "id": "w-000d34",
+      "type": "text",
+      "parentId": "w-000d33",
+      "childrenIds": [],
+      "label": "계정 수정",
+      "size": "md"
+    },
+    "w-000d35": {
+      "id": "w-000d35",
+      "type": "input",
+      "parentId": "w-000d33",
+      "childrenIds": [],
+      "label": "이름"
+    },
+    "w-000d36": {
+      "id": "w-000d36",
+      "type": "input",
+      "parentId": "w-000d33",
+      "childrenIds": [],
+      "label": "이메일"
+    },
+    "w-000d37": {
+      "id": "w-000d37",
+      "type": "input",
+      "parentId": "w-000d33",
+      "childrenIds": [],
+      "label": "역할",
+      "inputType": "select",
+      "attributes": {
+        "options": "관리자,운영자,뷰어"
+      }
+    },
+    "w-000d38": {
+      "id": "w-000d38",
+      "type": "input",
+      "parentId": "w-000d33",
+      "childrenIds": [],
+      "label": "계정 상태",
+      "inputType": "toggle",
+      "attributes": {
+        "on": ""
+      }
+    },
+    "w-000d39": {
+      "id": "w-000d39",
+      "type": "row",
+      "parentId": "w-000d33",
+      "childrenIds": [
+        "w-000d3a",
+        "w-000d3b"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000d3a": {
+      "id": "w-000d3a",
+      "type": "button",
+      "parentId": "w-000d39",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000d3b": {
+      "id": "w-000d3b",
+      "type": "button",
+      "parentId": "w-000d39",
+      "childrenIds": [],
+      "label": "저장",
+      "variant": "primary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000d3c": {
+      "id": "w-000d3c",
+      "type": "overlay",
+      "parentId": "w-000cef",
+      "childrenIds": [
+        "w-000d3d",
+        "w-000d3e",
+        "w-000d3f"
+      ],
+      "overlayId": "delete-account"
+    },
+    "w-000d3d": {
+      "id": "w-000d3d",
+      "type": "text",
+      "parentId": "w-000d3c",
+      "childrenIds": [],
+      "label": "계정 삭제 확인",
+      "size": "md"
+    },
+    "w-000d3e": {
+      "id": "w-000d3e",
+      "type": "text",
+      "parentId": "w-000d3c",
+      "childrenIds": [],
+      "label": "해당 계정을 삭제하면 복구할 수 없습니다. 정말 삭제하시겠습니까?",
+      "size": "sm"
+    },
+    "w-000d3f": {
+      "id": "w-000d3f",
+      "type": "row",
+      "parentId": "w-000d3c",
+      "childrenIds": [
+        "w-000d40",
+        "w-000d41"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000d40": {
+      "id": "w-000d40",
+      "type": "button",
+      "parentId": "w-000d3f",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000d41": {
+      "id": "w-000d41",
+      "type": "button",
+      "parentId": "w-000d3f",
+      "childrenIds": [],
+      "label": "삭제",
+      "variant": "danger",
+      "action": {
+        "type": "close"
+      }
+    }
+  }
+}

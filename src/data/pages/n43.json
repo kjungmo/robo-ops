@@ -1,0 +1,861 @@
+{
+  "pageNodeId": "n43",
+  "pageName": "시스템 관리",
+  "rootId": "w-000d85",
+  "nodes": {
+    "w-000d85": {
+      "id": "w-000d85",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000d86"
+      ],
+      "label": "시스템 관리",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000d86": {
+      "id": "w-000d86",
+      "type": "body",
+      "parentId": "w-000d85",
+      "childrenIds": [
+        "w-000d87",
+        "w-000d8c",
+        "w-000d8d",
+        "w-000da4",
+        "w-000da5",
+        "w-000dbc",
+        "w-000dbd"
+      ]
+    },
+    "w-000d87": {
+      "id": "w-000d87",
+      "type": "row",
+      "parentId": "w-000d86",
+      "childrenIds": [
+        "w-000d88",
+        "w-000d89",
+        "w-000d8a",
+        "w-000d8b"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000d88": {
+      "id": "w-000d88",
+      "type": "text",
+      "parentId": "w-000d87",
+      "childrenIds": [],
+      "label": "시스템 관리",
+      "size": "lg"
+    },
+    "w-000d89": {
+      "id": "w-000d89",
+      "type": "spacer",
+      "parentId": "w-000d87",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000d8a": {
+      "id": "w-000d8a",
+      "type": "button",
+      "parentId": "w-000d87",
+      "childrenIds": [],
+      "label": "KPI 분석 대시보드",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n49"
+      }
+    },
+    "w-000d8b": {
+      "id": "w-000d8b",
+      "type": "button",
+      "parentId": "w-000d87",
+      "childrenIds": [],
+      "label": "감사 로그 조회",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n50"
+      }
+    },
+    "w-000d8c": {
+      "id": "w-000d8c",
+      "type": "text",
+      "parentId": "w-000d86",
+      "childrenIds": [],
+      "label": "계정 및 권한",
+      "size": "md"
+    },
+    "w-000d8d": {
+      "id": "w-000d8d",
+      "type": "row",
+      "parentId": "w-000d86",
+      "childrenIds": [
+        "w-000d8e",
+        "w-000d99"
+      ],
+      "layout": {
+        "gap": 20
+      }
+    },
+    "w-000d8e": {
+      "id": "w-000d8e",
+      "type": "box",
+      "parentId": "w-000d8d",
+      "childrenIds": [
+        "w-000d8f",
+        "w-000d97"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n44"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000d8f": {
+      "id": "w-000d8f",
+      "type": "row",
+      "parentId": "w-000d8e",
+      "childrenIds": [
+        "w-000d90",
+        "w-000d93",
+        "w-000d94"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000d90": {
+      "id": "w-000d90",
+      "type": "column",
+      "parentId": "w-000d8f",
+      "childrenIds": [
+        "w-000d91",
+        "w-000d92"
+      ]
+    },
+    "w-000d91": {
+      "id": "w-000d91",
+      "type": "text",
+      "parentId": "w-000d90",
+      "childrenIds": [],
+      "label": "사용자 계정 관리",
+      "size": "md"
+    },
+    "w-000d92": {
+      "id": "w-000d92",
+      "type": "text",
+      "parentId": "w-000d90",
+      "childrenIds": [],
+      "label": "운영자·관리자 계정 생성, 수정, 비활성화를 관리합니다.",
+      "size": "sm"
+    },
+    "w-000d93": {
+      "id": "w-000d93",
+      "type": "spacer",
+      "parentId": "w-000d8f",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000d94": {
+      "id": "w-000d94",
+      "type": "column",
+      "parentId": "w-000d8f",
+      "childrenIds": [
+        "w-000d95",
+        "w-000d96"
+      ],
+      "layout": {
+        "gap": 4,
+        "align": "end"
+      }
+    },
+    "w-000d95": {
+      "id": "w-000d95",
+      "type": "text",
+      "parentId": "w-000d94",
+      "childrenIds": [],
+      "label": "전체 사용자",
+      "size": "sm"
+    },
+    "w-000d96": {
+      "id": "w-000d96",
+      "type": "text",
+      "parentId": "w-000d94",
+      "childrenIds": [],
+      "size": "xl"
+    },
+    "w-000d97": {
+      "id": "w-000d97",
+      "type": "row",
+      "parentId": "w-000d8e",
+      "childrenIds": [
+        "w-000d98"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000d98": {
+      "id": "w-000d98",
+      "type": "button",
+      "parentId": "w-000d97",
+      "childrenIds": [],
+      "label": "관리 화면으로",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n44"
+      }
+    },
+    "w-000d99": {
+      "id": "w-000d99",
+      "type": "box",
+      "parentId": "w-000d8d",
+      "childrenIds": [
+        "w-000d9a",
+        "w-000da2"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n45"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000d9a": {
+      "id": "w-000d9a",
+      "type": "row",
+      "parentId": "w-000d99",
+      "childrenIds": [
+        "w-000d9b",
+        "w-000d9e",
+        "w-000d9f"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000d9b": {
+      "id": "w-000d9b",
+      "type": "column",
+      "parentId": "w-000d9a",
+      "childrenIds": [
+        "w-000d9c",
+        "w-000d9d"
+      ]
+    },
+    "w-000d9c": {
+      "id": "w-000d9c",
+      "type": "text",
+      "parentId": "w-000d9b",
+      "childrenIds": [],
+      "label": "역할/권한(RBAC) 설정",
+      "size": "md"
+    },
+    "w-000d9d": {
+      "id": "w-000d9d",
+      "type": "text",
+      "parentId": "w-000d9b",
+      "childrenIds": [],
+      "label": "역할별 접근 권한 및 메뉴 노출 범위를 설정합니다.",
+      "size": "sm"
+    },
+    "w-000d9e": {
+      "id": "w-000d9e",
+      "type": "spacer",
+      "parentId": "w-000d9a",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000d9f": {
+      "id": "w-000d9f",
+      "type": "column",
+      "parentId": "w-000d9a",
+      "childrenIds": [
+        "w-000da0",
+        "w-000da1"
+      ],
+      "layout": {
+        "gap": 4,
+        "align": "end"
+      }
+    },
+    "w-000da0": {
+      "id": "w-000da0",
+      "type": "text",
+      "parentId": "w-000d9f",
+      "childrenIds": [],
+      "label": "등록된 역할",
+      "size": "sm"
+    },
+    "w-000da1": {
+      "id": "w-000da1",
+      "type": "text",
+      "parentId": "w-000d9f",
+      "childrenIds": [],
+      "size": "xl"
+    },
+    "w-000da2": {
+      "id": "w-000da2",
+      "type": "row",
+      "parentId": "w-000d99",
+      "childrenIds": [
+        "w-000da3"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000da3": {
+      "id": "w-000da3",
+      "type": "button",
+      "parentId": "w-000da2",
+      "childrenIds": [],
+      "label": "관리 화면으로",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n45"
+      }
+    },
+    "w-000da4": {
+      "id": "w-000da4",
+      "type": "text",
+      "parentId": "w-000d86",
+      "childrenIds": [],
+      "label": "로봇 및 현장",
+      "size": "md"
+    },
+    "w-000da5": {
+      "id": "w-000da5",
+      "type": "row",
+      "parentId": "w-000d86",
+      "childrenIds": [
+        "w-000da6",
+        "w-000db1"
+      ],
+      "layout": {
+        "gap": 20
+      }
+    },
+    "w-000da6": {
+      "id": "w-000da6",
+      "type": "box",
+      "parentId": "w-000da5",
+      "childrenIds": [
+        "w-000da7",
+        "w-000daf"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n46"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000da7": {
+      "id": "w-000da7",
+      "type": "row",
+      "parentId": "w-000da6",
+      "childrenIds": [
+        "w-000da8",
+        "w-000dab",
+        "w-000dac"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000da8": {
+      "id": "w-000da8",
+      "type": "column",
+      "parentId": "w-000da7",
+      "childrenIds": [
+        "w-000da9",
+        "w-000daa"
+      ]
+    },
+    "w-000da9": {
+      "id": "w-000da9",
+      "type": "text",
+      "parentId": "w-000da8",
+      "childrenIds": [],
+      "label": "로봇 등록/수정",
+      "size": "md"
+    },
+    "w-000daa": {
+      "id": "w-000daa",
+      "type": "text",
+      "parentId": "w-000da8",
+      "childrenIds": [],
+      "label": "로봇 디바이스 등록, 펌웨어 정보, 운영 파라미터를 관리합니다.",
+      "size": "sm"
+    },
+    "w-000dab": {
+      "id": "w-000dab",
+      "type": "spacer",
+      "parentId": "w-000da7",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000dac": {
+      "id": "w-000dac",
+      "type": "column",
+      "parentId": "w-000da7",
+      "childrenIds": [
+        "w-000dad",
+        "w-000dae"
+      ],
+      "layout": {
+        "gap": 4,
+        "align": "end"
+      }
+    },
+    "w-000dad": {
+      "id": "w-000dad",
+      "type": "text",
+      "parentId": "w-000dac",
+      "childrenIds": [],
+      "label": "등록 로봇",
+      "size": "sm"
+    },
+    "w-000dae": {
+      "id": "w-000dae",
+      "type": "text",
+      "parentId": "w-000dac",
+      "childrenIds": [],
+      "size": "xl"
+    },
+    "w-000daf": {
+      "id": "w-000daf",
+      "type": "row",
+      "parentId": "w-000da6",
+      "childrenIds": [
+        "w-000db0"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000db0": {
+      "id": "w-000db0",
+      "type": "button",
+      "parentId": "w-000daf",
+      "childrenIds": [],
+      "label": "관리 화면으로",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n46"
+      }
+    },
+    "w-000db1": {
+      "id": "w-000db1",
+      "type": "box",
+      "parentId": "w-000da5",
+      "childrenIds": [
+        "w-000db2",
+        "w-000dba"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n47"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000db2": {
+      "id": "w-000db2",
+      "type": "row",
+      "parentId": "w-000db1",
+      "childrenIds": [
+        "w-000db3",
+        "w-000db6",
+        "w-000db7"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000db3": {
+      "id": "w-000db3",
+      "type": "column",
+      "parentId": "w-000db2",
+      "childrenIds": [
+        "w-000db4",
+        "w-000db5"
+      ]
+    },
+    "w-000db4": {
+      "id": "w-000db4",
+      "type": "text",
+      "parentId": "w-000db3",
+      "childrenIds": [],
+      "label": "현장·구역 관리",
+      "size": "md"
+    },
+    "w-000db5": {
+      "id": "w-000db5",
+      "type": "text",
+      "parentId": "w-000db3",
+      "childrenIds": [],
+      "label": "운영 현장 및 구역 정보, 맵 데이터를 설정합니다.",
+      "size": "sm"
+    },
+    "w-000db6": {
+      "id": "w-000db6",
+      "type": "spacer",
+      "parentId": "w-000db2",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000db7": {
+      "id": "w-000db7",
+      "type": "column",
+      "parentId": "w-000db2",
+      "childrenIds": [
+        "w-000db8",
+        "w-000db9"
+      ],
+      "layout": {
+        "gap": 4,
+        "align": "end"
+      }
+    },
+    "w-000db8": {
+      "id": "w-000db8",
+      "type": "text",
+      "parentId": "w-000db7",
+      "childrenIds": [],
+      "label": "등록 현장",
+      "size": "sm"
+    },
+    "w-000db9": {
+      "id": "w-000db9",
+      "type": "text",
+      "parentId": "w-000db7",
+      "childrenIds": [],
+      "size": "xl"
+    },
+    "w-000dba": {
+      "id": "w-000dba",
+      "type": "row",
+      "parentId": "w-000db1",
+      "childrenIds": [
+        "w-000dbb"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000dbb": {
+      "id": "w-000dbb",
+      "type": "button",
+      "parentId": "w-000dba",
+      "childrenIds": [],
+      "label": "관리 화면으로",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n47"
+      }
+    },
+    "w-000dbc": {
+      "id": "w-000dbc",
+      "type": "text",
+      "parentId": "w-000d86",
+      "childrenIds": [],
+      "label": "연동 및 감사",
+      "size": "md"
+    },
+    "w-000dbd": {
+      "id": "w-000dbd",
+      "type": "row",
+      "parentId": "w-000d86",
+      "childrenIds": [
+        "w-000dbe",
+        "w-000dcd"
+      ],
+      "layout": {
+        "gap": 20
+      }
+    },
+    "w-000dbe": {
+      "id": "w-000dbe",
+      "type": "box",
+      "parentId": "w-000dbd",
+      "childrenIds": [
+        "w-000dbf",
+        "w-000dc7",
+        "w-000dcb"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n48"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000dbf": {
+      "id": "w-000dbf",
+      "type": "row",
+      "parentId": "w-000dbe",
+      "childrenIds": [
+        "w-000dc0",
+        "w-000dc3",
+        "w-000dc4"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000dc0": {
+      "id": "w-000dc0",
+      "type": "column",
+      "parentId": "w-000dbf",
+      "childrenIds": [
+        "w-000dc1",
+        "w-000dc2"
+      ]
+    },
+    "w-000dc1": {
+      "id": "w-000dc1",
+      "type": "text",
+      "parentId": "w-000dc0",
+      "childrenIds": [],
+      "label": "연동 헬스체크",
+      "size": "md"
+    },
+    "w-000dc2": {
+      "id": "w-000dc2",
+      "type": "text",
+      "parentId": "w-000dc0",
+      "childrenIds": [],
+      "label": "외부 시스템 및 API 연동 상태를 실시간으로 모니터링합니다.",
+      "size": "sm"
+    },
+    "w-000dc3": {
+      "id": "w-000dc3",
+      "type": "spacer",
+      "parentId": "w-000dbf",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000dc4": {
+      "id": "w-000dc4",
+      "type": "column",
+      "parentId": "w-000dbf",
+      "childrenIds": [
+        "w-000dc5",
+        "w-000dc6"
+      ],
+      "layout": {
+        "gap": 4,
+        "align": "end"
+      }
+    },
+    "w-000dc5": {
+      "id": "w-000dc5",
+      "type": "text",
+      "parentId": "w-000dc4",
+      "childrenIds": [],
+      "label": "정상",
+      "size": "sm"
+    },
+    "w-000dc6": {
+      "id": "w-000dc6",
+      "type": "text",
+      "parentId": "w-000dc4",
+      "childrenIds": [],
+      "size": "xl"
+    },
+    "w-000dc7": {
+      "id": "w-000dc7",
+      "type": "row",
+      "parentId": "w-000dbe",
+      "childrenIds": [
+        "w-000dc8",
+        "w-000dc9",
+        "w-000dca"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-000dc8": {
+      "id": "w-000dc8",
+      "type": "button",
+      "parentId": "w-000dc7",
+      "childrenIds": [],
+      "label": "정상 ",
+      "variant": "chip"
+    },
+    "w-000dc9": {
+      "id": "w-000dc9",
+      "type": "button",
+      "parentId": "w-000dc7",
+      "childrenIds": [],
+      "label": "주의 ",
+      "variant": "chip"
+    },
+    "w-000dca": {
+      "id": "w-000dca",
+      "type": "button",
+      "parentId": "w-000dc7",
+      "childrenIds": [],
+      "label": "장애 ",
+      "variant": "chip"
+    },
+    "w-000dcb": {
+      "id": "w-000dcb",
+      "type": "row",
+      "parentId": "w-000dbe",
+      "childrenIds": [
+        "w-000dcc"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000dcc": {
+      "id": "w-000dcc",
+      "type": "button",
+      "parentId": "w-000dcb",
+      "childrenIds": [],
+      "label": "헬스체크 화면으로",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n48"
+      }
+    },
+    "w-000dcd": {
+      "id": "w-000dcd",
+      "type": "box",
+      "parentId": "w-000dbd",
+      "childrenIds": [
+        "w-000dce",
+        "w-000dd6"
+      ],
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n50"
+      },
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000dce": {
+      "id": "w-000dce",
+      "type": "row",
+      "parentId": "w-000dcd",
+      "childrenIds": [
+        "w-000dcf",
+        "w-000dd2",
+        "w-000dd3"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000dcf": {
+      "id": "w-000dcf",
+      "type": "column",
+      "parentId": "w-000dce",
+      "childrenIds": [
+        "w-000dd0",
+        "w-000dd1"
+      ]
+    },
+    "w-000dd0": {
+      "id": "w-000dd0",
+      "type": "text",
+      "parentId": "w-000dcf",
+      "childrenIds": [],
+      "label": "감사 로그 조회",
+      "size": "md"
+    },
+    "w-000dd1": {
+      "id": "w-000dd1",
+      "type": "text",
+      "parentId": "w-000dcf",
+      "childrenIds": [],
+      "label": "사용자 접근, 설정 변경, 제어 이벤트의 감사 기록을 조회합니다.",
+      "size": "sm"
+    },
+    "w-000dd2": {
+      "id": "w-000dd2",
+      "type": "spacer",
+      "parentId": "w-000dce",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000dd3": {
+      "id": "w-000dd3",
+      "type": "column",
+      "parentId": "w-000dce",
+      "childrenIds": [
+        "w-000dd4",
+        "w-000dd5"
+      ],
+      "layout": {
+        "gap": 4,
+        "align": "end"
+      }
+    },
+    "w-000dd4": {
+      "id": "w-000dd4",
+      "type": "text",
+      "parentId": "w-000dd3",
+      "childrenIds": [],
+      "label": "오늘 발생 로그",
+      "size": "sm"
+    },
+    "w-000dd5": {
+      "id": "w-000dd5",
+      "type": "text",
+      "parentId": "w-000dd3",
+      "childrenIds": [],
+      "size": "xl"
+    },
+    "w-000dd6": {
+      "id": "w-000dd6",
+      "type": "row",
+      "parentId": "w-000dcd",
+      "childrenIds": [
+        "w-000dd7"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000dd7": {
+      "id": "w-000dd7",
+      "type": "button",
+      "parentId": "w-000dd6",
+      "childrenIds": [],
+      "label": "로그 조회 화면으로",
+      "variant": "secondary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n50"
+      }
+    }
+  }
+}

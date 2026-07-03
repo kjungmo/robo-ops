@@ -1,0 +1,657 @@
+{
+  "pageNodeId": "n37",
+  "pageName": "맵 버전/배포 관리",
+  "rootId": "w-000c7e",
+  "nodes": {
+    "w-000c7e": {
+      "id": "w-000c7e",
+      "type": "page",
+      "parentId": null,
+      "childrenIds": [
+        "w-000c7f",
+        "w-000cb1",
+        "w-000cb8"
+      ],
+      "label": "맵 버전/배포 관리",
+      "attributes": {
+        "layout": "app"
+      }
+    },
+    "w-000c7f": {
+      "id": "w-000c7f",
+      "type": "body",
+      "parentId": "w-000c7e",
+      "childrenIds": [
+        "w-000c80",
+        "w-000c81",
+        "w-000c8e",
+        "w-000c8f",
+        "w-000c95",
+        "w-000c9c",
+        "w-000ca3",
+        "w-000caa"
+      ]
+    },
+    "w-000c80": {
+      "id": "w-000c80",
+      "type": "text",
+      "parentId": "w-000c7f",
+      "childrenIds": [],
+      "label": "맵 버전/배포 관리",
+      "size": "md"
+    },
+    "w-000c81": {
+      "id": "w-000c81",
+      "type": "box",
+      "parentId": "w-000c7f",
+      "childrenIds": [
+        "w-000c82"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c82": {
+      "id": "w-000c82",
+      "type": "row",
+      "parentId": "w-000c81",
+      "childrenIds": [
+        "w-000c83",
+        "w-000c87",
+        "w-000c88",
+        "w-000c8b"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000c83": {
+      "id": "w-000c83",
+      "type": "column",
+      "parentId": "w-000c82",
+      "childrenIds": [
+        "w-000c84",
+        "w-000c85",
+        "w-000c86"
+      ]
+    },
+    "w-000c84": {
+      "id": "w-000c84",
+      "type": "text",
+      "parentId": "w-000c83",
+      "childrenIds": [],
+      "label": "현재 배포 버전",
+      "size": "sm"
+    },
+    "w-000c85": {
+      "id": "w-000c85",
+      "type": "text",
+      "parentId": "w-000c83",
+      "childrenIds": [],
+      "label": "v3.2.1",
+      "size": "lg"
+    },
+    "w-000c86": {
+      "id": "w-000c86",
+      "type": "text",
+      "parentId": "w-000c83",
+      "childrenIds": [],
+      "label": "2025년 6월 12일 14:32 배포",
+      "size": "sm"
+    },
+    "w-000c87": {
+      "id": "w-000c87",
+      "type": "spacer",
+      "parentId": "w-000c82",
+      "childrenIds": [],
+      "label": "1",
+      "spacerSize": "1"
+    },
+    "w-000c88": {
+      "id": "w-000c88",
+      "type": "column",
+      "parentId": "w-000c82",
+      "childrenIds": [
+        "w-000c89",
+        "w-000c8a"
+      ],
+      "layout": {
+        "align": "end"
+      }
+    },
+    "w-000c89": {
+      "id": "w-000c89",
+      "type": "text",
+      "parentId": "w-000c88",
+      "childrenIds": [],
+      "label": "배포 상태",
+      "size": "sm"
+    },
+    "w-000c8a": {
+      "id": "w-000c8a",
+      "type": "text",
+      "parentId": "w-000c88",
+      "childrenIds": [],
+      "label": "정상 운영 중",
+      "size": "sm"
+    },
+    "w-000c8b": {
+      "id": "w-000c8b",
+      "type": "row",
+      "parentId": "w-000c82",
+      "childrenIds": [
+        "w-000c8c",
+        "w-000c8d"
+      ],
+      "layout": {
+        "gap": 8
+      }
+    },
+    "w-000c8c": {
+      "id": "w-000c8c",
+      "type": "button",
+      "parentId": "w-000c8b",
+      "childrenIds": [],
+      "label": "새 버전 배포",
+      "variant": "primary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "deploy-confirm"
+      }
+    },
+    "w-000c8d": {
+      "id": "w-000c8d",
+      "type": "button",
+      "parentId": "w-000c8b",
+      "childrenIds": [],
+      "label": "이전 버전으로 롤백",
+      "variant": "primary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "rollback-confirm"
+      }
+    },
+    "w-000c8e": {
+      "id": "w-000c8e",
+      "type": "text",
+      "parentId": "w-000c7f",
+      "childrenIds": [],
+      "label": "버전 이력",
+      "size": "md"
+    },
+    "w-000c8f": {
+      "id": "w-000c8f",
+      "type": "box",
+      "parentId": "w-000c7f",
+      "childrenIds": [
+        "w-000c90"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c90": {
+      "id": "w-000c90",
+      "type": "row",
+      "parentId": "w-000c8f",
+      "childrenIds": [
+        "w-000c91",
+        "w-000c94"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000c91": {
+      "id": "w-000c91",
+      "type": "column",
+      "parentId": "w-000c90",
+      "childrenIds": [
+        "w-000c92",
+        "w-000c93"
+      ]
+    },
+    "w-000c92": {
+      "id": "w-000c92",
+      "type": "text",
+      "parentId": "w-000c91",
+      "childrenIds": [],
+      "label": "v3.2.1",
+      "size": "sm"
+    },
+    "w-000c93": {
+      "id": "w-000c93",
+      "type": "text",
+      "parentId": "w-000c91",
+      "childrenIds": [],
+      "label": "2025년 6월 12일 14:32",
+      "size": "sm"
+    },
+    "w-000c94": {
+      "id": "w-000c94",
+      "type": "text",
+      "parentId": "w-000c90",
+      "childrenIds": [],
+      "label": "현재 배포 중",
+      "size": "sm"
+    },
+    "w-000c95": {
+      "id": "w-000c95",
+      "type": "box",
+      "parentId": "w-000c7f",
+      "childrenIds": [
+        "w-000c96"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c96": {
+      "id": "w-000c96",
+      "type": "row",
+      "parentId": "w-000c95",
+      "childrenIds": [
+        "w-000c97",
+        "w-000c9a",
+        "w-000c9b"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000c97": {
+      "id": "w-000c97",
+      "type": "column",
+      "parentId": "w-000c96",
+      "childrenIds": [
+        "w-000c98",
+        "w-000c99"
+      ]
+    },
+    "w-000c98": {
+      "id": "w-000c98",
+      "type": "text",
+      "parentId": "w-000c97",
+      "childrenIds": [],
+      "label": "v3.2.0",
+      "size": "sm"
+    },
+    "w-000c99": {
+      "id": "w-000c99",
+      "type": "text",
+      "parentId": "w-000c97",
+      "childrenIds": [],
+      "label": "2025년 6월 8일 09:15",
+      "size": "sm"
+    },
+    "w-000c9a": {
+      "id": "w-000c9a",
+      "type": "text",
+      "parentId": "w-000c96",
+      "childrenIds": [],
+      "label": "롤백 가능",
+      "size": "sm"
+    },
+    "w-000c9b": {
+      "id": "w-000c9b",
+      "type": "button",
+      "parentId": "w-000c96",
+      "childrenIds": [],
+      "label": "이 버전으로 롤백",
+      "variant": "primary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "rollback-confirm"
+      }
+    },
+    "w-000c9c": {
+      "id": "w-000c9c",
+      "type": "box",
+      "parentId": "w-000c7f",
+      "childrenIds": [
+        "w-000c9d"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000c9d": {
+      "id": "w-000c9d",
+      "type": "row",
+      "parentId": "w-000c9c",
+      "childrenIds": [
+        "w-000c9e",
+        "w-000ca1",
+        "w-000ca2"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000c9e": {
+      "id": "w-000c9e",
+      "type": "column",
+      "parentId": "w-000c9d",
+      "childrenIds": [
+        "w-000c9f",
+        "w-000ca0"
+      ]
+    },
+    "w-000c9f": {
+      "id": "w-000c9f",
+      "type": "text",
+      "parentId": "w-000c9e",
+      "childrenIds": [],
+      "label": "v3.1.5",
+      "size": "sm"
+    },
+    "w-000ca0": {
+      "id": "w-000ca0",
+      "type": "text",
+      "parentId": "w-000c9e",
+      "childrenIds": [],
+      "label": "2025년 5월 30일 11:48",
+      "size": "sm"
+    },
+    "w-000ca1": {
+      "id": "w-000ca1",
+      "type": "text",
+      "parentId": "w-000c9d",
+      "childrenIds": [],
+      "label": "롤백 가능",
+      "size": "sm"
+    },
+    "w-000ca2": {
+      "id": "w-000ca2",
+      "type": "button",
+      "parentId": "w-000c9d",
+      "childrenIds": [],
+      "label": "이 버전으로 롤백",
+      "variant": "primary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "rollback-confirm"
+      }
+    },
+    "w-000ca3": {
+      "id": "w-000ca3",
+      "type": "box",
+      "parentId": "w-000c7f",
+      "childrenIds": [
+        "w-000ca4"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000ca4": {
+      "id": "w-000ca4",
+      "type": "row",
+      "parentId": "w-000ca3",
+      "childrenIds": [
+        "w-000ca5",
+        "w-000ca8",
+        "w-000ca9"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000ca5": {
+      "id": "w-000ca5",
+      "type": "column",
+      "parentId": "w-000ca4",
+      "childrenIds": [
+        "w-000ca6",
+        "w-000ca7"
+      ]
+    },
+    "w-000ca6": {
+      "id": "w-000ca6",
+      "type": "text",
+      "parentId": "w-000ca5",
+      "childrenIds": [],
+      "label": "v3.1.4",
+      "size": "sm"
+    },
+    "w-000ca7": {
+      "id": "w-000ca7",
+      "type": "text",
+      "parentId": "w-000ca5",
+      "childrenIds": [],
+      "label": "2025년 5월 22일 16:05",
+      "size": "sm"
+    },
+    "w-000ca8": {
+      "id": "w-000ca8",
+      "type": "text",
+      "parentId": "w-000ca4",
+      "childrenIds": [],
+      "label": "롤백 가능",
+      "size": "sm"
+    },
+    "w-000ca9": {
+      "id": "w-000ca9",
+      "type": "button",
+      "parentId": "w-000ca4",
+      "childrenIds": [],
+      "label": "이 버전으로 롤백",
+      "variant": "primary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "rollback-confirm"
+      }
+    },
+    "w-000caa": {
+      "id": "w-000caa",
+      "type": "box",
+      "parentId": "w-000c7f",
+      "childrenIds": [
+        "w-000cab"
+      ],
+      "attributes": {
+        "outlined": ""
+      }
+    },
+    "w-000cab": {
+      "id": "w-000cab",
+      "type": "row",
+      "parentId": "w-000caa",
+      "childrenIds": [
+        "w-000cac",
+        "w-000caf",
+        "w-000cb0"
+      ],
+      "layout": {
+        "align": "center"
+      }
+    },
+    "w-000cac": {
+      "id": "w-000cac",
+      "type": "column",
+      "parentId": "w-000cab",
+      "childrenIds": [
+        "w-000cad",
+        "w-000cae"
+      ]
+    },
+    "w-000cad": {
+      "id": "w-000cad",
+      "type": "text",
+      "parentId": "w-000cac",
+      "childrenIds": [],
+      "label": "v3.1.3",
+      "size": "sm"
+    },
+    "w-000cae": {
+      "id": "w-000cae",
+      "type": "text",
+      "parentId": "w-000cac",
+      "childrenIds": [],
+      "label": "2025년 5월 14일 10:20",
+      "size": "sm"
+    },
+    "w-000caf": {
+      "id": "w-000caf",
+      "type": "text",
+      "parentId": "w-000cab",
+      "childrenIds": [],
+      "label": "롤백 가능",
+      "size": "sm"
+    },
+    "w-000cb0": {
+      "id": "w-000cb0",
+      "type": "button",
+      "parentId": "w-000cab",
+      "childrenIds": [],
+      "label": "이 버전으로 롤백",
+      "variant": "primary",
+      "action": {
+        "type": "open-modal",
+        "targetOverlayId": "rollback-confirm"
+      }
+    },
+    "w-000cb1": {
+      "id": "w-000cb1",
+      "type": "overlay",
+      "parentId": "w-000c7e",
+      "childrenIds": [
+        "w-000cb2",
+        "w-000cb3",
+        "w-000cb4",
+        "w-000cb5"
+      ],
+      "overlayId": "deploy-confirm"
+    },
+    "w-000cb2": {
+      "id": "w-000cb2",
+      "type": "text",
+      "parentId": "w-000cb1",
+      "childrenIds": [],
+      "label": "새 버전 배포 확인",
+      "size": "md"
+    },
+    "w-000cb3": {
+      "id": "w-000cb3",
+      "type": "text",
+      "parentId": "w-000cb1",
+      "childrenIds": [],
+      "label": "새 맵 버전을 배포하면 현재 운영 중인 맵이 즉시 교체됩니다.",
+      "size": "sm"
+    },
+    "w-000cb4": {
+      "id": "w-000cb4",
+      "type": "text",
+      "parentId": "w-000cb1",
+      "childrenIds": [],
+      "label": "배포 중에는 로봇의 경로 탐색이 일시적으로 중단될 수 있습니다.",
+      "size": "sm"
+    },
+    "w-000cb5": {
+      "id": "w-000cb5",
+      "type": "row",
+      "parentId": "w-000cb1",
+      "childrenIds": [
+        "w-000cb6",
+        "w-000cb7"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000cb6": {
+      "id": "w-000cb6",
+      "type": "button",
+      "parentId": "w-000cb5",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000cb7": {
+      "id": "w-000cb7",
+      "type": "button",
+      "parentId": "w-000cb5",
+      "childrenIds": [],
+      "label": "배포 실행",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n37"
+      }
+    },
+    "w-000cb8": {
+      "id": "w-000cb8",
+      "type": "overlay",
+      "parentId": "w-000c7e",
+      "childrenIds": [
+        "w-000cb9",
+        "w-000cba",
+        "w-000cbb",
+        "w-000cbc"
+      ],
+      "overlayId": "rollback-confirm"
+    },
+    "w-000cb9": {
+      "id": "w-000cb9",
+      "type": "text",
+      "parentId": "w-000cb8",
+      "childrenIds": [],
+      "label": "롤백 확인",
+      "size": "md"
+    },
+    "w-000cba": {
+      "id": "w-000cba",
+      "type": "text",
+      "parentId": "w-000cb8",
+      "childrenIds": [],
+      "label": "이전 버전으로 롤백하면 현재 배포된 맵이 즉시 교체됩니다.",
+      "size": "sm"
+    },
+    "w-000cbb": {
+      "id": "w-000cbb",
+      "type": "text",
+      "parentId": "w-000cb8",
+      "childrenIds": [],
+      "label": "운영 중인 로봇의 경로에 영향을 줄 수 있습니다. 계속하시겠습니까?",
+      "size": "sm"
+    },
+    "w-000cbc": {
+      "id": "w-000cbc",
+      "type": "row",
+      "parentId": "w-000cb8",
+      "childrenIds": [
+        "w-000cbd",
+        "w-000cbe"
+      ],
+      "layout": {
+        "justify": "end"
+      }
+    },
+    "w-000cbd": {
+      "id": "w-000cbd",
+      "type": "button",
+      "parentId": "w-000cbc",
+      "childrenIds": [],
+      "label": "취소",
+      "variant": "secondary",
+      "action": {
+        "type": "close"
+      }
+    },
+    "w-000cbe": {
+      "id": "w-000cbe",
+      "type": "button",
+      "parentId": "w-000cbc",
+      "childrenIds": [],
+      "label": "롤백 실행",
+      "variant": "primary",
+      "action": {
+        "type": "navigate",
+        "targetPageNodeId": "n37"
+      }
+    }
+  }
+}
