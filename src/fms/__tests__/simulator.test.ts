@@ -59,6 +59,21 @@ describe('simulator', () => {
     }
   })
 
+  it('keeps the CBS backend conflict-free when a deferred robot holds on a CBS path', () => {
+    // Regression: robots deferred from CBS (shared goal) were planned by PP without
+    // the CBS-planned robots as external agents, so a hold could not release them
+    // and the executed step conflicted (small, 8 robots, batch, seeds 21 and 17).
+    for (const [seed, arrivalRate] of [
+      [21, Number.POSITIVE_INFINITY],
+      [17, 0.3],
+    ]) {
+      const m = new FleetSimulator({ layout: 'small', fleetSize: 8, numTasks: 100, arrivalRate, seed, mapf: 'cbs', alloc: 'hungarian', strict: true }).run()
+      expect(m.conflicts).toBe(0)
+      expect(m.deadlocked).toBe(0)
+      expect(m.tasksCompleted).toBe(100)
+    }
+  })
+
   it('charges robots that start low and never strands them', () => {
     const m = new FleetSimulator({
       ...base,

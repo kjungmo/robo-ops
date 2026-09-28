@@ -432,6 +432,12 @@ export class FleetSimulator {
     const paths = new Map<number, Cell[]>()
     const held = new Set<number>()
     let remaining: PPAgent[] = agents
+    // Agents whose reservations are already in `table` when the final PP call
+    // runs. They must be passed to it as external agents, otherwise a hold
+    // created by the cascade could not release them (Proposition 1 assumes that
+    // every reservation in the table belongs to a static robot or to an agent
+    // known to the call).
+    let known: PPAgent[] = externalAgents
     if (this.cfg.mapf === 'cbs') {
       // Agents that share a goal are not a valid one-shot MAPF instance (only one
       // can rest there); keep the highest-priority one in CBS and defer the rest.
@@ -452,7 +458,9 @@ export class FleetSimulator {
       if (res.status === 'infeasible') {
         // Hold the blocked agents through prioritized planning (with cascade), then retry.
         const blocked = new Set(res.infeasible)
-        const pp = prioritizedPlan(this.map, this.oracle, cbsAgents.filter((a) => blocked.has(a.id)), table, t, externalAgents)
+        const blockedAgents = cbsAgents.filter((a) => blocked.has(a.id))
+        const pp = prioritizedPlan(this.map, this.oracle, blockedAgents, table, t, externalAgents)
+        known = [...externalAgents, ...blockedAgents]
         for (const [id, p] of pp.paths) paths.set(id, p)
         for (const id of pp.held) held.add(id)
         this.acc.holds += pp.held.size
@@ -469,6 +477,7 @@ export class FleetSimulator {
           paths.set(a.id, p)
           table.reservePath(a.id, p, t)
         }
+        known = [...known, ...remaining]
         remaining = deferred
       } else {
         this.acc.cbsFallbacks += 1
@@ -476,7 +485,7 @@ export class FleetSimulator {
       }
     }
     if (remaining.length > 0) {
-      const res = prioritizedPlan(this.map, this.oracle, remaining, table, t, externalAgents)
+      const res = prioritizedPlan(this.map, this.oracle, remaining, table, t, known)
       for (const [id, p] of res.paths) paths.set(id, p)
       for (const id of res.held) held.add(id)
       this.acc.holds += res.held.size
