@@ -40,7 +40,7 @@ Every cell: `main_summary.csv : layout, fleetSize, arrivalRate ∈ {0.15, inf}, 
 | wait actions −19 / −24 / −31 % | `waitActions_mean` = 59.6→48.2, 134.6→102.4, 213.6→148.0 |
 | service time −6–10 % | `meanServiceTime_mean` = 318.1→300.3 (−5.6 %), 262.0→238.8 (−8.9 %), 242.1→218.0 (−9.9 %) |
 | 0.10–0.32 planner ms/tick (CBS) | `plannerMsPerTick_mean` for cbs = 0.0952, 0.3165, 0.3048 (planner sweep re-run at `0e53c4c`; wall-clock field) |
-| seed-paired CBS makespan −2.8±2.1 / −8.2±3.6 / −8.2±4.4 % | `tables/paired.tex` (bottom block), computed by `scripts/paper-data.ts : pairedTable` from `planner.json` |
+| seed-paired CBS makespan −2.8±2.1 / −8.2±3.6 / −8.2±4.3 % | `tables/paired.tex` (bottom block), computed by `scripts/paper-data.ts : pairedTable` from `planner.json` |
 | 0.6 fallbacks per run at 6 robots, 0 elsewhere | `cbsFallbacks_mean` = 0, 0.6, 0 |
 
 ## §4.2 Scaling, Fig. 3 (`figures/data/scaling_*.csv`), Table 8 (`tables/scaling.tex`)

@@ -141,9 +141,11 @@ times, where $N=m+|\mathcal{X}|$.
 \emph{Invariant.} We show that no two entries of $\mathcal{B}$ conflict at
 any moment. A path is inserted only when \cref{alg:astar} returned it under
 the current $\mathcal{B}$: every vertex $(\pi_k,t_0+k)$ passed
-$\mathrm{free}$, every move passed the swap query, and the hold at its last
-cell passed $\mathrm{goalfree}$, so no existing entry occupies that cell
-later in the window; entries inserted afterwards respect the hold because
+$\mathrm{free}$, every move passed the swap query, and, if the path reaches
+its goal inside the window, the hold at its last cell passed
+$\mathrm{goalfree}$, so no existing entry occupies that cell later in the
+window (a path that reaches the horizon first is stored only up to the
+horizon, without a hold, and its unconstrained tail is never executed); entries inserted afterwards respect the hold because
 $\mathrm{free}$ checks holds. A hold for a failed robot $r$ is written at
 $p^r$ from $t_0$ on. No static robot and no held robot occupies $p^r$ (their
 cells are their own, and start cells are distinct), and by assumption every
