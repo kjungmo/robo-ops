@@ -146,8 +146,9 @@ $+6.9\pm1.6\%$) and halves wait actions (150 vs.\ 274) while cutting
 planner time from 0.63 to 0.18 ms/tick; a window of 30 lowers throughput to
 28.2 ($-6.9\pm3.9\%$) at 1.98 ms/tick. Longer
 windows commit robots to longer reserved waits behind others and make
-fall-backs more likely, the same effect that \citet{li2021rhcr} report for
-RHCR. Replanning every tick ($h=1$) leaves throughput unchanged (30.3) at
+fall-backs more likely; \citet{li2021rhcr} likewise observe that RHCR
+sometimes achieves higher throughput with shorter windows, because resolving
+distant conflicts adds unnecessary waits. Replanning every tick ($h=1$) leaves throughput unchanged (30.3) at
 $2.2\times$ the planner time. Disabling event-triggered epochs, so that idle
 robots wait for the next periodic epoch, costs 1--5\% throughput and adds
 55--125 wait actions; only the Hungarian loss is resolved by the paired

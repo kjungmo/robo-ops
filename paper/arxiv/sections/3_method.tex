@@ -331,8 +331,9 @@ group~1. Costs are computed for the $K$ nearest pool tasks of each robot
 
 \noindent\textbf{Assignment.}
 The cost matrix is solved by the Hungarian method
-\citep{kuhn1955hungarian,munkres1957algorithms} in its rectangular
-shortest-augmenting-path form \citep{jonker1987shortest}, with infeasible
+\citep{kuhn1955hungarian,munkres1957algorithms} in the
+shortest-augmenting-path form of \citet{jonker1987shortest}, applied to the
+rectangular matrix, with infeasible
 pairs priced above the sum of all finite costs; or, for the greedy baseline,
 by repeatedly committing the cheapest remaining pair.
 
