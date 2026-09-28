@@ -1,0 +1,64 @@
+\section{Discussion and Limitations}\label{sec:disc}
+
+\noindent\textbf{Why the coupling does not pay.}
+The path-aware cost replaces $d(p^r,p_\tau)$ by the arrival time
+$A^{\mathcal{B}}(p^r,p_\tau,t_0)$. The two differ only by the waits and
+detours that reservations impose on the empty trip to the pickup. In our
+layouts that difference is small on two counts. First, the empty trip is a
+minor part of a task: under batch load with 32 robots, service time is
+282--287 ticks of which 216--220 are queueing before assignment
+(\cref{tab:main}); the remaining 66 ticks or so contain the trip to the
+pickup, two dwells and the loaded trip, and the pickup leg is the shorter one because
+robots start near the aisles. Second, with 2-wide aisles the planner absorbs
+most interactions by a one-tick wait or a lane change: a run of 200 tasks
+executes 274 wait actions against 14.9 thousand moves, about 1.4 waits per
+task. The arrival-time estimate therefore rarely re-orders candidates, and
+when it does the change is within the noise of task sampling. Congestion that
+does matter concentrates at the docks, which the pickup-leg cost cannot see
+and which the endpoint capacity already regulates. The negative result is
+thus a statement about two-lane grid warehouses with well-formed endpoints,
+not about coupling in general; narrow one-lane aisles, non-uniform demand or
+long empty trips would change the balance, and the code supports such
+layouts.
+
+\noindent\textbf{Cost analysis.}
+The whole stack runs at 0.02--1.0 ms of planner time per simulated tick for 4
+to 48 robots on one core (\cref{fig:scaling}); a tick of one second of robot
+motion therefore leaves three orders of magnitude of headroom, and the
+coupling's extra A* calls ($+35\%$ at 48 robots) are affordable even though
+they are not useful here. Windowed CBS at the small fleet sizes where it is
+exact costs 0.09--0.31 ms/tick. Memory is dominated by the cached distance
+tables, one $|V|$-vector per endpoint.
+
+\noindent\textbf{What made the loop robust.}
+Three mechanisms were each necessary to reach zero deadlocks. (i) The hold
+cascade (\cref{alg:pp}) is what makes ``no path found'' safe: without
+re-planning the robots that cross a held cell, a hold silently invalidates
+earlier reservations. (ii) Endpoint capacities bound the queue in front of a
+dock; with unbounded queues, robots waiting for the same dock filled both
+lanes of the corridor and the robot leaving the dock could not get out.
+(iii) Planning held robots first, across planning groups, resolves the one
+gridlock that survived (i) and (ii): a robot that had just delivered at a
+corner dock parks on the dock's single access cell, is boxed in by the robots
+queuing for that dock, fails to plan, and---because parking robots are
+planned last---never gets the priority it needs to leave. These are
+engineering facts about prioritized lifelong planning that the literature
+tends to summarise as ``we did not observe deadlocks''; we report them
+because each one was found by a jam in our own runs before it was fixed.
+
+\noindent\textbf{Limitations.}
+Everything in this paper is simulation on a unit-speed 4-connected grid with
+synchronous ticks: no kinematics, no localisation error, no communication
+delay, no real robots. Tasks are sampled uniformly over endpoints; real
+demand is skewed and time-varying, which would change both the value of
+coupling and the dock bottleneck. The battery model is linear and the
+charging policy is a fixed hysteresis; we do not optimise charging
+schedules. Five seeds per configuration bound our resolution to differences
+of a few percent, which is enough to rule out large gains from the coupling
+but not to rank the close variants. CBS is only compared where basic CBS is
+tractable; symmetry reasoning \citep{li2019symmetry} or bounded-suboptimal
+search \citep{li2021eecbs} would extend it to larger groups. Prioritized
+planning with a hold cascade is safe but not complete: a robot can be
+delayed for several epochs, and although no run deadlocked, we have no proof
+that none can. Finally, the console integration displays the simulator; it
+is not connected to a fleet.

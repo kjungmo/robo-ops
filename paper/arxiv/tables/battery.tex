@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{Battery stress}: warehouse, 16 robots, batch load, initial charge drawn from $[0.2,0.4]$ so that every robot must charge during the run (5 seeds).}
+\label{tab:battery}
+\small
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Variant} & \textbf{Throughput} & \textbf{Service time} & \textbf{Charging sessions} & \textbf{Depletions} & \textbf{Final mean SoC}\\
+\midrule
+Hungarian & 16.3\stdv{0.5} & 626\stdv{20} & 23.2\stdv{2.3} & 0 & 0.37\stdv{0.07}\\
+Hungarian, $w_{\mathrm{b}}{=}0$ & 16.6\stdv{0.7} & 618\stdv{19} & 22.6\stdv{2.1} & 0 & 0.38\stdv{0.10}\\
+\sname & 16.4\stdv{1.0} & 621\stdv{18} & 23.0\stdv{2.7} & 0 & 0.37\stdv{0.12}\\
+\sname, $w_{\mathrm{b}}{=}0$ & 16.6\stdv{0.8} & 624\stdv{17} & 22.6\stdv{2.6} & 0 & 0.34\stdv{0.10}\\
+\bottomrule
+\end{tabular}
+\end{table}

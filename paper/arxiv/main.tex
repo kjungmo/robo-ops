@@ -1,0 +1,28 @@
+\documentclass{kjpaper}
+\usepackage[authoryear,sort&compress,round]{natbib}
+\bibliographystyle{abbrvnat}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepgfplotslibrary{groupplots}
+% ---- project macros ----
+\newcommand{\sname}{PACT}
+% group the size switch so \stdv can be used in running text
+\renewcommand{\stdv}[2][\tiny]{{#1\text{$\pm$}#2}}
+\title{\sname: A Conflict-Free Lifelong Fleet Manager for Warehouse AMRs and a Controlled Study of Allocation--Planning Coupling}
+\correspondingauthor{kangjmo91@gmail.com}
+\paperurl{https://github.com/kjungmo/robo-ops}
+\author[1]{Jungmo Kang}
+\affil[1]{Independent Researcher, Seoul, Republic of Korea}
+\keywords{multi-robot task allocation, multi-agent path finding, lifelong pickup and delivery, fleet management, warehouse robotics}
+\begin{document}
+\input{sections/0_abstract}
+\maketitle
+\input{sections/1_introduction}
+\input{sections/2_related_works}
+\input{sections/3_method}
+\input{sections/4_experiments}
+\input{sections/5_discussion}
+\input{sections/6_conclusion}
+\bibliography{main}
+\appendix
+\input{sections/appendix}
+\end{document}

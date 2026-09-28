@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{Planner backend on the small layout} (batch load, 100 tasks, Hungarian allocation, 5 seeds). Windowed CBS resolves conflicts inside the window optimally and falls back to prioritized planning (PP) when its node budget (2000) is exceeded.}
+\label{tab:planner}
+\small
+\begin{tabular}{rlccccc}
+\toprule
+$|\mathcal{R}|$ & \textbf{Planner} & \textbf{Makespan} $\downarrow$ & \textbf{Service time} $\downarrow$ & \textbf{Wait actions} $\downarrow$ & \textbf{Planner ms/tick} & \textbf{CBS fallbacks}\\
+\midrule
+4 & PP & 789\stdv{39} & 318.1\stdv{10.3} & 60\stdv{13} & 0.07\stdv{0.00} & --\\
+ & Windowed CBS & \textbf{767}\stdv{39} & \textbf{300}\stdv{11} & \textbf{48}\stdv{6} & 0.09\stdv{0.01} & 0.0\stdv{0.0}\\
+6 & PP & 562\stdv{37} & 262.0\stdv{8.0} & 135\stdv{17} & 0.18\stdv{0.02} & --\\
+ & Windowed CBS & \textbf{515}\stdv{27} & \textbf{239}\stdv{10} & \textbf{102}\stdv{10} & 0.30\stdv{0.07} & 0.6\stdv{0.5}\\
+8 & PP & 513\stdv{31} & 242.1\stdv{9.4} & 214\stdv{35} & 0.26\stdv{0.03} & --\\
+ & Windowed CBS & \textbf{471}\stdv{28} & \textbf{218}\stdv{13} & \textbf{148}\stdv{16} & 0.31\stdv{0.02} & 0.0\stdv{0.0}\\
+\bottomrule
+\end{tabular}
+\end{table}

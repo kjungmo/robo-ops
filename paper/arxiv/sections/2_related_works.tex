@@ -1,0 +1,41 @@
+\section{Related Work}\label{sec:related}
+
+\noindent\textbf{Multi-agent path finding.}
+Optimal MAPF on graphs is NP-hard \citep{yu2013structure}; search-based solvers
+are surveyed by \citet{felner2017search} and benchmarked under the common
+definitions of \citet{stern2019mapf}. Conflict-Based Search (CBS)
+\citep{sharon2015cbs} and its improvements
+\citep{boyarski2015icbs,li2019symmetry,li2021eecbs} are optimal or
+bounded-suboptimal; prioritized planning
+\citep{erdmann1987multiple,vandenberg2005prioritized,cap2015prioritized} with a
+space-time reservation table \citep{silver2005cooperative} is incomplete but
+fast and remains the workhorse of deployed fleets. PIBT
+\citep{okumura2019pibt,okumura2022pibt} replaces long-horizon paths with
+one-step priority inheritance. \sname\ uses windowed prioritized planning as
+its default planner, offers windowed CBS as an optional backend, and adds a
+hold cascade that turns planner failures into consistent (conflict-free) rests.
+
+\noindent\textbf{Lifelong pickup-and-delivery.}
+Warehouse fleets never solve a one-shot instance: tasks arrive continuously
+\citep{wurman2008coordinating}. \citet{ma2017lifelong} formalised
+multi-agent pickup and delivery (MAPD), introduced well-formed instances and
+the token-passing (TP) scheme in which a robot only accepts a task whose
+endpoints it can reserve; \citet{ma2019lifelong} added kinematic constraints
+and \citet{liu2019task} studied task sequencing. RHCR \citep{li2021rhcr}
+showed that replanning every $h$ steps over a window of $w$ steps scales to
+hundreds of robots. \sname\ adopts the RHCR execution model and TP-style
+endpoint reservation, and evaluates them together with an explicit battery
+model, which the cited works abstract away.
+
+\noindent\textbf{Task allocation and its coupling with path finding.}
+Assignment problems are classically solved by the Hungarian method
+\citep{kuhn1955hungarian,munkres1957algorithms,jonker1987shortest} or by
+auctions \citep{bertsekas1988auction}; taxonomies of multi-robot task
+allocation are given by \citet{gerkey2004formal} and
+\citet{korsah2013comprehensive}. Coupling assignment with MAPF has been done
+optimally for anonymous agents (CBM, \citealp{ma2016optimal}) and for
+labelled goals (CBS-TA, \citealp{honig2018cbsta}), at a cost that limits these
+methods to one-shot instances. \sname\ instead couples the two greedily in the
+lifelong loop: assignment costs are arrival times of windowed space-time A*
+against the live reservation table, which keeps the optimal Hungarian
+structure while pricing in the traffic that already exists.

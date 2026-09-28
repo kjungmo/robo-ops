@@ -1,0 +1,4 @@
+window,throughput_mean,throughput_std,meanServiceTime_mean,meanServiceTime_std,plannerMsPerTick_mean,plannerMsPerTick_std,waitActions_mean,waitActions_std
+10,32.3675,2.0769,260.774,10.9569,0.1833,0.0062,149.8,7.2595
+20,30.2912,2.215,287.379,12.135,0.6255,0.0496,273.8,60.2885
+30,28.2265,2.5645,307.133,15.4504,1.9809,0.1463,356.8,72.403

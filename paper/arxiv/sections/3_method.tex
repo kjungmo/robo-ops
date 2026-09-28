@@ -1,0 +1,323 @@
+\section{\sname: A Coupled Lifelong Fleet Manager}\label{sec:method}
+
+\sname\ runs a rolling-horizon loop (\cref{fig:overview}): every replanning
+epoch it (i) re-plans the robots that already have goals, (ii) sends
+low-charge robots to free charger slots, (iii) prices every idle robot against
+the pending tasks and solves an assignment problem, and (iv) plans the newly
+assigned robots into the same reservation table. The coupling lives in step
+(iii): assignment costs are not free-space distances but arrival times
+computed by the same windowed planner against the reservations written in
+step (i). We first fix the model (\cref{subsec:model}), then describe the
+planning layer (\cref{subsec:planning}), the charging policy
+(\cref{subsec:charging}) and the coupled allocation (\cref{subsec:alloc}).
+
+\subsection{Modelling the fleet: lifelong MAPD with battery constraints}\label{subsec:model}
+
+\noindent\textbf{Workspace.}
+The workspace is a 4-connected grid graph $G=(V,E)$ with obstacle cells
+removed. Four endpoint classes mirror the operator console's vocabulary:
+pickup points $\mathcal{P}\subset V$ on shelf lines, delivery docks
+$\mathcal{D}\subset V$, charger slots $\mathcal{C}\subset V$ grouped into
+stations, and home bays $\mathcal{H}\subset V$, one per robot. Every dock,
+slot and bay is a dead-end pocket off a corridor, so an instance is
+well-formed in the sense of \citet{ma2017lifelong}: a robot resting on a
+non-task endpoint never blocks a path between two other endpoints.
+Distances $d(u,v)$ are exact shortest-path lengths on $G$, computed by
+breadth-first search from each endpoint and cached.
+
+\noindent\textbf{Robots and tasks.}
+A fleet $\mathcal{R}=\{1,\dots,n\}$ of robots moves synchronously in discrete
+time $t\in\mathbb{N}$; at every tick a robot either moves to a 4-neighbour or
+waits. Robot $r$ has position $p_t^r\in V$, state of charge
+$s_t^r\in[0,1]$, and home bay $h^r\in\mathcal{H}$. Tasks arrive as a stream
+$\mathcal{T}=\{\tau_k\}$, $\tau_k=(a_k, p_k, d_k)$ with arrival time $a_k$,
+pickup $p_k\in\mathcal{P}$ and dock $d_k\in\mathcal{D}$; a robot that reaches
+$p_k$ loads for $\delta$ ticks, drives to $d_k$ and unloads for $\delta$
+ticks, which completes the task at time $c_k$.
+
+\noindent\textbf{Battery.}
+Charge decreases by $\beta_{\mathrm{m}}$ per move and $\beta_{\mathrm{w}}$ per
+wait, and increases by $\gamma$ per tick while a robot rests on a charger
+slot; a robot with $s^r_t\le 0$ is depleted and becomes a permanent
+obstacle. The charging policy is a two-threshold hysteresis
+$(\theta_{\mathrm{lo}},\theta_{\mathrm{hi}})$, \cref{subsec:charging}.
+
+\noindent\textbf{Conflicts.}
+Two robots conflict when they occupy the same cell at the same tick (vertex
+conflict) or traverse the same edge in opposite directions during the same
+tick (swap conflict); following a robot into the cell it just left is
+allowed, as in the standard MAPF definitions of \citet{stern2019mapf}.
+
+\noindent\textbf{Objective.}
+Given the stream $\mathcal{T}$, the fleet manager chooses, at every tick, an
+assignment of idle robots to pending tasks, a charging decision and one action
+per robot, so as to minimise the mean service time of the delivered tasks
+\begin{equation}\label{eq:objective}
+  J \;=\; \frac{1}{|\mathcal{T}|}\sum_{\tau_k\in\mathcal{T}} \bigl(c_k - a_k\bigr)
+  \quad\text{subject to}\quad
+  \text{no conflicts},\;\; s^r_t>0\;\;\forall r,t,
+\end{equation}
+and we report throughput $|\mathcal{T}|/T_{\mathrm{mk}}$, where the makespan
+$T_{\mathrm{mk}}=\max_k c_k$, as the dual view of the same quantity for a
+finite stream. Optimising \cref{eq:objective} exactly is intractable even
+without batteries \citep{yu2013structure}; \sname\ is a rolling-horizon
+heuristic that keeps the two constraints hard at all times.
+
+\subsection{Planning under reservations: windowed space-time A* with a hold cascade}\label{subsec:planning}
+
+\noindent\textbf{Reservation table.}
+A reservation table $\mathcal{B}$ stores, for an epoch starting at $t_0$ with
+horizon $t_0+w$, the vertex reservations $(v,t)$ and edge reservations
+$(u,v,t)$ of every planned robot, plus \emph{holds} $(v,t_{\mathrm{h}})$
+meaning ``occupied from $t_{\mathrm{h}}$ until the horizon''. A path whose
+last cell is reached at $t_{\mathrm{e}}\le t_0+w$ ends with a hold, so a
+robot that arrives early is a static obstacle for the rest of the window.
+The table answers three queries: $\mathrm{free}(v,t)$,
+$\mathrm{free}(u\!\to\!v,t)$ (false iff the reverse edge is reserved at $t$)
+and $\mathrm{goalfree}(v,t)$ (true iff $v$ is free for all
+$t'\in[t,t_0+w]$ and not held).
+
+\noindent\textbf{Windowed space-time A*.}
+Each robot plans on the time-expanded graph
+$V\times\{t_0,\dots,t_0+w\}$ with the exact distance $d(\cdot,g)$ as
+heuristic (\cref{alg:astar}). A state $(g,t)$ is a goal only if
+$\mathrm{goalfree}(g,t)$; a state at the horizon is closed with cost
+$t-t_0+d(v,g)$ and completed with a deterministic shortest path, because no
+reservation exists beyond the horizon. The returned cost is the arrival time
+\begin{equation}\label{eq:arrival}
+  A^{\mathcal{B}}(p,g,t_0) \;=\; \min\{\,t - t_0 : (g,t)\ \text{reachable under }\mathcal{B},\ \mathrm{goalfree}(g,t)\,\},
+\end{equation}
+the per-agent cost of sum-of-costs MAPF restricted to the window. Since
+$d(\cdot,g)$ is consistent, the first goal state popped is optimal, and the
+search is bounded by $|V|(w+1)$ expansions.
+
+\begin{algorithm}[t]
+\caption{Windowed space-time A* (one robot)}\label{alg:astar}
+\KwIn{start $p$, goal $g$, epoch start $t_0$, window $w$, reservations $\mathcal{B}$, distances $d(\cdot,g)$}
+\KwOut{path $\pi=(\pi_0=p,\pi_1,\dots)$ and arrival time, or \textsc{fail}}
+$\mathit{open}\gets\{(p,t_0)\}$ with $f=d(p,g)$; $\mathit{closed}\gets\emptyset$\;
+\While{$\mathit{open}\neq\emptyset$}{
+  pop $(v,t)$ with minimal $f$ (ties: larger $g$-value, then FIFO)\;
+  \lIf{$(v,t)\in\mathit{closed}$}{\textbf{continue}}
+  add $(v,t)$ to $\mathit{closed}$\;
+  \lIf{$v=g$ \KwSty{and} $\mathrm{goalfree}(g,t)$}{\Return path to $(v,t)$, cost $t-t_0$}
+  \lIf{$t=t_0+w$}{\Return path to $(v,t)$ followed by a shortest path $v\!\leadsto\! g$, cost $t-t_0+d(v,g)$}
+  \ForEach{$v'\in\{v\}\cup N(v)$}{
+    \If{$\mathrm{free}(v',t+1)$ \KwSty{and} $(v'=v$ \KwSty{or} $\mathrm{free}(v\!\to\!v',t))$}{
+      push $(v',t+1)$ with $f=(t+1-t_0)+d(v',g)$\;
+    }
+  }
+}
+\Return \textsc{fail}\;
+\end{algorithm}
+
+\noindent\textbf{Prioritized planning with a hold cascade.}
+Robots are planned one after another in priority order
+(\cref{alg:pp}); each path is written into $\mathcal{B}$ before the next
+robot plans. Prioritized planning is incomplete: a robot may find no path
+within the window. Instead of leaving such a robot unplanned, \sname\ makes it
+\emph{hold} its current cell for the whole window, and re-plans every robot
+whose reservation crosses that cell---including robots planned in an earlier
+group of the same epoch. Holds only accumulate within an epoch, so the cascade
+terminates, and at termination every path is consistent with every
+reservation:
+
+\begin{proposition}[Conflict-freeness of an epoch]\label{prop:pp}
+Let all robots occupy distinct cells at $t_0$. After \cref{alg:pp} returns,
+the set of paths in $\mathcal{B}$ is vertex- and swap-conflict-free on
+$[t_0,t_0+w]$, and \cref{alg:pp} calls the low-level planner at most
+$|\mathcal{R}|(|\mathcal{R}|+1)/2$ times.
+\end{proposition}
+\begin{proof}
+A path is inserted into $\mathcal{B}$ only when returned by \cref{alg:astar}
+under $\mathcal{B}$, i.e.\ every vertex $(\pi_k,t_0+k)$ satisfied
+$\mathrm{free}$ and every move satisfied the swap query at insertion time; a
+hold $(v,t_0)$ is inserted only for a cell whose occupant is the holding
+robot itself at $t_0$ (distinct start cells), and every path that visits $v$
+at any $t\in[t_0,t_0+w]$ is removed before the hold is written (line 12) and
+re-planned afterwards. Hence at every moment the invariant ``no two entries
+of $\mathcal{B}$ conflict'' holds, and it holds at termination. Termination:
+a robot is re-queued only when a new hold is created; a held robot is never
+re-queued and never fails again, so at most $|\mathcal{R}|$ holds are
+created, each re-queuing at most $|\mathcal{R}|-1$ robots once. Adding the
+$|\mathcal{R}|$ initial calls gives the bound.
+\end{proof}
+
+\begin{algorithm}[t]
+\caption{Prioritized planning with hold cascade}\label{alg:pp}
+\KwIn{ordered robots $(r_1,\dots,r_m)$ with starts and goals, external robots $\mathcal{X}$ already in $\mathcal{B}$, epoch $t_0$}
+\KwOut{paths for $r_1,\dots,r_m$ (and re-planned members of $\mathcal{X}$), held set $\mathcal{K}$}
+$Q\gets(r_1,\dots,r_m)$; $\mathcal{K}\gets\emptyset$\;
+\While{$Q\neq\emptyset$}{
+  $r\gets$ pop front of $Q$\;
+  $\pi\gets$ \textsc{A*}$(p^r,g^r,t_0,w,\mathcal{B})$ \tcp*{\cref{alg:astar}}
+  \If{$\pi=$ \textsc{fail}}{
+    $\pi\gets(p^r)$; $\mathcal{K}\gets\mathcal{K}\cup\{r\}$ \tcp*{hold current cell}
+    $\mathcal{V}\gets\{\,r'\notin\mathcal{K} : r'$ reserved $(p^r,t)$ in $\mathcal{B}$ for some $t\in[t_0,t_0+w]\,\}$\;
+    remove the reservations of every $r'\in\mathcal{V}$ from $\mathcal{B}$\;
+    push $\mathcal{V}$ (in priority order) to the front of $Q$\;
+  }
+  write $\pi$ into $\mathcal{B}$ (with a hold at its last cell if it ends before the horizon)\;
+}
+\end{algorithm}
+
+\noindent\textbf{Priorities and groups.}
+An epoch plans two groups. Group~1 contains the busy robots (driving to a
+pickup, a dock or a charger) together with parking robots that either stand
+on a busy robot's goal or failed to plan in the previous epoch; group~2
+contains the robots assigned in this epoch and the remaining parking robots.
+Within a group, robots standing on another robot's goal come first, then
+robots held last epoch, then carrying, then collecting, then charging-bound,
+then parking robots, ties by id. Planning a held robot first is what evacuates
+a robot boxed in on the single access cell of a corner dock; without it the
+queue for that dock and the evacuating robot wait for each other
+(\cref{sec:disc}). Robots that are charging, loading, unloading, depleted or
+idle at home are static and are written as holds before group~1.
+
+\noindent\textbf{Windowed CBS.}
+As an optional backend, a group is planned jointly by Conflict-Based Search
+\citep{sharon2015cbs} whose low level is \cref{alg:astar} under the union of
+$\mathcal{B}$ and the node's constraints, and whose high level only resolves
+conflicts inside the window (\cref{alg:cbs}). Two robots that share a goal
+are not a valid one-shot instance; the lower-priority one is deferred to
+\cref{alg:pp}, as are robots without an individually feasible path and the
+whole group when the constraint tree exceeds a node budget.
+
+\begin{algorithm}[t]
+\caption{Windowed CBS for one group (high level)}\label{alg:cbs}
+\KwIn{robots $\mathcal{A}$ with distinct goals, base reservations $\mathcal{B}$, epoch $t_0$, window $w$, node budget $N$}
+\KwOut{conflict-free paths on $[t_0,t_0+w]$ with minimal sum of arrival times, or \textsc{fail}}
+root: $\mathcal{C}_r\gets\emptyset$, $\pi_r\gets$ \textsc{A*} under $\mathcal{B}\cup\mathcal{C}_r$ for each $r\in\mathcal{A}$\;
+\lIf{some $\pi_r=$ \textsc{fail}}{\Return \textsc{fail}}
+$\mathit{open}\gets\{\text{root}\}$\;
+\While{$\mathit{open}\neq\emptyset$}{
+  $\nu\gets$ node with minimal $\sum_r\mathrm{cost}(\pi_r)$ (ties: fewer conflicts, then FIFO)\;
+  $\kappa\gets$ earliest conflict of $\nu$ on $[t_0,t_0+w]$\;
+  \lIf{$\kappa=\emptyset$}{\Return paths of $\nu$}
+  \lIf{$|\text{generated}|\ge N$}{\Return \textsc{fail}}
+  \ForEach{robot $r\in\kappa$}{
+    child $\nu'\gets\nu$ with $\mathcal{C}_r$ extended by the vertex $(v,t)$ or edge $(u\!\to\!v,t)$ of $\kappa$\;
+    re-plan $\pi_r$ under $\mathcal{B}\cup\mathcal{C}_r$; \lIf{feasible}{add $\nu'$ to $\mathit{open}$}
+  }
+}
+\Return \textsc{fail}\;
+\end{algorithm}
+
+\noindent\textbf{Execution.}
+Every tick each robot executes the next action of its path; a robot that
+reaches the end of its path at its goal (and only then---a plan may pass
+through the goal earlier while the goal is temporarily held) transitions
+(pickup $\to$ loading, dock $\to$ unloading, slot $\to$ charging, bay $\to$
+idle) and is immediately re-planned alone against the live table when it
+gets a new goal. Because the old reservation of such a robot ends in a hold
+at the very cell it stands on, the replacement path is consistent with every
+other robot by \cref{prop:pp}. A new epoch starts every $h\le w$ ticks and
+whenever a robot becomes idle while tasks are pending or a robot depletes.
+The executed step is checked for vertex and swap conflicts; over all runs in
+\cref{sec:exp} the count is zero.
+
+\subsection{Charging: threshold policy with capacity-constrained slot assignment}\label{subsec:charging}
+
+A robot with $s^r_t<\theta_{\mathrm{lo}}$ that is idle or parking must charge
+before it accepts work; it leaves the slot when
+$s^r_t\ge\theta_{\mathrm{hi}}$. Free slots are those neither occupied nor
+already claimed by a robot en route, so a station with $k$ slots serves at
+most $k$ robots at a time. Robots needing charge and free slots are matched
+by the Hungarian method on $d(p^r,\sigma)$ (\cref{alg:charge}); a robot for
+which no slot is free waits at its bay and is retried next epoch. Task
+feasibility guards against stranding: robot $r$ may take task $\tau$ only if
+\begin{equation}\label{eq:feasible}
+  s^r_t \;\ge\; \beta_{\mathrm{m}}\bigl(\hat a(r,\tau) + d(p_\tau,d_\tau) + \min_{\sigma\in\mathcal{C}} d(d_\tau,\sigma)\bigr) + \rho,
+\end{equation}
+where $\hat a$ is the estimated time to the pickup used by the allocation
+(\cref{subsec:alloc}) and $\rho$ a reserve margin. With
+\cref{eq:feasible} and $\theta_{\mathrm{lo}}$ above the energy of the longest
+bay-to-slot trip, no depletion occurred in any run of \cref{sec:exp}.
+
+\begin{algorithm}[t]
+\caption{Charger assignment (one epoch)}\label{alg:charge}
+\KwIn{robots $\mathcal{N}=\{r : s^r_t<\theta_{\mathrm{lo}},\ r$ idle or parking$\}$, free slots $\mathcal{F}\subseteq\mathcal{C}$}
+\lIf{$\mathcal{N}=\emptyset$ \KwSty{or} $\mathcal{F}=\emptyset$}{\Return}
+$M\gets$ \textsc{Hungarian}$\bigl([\,d(p^r,\sigma)\,]_{r\in\mathcal{N},\sigma\in\mathcal{F}}\bigr)$\;
+\ForEach{$(r,\sigma)\in M$}{claim $\sigma$ for $r$; goal of $r\gets\sigma$; status of $r\gets$ charging-bound\;}
+\end{algorithm}
+
+\subsection{Allocating tasks: assignment costs from MAPF-in-the-loop}\label{subsec:alloc}
+
+\noindent\textbf{Candidate pool.}
+Pending tasks are kept in arrival order. Following token passing
+\citep{ma2017lifelong}, a task enters the candidate pool only while its dock
+has fewer than $\kappa_{\mathrm{d}}$ robots in flight (assigned and not yet
+delivered) and its pickup fewer than $\kappa_{\mathrm{p}}$; the pool holds
+the oldest $\max(2m,8)$ such tasks for $m$ eligible robots. This endpoint
+reservation is what keeps dock queues short enough for \cref{alg:pp} to
+resolve (\cref{subsec:ablation}).
+
+\noindent\textbf{Cost.}
+For eligible robot $r$ and pool task $\tau$ the cost is
+\begin{equation}\label{eq:cost}
+  c(r,\tau) \;=\; \hat a(r,\tau)\,\bigl(1 + w_{\mathrm{b}}\,(1-s^r_t)\bigr),
+\qquad
+  \hat a(r,\tau) =
+  \begin{cases}
+    d(p^r,p_\tau) & \text{static (greedy, Hungarian)}\\[2pt]
+    d(p^r,p_\tau) + w_{\mathrm{c}}\,\chi_{\mathcal{B}}(p^r\!\leadsto\!p_\tau) & \text{congestion proxy}\\[2pt]
+    A^{\mathcal{B}}(p^r,p_\tau,t_0) & \text{path-aware (\sname)}
+  \end{cases}
+\end{equation}
+with $c(r,\tau)=\infty$ when \cref{eq:feasible} fails. The battery factor
+makes a low-charge robot look farther, so long trips go to well-charged
+robots. The congestion proxy counts, along the free-space shortest path, the
+cells reserved by other robots at the time the robot would traverse them
+(held cells count $w_{\mathrm{h}}$); the path-aware cost is the arrival time
+\cref{eq:arrival} of \cref{alg:astar} against the table that already contains
+group~1. Costs are computed for the $K$ nearest pool tasks of each robot
+(static distance), other pairs are infeasible.
+
+\noindent\textbf{Assignment.}
+The cost matrix is solved by the Hungarian method
+\citep{kuhn1955hungarian,munkres1957algorithms} in its rectangular
+shortest-augmenting-path form \citep{jonker1987shortest}, with infeasible
+pairs priced above the sum of all finite costs; or, for the greedy baseline,
+by repeatedly committing the cheapest remaining pair.
+
+\begin{proposition}[Optimality of the assignment step]\label{prop:hungarian}
+For a cost matrix $C\in(\mathbb{R}_{\ge0}\cup\{\infty\})^{m\times k}$, the
+Hungarian step returns a matching that, among all matchings of maximum
+cardinality over finite entries, minimises total cost; it runs in
+$O(\min(m,k)^2\max(m,k))$ time.
+\end{proposition}
+\begin{proof}
+Replacing $\infty$ by $\Lambda=1+\sum_{ij:C_{ij}<\infty}|C_{ij}|$ yields a
+finite instance whose optimal perfect matching (on the padded square) never
+uses a $\Lambda$-entry if a matching with more finite entries exists, because
+one $\Lambda$ exceeds the total cost of any all-finite matching; among
+matchings with the same number of $\Lambda$-entries the objective differs only
+by the finite part. Dropping the $\Lambda$-pairs gives the claim. The
+complexity is that of the shortest-augmenting-path algorithm with potentials
+\citep{jonker1987shortest}, one Dijkstra-like phase of $O(mk)$ per row.
+\end{proof}
+
+\begin{algorithm}[t]
+\caption{\sname\ epoch (rolling horizon)}\label{alg:pact}
+\KwIn{tick $t_0$, robots $\mathcal{R}$, pending tasks, window $w$}
+$\mathcal{B}\gets$ empty table on $[t_0,t_0+w]$; release finished chargers; idle robots off their bay become parking\;
+write holds for static robots (charging, loading, unloading, depleted, idle at bay)\;
+\textsc{ChargerAssignment} (\cref{alg:charge})\;
+group~1 $\gets$ busy robots $\cup$ parking robots on a busy goal or held last epoch; \textsc{PP}(group~1, $\mathcal{B}$) (\cref{alg:pp})\;
+$\mathcal{E}\gets$ idle/parking robots not in group~1 with $s^r_t\ge\theta_{\mathrm{lo}}$; remove their holds from $\mathcal{B}$\;
+build pool with endpoint capacities $\kappa_{\mathrm{d}},\kappa_{\mathrm{p}}$; $C_{r\tau}\gets c(r,\tau)$ by \cref{eq:cost} for $K$ candidates per $r\in\mathcal{E}$\;
+$M\gets$ \textsc{Hungarian}$(C)$; assign $(r,\tau)\in M$: goal of $r\gets p_\tau$\;
+unassigned $r\in\mathcal{E}$: goal of $r\gets h^r$ (parking)\;
+group~2 $\gets$ newly assigned $\cup$ parking robots not in group~1; \textsc{PP}(group~2, $\mathcal{B}$, external = group~1)\;
+\end{algorithm}
+
+\noindent\textbf{Complexity.}
+Let $|V|$ be the number of free cells. One epoch costs
+$O\bigl(|\mathcal{R}|^2\,|V|\,w\bigr)$ for planning (\cref{prop:pp}, each
+call bounded by $|V|(w+1)$ expansions; in practice the cascade is rare and
+the cost is linear in $|\mathcal{R}|$), plus $O(mK\,|V|\,w)$ for path-aware
+pricing and $O(m^2\,|\mathcal{T}_{\mathrm{pool}}|)$ for the assignment. The
+static and proxy variants replace the pricing term by $O(mK)$ table look-ups
+(distances are cached), which is the entire runtime overhead of the coupling;
+\cref{subsec:main} reports it as planner milliseconds per simulated tick.

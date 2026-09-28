@@ -1,0 +1,28 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{Allocation methods across layouts, fleet sizes and load regimes.} Throughput (delivered tasks per 100 ticks) and mean service time (ticks from arrival to delivery), mean\stdv{std} over 5 seeds, 200 tasks per run, prioritized planning with $w{=}20$, $h{=}5$. Load $\lambda{=}0.15$ is a Poisson stream of 0.15 tasks/tick; \emph{batch} releases all 200 tasks at $t{=}0$. Best mean per row in bold; no method leaves the one-standard-deviation band of the others in any row.}
+\label{tab:main}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrcccccccc}
+\toprule
+& & & \multicolumn{4}{c}{\textbf{Throughput} (tasks / 100 ticks) $\uparrow$} & \multicolumn{4}{c}{\textbf{Service time} (ticks) $\downarrow$}\\
+\cmidrule(lr){4-7}\cmidrule(lr){8-11}
+\textbf{Layout} & \textbf{Load} & $|\mathcal{R}|$ & Greedy & Hungarian & Proxy & \sname & Greedy & Hungarian & Proxy & \sname\\
+\midrule
+warehouse & $\lambda{=}0.15$ & 8 & 9.3\stdv{0.2} & \textbf{9.3}\stdv{0.3} & 9.3\stdv{0.2} & 9.3\stdv{0.3} & \textbf{312}\stdv{64} & 313\stdv{55} & 315\stdv{56} & 315\stdv{57}\\
+warehouse & $\lambda{=}0.15$ & 16 & 13.6\stdv{0.9} & 13.6\stdv{1.0} & 13.5\stdv{1.0} & \textbf{13.6}\stdv{0.9} & 71\stdv{3} & 70\stdv{5} & 74\stdv{8} & \textbf{70}\stdv{6}\\
+warehouse & $\lambda{=}0.15$ & 32 & 13.9\stdv{0.9} & 13.9\stdv{0.9} & 13.9\stdv{0.9} & \textbf{13.9}\stdv{0.9} & 53\stdv{1} & \textbf{53}\stdv{1} & 53\stdv{1} & 53\stdv{1}\\
+warehouse & batch & 8 & 9.5\stdv{0.3} & 9.5\stdv{0.4} & \textbf{9.5}\stdv{0.3} & 9.5\stdv{0.3} & 963\stdv{25} & 960\stdv{30} & 954\stdv{30} & \textbf{952}\stdv{31}\\
+warehouse & batch & 16 & 17.6\stdv{0.7} & 17.5\stdv{0.8} & 17.6\stdv{1.0} & \textbf{17.7}\stdv{0.6} & 496\stdv{23} & 491\stdv{20} & 492\stdv{20} & \textbf{491}\stdv{21}\\
+warehouse & batch & 32 & 29.7\stdv{2.3} & 30.6\stdv{2.5} & \textbf{30.6}\stdv{2.2} & 30.3\stdv{2.2} & 287\stdv{12} & 283\stdv{14} & \textbf{283}\stdv{12} & 287\stdv{12}\\
+\midrule
+console & $\lambda{=}0.15$ & 8 & 11.6\stdv{0.3} & \textbf{11.6}\stdv{0.6} & 11.4\stdv{0.5} & 11.6\stdv{0.5} & 149\stdv{33} & \textbf{149}\stdv{34} & 152\stdv{34} & 150\stdv{33}\\
+console & $\lambda{=}0.15$ & 16 & \textbf{13.8}\stdv{0.9} & 13.8\stdv{0.8} & 13.8\stdv{0.9} & 13.8\stdv{0.9} & \textbf{58}\stdv{3} & 59\stdv{3} & 58\stdv{3} & 59\stdv{4}\\
+console & $\lambda{=}0.15$ & 32 & 14.0\stdv{0.8} & \textbf{14.0}\stdv{0.8} & 13.9\stdv{0.8} & 14.0\stdv{0.8} & 47\stdv{2} & 47\stdv{2} & \textbf{46}\stdv{3} & 47\stdv{3}\\
+console & batch & 8 & 12.2\stdv{0.3} & 12.1\stdv{0.4} & 12.2\stdv{0.5} & \textbf{12.4}\stdv{0.4} & 756\stdv{24} & 759\stdv{21} & 760\stdv{30} & \textbf{752}\stdv{26}\\
+console & batch & 16 & 20.0\stdv{0.6} & \textbf{20.1}\stdv{0.8} & 20.0\stdv{0.7} & 19.9\stdv{0.8} & 413\stdv{13} & \textbf{407}\stdv{8} & 411\stdv{10} & 409\stdv{7}\\
+console & batch & 32 & 29.2\stdv{2.6} & \textbf{29.8}\stdv{2.2} & 29.3\stdv{2.3} & 29.1\stdv{2.1} & 301\stdv{2} & \textbf{300}\stdv{3} & 301\stdv{8} & 301\stdv{8}\\
+\bottomrule
+\end{tabular}
+\end{table}

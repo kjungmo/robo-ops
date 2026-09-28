@@ -1,0 +1,29 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=3 by 1, horizontal sep=14mm},
+  width=0.36\linewidth, height=42mm,
+  tick label style={font=\scriptsize}, label style={font=\scriptsize},
+  legend style={font=\scriptsize, draw=none, fill=none},
+  error bars/y dir=both, error bars/y explicit,
+  grid=major, grid style={gray!25},
+]
+\nextgroupplot[xlabel={fleet size $|\mathcal{R}|$ (small layout)}, ylabel={makespan (ticks)}, xtick={4,6,8}, legend pos=north east]
+\addplot[blue, mark=*, mark size=1.4pt] table[col sep=comma, x=fleetSize, y=makespan_mean, y error=makespan_std] {figures/data/planner_pp.csv};
+\addlegendentry{PP}
+\addplot[red, mark=square*, mark size=1.4pt] table[col sep=comma, x=fleetSize, y=makespan_mean, y error=makespan_std] {figures/data/planner_cbs.csv};
+\addlegendentry{windowed CBS}
+\nextgroupplot[xlabel={fleet size $|\mathcal{R}|$ (small layout)}, ylabel={wait actions per run}, xtick={4,6,8}]
+\addplot[blue, mark=*, mark size=1.4pt] table[col sep=comma, x=fleetSize, y=waitActions_mean, y error=waitActions_std] {figures/data/planner_pp.csv};
+\addplot[red, mark=square*, mark size=1.4pt] table[col sep=comma, x=fleetSize, y=waitActions_mean, y error=waitActions_std] {figures/data/planner_cbs.csv};
+\nextgroupplot[xlabel={window $w$ (warehouse, 32 robots)}, ylabel={throughput / planner ms per tick}, xtick={10,20,30}, legend pos=north west]
+\addplot[black, mark=*, mark size=1.4pt] table[col sep=comma, x=window, y=throughput_mean, y error=throughput_std] {figures/data/window.csv};
+\addlegendentry{throughput}
+\addplot[orange, mark=triangle*, mark size=1.6pt] table[col sep=comma, x=window, y expr=10*\thisrow{plannerMsPerTick_mean}, y error expr=10*\thisrow{plannerMsPerTick_std}] {figures/data/window.csv};
+\addlegendentry{$10\times$ planner ms/tick}
+\end{groupplot}
+\end{tikzpicture}
+\caption{\textbf{Planner backend and window.} Left, centre: on the small layout, windowed CBS shortens the makespan and removes wait actions relative to prioritized planning (PP) at every fleet size (\cref{tab:planner}). Right: on the warehouse with 32 robots, a shorter window raises throughput and cuts planner time (\cref{tab:ablation}); the planner cost is scaled by 10 to share the axis.}
+\label{fig:planner}
+\end{figure}

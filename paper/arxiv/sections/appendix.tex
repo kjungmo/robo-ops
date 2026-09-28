@@ -1,0 +1,95 @@
+\section{Reproduction}\label{app:repro}
+
+All code is TypeScript under \texttt{src/fms/} of the repository (no runtime
+dependencies); the benchmark, tests and paper tables are produced by
+\begin{verbatim}
+npm ci
+npm test                       # 17 vitest tests (Hungarian, A*, PP, CBS, simulator)
+npm run bench:fms              # 5 sweeps, 420 runs -> paper/experiments/results/
+npx tsx scripts/paper-data.ts  # tables/*.tex and figures/data/*.csv from the results
+\end{verbatim}
+Every run is deterministic given its seed (the test suite asserts it), so the
+committed \texttt{paper/experiments/results/*.json} files are reproduced
+bit-for-bit except for the wall-clock fields. The operator console shows the
+simulator at \texttt{/fms} (\texttt{npm run dev}).
+
+\section{Notation and Parameters}\label{app:params}
+
+\begin{table}[h]
+\centering
+\caption{Notation.}
+\label{tab:notation}
+\small
+\begin{tabular}{ll}
+\toprule
+$G=(V,E)$ & 4-connected grid graph of free cells\\
+$\mathcal{P},\mathcal{D},\mathcal{C},\mathcal{H}$ & pickup points, docks, charger slots, home bays\\
+$\mathcal{R}$, $r$ & fleet, robot index; $p^r_t$ position, $s^r_t$ state of charge, $h^r$ home bay\\
+$\tau_k=(a_k,p_k,d_k)$ & task: arrival time, pickup, dock; $c_k$ completion time\\
+$d(u,v)$ & exact shortest-path distance on $G$\\
+$\mathcal{B}$, $w$, $h$ & reservation table, planning window, replanning period\\
+$A^{\mathcal{B}}(p,g,t_0)$ & arrival time of windowed space-time A* from $p$ to $g$ under $\mathcal{B}$ (\cref{eq:arrival})\\
+$\chi_{\mathcal{B}}$ & congestion count along a free-space shortest path\\
+$c(r,\tau)$, $\hat a$ & assignment cost and time-to-pickup estimate (\cref{eq:cost})\\
+$w_{\mathrm{b}},w_{\mathrm{c}},w_{\mathrm{h}}$ & battery weight, congestion weight, hold penalty\\
+$K$ & candidate tasks priced per robot\\
+$\kappa_{\mathrm{d}},\kappa_{\mathrm{p}}$ & in-flight capacity per dock / per pickup\\
+$\beta_{\mathrm{m}},\beta_{\mathrm{w}},\gamma$ & charge per move, per wait, charging rate per tick\\
+$\theta_{\mathrm{lo}},\theta_{\mathrm{hi}},\rho$ & charging thresholds and feasibility reserve\\
+$\delta$ & loading / unloading dwell (ticks)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Default parameters (\texttt{DEFAULT\_CONFIG} and \texttt{DEFAULT\_BATTERY} in \texttt{src/fms}).}
+\label{tab:params}
+\small
+\begin{tabular}{lll}
+\toprule
+\textbf{Parameter} & \textbf{Value} & \textbf{Notes}\\
+\midrule
+window $w$ / period $h$ & 20 / 5 ticks & as in RHCR \citep{li2021rhcr}\\
+candidates $K$ & 6 & nearest pool tasks priced per robot\\
+pool size & $\max(2m,8)$ & $m$ eligible robots, oldest tasks first\\
+$\kappa_{\mathrm{d}}$ / $\kappa_{\mathrm{p}}$ & 3 / 1 & endpoint reservation capacities\\
+$w_{\mathrm{b}}$ / $w_{\mathrm{c}}$ / $w_{\mathrm{h}}$ & 1 / 1 / 10 & \cref{eq:cost}\\
+$\beta_{\mathrm{m}}$ / $\beta_{\mathrm{w}}$ / $\gamma$ & 0.001 / 0.0002 / 0.005 & SoC units per tick\\
+$\theta_{\mathrm{lo}}$ / $\theta_{\mathrm{hi}}$ / $\rho$ & 0.2 / 0.9 / 0.05 & \\
+initial SoC & $\mathcal{U}[0.5,1.0]$ & $\mathcal{U}[0.2,0.4]$ in the battery stress\\
+dwell $\delta$ & 2 ticks & loading and unloading\\
+CBS node budget & 2000 & per group, then PP fallback\\
+stall limit & 1000 ticks & no task progress $\Rightarrow$ run flagged deadlocked\\
+tasks per run & 200 (100 on \emph{small}) & pickups, docks sampled uniformly\\
+seeds & 1--5 & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Benchmark layouts. \emph{console} is generated from the zone / shelf-line / dock counts found in the operator console's wireframe labels (zones A--D with 3, 3, 2, 4 shelf lines; two named shipping docks, each a bay of three delivery cells).}
+\label{tab:layouts}
+\small
+\begin{tabular}{lrrrrrrr}
+\toprule
+\textbf{Layout} & \textbf{Size} & \textbf{Free cells} & \textbf{Pickups} & \textbf{Docks} & \textbf{Charger slots (stations)} & \textbf{Home bays} & \textbf{Aisle width}\\
+\midrule
+small & $16\times10$ & 104 & 4 & 2 & 2 (1) & 8 & open\\
+warehouse & $52\times19$ & 715 & 100 & 9 & 8 (4) & 48 & 2\\
+console & $36\times25$ & 658 & 84 & 6 & 6 (3) & 32 & 2\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Extended Results}\label{app:extended}
+
+\input{tables/scaling}
+\input{tables/battery}
+
+\Cref{tab:scaling} lists the data behind \cref{fig:scaling}; \cref{tab:battery}
+the battery stress of \cref{subsec:main}. Per-run records (all 24 metrics of
+\texttt{SimMetrics}) are in \texttt{paper/experiments/results/*.json}; the
+mapping from every number in this paper to a results field is in
+\texttt{paper/arxiv/NUMBERS.md}.

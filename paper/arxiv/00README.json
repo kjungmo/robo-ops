@@ -1,0 +1,8 @@
+{
+  "process": { "compiler": "pdflatex" },
+  "sources": [
+    { "filename": "main.tex", "usage": "toplevel" },
+    { "filename": "main.bbl", "usage": "ignore" },
+    { "filename": "main.bib", "usage": "ignore" }
+  ]
+}

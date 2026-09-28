@@ -1,0 +1,27 @@
+\begin{abstract}
+Fleet managers for warehouse mobile robots must allocate a stream of
+pickup-and-delivery tasks, plan collision-free paths for every robot and keep
+batteries from running out, all in a loop that never stops. The three problems
+are usually solved by separate modules connected through free-space distance
+estimates, and the literature on coupling them tightly consists of one-shot
+solvers that do not fit a lifelong setting. In this paper we introduce
+\emph{\sname}, a complete lifelong fleet manager for grid warehouses that
+couples the modules the cheap way: assignment costs are arrival times of the
+same windowed space-time A* that plans the fleet, evaluated against the live
+reservation table, and fed to an optimal Hungarian assignment, while a hold
+cascade keeps prioritized planning conflict-free by construction and
+token-passing endpoint capacities keep dock queues resolvable. We prove
+conflict-freeness of each replanning epoch and optimality of the assignment
+step, and evaluate the whole stack in a seeded discrete-time simulator with
+Poisson task streams, loading dwell and an explicit battery model on three
+layouts, one of them derived from an operator console's own zone and dock
+data. Across 420 runs and 8.8 million robot-steps the executed plans contain
+zero conflicts, no robot depletes and no run deadlocks. The controlled study
+of the coupling is a negative result that we report as such: greedy,
+Hungarian, congestion-proxy and MAPF-in-the-loop costs stay within 2.9\% of
+each other in throughput in every one of twelve layout/fleet/load cells,
+whereas dock capacity ($+26$--$29\%$), the planning window ($\pm7\%$) and an
+optional windowed CBS backend ($-8\%$ makespan on small fleets) are the levers
+that move the fleet. Code, results and this paper are at
+\url{https://github.com/kjungmo/robo-ops}.
+\end{abstract}
