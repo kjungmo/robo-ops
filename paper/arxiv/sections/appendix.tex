@@ -2,6 +2,7 @@
 
 All code is TypeScript under \texttt{src/fms/} of the repository (no runtime
 dependencies); the benchmark, tests and paper tables are produced by
+\begingroup\footnotesize
 \begin{verbatim}
 npm ci
 npm test                       # 17 vitest tests (Hungarian, A*, PP, CBS, simulator)
@@ -9,8 +10,10 @@ npm run bench:fms              # 5 sweeps, 420 runs -> paper/experiments/results
 npx tsx scripts/paper-data.ts  # tables/*.tex and figures/data/*.csv from the results
 \end{verbatim}
 Every run is deterministic given its seed (the test suite asserts it), so the
-committed \texttt{paper/experiments/results/*.json} files are reproduced
-bit-for-bit except for the wall-clock fields. The operator console shows the
+committed \url{paper/experiments/results/*.json} files are reproduced
+bit-for-bit except for the wall-clock fields.
+\endgroup
+The operator console shows the
 simulator at \texttt{/fms} (\texttt{npm run dev}).
 
 \section{Notation and Parameters}\label{app:params}
@@ -71,7 +74,7 @@ seeds & 1--5 & \\
 \centering
 \caption{Benchmark layouts. \emph{console} is generated from the zone / shelf-line / dock counts found in the operator console's wireframe labels (zones A--D with 3, 3, 2, 4 shelf lines; two named shipping docks, each a bay of three delivery cells).}
 \label{tab:layouts}
-\small
+\footnotesize
 \begin{tabular}{lrrrrrrr}
 \toprule
 \textbf{Layout} & \textbf{Size} & \textbf{Free cells} & \textbf{Pickups} & \textbf{Docks} & \textbf{Charger slots (stations)} & \textbf{Home bays} & \textbf{Aisle width}\\
