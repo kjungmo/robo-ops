@@ -34,7 +34,7 @@ export function AppShell({ pageName, children }: AppShellProps) {
               <div className="mf-sidebar__heading">{section.title}</div>
               <ul className="mf-sidebar__list">
                 {section.items.map((item) => {
-                  const href = `/page/${item.id}`
+                  const href = item.href ?? `/page/${item.id}`
                   const active = location.pathname === href
                   return (
                     <li key={item.id}>
