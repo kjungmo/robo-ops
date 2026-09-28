@@ -16,9 +16,18 @@
  *     tasks were outstanding, and the longest run of consecutive ticks a
  *     robot away from its goal did not move;
  *   - charge margins: minimum observed charge, longest wait of a robot below
- *     the charging threshold for a slot, and the most wait ticks on one trip.
+ *     the charging threshold for a slot, the most wait ticks on one trip and
+ *     the largest trip delay (ticks spent on a trip beyond the free-space
+ *     distance it covered), the quantities W and Q of the conditional charge
+ *     proposition in the paper.
+ *
+ * Distances are exact grid BFS distances (DistanceOracle), a property of the
+ * map, not of any plan.
  */
-import type { Cell, GridMap } from '../map/grid'
+import { type Cell, type GridMap, DistanceOracle } from '../map/grid'
+
+/** Statuses during which a robot drives towards its goal. */
+const TRIP_STATUS = new Set(['to_pickup', 'to_delivery', 'to_charger', 'parking'])
 
 /** The minimal read-only view of a robot the auditor needs. */
 export interface ObservedRobot {
@@ -51,6 +60,12 @@ export interface AuditReport {
   maxWaitStreak: number
   /** Most wait ticks spent on a single trip (maximal interval with the same status and goal). */
   maxTripWaits: number
+  /**
+   * Largest trip delay W: over trips (maximal intervals with the same driving
+   * status and goal), elapsed ticks minus the reduction of free-space distance
+   * to the goal achieved during the trip.
+   */
+  maxTripDelay: number
   /** Longest time a robot below the charging threshold spent waiting for a slot. */
   maxSlotWait: number
   /** Minimum observed charge over robots that are not depleted. */
@@ -59,7 +74,10 @@ export interface AuditReport {
 
 export class TrajectoryAuditor {
   private readonly map: GridMap
+  private readonly oracle: DistanceOracle
   private readonly socLow: number
+  private readonly tripStart: Cell[]
+  private readonly tripTicks: number[]
   private prev: Cell[]
   private readonly prevStatus: string[]
   private readonly prevGoal: Cell[]
@@ -73,6 +91,7 @@ export class TrajectoryAuditor {
 
   constructor(map: GridMap, socLow: number, sim: ObservedSim) {
     this.map = map
+    this.oracle = new DistanceOracle(map)
     this.socLow = socLow
     const n = sim.robots.length
     this.prev = sim.robots.map((x) => x.cell)
@@ -81,6 +100,8 @@ export class TrajectoryAuditor {
     this.streak = new Array<number>(n).fill(0)
     this.tripWaits = new Array<number>(n).fill(0)
     this.slotWait = new Array<number>(n).fill(0)
+    this.tripStart = sim.robots.map((x) => x.cell)
+    this.tripTicks = new Array<number>(n).fill(0)
     this.depleted = sim.robots.map((x) => x.soc <= 0)
     this.lastProgress = sim.progressCount()
     this.lastProgressTick = sim.tick
@@ -94,6 +115,7 @@ export class TrajectoryAuditor {
       maxNoProgress: 0,
       maxWaitStreak: 0,
       maxTripWaits: 0,
+      maxTripDelay: 0,
       maxSlotWait: 0,
       minSoc: Math.min(1, ...sim.robots.map((x) => x.soc)),
     }
@@ -162,8 +184,19 @@ export class TrajectoryAuditor {
       } else {
         this.streak[i] = 0
       }
-      // Waits per trip (a trip ends when status or goal changes).
-      if (status !== this.prevStatus[i] || goal !== this.prevGoal[i]) this.tripWaits[i] = 0
+      // Trips end when status or goal changes. The status seen now was set after
+      // this tick's move, so the move just made belongs to the previous trip.
+      if (TRIP_STATUS.has(this.prevStatus[i]) && !this.depleted[i]) {
+        this.tripTicks[i] += 1
+        const g = this.prevGoal[i]
+        const delay = this.tripTicks[i] - (this.oracle.dist(this.tripStart[i], g) - this.oracle.dist(cur[i], g))
+        this.r.maxTripDelay = Math.max(this.r.maxTripDelay, delay)
+      }
+      if (status !== this.prevStatus[i] || goal !== this.prevGoal[i]) {
+        this.tripWaits[i] = 0
+        this.tripTicks[i] = 0
+        this.tripStart[i] = cur[i]
+      }
       if (waiting) {
         this.tripWaits[i] += 1
         this.r.maxTripWaits = Math.max(this.r.maxTripWaits, this.tripWaits[i])

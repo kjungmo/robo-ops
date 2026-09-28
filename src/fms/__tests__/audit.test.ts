@@ -74,6 +74,14 @@ describe('trajectory auditor', () => {
     expect(r.maxWaitStreak).toBe(4)
   })
 
+  it('measures trip delay as elapsed ticks minus distance covered', () => {
+    // Goal 17 = (5,2); from 12 = (0,2) the free-space distance is 5, the robot
+    // waits twice and arrives after 7 ticks.
+    const r = audit([[12, 12, 12, 13, 14, 15, 16, 17]], 7)
+    expect(r.maxTripDelay).toBe(2)
+    expect(r.maxTripWaits).toBe(2)
+  })
+
   it('agrees with the simulator on a real run (zero events, same robot-ticks)', () => {
     const sim = new FleetSimulator({ layout: 'small', fleetSize: 6, numTasks: 40, arrivalRate: 0.4, seed: 4 })
     const a = new TrajectoryAuditor(sim.map, sim.cfg.battery.socLow, sim)

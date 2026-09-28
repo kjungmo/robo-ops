@@ -264,6 +264,7 @@ const NUMERIC = [
   'audit_maxNoProgress',
   'audit_maxWaitStreak',
   'audit_maxTripWaits',
+  'audit_maxTripDelay',
   'audit_maxSlotWait',
   'audit_minSoc',
 ] as Array<keyof Run>
