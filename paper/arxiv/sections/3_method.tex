@@ -57,11 +57,16 @@ per robot, so as to minimise the mean service time of the delivered tasks
   \quad\text{subject to}\quad
   \text{no conflicts},\;\; s^r_t>0\;\;\forall r,t,
 \end{equation}
-and we report throughput $|\mathcal{T}|/T_{\mathrm{mk}}$, where the makespan
-$T_{\mathrm{mk}}=\max_k c_k$, as the dual view of the same quantity for a
-finite stream. Optimising \cref{eq:objective} exactly is intractable even
+and we also report throughput $|\mathcal{T}|/T_{\mathrm{mk}}$, where the
+makespan $T_{\mathrm{mk}}=\max_k c_k$. For a finite stream throughput is the
+inverse makespan, a different objective from mean service time that can rank
+schedules differently, so we report both. Optimising \cref{eq:objective} exactly is intractable even
 without batteries \citep{yu2013structure}; \sname\ is a rolling-horizon
-heuristic that keeps the two constraints hard at all times.
+heuristic. It enforces the conflict constraint by construction
+(\cref{prop:pp,cor:exec}); the charge constraint is only guarded by a
+heuristic feasibility test (\cref{eq:feasible}), and progress (absence of
+deadlock and livelock) is not guaranteed. Both are measured in
+\cref{sec:exp}.
 
 \subsection{Planning under reservations: windowed space-time A* with a hold cascade}\label{subsec:planning}
 
@@ -123,24 +128,67 @@ terminates, and at termination every path is consistent with every
 reservation:
 
 \begin{proposition}[Conflict-freeness of an epoch]\label{prop:pp}
-Let all robots occupy distinct cells at $t_0$. After \cref{alg:pp} returns,
-the set of paths in $\mathcal{B}$ is vertex- and swap-conflict-free on
-$[t_0,t_0+w]$, and \cref{alg:pp} calls the low-level planner at most
-$|\mathcal{R}|(|\mathcal{R}|+1)/2$ times.
+Let all robots occupy distinct cells at $t_0$, and let every entry of
+$\mathcal{B}$ at the call belong either to an external robot in
+$\mathcal{X}$ or to a static robot holding its own current cell. If the
+entries of $\mathcal{B}$ are pairwise conflict-free when \cref{alg:pp} is
+called, then after it returns the set of paths in $\mathcal{B}$ is vertex-
+and swap-conflict-free on $[t_0,t_0+w]$, and \cref{alg:pp} calls the
+low-level planner at most $N(N+1)/2\le|\mathcal{R}|(|\mathcal{R}|+1)/2$
+times, where $N=m+|\mathcal{X}|$.
 \end{proposition}
 \begin{proof}
-A path is inserted into $\mathcal{B}$ only when returned by \cref{alg:astar}
-under $\mathcal{B}$, i.e.\ every vertex $(\pi_k,t_0+k)$ satisfied
-$\mathrm{free}$ and every move satisfied the swap query at insertion time; a
-hold $(v,t_0)$ is inserted only for a cell whose occupant is the holding
-robot itself at $t_0$ (distinct start cells), and every path that visits $v$
-at any $t\in[t_0,t_0+w]$ is removed before the hold is written (line 12) and
-re-planned afterwards. Hence at every moment the invariant ``no two entries
-of $\mathcal{B}$ conflict'' holds, and it holds at termination. Termination:
-a robot is re-queued only when a new hold is created; a held robot is never
-re-queued and never fails again, so at most $|\mathcal{R}|$ holds are
-created, each re-queuing at most $|\mathcal{R}|-1$ robots once. Adding the
-$|\mathcal{R}|$ initial calls gives the bound.
+\emph{Invariant.} We show that no two entries of $\mathcal{B}$ conflict at
+any moment. A path is inserted only when \cref{alg:astar} returned it under
+the current $\mathcal{B}$: every vertex $(\pi_k,t_0+k)$ passed
+$\mathrm{free}$, every move passed the swap query, and the hold at its last
+cell passed $\mathrm{goalfree}$, so no existing entry occupies that cell
+later in the window; entries inserted afterwards respect the hold because
+$\mathrm{free}$ checks holds. A hold for a failed robot $r$ is written at
+$p^r$ from $t_0$ on. No static robot and no held robot occupies $p^r$ (their
+cells are their own, and start cells are distinct), and by assumption every
+other entry belongs to a robot in $\mathcal{X}$ or in the input list; all of
+those that visit $p^r$ at some $t\in[t_0,t_0+w]$ form $\mathcal{V}$ and are
+removed before the hold is written. A hold never moves, so it cannot take
+part in a swap conflict. Removing entries cannot create a conflict, so the
+invariant holds at termination.
+
+\emph{Call bound.} A robot is popped once initially if it is in the input
+list ($m$ calls) and once each time it is re-queued. Re-queuing happens only
+when a hold is created; a held robot is never re-queued (it is excluded from
+$\mathcal{V}$) and so fails at most once, hence at most $N$ holds are
+created. When the $k$-th hold is created, $|\mathcal{K}|=k$ and
+$\mathcal{V}$ contains only robots outside $\mathcal{K}$, so
+$|\mathcal{V}|\le N-k$. The number of calls is therefore at most
+$m+\sum_{k=1}^{N}(N-k)\le N+N(N-1)/2=N(N+1)/2$.
+\end{proof}
+
+The assumption on $\mathcal{B}$ is what the epoch
+(\cref{alg:pact}) maintains: static robots are written as holds on their own
+cells, group~1 is planned into a table that contains only those holds, and
+group~2 is planned with group~1 as $\mathcal{X}$. The optional CBS backend
+(below) only inserts paths that are conflict-free with each other and with
+$\mathcal{B}$ inside the window, which preserves the invariant, and the
+robots it wrote into $\mathcal{B}$ are added to $\mathcal{X}$ of the
+subsequent call of \cref{alg:pp} for the rest of the group. Neither the proposition nor its corollary says anything about
+progress: a robot may hold for several epochs.
+
+\begin{corollary}[Conflict-free execution]\label{cor:exec}
+If $h\le w$, every step executed by the simulator is vertex- and
+swap-conflict-free.
+\end{corollary}
+\begin{proof}
+Every robot executes the path it has in the current table: a planned path,
+or a hold on its own cell for static robots, and a robot whose path has ended
+rests on its last cell, which that path holds. Epochs start at least every
+$h$ ticks, so the step from $t$ to $t+1$ executed after an epoch at $t_0$
+satisfies $t+1\le t_0+h\le t_0+w$ and lies inside the window in which the
+table is conflict-free by \cref{prop:pp}. Between epochs the table changes
+only by single-robot re-plans (below): the robot's old entry is removed, and
+the new one is either a path returned by \cref{alg:astar} under the table or,
+if that fails, a hold on the cell the robot stands on, which its old entry
+held from the current tick on, so no other entry uses it. A depleted robot
+stops, and an epoch starts before the next step is executed.
 \end{proof}
 
 \begin{algorithm}[t]
@@ -185,7 +233,7 @@ whole group when the constraint tree exceeds a node budget.
 
 \begin{algorithm}[t]
 \caption{Windowed CBS for one group (high level)}\label{alg:cbs}
-\KwIn{robots $\mathcal{A}$ with distinct goals, base reservations $\mathcal{B}$, epoch $t_0$, window $w$, node budget $N$}
+\KwIn{robots $\mathcal{A}$ with distinct goals, base reservations $\mathcal{B}$, epoch $t_0$, window $w$, node budget $N_{\max}$}
 \KwOut{conflict-free paths on $[t_0,t_0+w]$ with minimal sum of arrival times, or \textsc{fail}}
 root: $\mathcal{C}_r\gets\emptyset$, $\pi_r\gets$ \textsc{A*} under $\mathcal{B}\cup\mathcal{C}_r$ for each $r\in\mathcal{A}$\;
 \lIf{some $\pi_r=$ \textsc{fail}}{\Return \textsc{fail}}
@@ -194,7 +242,7 @@ $\mathit{open}\gets\{\text{root}\}$\;
   $\nu\gets$ node with minimal $\sum_r\mathrm{cost}(\pi_r)$ (ties: fewer conflicts, then FIFO)\;
   $\kappa\gets$ earliest conflict of $\nu$ on $[t_0,t_0+w]$\;
   \lIf{$\kappa=\emptyset$}{\Return paths of $\nu$}
-  \lIf{$|\text{generated}|\ge N$}{\Return \textsc{fail}}
+  \lIf{$|\text{generated}|\ge N_{\max}$}{\Return \textsc{fail}}
   \ForEach{robot $r\in\kappa$}{
     child $\nu'\gets\nu$ with $\mathcal{C}_r$ extended by the vertex $(v,t)$ or edge $(u\!\to\!v,t)$ of $\kappa$\;
     re-plan $\pi_r$ under $\mathcal{B}\cup\mathcal{C}_r$; \lIf{feasible}{add $\nu'$ to $\mathit{open}$}
@@ -209,12 +257,13 @@ reaches the end of its path at its goal (and only then---a plan may pass
 through the goal earlier while the goal is temporarily held) transitions
 (pickup $\to$ loading, dock $\to$ unloading, slot $\to$ charging, bay $\to$
 idle) and is immediately re-planned alone against the live table when it
-gets a new goal. Because the old reservation of such a robot ends in a hold
-at the very cell it stands on, the replacement path is consistent with every
-other robot by \cref{prop:pp}. A new epoch starts every $h\le w$ ticks and
-whenever a robot becomes idle while tasks are pending or a robot depletes.
-The executed step is checked for vertex and swap conflicts; over all runs in
-\cref{sec:exp} the count is zero.
+gets a new goal; this re-plan keeps the table conflict-free
+(\cref{cor:exec}). A new epoch starts every $h\le w$ ticks and whenever a
+robot becomes idle while tasks are pending or a robot depletes. Independently
+of the reservation table, the simulator compares the cells of all robots
+before and after every executed step and counts vertex and swap conflicts;
+this check tests the implementation against \cref{cor:exec}, and over all runs
+in \cref{sec:exp} the count is zero.
 
 \subsection{Charging: threshold policy with capacity-constrained slot assignment}\label{subsec:charging}
 
@@ -224,13 +273,17 @@ $s^r_t\ge\theta_{\mathrm{hi}}$. Free slots are those neither occupied nor
 already claimed by a robot en route, so a station with $k$ slots serves at
 most $k$ robots at a time. Robots needing charge and free slots are matched
 by the Hungarian method on $d(p^r,\sigma)$ (\cref{alg:charge}); a robot for
-which no slot is free waits at its bay and is retried next epoch. Task
-feasibility guards against stranding: robot $r$ may take task $\tau$ only if
+which no slot is free waits at its bay and is retried next epoch. A task
+feasibility test guards against stranding: robot $r$ may take task $\tau$
+only if
 \begin{equation}\label{eq:feasible}
   s^r_t \;\ge\; \beta_{\mathrm{m}}\bigl(\hat a(r,\tau) + d(p_\tau,d_\tau) + \min_{\sigma\in\mathcal{C}} d(d_\tau,\sigma)\bigr) + \rho,
 \end{equation}
 where $\hat a$ is the estimated time to the pickup used by the allocation
-(\cref{subsec:alloc}) and $\rho$ a reserve margin. With
+(\cref{subsec:alloc}) and $\rho$ a reserve margin. The test is a heuristic,
+not a guarantee: it budgets free-space moves only and leaves waits, detours,
+dwell and queueing for a charger slot to the margin $\rho$, and a robot that
+depletes nevertheless becomes a permanent obstacle. With
 \cref{eq:feasible} and $\theta_{\mathrm{lo}}$ above the energy of the longest
 bay-to-slot trip, no depletion occurred in any run of \cref{sec:exp}.
 
@@ -288,14 +341,21 @@ cardinality over finite entries, minimises total cost; it runs in
 $O(\min(m,k)^2\max(m,k))$ time.
 \end{proposition}
 \begin{proof}
-Replacing $\infty$ by $\Lambda=1+\sum_{ij:C_{ij}<\infty}|C_{ij}|$ yields a
-finite instance whose optimal perfect matching (on the padded square) never
-uses a $\Lambda$-entry if a matching with more finite entries exists, because
-one $\Lambda$ exceeds the total cost of any all-finite matching; among
-matchings with the same number of $\Lambda$-entries the objective differs only
-by the finite part. Dropping the $\Lambda$-pairs gives the claim. The
-complexity is that of the shortest-augmenting-path algorithm with potentials
-\citep{jonker1987shortest}, one Dijkstra-like phase of $O(mk)$ per row.
+Assume $m\le k$ (otherwise the implementation solves the transpose). Replace
+$\infty$ by any $\Lambda>S=\sum_{ij:C_{ij}<\infty}C_{ij}$ (the implementation
+uses $S+10^6$); the algorithm returns a minimum-cost matching that covers
+every row. Such a matching $M$ with $\ell(M)$ $\Lambda$-entries costs
+$\ell(M)\Lambda+F(M)$ with finite part $0\le F(M)\le S<\Lambda$, so a
+minimiser first minimises $\ell$ and then $F$. Let $\nu$ be the maximum
+cardinality of a matching of finite entries. Any such matching extends to a
+row-covering matching because $m\le k$, and the added pairs are all
+$\Lambda$-entries (a finite one would give a larger finite matching), so
+$\min\ell=m-\nu$ and every maximum finite matching $M'$ appears, extended,
+with cost $(m-\nu)\Lambda+F(M')$. Dropping the $\Lambda$-pairs of the
+minimiser therefore leaves a maximum-cardinality finite matching of minimum
+finite cost. Each of the $m$ rows is inserted by one shortest-augmenting-path
+phase with potentials \citep{jonker1987shortest} of $O(mk)$ time, which gives
+$O(m^2k)$.
 \end{proof}
 
 \begin{algorithm}[t]

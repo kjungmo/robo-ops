@@ -19,8 +19,12 @@ hold cascade that turns planner failures into consistent (conflict-free) rests.
 Warehouse fleets never solve a one-shot instance: tasks arrive continuously
 \citep{wurman2008coordinating}. \citet{ma2017lifelong} formalised
 multi-agent pickup and delivery (MAPD), introduced well-formed instances and
-the token-passing (TP) scheme in which a robot only accepts a task whose
-endpoints it can reserve; \citet{ma2019lifelong} added kinematic constraints
+the token-passing (TP) scheme, in which a robot only takes a task whose pickup
+and delivery are not the endpoint of another robot's path; its variant with
+task swaps (TPTS) lets a robot take over an assigned task whose pickup it
+reaches earlier than the current assignee, which already couples allocation
+to planned arrival times, greedily and one robot at a time.
+\citet{ma2019lifelong} added kinematic constraints
 and \citet{liu2019task} studied task sequencing. RHCR \citep{li2021rhcr}
 showed that replanning every $h$ steps over a window of $w$ steps scales to
 hundreds of robots. \sname\ adopts the RHCR execution model and TP-style
@@ -33,9 +37,14 @@ Assignment problems are classically solved by the Hungarian method
 auctions \citep{bertsekas1988auction}; taxonomies of multi-robot task
 allocation are given by \citet{gerkey2004formal} and
 \citet{korsah2013comprehensive}. Coupling assignment with MAPF has been done
-optimally for anonymous agents (CBM, \citealp{ma2016optimal}) and for
-labelled goals (CBS-TA, \citealp{honig2018cbsta}), at a cost that limits these
-methods to one-shot instances. \sname\ instead couples the two greedily in the
-lifelong loop: assignment costs are arrival times of windowed space-time A*
-against the live reservation table, which keeps the optimal Hungarian
-structure while pricing in the traffic that already exists.
+optimally for teams of interchangeable agents (CBM, \citealp{ma2016optimal})
+and for agents with individual sets of admissible goals (CBS-TA,
+\citealp{honig2018cbsta}), at a cost that limits these methods to one-shot
+instances. \sname\ instead couples the two approximately in the lifelong
+loop: assignment costs are arrival times of windowed space-time A* against
+the live reservation table, solved jointly for all idle robots by the
+Hungarian method, which prices in the traffic that already exists but not the
+interactions among the robots being assigned. None of these ingredients is new
+on its own; the contribution is their combination with batteries and dock
+capacities in one loop, and the controlled measurement of what the coupling
+buys.

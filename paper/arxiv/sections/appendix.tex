@@ -5,7 +5,7 @@ dependencies); the benchmark, tests and paper tables are produced by
 \begingroup\footnotesize
 \begin{verbatim}
 npm ci
-npm test                       # 17 vitest tests (Hungarian, A*, PP, CBS, simulator)
+npm test                       # 18 vitest tests (Hungarian, A*, PP, CBS, simulator)
 npm run bench:fms              # 5 sweeps, 420 runs -> paper/experiments/results/
 npx tsx scripts/paper-data.ts  # tables/*.tex and figures/data/*.csv from the results
 \end{verbatim}
@@ -88,11 +88,14 @@ console & $36\times25$ & 658 & 84 & 6 & 6 (3) & 32 & 2\\
 
 \section{Extended Results}\label{app:extended}
 
+\input{tables/paired}
 \input{tables/scaling}
 \input{tables/battery}
 
-\Cref{tab:scaling} lists the data behind \cref{fig:scaling}; \cref{tab:battery}
-the battery stress of \cref{subsec:main}. Per-run records (all 24 metrics of
+\Cref{tab:paired} gives the seed-paired comparisons used in
+\cref{subsec:main,subsec:ablation}; \cref{tab:scaling} lists the data behind
+\cref{fig:scaling}; \cref{tab:battery} the battery stress of
+\cref{subsec:main}. Per-run records (all 24 metrics of
 \texttt{SimMetrics}) are in \texttt{paper/experiments/results/*.json}; the
 mapping from every number in this paper to a results field is in
 \texttt{paper/arxiv/NUMBERS.md}.

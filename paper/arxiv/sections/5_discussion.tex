@@ -27,11 +27,12 @@ to 48 robots on one core (\cref{fig:scaling}); a tick of one second of robot
 motion therefore leaves three orders of magnitude of headroom, and the
 coupling's extra A* calls ($+35\%$ at 48 robots) are affordable even though
 they are not useful here. Windowed CBS at the small fleet sizes where it is
-exact costs 0.09--0.31 ms/tick. Memory is dominated by the cached distance
+exact costs 0.10--0.32 ms/tick. Memory is dominated by the cached distance
 tables, one $|V|$-vector per endpoint.
 
 \noindent\textbf{What made the loop robust.}
-Three mechanisms were each necessary to reach zero deadlocks. (i) The hold
+During development, each of three mechanisms removed a jam we had observed;
+they are design history, not ablations in the committed benchmark. (i) The hold
 cascade (\cref{alg:pp}) is what makes ``no path found'' safe: without
 re-planning the robots that cross a held cell, a hold silently invalidates
 earlier reservations. (ii) Endpoint capacities bound the queue in front of a
@@ -59,6 +60,9 @@ but not to rank the close variants. CBS is only compared where basic CBS is
 tractable; symmetry reasoning \citep{li2019symmetry} or bounded-suboptimal
 search \citep{li2021eecbs} would extend it to larger groups. Prioritized
 planning with a hold cascade is safe but not complete: a robot can be
-delayed for several epochs, and although no run deadlocked, we have no proof
-that none can. Finally, the console integration displays the simulator; it
+delayed for several epochs, and although every run finished, we have no proof
+that none can deadlock or livelock, and the charging test of
+\cref{eq:feasible} is a heuristic, so depletion is likewise excluded only
+empirically. The safety, progress and charge results rest on five seeds per
+configuration; a larger multi-seed stress test is future work. Finally, the console integration displays the simulator; it
 is not connected to a fleet.

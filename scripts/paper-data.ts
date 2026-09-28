@@ -39,7 +39,7 @@ function mainTable(rows: Row[]): string {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Allocation methods across layouts, fleet sizes and load regimes.} Throughput (delivered tasks per 100 ticks) and mean service time (ticks from arrival to delivery), mean\\stdv{std} over 5 seeds, 200 tasks per run, prioritized planning with $w{=}20$, $h{=}5$. Load $\\lambda{=}0.15$ is a Poisson stream of 0.15 tasks/tick; \\emph{batch} releases all 200 tasks at $t{=}0$. Best mean per row in bold; no method leaves the one-standard-deviation band of the others in any row.}',
+    '\\caption{\\textbf{Allocation methods across layouts, fleet sizes and load regimes.} Throughput (delivered tasks per 100 ticks) and mean service time (ticks from arrival to delivery), mean\\stdv{std} over 5 seeds, 200 tasks per run, prioritized planning with $w{=}20$, $h{=}5$. Load $\\lambda{=}0.15$ is a Poisson stream of 0.15 tasks/tick; \\emph{batch} releases all 200 tasks at $t{=}0$. Best mean per row in bold; seed-paired differences with 95\\% intervals are in \\cref{tab:paired}.}',
   )
   out.push('\\label{tab:main}')
   out.push('\\small')
@@ -132,7 +132,7 @@ function ablationTable(rows: Row[]): string {
     '\\caption{\\textbf{Ablations} on the warehouse layout with 32 robots under batch load (200 tasks, 5 seeds). Each row changes one setting of the default configuration.}',
   )
   out.push('\\label{tab:ablation}')
-  out.push('\\small')
+  out.push('\\scriptsize')
   out.push('\\begin{tabular}{lccccc}')
   out.push('\\toprule')
   out.push('\\textbf{Variant} & \\textbf{Throughput} $\\uparrow$ & \\textbf{Service time} $\\downarrow$ & \\textbf{Wait actions} & \\textbf{Holds} & \\textbf{Planner ms/tick}\\\\')
@@ -184,7 +184,7 @@ function scalingTable(rows: Row[]): string {
   out.push('\\centering')
   out.push('\\caption{\\textbf{Fleet-size scaling} on the warehouse layout under batch load (200 tasks, 5 seeds); data of \\cref{fig:scaling}.}')
   out.push('\\label{tab:scaling}')
-  out.push('\\small')
+  out.push('\\footnotesize')
   out.push('\\begin{tabular}{rlcccccc}')
   out.push('\\toprule')
   out.push('$|\\mathcal{R}|$ & \\textbf{Alloc.} & \\textbf{Throughput} & \\textbf{Service time} & \\textbf{Utilisation} & \\textbf{Wait actions} & \\textbf{A* calls} & \\textbf{Planner ms/tick}\\\\')
@@ -212,6 +212,120 @@ function seriesCsv(rows: Row[], filter: (r: Row) => boolean, xKey: string, cols:
   return lines.join('\n') + '\n'
 }
 
+// ---------------------------------------------------------------- paired analysis
+// Runs with the same seed see the same task stream (arrival times, pickups,
+// docks) and the same initial charge, because the simulator draws random
+// numbers only for those. Differences between variants are therefore paired by
+// seed; we report the mean per-seed relative difference and a two-sided 95%
+// Student-t interval with n-1 = 4 degrees of freedom.
+
+type Run = Record<string, number | string | null>
+
+function readRuns(name: string): Run[] {
+  return JSON.parse(readFileSync(join(RESULTS, name), 'utf8')) as Run[]
+}
+
+const T975: Record<number, number> = { 2: 12.706, 3: 4.303, 4: 3.182, 5: 2.776, 6: 2.571, 7: 2.447, 8: 2.365, 9: 2.306, 10: 2.262 }
+
+interface Paired {
+  mean: number
+  half: number
+  n: number
+}
+
+function paired(a: Run[], b: Run[], key: string): Paired {
+  const bySeed = new Map(b.map((r) => [r.seed, r]))
+  const rel: number[] = []
+  for (const r of a) {
+    const o = bySeed.get(r.seed)
+    if (!o) throw new Error(`unpaired seed ${r.seed}`)
+    rel.push((100 * (Number(r[key]) - Number(o[key]))) / Number(o[key]))
+  }
+  const n = rel.length
+  const mean = rel.reduce((x, y) => x + y, 0) / n
+  const sd = Math.sqrt(rel.reduce((x, y) => x + (y - mean) ** 2, 0) / (n - 1))
+  return { mean, half: (T975[n] * sd) / Math.sqrt(n), n }
+}
+
+const fmtCi = (p: Paired) => {
+  const m = Math.abs(p.mean) < 0.05 ? '0.0' : `${p.mean > 0 ? '+' : '-'}${Math.abs(p.mean).toFixed(1)}`
+  return `$${m}\\pm${p.half.toFixed(1)}$`
+}
+
+function pairedTable(): { tex: string; summary: string } {
+  const main = readRuns('main.json')
+  const abl = readRuns('ablation.json')
+  const plan = readRuns('planner.json')
+  const rateKey = (r: Run) => (r.arrivalRate === null ? 'inf' : String(r.arrivalRate))
+  const out: string[] = []
+  out.push('\\begin{table}[t]')
+  out.push('\\centering')
+  out.push(
+    '\\caption{\\textbf{Seed-paired differences.} Mean per-seed relative difference in \\%, with a two-sided 95\\% Student-$t$ interval over the 5 seeds (4 degrees of freedom). Runs with the same seed share the task stream and initial charge, so differences are paired. Top: throughput of each cost model relative to Hungarian in every cell of \\cref{tab:main}. Bottom: the levers of \\cref{subsec:ablation} (throughput relative to the default of the same cost model on the warehouse, 32 robots, batch) and windowed CBS (makespan relative to PP on \\emph{small}).}',
+  )
+  out.push('\\label{tab:paired}')
+  out.push('\\footnotesize')
+  out.push('\\begin{tabular}{llrccc}')
+  out.push('\\toprule')
+  out.push('\\textbf{Layout} & \\textbf{Load} & $|\\mathcal{R}|$ & Greedy & Proxy & \\sname\\\\')
+  out.push('\\midrule')
+  let nComp = 0
+  let nZero = 0
+  let worst = 0
+  let worstCell = ''
+  let worstPoisson = 0
+  const excl: string[] = []
+  for (const layout of ['warehouse', 'console']) {
+    for (const rate of ['0.15', 'inf']) {
+      for (const fleet of [8, 16, 32]) {
+        const sel = (alloc: string) => main.filter((r) => r.layout === layout && rateKey(r) === rate && r.fleetSize === fleet && r.alloc === alloc)
+        const base = sel('hungarian')
+        const cells = ['greedy', 'pact-proxy', 'pact'].map((m) => paired(sel(m), base, 'throughput'))
+        for (const c of cells) {
+          nComp += 1
+          if (c.mean - c.half <= 0 && c.mean + c.half >= 0) nZero += 1
+          else excl.push(`${layout}/${rate}/${fleet}: ${c.mean.toFixed(2)} +- ${c.half.toFixed(2)}`)
+          const bound = Math.max(Math.abs(c.mean - c.half), Math.abs(c.mean + c.half))
+          if (rate !== 'inf') worstPoisson = Math.max(worstPoisson, bound)
+          if (bound > worst) {
+            worst = bound
+            worstCell = `${layout}/${rate}/${fleet}`
+          }
+        }
+        out.push(`${layout} & ${rate === 'inf' ? 'batch' : `$\\lambda{=}${rate}$`} & ${fleet} & ${cells.map(fmtCi).join(' & ')}\\\\`)
+      }
+    }
+  }
+  out.push('\\midrule')
+  out.push('\\multicolumn{3}{l}{\\textbf{Lever} (warehouse, 32, batch)} & \\multicolumn{3}{c}{\\textbf{Throughput} vs.\\ default}\\\\')
+  const v = (name: string) => abl.filter((r) => r.variant === name)
+  const hungMain = main.filter((r) => r.layout === 'warehouse' && rateKey(r) === 'inf' && r.fleetSize === 32 && r.alloc === 'hungarian')
+  const levers: Array<[string, Paired]> = [
+    ['window $w{=}10$ (\\sname)', paired(v('pact-w10'), v('pact'), 'throughput')],
+    ['window $w{=}30$ (\\sname)', paired(v('pact-w30'), v('pact'), 'throughput')],
+    ['dock capacity 2 (\\sname)', paired(v('pact-dock2'), v('pact'), 'throughput')],
+    ['dock capacity 2 (Hungarian)', paired(v('hungarian-dock2'), hungMain, 'throughput')],
+    ['no event epochs (\\sname)', paired(v('pact-noEvent'), v('pact'), 'throughput')],
+    ['no event epochs (Hungarian)', paired(v('hungarian-noEvent'), hungMain, 'throughput')],
+    ['replan every tick (\\sname)', paired(v('pact-h1'), v('pact'), 'throughput')],
+  ]
+  for (const [label, p] of levers) out.push(`\\multicolumn{3}{l}{${label}} & \\multicolumn{3}{c}{${fmtCi(p)}}\\\\`)
+  out.push('\\multicolumn{3}{l}{\\textbf{Planner} (small, batch)} & \\multicolumn{3}{c}{\\textbf{Makespan} of CBS vs.\\ PP}\\\\')
+  for (const fleet of [4, 6, 8]) {
+    const sel = (m: string) => plan.filter((r) => r.fleetSize === fleet && r.mapf === m)
+    out.push(`\\multicolumn{3}{l}{${fleet} robots} & \\multicolumn{3}{c}{${fmtCi(paired(sel('cbs'), sel('pp'), 'makespan'))}}\\\\`)
+  }
+  out.push('\\bottomrule')
+  out.push('\\end{tabular}')
+  out.push('\\end{table}')
+  const summary = [
+    `cost-model comparisons: ${nComp}, intervals containing 0: ${nZero}; excluding 0: ${excl.join('; ')}`,
+    `largest |interval bound| over cost models: ${worst.toFixed(2)}% (${worstCell}); under Poisson load: ${worstPoisson.toFixed(2)}%`,
+    ...levers.map(([l, p]) => `${l}: ${p.mean.toFixed(2)} +- ${p.half.toFixed(2)}`),
+  ].join('\n')
+  return { tex: out.join('\n') + '\n', summary }
+}
+
 function main() {
   mkdirSync(join(PAPER, 'tables'), { recursive: true })
   mkdirSync(join(PAPER, 'figures/data'), { recursive: true })
@@ -225,6 +339,9 @@ function main() {
   writeFileSync(join(PAPER, 'tables/ablation.tex'), ablationTable(ablationRows))
   writeFileSync(join(PAPER, 'tables/battery.tex'), batteryTable(batteryRows))
   writeFileSync(join(PAPER, 'tables/scaling.tex'), scalingTable(scalingRows))
+  const pairedOut = pairedTable()
+  writeFileSync(join(PAPER, 'tables/paired.tex'), pairedOut.tex)
+  console.log(pairedOut.summary)
   const cols = ['throughput', 'meanServiceTime', 'plannerMsPerTick', 'waitActions', 'astarCalls', 'utilization', 'makespan']
   writeFileSync(join(PAPER, 'figures/data/scaling_hungarian.csv'), seriesCsv(scalingRows, (r) => r.variant === 'hungarian', 'fleetSize', cols))
   writeFileSync(join(PAPER, 'figures/data/scaling_pact.csv'), seriesCsv(scalingRows, (r) => r.variant === 'pact', 'fleetSize', cols))

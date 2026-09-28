@@ -29,14 +29,14 @@
   "epochs": 231,
   "astarCalls": 844,
   "expansions": 88033,
-  "plannerMs": 55.72252599999774,
-  "allocMs": 0.7046240000854596,
-  "plannerMsPerTick": 0.07419777097203428,
+  "plannerMs": 84.85760799999983,
+  "allocMs": 4.37596300000007,
+  "plannerMsPerTick": 0.1129928202396802,
   "utilization": 0.8122503328894807,
   "finalMeanSoc": 0.5057884586500032,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 56.30531800000608
+  "wallMs": 89.68342100000001
  },
  {
   "layout": "small",
@@ -68,14 +68,14 @@
   "epochs": 236,
   "astarCalls": 852,
   "expansions": 86296,
-  "plannerMs": 55.537117999956536,
-  "allocMs": 0.6609259999604546,
-  "plannerMsPerTick": 0.06603700118900896,
+  "plannerMs": 63.182999999999595,
+  "allocMs": 2.2119870000001356,
+  "plannerMsPerTick": 0.07512841854934553,
   "utilization": 0.7886444708680143,
   "finalMeanSoc": 0.6016125736699469,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 56.18412299999909
+  "wallMs": 64.82741399999998
  },
  {
   "layout": "small",
@@ -107,14 +107,14 @@
   "epochs": 223,
   "astarCalls": 787,
   "expansions": 76030,
-  "plannerMs": 47.13185699999303,
-  "allocMs": 0.6602059999931953,
-  "plannerMsPerTick": 0.06275879760318646,
+  "plannerMs": 58.68486299999995,
+  "allocMs": 1.9868380000003754,
+  "plannerMsPerTick": 0.07814229427430086,
   "utilization": 0.7956058588548602,
   "finalMeanSoc": 0.5889511433195348,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 47.59472600000299
+  "wallMs": 59.974977999999965
  },
  {
   "layout": "small",
@@ -146,14 +146,14 @@
   "epochs": 238,
   "astarCalls": 832,
   "expansions": 88916,
-  "plannerMs": 55.081543999986025,
-  "allocMs": 0.7209920000241254,
-  "plannerMsPerTick": 0.06800190617282226,
+  "plannerMs": 62.33238499999959,
+  "allocMs": 2.0361709999995696,
+  "plannerMsPerTick": 0.07695356172839456,
   "utilization": 0.75,
   "finalMeanSoc": 0.679323874664915,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 55.592155999998795
+  "wallMs": 63.712267999999995
  },
  {
   "layout": "small",
@@ -185,14 +185,14 @@
   "epochs": 233,
   "astarCalls": 887,
   "expansions": 93626,
-  "plannerMs": 56.9734010000102,
-  "allocMs": 0.6773999999786611,
-  "plannerMsPerTick": 0.07193611237375025,
+  "plannerMs": 64.57652799999971,
+  "allocMs": 2.2272669999998698,
+  "plannerMsPerTick": 0.08153602020201983,
   "utilization": 0.8096590909090909,
   "finalMeanSoc": 0.3742825020886061,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 57.46537099999841
+  "wallMs": 66.22203999999999
  },
  {
   "layout": "small",
@@ -224,14 +224,14 @@
   "epochs": 207,
   "astarCalls": 941,
   "expansions": 81380,
-  "plannerMs": 71.78682100005244,
-  "allocMs": 0.77181699994253,
-  "plannerMsPerTick": 0.10068277840119556,
+  "plannerMs": 76.92782000000045,
+  "allocMs": 2.0288830000004054,
+  "plannerMsPerTick": 0.10789315568022503,
   "utilization": 0.8253856942496494,
   "finalMeanSoc": 0.43878845865000304,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 72.3119330000045
+  "wallMs": 77.72108400000002
  },
  {
   "layout": "small",
@@ -263,14 +263,14 @@
   "epochs": 233,
   "astarCalls": 1048,
   "expansions": 93154,
-  "plannerMs": 70.1084980000087,
-  "allocMs": 0.7691550000163261,
-  "plannerMsPerTick": 0.0858121150550902,
+  "plannerMs": 78.00902899999926,
+  "allocMs": 2.3767699999998513,
+  "plannerMsPerTick": 0.09548228763769799,
   "utilization": 0.7732558139534884,
   "finalMeanSoc": 0.6215125736699467,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 70.6532670000015
+  "wallMs": 78.94762200000002
  },
  {
   "layout": "small",
@@ -302,14 +302,14 @@
   "epochs": 227,
   "astarCalls": 983,
   "expansions": 82933,
-  "plannerMs": 60.23893900006806,
-  "allocMs": 0.7178759999296744,
-  "plannerMsPerTick": 0.08042581975977044,
+  "plannerMs": 70.20916499999998,
+  "allocMs": 1.566424000000552,
+  "plannerMsPerTick": 0.09373720293724964,
   "utilization": 0.7616822429906542,
   "finalMeanSoc": 0.5907511433195349,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 60.723540999999386
+  "wallMs": 71.25813800000003
  },
  {
   "layout": "small",
@@ -341,14 +341,14 @@
   "epochs": 232,
   "astarCalls": 955,
   "expansions": 78995,
-  "plannerMs": 57.845772999986366,
-  "allocMs": 0.6951199999602977,
-  "plannerMsPerTick": 0.07340834137054107,
+  "plannerMs": 63.15001600000096,
+  "allocMs": 1.0248680000001968,
+  "plannerMsPerTick": 0.08013961421319919,
   "utilization": 0.736992385786802,
   "finalMeanSoc": 0.6988238746649149,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 58.388442000003124
+  "wallMs": 64.00988800000005
  },
  {
   "layout": "small",
@@ -380,14 +380,14 @@
   "epochs": 228,
   "astarCalls": 1024,
   "expansions": 98567,
-  "plannerMs": 69.94961600004899,
-  "allocMs": 0.7727310000045691,
-  "plannerMsPerTick": 0.09131803655358876,
+  "plannerMs": 75.55588099999943,
+  "allocMs": 1.3723749999978736,
+  "plannerMsPerTick": 0.09863692036553451,
   "utilization": 0.7839425587467362,
   "finalMeanSoc": 0.3939825020886061,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 70.45749200000137
+  "wallMs": 76.4401039999999
  },
  {
   "layout": "small",
@@ -419,14 +419,14 @@
   "epochs": 180,
   "astarCalls": 1038,
   "expansions": 162180,
-  "plannerMs": 100.0196039999937,
-  "allocMs": 0.983767000019725,
-  "plannerMsPerTick": 0.1764014179894069,
+  "plannerMs": 111.25640600000133,
+  "allocMs": 1.0821010000004208,
+  "plannerMsPerTick": 0.19621941093474662,
   "utilization": 0.818342151675485,
   "finalMeanSoc": 0.4859157558644531,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 100.64281599999958
+  "wallMs": 112.12526300000002
  },
  {
   "layout": "small",
@@ -458,14 +458,14 @@
   "epochs": 185,
   "astarCalls": 1098,
   "expansions": 174418,
-  "plannerMs": 110.43496700009564,
-  "allocMs": 0.8760440000405652,
-  "plannerMsPerTick": 0.1913950901214829,
+  "plannerMs": 110.59067999999843,
+  "allocMs": 1.111932000000138,
+  "plannerMsPerTick": 0.19166495667244096,
   "utilization": 0.841421143847487,
   "finalMeanSoc": 0.36338515652871656,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 111.11046400000487
+  "wallMs": 111.41240000000005
  },
  {
   "layout": "small",
@@ -497,14 +497,14 @@
   "epochs": 179,
   "astarCalls": 1004,
   "expansions": 160283,
-  "plannerMs": 98.65302399999928,
-  "allocMs": 0.738467999981367,
-  "plannerMsPerTick": 0.18755327756653856,
+  "plannerMs": 101.75477100000035,
+  "allocMs": 1.0844679999993332,
+  "plannerMsPerTick": 0.19345013498098926,
   "utilization": 0.8453738910012675,
   "finalMeanSoc": 0.45011624618377777,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 99.26536299999862
+  "wallMs": 102.54974599999991
  },
  {
   "layout": "small",
@@ -536,14 +536,14 @@
   "epochs": 182,
   "astarCalls": 1067,
   "expansions": 168491,
-  "plannerMs": 106.14138099994307,
-  "allocMs": 0.8045420000053127,
-  "plannerMsPerTick": 0.2021740590475106,
+  "plannerMs": 107.71912600000132,
+  "allocMs": 1.103131000000758,
+  "plannerMsPerTick": 0.20517928761905013,
   "utilization": 0.8342857142857143,
   "finalMeanSoc": 0.2888904245249021,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 106.84441700000025
+  "wallMs": 108.54370900000004
  },
  {
   "layout": "small",
@@ -575,14 +575,14 @@
   "epochs": 194,
   "astarCalls": 1090,
   "expansions": 156549,
-  "plannerMs": 96.32081799994194,
-  "allocMs": 0.7961270000232616,
-  "plannerMsPerTick": 0.1571302088090407,
+  "plannerMs": 99.09156300000063,
+  "allocMs": 0.8063479999984793,
+  "plannerMsPerTick": 0.16165018433931588,
   "utilization": 0.7281131049483415,
   "finalMeanSoc": 0.49463017984582475,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 96.95649299999786
+  "wallMs": 99.98893900000007
  },
  {
   "layout": "small",
@@ -614,14 +614,14 @@
   "epochs": 166,
   "astarCalls": 1447,
   "expansions": 162572,
-  "plannerMs": 112.752771999978,
-  "allocMs": 0.8157270000301651,
-  "plannerMsPerTick": 0.22505543313368861,
+  "plannerMs": 117.75070100000039,
+  "allocMs": 0.8042960000004769,
+  "plannerMsPerTick": 0.23503133932135806,
   "utilization": 0.851962741184298,
   "finalMeanSoc": 0.4907157558644523,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 113.39709199999925
+  "wallMs": 118.94158799999991
  },
  {
   "layout": "small",
@@ -653,14 +653,14 @@
   "epochs": 179,
   "astarCalls": 3377,
   "expansions": 212936,
-  "plannerMs": 181.14216800002032,
-  "allocMs": 1.0357299999595853,
-  "plannerMsPerTick": 0.34635213766734285,
+  "plannerMs": 181.13751200000092,
+  "allocMs": 0.9014999999992597,
+  "plannerMsPerTick": 0.3463432351816461,
   "utilization": 0.834289356277884,
   "finalMeanSoc": 0.3677851565287164,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 181.89777800000593
+  "wallMs": 181.97962699999994
  },
  {
   "layout": "small",
@@ -692,14 +692,14 @@
   "epochs": 176,
   "astarCalls": 3354,
   "expansions": 225458,
-  "plannerMs": 190.22677999989537,
-  "allocMs": 0.9493839999995544,
-  "plannerMsPerTick": 0.37668669306909974,
+  "plannerMs": 196.71720699999787,
+  "allocMs": 0.9172050000022409,
+  "plannerMsPerTick": 0.38953902376237204,
   "utilization": 0.8564356435643564,
   "finalMeanSoc": 0.42618291285044396,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 190.86988399999973
+  "wallMs": 197.56917399999998
  },
  {
   "layout": "small",
@@ -731,14 +731,14 @@
   "epochs": 173,
   "astarCalls": 1336,
   "expansions": 169532,
-  "plannerMs": 116.4639930000194,
-  "allocMs": 0.8851439999998547,
-  "plannerMsPerTick": 0.2386557233606955,
+  "plannerMs": 126.05216499999983,
+  "allocMs": 1.1125490000013087,
+  "plannerMsPerTick": 0.25830361680327835,
   "utilization": 0.8244535519125683,
   "finalMeanSoc": 0.31469042452490187,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 117.09748099999706
+  "wallMs": 126.90294100000006
  },
  {
   "layout": "small",
@@ -768,16 +768,16 @@
   "holdEvents": 1,
   "cbsFallbacks": 1,
   "epochs": 189,
-  "astarCalls": 3354,
-  "expansions": 223136,
-  "plannerMs": 187.40598999994836,
-  "allocMs": 0.9724300000380026,
-  "plannerMsPerTick": 0.33585302867374256,
+  "astarCalls": 3355,
+  "expansions": 223697,
+  "plannerMs": 197.14766699999814,
+  "allocMs": 0.8971020000010412,
+  "plannerMsPerTick": 0.35331123118279234,
   "utilization": 0.757168458781362,
   "finalMeanSoc": 0.4356301798458239,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 188.09904699999606
+  "wallMs": 198.58778699999993
  },
  {
   "layout": "small",
@@ -809,14 +809,14 @@
   "epochs": 175,
   "astarCalls": 1389,
   "expansions": 217261,
-  "plannerMs": 135.97758200005046,
-  "allocMs": 1.0425420000465238,
-  "plannerMsPerTick": 0.26250498455608196,
+  "plannerMs": 139.20913200000177,
+  "allocMs": 1.1933600000024853,
+  "plannerMsPerTick": 0.2687434980695015,
   "utilization": 0.6826737451737451,
   "finalMeanSoc": 0.437285692006982,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 136.6854220000023
+  "wallMs": 140.18959199999972
  },
  {
   "layout": "small",
@@ -848,14 +848,14 @@
   "epochs": 172,
   "astarCalls": 1364,
   "expansions": 201280,
-  "plannerMs": 125.76671599996189,
-  "allocMs": 0.9858290000047418,
-  "plannerMsPerTick": 0.23729569056596583,
+  "plannerMs": 126.58547999999882,
+  "allocMs": 1.0156220000017129,
+  "plannerMsPerTick": 0.23884052830188457,
   "utilization": 0.6674528301886793,
   "finalMeanSoc": 0.3944167567332315,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 126.47973099999945
+  "wallMs": 127.55942300000015
  },
  {
   "layout": "small",
@@ -887,14 +887,14 @@
   "epochs": 162,
   "astarCalls": 1268,
   "expansions": 206298,
-  "plannerMs": 138.19746800007124,
-  "allocMs": 1.2037379999819677,
-  "plannerMsPerTick": 0.2909420378948868,
+  "plannerMs": 131.9572590000016,
+  "allocMs": 1.0672410000051968,
+  "plannerMsPerTick": 0.27780475578947705,
   "utilization": 0.7115789473684211,
   "finalMeanSoc": 0.37607031846393685,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 139.13918600000034
+  "wallMs": 132.89159000000018
  },
  {
   "layout": "small",
@@ -926,14 +926,14 @@
   "epochs": 172,
   "astarCalls": 1343,
   "expansions": 226704,
-  "plannerMs": 140.0338009999541,
-  "allocMs": 1.0639920000103302,
-  "plannerMsPerTick": 0.2852012240324931,
+  "plannerMs": 139.63463300000194,
+  "allocMs": 1.0725599999968836,
+  "plannerMsPerTick": 0.2843882545824887,
   "utilization": 0.679735234215886,
   "finalMeanSoc": 0.38232115646398535,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 140.73571600000287
+  "wallMs": 140.55178999999998
  },
  {
   "layout": "small",
@@ -965,14 +965,14 @@
   "epochs": 175,
   "astarCalls": 1370,
   "expansions": 201864,
-  "plannerMs": 124.33179299997573,
-  "allocMs": 1.0355389999967883,
-  "plannerMsPerTick": 0.22483145207952213,
+  "plannerMs": 126.5918190000043,
+  "allocMs": 1.3635160000008,
+  "plannerMsPerTick": 0.22891829837252134,
   "utilization": 0.6053345388788427,
   "finalMeanSoc": 0.461060538523253,
   "sweep": "planner",
   "variant": "pp",
-  "wallMs": 125.05271399999765
+  "wallMs": 127.5353869999999
  },
  {
   "layout": "small",
@@ -1004,14 +1004,14 @@
   "epochs": 160,
   "astarCalls": 1563,
   "expansions": 200400,
-  "plannerMs": 137.25563600006717,
-  "allocMs": 1.0194390000106068,
-  "plannerMsPerTick": 0.30569183964380214,
+  "plannerMs": 137.612846,
+  "allocMs": 1.1090840000033495,
+  "plannerMsPerTick": 0.3064874075723831,
   "utilization": 0.6879175946547884,
   "finalMeanSoc": 0.4683856920069813,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 137.9348020000034
+  "wallMs": 138.67483999999968
  },
  {
   "layout": "small",
@@ -1043,14 +1043,14 @@
   "epochs": 175,
   "astarCalls": 1671,
   "expansions": 212026,
-  "plannerMs": 147.61151400001836,
-  "allocMs": 1.1040229999925941,
-  "plannerMsPerTick": 0.2923000277228086,
+  "plannerMs": 144.6809180000023,
+  "allocMs": 1.1462229999988267,
+  "plannerMsPerTick": 0.28649686732673724,
   "utilization": 0.6621287128712872,
   "finalMeanSoc": 0.4129167567332314,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 148.36821500000224
+  "wallMs": 145.7058380000003
  },
  {
   "layout": "small",
@@ -1082,14 +1082,14 @@
   "epochs": 164,
   "astarCalls": 1622,
   "expansions": 209191,
-  "plannerMs": 153.42311999991216,
-  "allocMs": 1.129097000019101,
-  "plannerMsPerTick": 0.34169959910893577,
+  "plannerMs": 146.26811499999485,
+  "allocMs": 1.2223219999978028,
+  "plannerMsPerTick": 0.3257641759465364,
   "utilization": 0.6854120267260579,
   "finalMeanSoc": 0.38112031846393674,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 154.16789199999766
+  "wallMs": 147.19653599999992
  },
  {
   "layout": "small",
@@ -1121,14 +1121,14 @@
   "epochs": 161,
   "astarCalls": 1547,
   "expansions": 206103,
-  "plannerMs": 140.53309300004912,
-  "allocMs": 1.0612960000144085,
-  "plannerMsPerTick": 0.31022757836655435,
+  "plannerMs": 142.46205000000373,
+  "allocMs": 1.0682700000006662,
+  "plannerMsPerTick": 0.3144857615894122,
   "utilization": 0.6274834437086093,
   "finalMeanSoc": 0.42367115646398523,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 141.23672599999554
+  "wallMs": 143.37633099999994
  },
  {
   "layout": "small",
@@ -1160,13 +1160,13 @@
   "epochs": 171,
   "astarCalls": 1630,
   "expansions": 203461,
-  "plannerMs": 143.11320600007457,
-  "allocMs": 1.279216999966593,
-  "plannerMsPerTick": 0.28737591566280035,
+  "plannerMs": 144.71522899999445,
+  "allocMs": 1.2206240000050457,
+  "plannerMsPerTick": 0.29059282931725794,
   "utilization": 0.6081827309236948,
   "finalMeanSoc": 0.4449105385232524,
   "sweep": "planner",
   "variant": "cbs",
-  "wallMs": 143.89934699999867
+  "wallMs": 145.7606719999999
  }
 ]

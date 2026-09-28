@@ -21,14 +21,16 @@ managers cut corners. Assignment costs are almost always free-space distances
 already knows about; the methods that couple assignment and MAPF exactly
 (CBM, \citealp{ma2016optimal}; CBS-TA, \citealp{honig2018cbsta}) solve
 one-shot instances and do not transfer to a rolling-horizon loop with
-batteries, dwell times and dock queues. Whether the cheap decoupling actually
+batteries, dwell times and dock queues, and the lifelong scheme that does use
+planned arrival times, token passing with task swaps \citep{ma2017lifelong},
+applies them greedily, one robot at a time. Whether the cheap decoupling actually
 costs anything in a lifelong warehouse setting is, to our knowledge, an open
 empirical question; and the planners that make lifelong operation scale
-\citep{li2021rhcr} are evaluated without batteries and without the endpoint
-contention that docks create.
+\citep{li2021rhcr} are evaluated without batteries and without dwell times
+or capacity limits at the delivery endpoints.
 
 To answer that question with a system rather than a thought experiment, we
-introduce \emph{\sname} (Path-Aware Coupled Tasking), a complete,
+introduce \emph{\sname} (Path-Aware Coupled Tasking), an end-to-end,
 framework-free lifelong fleet manager for grid warehouses
 (\cref{fig:overview}). \sname\ replans the fleet every $h$ ticks over a window
 of $w$ ticks, as in RHCR \citep{li2021rhcr}, with windowed space-time A*
@@ -47,12 +49,12 @@ assignment, and an optional windowed Conflict-Based Search backend
 
 Our contributions are:
 \begin{itemize}
-  \item \emph{A verified lifelong FMS stack}: grid map model with benchmark
+  \item \emph{A tested lifelong FMS stack}: grid map model with benchmark
   layouts (one generated from an operator console's own zone and dock
   vocabulary), Hungarian and greedy allocation, windowed space-time A*,
   prioritized planning with a hold cascade, windowed CBS, charging, and a
-  seeded discrete-time simulator; conflict-freeness of every epoch and
-  optimality of the assignment step are proved, and a test suite checks the
+  seeded discrete-time simulator; conflict-freeness of every executed step
+  and optimality of the assignment step are proved, and a test suite checks the
   Hungarian and CBS implementations against exhaustive search and the planners
   against property tests.
   \item \emph{Path-aware coupled allocation}: assignment costs from
@@ -68,13 +70,17 @@ Our contributions are:
 The study's main result is negative and, we argue, useful: in every one of
 twelve layout/fleet/load cells the four allocation cost models---greedy,
 Hungarian, congestion proxy and MAPF-in-the-loop---differ by at most 2.9\% in
-throughput and by less than one standard deviation over seeds
-(\cref{tab:main}). What does move the fleet is elsewhere: raising the
+mean throughput, and 35 of 36 seed-paired 95\% intervals against Hungarian
+contain zero (\cref{tab:main,tab:paired}). With five seeds this rules out
+differences above about 7\% in the noisiest cell and above about 4\% under the Poisson
+load, not small ones. What does move the fleet is elsewhere: raising the
 per-dock in-flight capacity from 2 to 3 raises throughput by 26--29\%,
 shortening the planning window from 20 to 10 ticks raises it by 7\% while
 cutting planner time by $3.4\times$, and windowed CBS reduces makespan by
-8\% on small fleets (\cref{tab:ablation,tab:planner}). Throughout, the
-executed plans of 8.8 million robot-steps contain no vertex or swap conflict,
-no robot depletes, and no run deadlocks (\cref{subsec:main}). We release the
+8\% on small fleets (\cref{tab:ablation,tab:planner}); all three effects lie
+outside their seed-paired 95\% intervals. Throughout, the executed plans of
+8.8 million robot-steps contain no vertex or swap conflict, as the
+construction guarantees; no robot depletes and every run delivers all of its
+tasks, which the construction does not guarantee (\cref{subsec:main}). We release the
 implementation inside the operator console it was built for, together with
 all results.

@@ -46,9 +46,15 @@ Throughput is delivered tasks per 100 ticks; service time is delivery minus
 arrival; wait time is first assignment minus arrival; wait actions count
 ticks a robot with a goal did not move; holds count planner fall-backs; planner
 ms/tick is wall-clock time of allocation plus planning divided by simulated
-ticks; conflicts are counted on the executed step (vertex and swap) and a run
-is flagged deadlocked when no task progresses for 1000 ticks. Every
-configuration is run with seeds 1--5 and reported as mean\stdv{std}.
+ticks; conflicts are counted on the executed step (vertex and swap) from the
+robots' cells, independently of the reservation table; a run is flagged
+deadlocked when no task is picked up or delivered for 1000 consecutive ticks
+while tasks are outstanding, and a run that neither finishes nor stalls stops
+at 20{,}000 ticks with its unfinished tasks counted. Every configuration is
+run with seeds 1--5 and reported as mean\stdv{std}. Runs with the same seed
+see the same task stream and initial charge, so we compare variants by
+seed-paired relative differences with two-sided 95\% Student-$t$ intervals
+(4 degrees of freedom; \cref{tab:paired} in the appendix).
 
 \noindent\textbf{Hardware and protocol.}
 All runs are single-threaded Node.js~22 on one core of an AMD Ryzen~5
@@ -62,10 +68,13 @@ and the summary CSVs are committed with the code.
 \noindent\textbf{Correctness and stability (Q1).}
 Over the 420 runs of all sweeps---8{,}833{,}050 robot-ticks, 5{,}317{,}603
 move actions and 81{,}000 delivered tasks---the executed steps contain zero
-vertex or swap conflicts, no robot ever depletes, and no run trips the stall
+vertex or swap conflicts, as \cref{cor:exec} requires, no robot ever
+depletes, and every run delivers all of its tasks without tripping the stall
 detector, on every layout, fleet size from 4 to 48, load regime, allocation
-method and planner backend. Hold fall-backs are rare (at most 5.2 per run on average in the main sweep,
-reached with 32 robots under batch load) and no run stalls. The battery stress (\cref{tab:battery})
+method and planner backend. The last two are empirical findings on five
+seeds per configuration, not guarantees. Hold fall-backs are rare (at most
+5.2 per run on average in the main sweep, reached with 32 robots under batch
+load). The battery stress (\cref{tab:battery})
 forces 22.6--23.2 charging sessions per run for 16 robots and still records
 zero depletions, with a final mean charge of 0.34--0.38.
 
@@ -75,7 +84,13 @@ layout/fleet/load cells does the choice of cost model change throughput by
 more than 2.9\% (warehouse, 32 robots, batch: 29.7 greedy vs.\ 30.6
 Hungarian and Proxy vs.\ 30.3 \sname), and in every cell the four means lie
 within one standard deviation of each other; the same holds for service
-time. This includes the cells where coupling could plausibly help: the
+time. Paired by seed (\cref{tab:paired}), 35 of the 36 throughput intervals
+against Hungarian contain zero; the exception is \sname\ on the console with
+32 robots under batch load, $2.3\pm2.0\%$ \emph{below} Hungarian, fewer
+exclusions than the 1.8 expected by chance among 36 intervals. Every interval
+lies within $\pm3.7\%$ under the Poisson load and within $\pm7.1\%$ under
+batch load, so the study excludes large effects of the cost model, not effects
+of a few percent. This includes the cells where coupling could plausibly help: the
 saturated batch regime with 32 robots, where 233--297 wait actions per run
 show that robots do interact, and the light regime with 16--32 robots, where
 robots are idle and the pairing decision is free to matter. Greedy
@@ -88,8 +103,9 @@ endpoints rather than along paths.
 \noindent\textbf{Planner backend (Q3, part 1).}
 \Cref{tab:planner} and \cref{fig:planner} compare PP and windowed CBS on
 \emph{small}, where CBS is affordable. CBS shortens the makespan by 2.8\%,
-8.3\% and 8.3\% for 4, 6 and 8 robots, cuts wait actions by 19--31\% and
-service time by 6--10\%, at 0.09--0.31 planner ms per tick; it exceeded its
+8.3\% and 8.3\% for 4, 6 and 8 robots (seed-paired: $-2.8\pm2.1$,
+$-8.2\pm3.6$ and $-8.2\pm4.4\%$), cuts wait actions by 19--31\% and
+service time by 6--10\%, at 0.10--0.32 planner ms per tick; it exceeded its
 node budget in 0.6 epochs per run only at 6 robots, falling back to PP for
 that group. The gain is exactly the suboptimality of fixed priorities
 inside the window; it does not carry to the larger layouts, where a group of
@@ -117,22 +133,25 @@ robots under batch load.
 \noindent\textbf{Endpoint capacity is the dominant lever.}
 Lowering the per-dock in-flight capacity from 3 to 2 drops throughput from
 30.3 to 24.0 (\sname) and from 30.6 to 23.7 (Hungarian, \cref{tab:main}),
-i.e.\ capacity 3 is worth $+26$--$29\%$, and utilisation falls from 0.64 to
+i.e.\ capacity 3 is worth $+26$--$29\%$ (seed-paired, capacity 2 costs
+$20.7\pm3.3\%$ and $22.5\pm2.2\%$), and utilisation falls from 0.64 to
 0.42 because tasks wait in the pool for a free dock. During development,
 capacity 4 produced dock-front gridlocks in 2 of 30 runs under an earlier
-priority scheme; capacity 3 was deadlock-free in every run we made and is the
-default.
+priority scheme; these runs are not part of the committed benchmark.
+Capacity 3 completed every committed run and is the default.
 
 \noindent\textbf{Window and period trade throughput for planner time.}
-A window of 10 ticks raises throughput to 32.4 ($+7\%$) and halves wait
-actions (150 vs.\ 274) while cutting planner time from 0.63 to 0.18 ms/tick;
-a window of 30 lowers throughput to 28.2 ($-7\%$) at 1.98 ms/tick. Longer
+A window of 10 ticks raises throughput to 32.4 ($+7\%$, seed-paired
+$+6.9\pm1.6\%$) and halves wait actions (150 vs.\ 274) while cutting
+planner time from 0.63 to 0.18 ms/tick; a window of 30 lowers throughput to
+28.2 ($-6.9\pm3.9\%$) at 1.98 ms/tick. Longer
 windows commit robots to longer reserved waits behind others and make
 fall-backs more likely, the same effect that \citet{li2021rhcr} report for
 RHCR. Replanning every tick ($h=1$) leaves throughput unchanged (30.3) at
 $2.2\times$ the planner time. Disabling event-triggered epochs, so that idle
 robots wait for the next periodic epoch, costs 1--5\% throughput and adds
-55--125 wait actions.
+55--125 wait actions; only the Hungarian loss is resolved by the paired
+interval ($-5.2\pm3.3\%$, against $-1.2\pm5.2\%$ for \sname).
 
 \noindent\textbf{Battery term and candidate pruning are neutral.}
 Removing the battery factor ($w_{\mathrm{b}}=0$) changes throughput by less

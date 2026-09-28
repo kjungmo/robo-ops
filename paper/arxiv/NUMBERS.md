@@ -10,11 +10,12 @@ files. Notation: `file : row-selector : field`.
 
 | Claim | Source |
 |---|---|
-| 420 runs; 0 conflicts; 0 deadlocks; 0 depletions; 104 s wall | `bench-meta.json : runs, totalConflicts, totalDeadlocks, totalDepletions, wallSeconds (103.8)` |
+| 420 runs; 0 conflicts; 0 deadlocks; 0 depletions; 104 s wall | `bench-meta.json : runs, totalConflicts, totalDeadlocks, totalDepletions, wallSeconds (103.8)`; the planner sweep was re-run after the CBS fix (`bench-meta-planner.json : runs 30, totals 0`); re-summing all five `*.json` gives 420 runs, 0 conflicts, 0 deadlocked, 0 depletion events |
+| every run delivers all of its tasks | sum of `tasksUnfinished` over all 420 records = 0 (longest run: `makespan` 4189, scaling sweep) |
 | 8,833,050 robot-ticks ("8.8 million robot-steps") | sum over all records in `main.json, planner.json, scaling.json, ablation.json, battery.json` of `makespan * fleetSize` |
 | 5,317,603 move actions; 72,823 wait actions | sum of `moveActions` / `waitActions` over the same records |
 | 81,000 delivered tasks | sum of `tasksCompleted` over the same records (390 runs × 200 + 30 runs × 100) |
-| commit of the benchmarked code `74922c7` | `bench-meta.json : commit` |
+| commit of the benchmarked code `74922c7` (main, scaling, ablation, battery); `0e53c4c` (planner sweep, after the CBS/PP external-agent fix, which changes only prioritized-planning calls inside the CBS backend) | `bench-meta.json : commit`, `bench-meta-planner.json : commit`. Re-running the planner sweep changed one non-timing field in one run (6 robots, CBS, seed 5: `astarCalls` 3354→3355, `expansions` 223136→223697); all other non-timing fields are identical |
 | CPU "AMD Ryzen 5 5500GT", Node 22 | `bench-meta.json : cpu, node` |
 | 5 seeds (1–5) | `bench-meta.json : seeds` |
 
@@ -24,7 +25,7 @@ Every cell: `main_summary.csv : layout, fleetSize, arrivalRate ∈ {0.15, inf}, 
 
 | Claim | Source |
 |---|---|
-| ≤ 2.9 % throughput spread in every cell; worst cell warehouse/32/batch: 29.7 greedy, 30.6 Hungarian, 30.6 Proxy, 30.3 PACT | `main_summary.csv : warehouse, 32, inf : throughput_mean` = 29.6968 / 30.5503 / 30.5666 / 30.2912 → (30.57−29.70)/30.57 = 2.9 % |
+| ≤ 2.9 % throughput spread in every cell; worst cell warehouse/32/batch: 29.7 greedy, 30.6 Hungarian, 30.6 Proxy, 30.3 PACT | `main_summary.csv : warehouse, 32, inf : throughput_mean` = 29.7237 / 30.5503 / 30.5988 / 30.2912 → (30.5988−29.7237)/30.5988 = 2.86 % ≤ 2.9 % |
 | "within one standard deviation": max std per cell ≤ 2.6 | `main_summary.csv : throughput_std` (max 2.6 at console/32/inf) |
 | 233–297 wait actions per run (warehouse, 32, batch) | `main_summary.csv : warehouse, 32, inf, hungarian/greedy : waitActions_mean` = 233.4 (min) / 296.8 (max) |
 | service 282–287, queueing 216–220 (warehouse, 32, batch) | `main_summary.csv : warehouse, 32, inf, * : meanServiceTime_mean` = 282.5–287.4; `meanWaitTime_mean` = 216.3–220.1 |
@@ -38,10 +39,11 @@ Every cell: `main_summary.csv : layout, fleetSize, arrivalRate ∈ {0.15, inf}, 
 | makespan −2.8 % / −8.3 % / −8.3 % at 4 / 6 / 8 robots | `planner_summary.csv : fleetSize, variant=pp/cbs : makespan_mean` = 789.0→766.6, 561.6→515.0, 513.4→470.8 |
 | wait actions −19 / −24 / −31 % | `waitActions_mean` = 59.6→48.2, 134.6→102.4, 213.6→148.0 |
 | service time −6–10 % | `meanServiceTime_mean` = 318.1→300.3 (−5.6 %), 262.0→238.8 (−8.9 %), 242.1→218.0 (−9.9 %) |
-| 0.09–0.31 planner ms/tick (CBS) | `plannerMsPerTick_mean` for cbs = 0.0863, 0.3045, 0.3075 |
+| 0.10–0.32 planner ms/tick (CBS) | `plannerMsPerTick_mean` for cbs = 0.0952, 0.3165, 0.3048 (planner sweep re-run at `0e53c4c`; wall-clock field) |
+| seed-paired CBS makespan −2.8±2.1 / −8.2±3.6 / −8.2±4.4 % | `tables/paired.tex` (bottom block), computed by `scripts/paper-data.ts : pairedTable` from `planner.json` |
 | 0.6 fallbacks per run at 6 robots, 0 elsewhere | `cbsFallbacks_mean` = 0, 0.6, 0 |
 
-## §4.2 Scaling, Fig. 3 (`figures/data/scaling_*.csv`), Table 7 (`tables/scaling.tex`)
+## §4.2 Scaling, Fig. 3 (`figures/data/scaling_*.csv`), Table 8 (`tables/scaling.tex`)
 
 | Claim | Source |
 |---|---|
@@ -69,7 +71,20 @@ All rows: `ablation_summary.csv : variant : throughput_mean, meanServiceTime_mea
 | K = 3 / 12 change ≤ 0.2 | `pact-K3` = 30.234, `pact-K12` = 30.4203 vs 30.2912 |
 
 
-## §4.2 Battery stress, Table 8 (`tables/battery.tex`)
+## Seed-paired comparisons, Table 7 (`tables/paired.tex`), §1, §4.2, §4.3, §6
+
+Computed by `scripts/paper-data.ts : pairedTable()` from the per-run records (`main.json`, `ablation.json`, `planner.json`): per-seed relative difference `100·(x_variant − x_base)/x_base`, mean and two-sided 95 % Student-t half-width with 4 degrees of freedom (t = 2.776). The script prints the summary lines quoted below.
+
+| Claim | Source |
+|---|---|
+| 35 of 36 cost-model intervals vs Hungarian contain 0; the exception PACT console/32/batch −2.3±2.0 % | script summary `intervals containing 0: 35; excluding 0: console/inf/32: -2.29 +- 2.02` |
+| every interval within ±3.7 % under Poisson load and ±7.1 % under batch load ("about 4 %" / "about 7 %" in §1) | script summary `largest |interval bound| ... 7.06% (console/inf/8); under Poisson load: 3.71%` |
+| 1.8 exclusions expected by chance | 36 × 0.05 |
+| window w=10 +6.9±1.6 %, w=30 −6.9±3.9 % | script summary lines `window $w{=}10$` / `$w{=}30$` |
+| dock capacity 2 costs 20.7±3.3 % (PACT) / 22.5±2.2 % (Hungarian) | script summary lines `dock capacity 2` |
+| no event epochs: Hungarian −5.2±3.3 %, PACT −1.2±5.2 % | script summary lines `no event epochs` |
+
+## §4.2 Battery stress, Table 9 (`tables/battery.tex`)
 
 | Claim | Source |
 |---|---|
@@ -83,7 +98,7 @@ All rows: `ablation_summary.csv : variant : throughput_mean, meanServiceTime_mea
 | "+26–29 %" dock capacity | see §4.3 |
 | "7 %" window, "3.4×" planner time | 32.3675 / 30.2912 = 1.069; 0.6255 / 0.1833 = 3.41 |
 | "−8 % makespan" CBS | 8.3 % at 6 and 8 robots (`planner_summary.csv`) |
-| "7–29 %" (conclusion) | window +7 %, dock +26–29 %, CBS −8 % |
+| "7–29 %" (conclusion) | window +7 %, dock +26–29 % (throughput); CBS −8 % is makespan and is stated separately |
 
 ## Appendix
 
@@ -91,4 +106,4 @@ All rows: `ablation_summary.csv : variant : throughput_mean, meanServiceTime_mea
 |---|---|
 | Table 6 (layouts): sizes, free cells, endpoint counts | `src/fms/map/layouts.ts` constants; verified by `npx tsx -e` listing (small 16×10 / 104 free; warehouse 52×19 / 715; console 36×25 / 658) |
 | Table 5 (parameters) | `DEFAULT_CONFIG`, `DEFAULT_BATTERY` in `src/fms/sim/simulator.ts`, `src/fms/charging/policy.ts` |
-| 17 tests | `npm test` output (vitest: 17 passed) |
+| 18 tests | `npm test` output (vitest: 18 passed) |

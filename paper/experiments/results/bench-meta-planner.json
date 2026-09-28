@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-28T02:40:19.979Z",
+  "node": "v22.22.2",
+  "cpu": "AMD Ryzen 5 5500GT with Radeon Graphics",
+  "cores": 12,
+  "memoryGB": 11.7,
+  "commit": "0e53c4c",
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "sweeps": [
+    "planner"
+  ],
+  "runs": 30,
+  "totalConflicts": 0,
+  "totalDeadlocks": 0,
+  "totalDepletions": 0,
+  "wallSeconds": 3.5
+}
