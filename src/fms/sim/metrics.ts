@@ -33,6 +33,8 @@ export interface SimMetrics {
   chargeSessions: number
   holdEvents: number
   cbsFallbacks: number
+  /** Token passing with task swaps: tasks taken over from another robot. */
+  taskSwaps: number
   epochs: number
   astarCalls: number
   expansions: number

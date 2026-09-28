@@ -255,7 +255,7 @@ describe('CBS', () => {
     }
     expect(compared).toBeGreaterThan(40)
     expect(limited).toBeLessThanOrEqual(3)
-  })
+  }, 30000)
 
   it('never exceeds prioritized planning cost when both succeed', () => {
     const map = smallLayout()

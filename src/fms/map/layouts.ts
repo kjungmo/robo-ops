@@ -4,6 +4,8 @@
  * - `small`     : hand-drawn 16x10 open floor used for CBS tests and tiny fleets.
  * - `warehouse` : 4 shelf blocks x 5 lines of 10-cell shelves, 2-wide aisles,
  *                 dead-end bays for homes, chargers and docks along the walls.
+ * - `narrow`    : the warehouse pattern with one-lane aisles (1 aisle row
+ *                 per shelf line), 4 blocks x 4 lines, 6 docks.
  * - `console`   : 2x2 zone grid (A/B/C/D) whose per-zone shelf-line and dock
  *                 counts come from the operator console's own wireframe data
  *                 (src/fms/map/console_site.json, produced by
@@ -26,6 +28,10 @@ export interface BlockLayoutSpec {
   docks: number
   chargerStations: number
   slotsPerStation: number
+  /** Aisle rows below each shelf line (2 = two-lane aisles, 1 = one-lane). Default 2. */
+  aisleRows?: number
+  /** Extra free rows between the last shelf line and the bottom wall. Default 0. */
+  bottomCorridor?: number
 }
 
 const CORRIDOR = 2
@@ -38,9 +44,14 @@ const CORRIDOR = 2
 export function buildBlockLayout(spec: BlockLayoutSpec): string {
   const zoneRows = spec.zoneLines.length
   const zoneCols = spec.zoneLines[0].length
-  const rowHeights = spec.zoneLines.map((row) => Math.max(...row) * 3)
+  const aisleRows = spec.aisleRows ?? 2
+  const lineHeight = 1 + aisleRows
+  // One-lane aisles are closed by an extra shelf row below the last line, so
+  // that every aisle is bounded by shelves on both sides.
+  const closing = aisleRows === 1 ? 1 : 0
+  const rowHeights = spec.zoneLines.map((row) => Math.max(...row) * lineHeight + closing)
   const width = 1 + CORRIDOR + zoneCols * spec.shelfLen + (zoneCols - 1) * CORRIDOR + CORRIDOR + 1
-  const height = 1 + CORRIDOR + rowHeights.reduce((a, b) => a + b, 0) + 1
+  const height = 1 + CORRIDOR + rowHeights.reduce((a, b) => a + b, 0) + (spec.bottomCorridor ?? 0) + 1
   const grid: string[][] = []
   for (let y = 0; y < height; y += 1) {
     const row: string[] = []
@@ -57,12 +68,13 @@ export function buildBlockLayout(spec: BlockLayoutSpec): string {
       const xBase = 1 + CORRIDOR + zc * (spec.shelfLen + CORRIDOR)
       const lines = spec.zoneLines[zr][zc]
       for (let li = 0; li < lines; li += 1) {
-        const y = yBase + li * 3
+        const y = yBase + li * lineHeight
         for (let k = 0; k < spec.shelfLen; k += 1) {
           grid[y][xBase + k] = '@'
           if (k % 2 === 0) grid[y + 1][xBase + k] = 'P'
         }
       }
+      if (closing) for (let k = 0; k < spec.shelfLen; k += 1) grid[yBase + lines * lineHeight][xBase + k] = '@'
     }
     yBase += rowHeights[zr]
   }
@@ -132,6 +144,27 @@ export function warehouseLayout(): GridMap {
   return parseAsciiMap('warehouse', buildBlockLayout(WAREHOUSE_SPEC))
 }
 
+/**
+ * One-lane variant of the warehouse: every shelf line has a single aisle row
+ * (open at both ends to 2-wide cross aisles), so robots cannot pass each other
+ * inside an aisle and a robot loading at a pickup blocks its aisle.
+ */
+export const NARROW_SPEC: BlockLayoutSpec = {
+  name: 'narrow',
+  zoneLines: [[4, 4, 4, 4]],
+  shelfLen: 10,
+  homes: 32,
+  docks: 6,
+  chargerStations: 4,
+  slotsPerStation: 2,
+  aisleRows: 1,
+  bottomCorridor: 2,
+}
+
+export function narrowLayout(): GridMap {
+  return parseAsciiMap('narrow', buildBlockLayout(NARROW_SPEC))
+}
+
 interface ConsoleSite {
   zones: Record<string, { lines: number; docks: number }>
 }
@@ -165,6 +198,7 @@ export const LAYOUTS: Record<string, () => GridMap> = {
   small: smallLayout,
   warehouse: warehouseLayout,
   console: consoleLayout,
+  narrow: narrowLayout,
 }
 
 export function loadLayout(name: string): GridMap {

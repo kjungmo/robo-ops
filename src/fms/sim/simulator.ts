@@ -25,10 +25,11 @@ import { type Cell, type GridMap, DistanceOracle, cellX, cellY, chargerSlots } f
 import { loadLayout } from '../map/layouts'
 import { hungarian } from '../alloc/hungarian'
 import { greedyAssign } from '../alloc/greedy'
-import { type CostContext, staticCost, estimatedCost } from '../alloc/cost'
+import { type CostContext, staticCost, estimatedCost, taskFeasible } from '../alloc/cost'
 import { ReservationTable } from '../mapf/constraints'
 import { spaceTimeAStar } from '../mapf/spacetime_astar'
-import { prioritizedPlan, type PPAgent } from '../mapf/prioritized'
+import { prioritizedPlan, type PPAgent, type PPFallback } from '../mapf/prioritized'
+import { TokenTable, DwellGoal } from '../mapf/token_table'
 import { cbs } from '../mapf/cbs'
 import { stepConflicts } from '../mapf/conflicts'
 import {
@@ -44,6 +45,25 @@ import type { SimMetrics } from './metrics'
 
 export type AllocMethod = 'greedy' | 'hungarian' | 'pact-proxy' | 'pact'
 export type MapfMethod = 'pp' | 'cbs'
+/**
+ * Fleet coordination scheme.
+ *   rhcr - rolling-horizon epochs (allocation + windowed planning), the default
+ *   tp   - token passing (Ma et al., 2017): a robot at the end of its path takes
+ *          the nearest task whose pickup and dock are not the end of another
+ *          robot's path and plans its whole trip against all other paths
+ *   tpts - token passing with task swaps: a robot may also take over a task
+ *          whose assignee has not reached the pickup, if it gets there earlier
+ */
+export type Coordinator = 'rhcr' | 'tp' | 'tpts'
+/**
+ * Task demand model.
+ *   uniform - pickup and dock uniform over all endpoints
+ *   hotspot - 80% of pickups drawn from the 10% of pickups closest to the
+ *             centre of the floor, the rest uniform
+ *   far     - pickups drawn from the 25% of pickups farthest from any dock
+ */
+export type DemandModel = 'uniform' | 'hotspot' | 'far'
+export type PriorityScheme = 'dynamic' | 'static'
 export type RobotStatus =
   | 'idle'
   | 'to_pickup'
@@ -89,6 +109,18 @@ export interface SimConfig {
   stallLimit: number
   /** Throw on internal invariant violations (tests). */
   strict: boolean
+  /** Planner fallback when a robot has no path in the window (see PPFallback). */
+  fallback: PPFallback
+  /**
+   * 'dynamic': robots standing on another robot's goal and robots held last
+   * epoch are planned first (and held parking robots join group 1);
+   * 'static': status rank, then id.
+   */
+  priority: PriorityScheme
+  coordinator: Coordinator
+  demand: DemandModel
+  /** Expansion bound of the unwindowed A* used by token passing. */
+  tpMaxExpansions: number
 }
 
 export const DEFAULT_CONFIG: SimConfig = {
@@ -115,6 +147,11 @@ export const DEFAULT_CONFIG: SimConfig = {
   pickupCapacity: 1,
   stallLimit: 1000,
   strict: false,
+  fallback: 'cascade',
+  priority: 'dynamic',
+  coordinator: 'rhcr',
+  demand: 'uniform',
+  tpMaxExpansions: 20000,
 }
 
 export interface Task {
@@ -144,6 +181,8 @@ export interface Robot {
   slot: Cell | null
   dwellUntil: number
   heldLast: boolean
+  /** Token passing: absolute tick at which the planned path reaches the pickup. */
+  pickupAt: number
   moves: number
   waits: number
   busyTicks: number
@@ -217,6 +256,10 @@ export class FleetSimulator {
   private completedCount = 0
   private readonly slotReserved = new Map<Cell, number>()
   private readonly costCtx: CostContext
+  private readonly token: TokenTable | null = null
+  private pickupsPicked = 0
+  private hotPickups: Cell[] = []
+  private farPickups: Cell[] = []
   private readonly acc = {
     conflicts: 0,
     depletion: 0,
@@ -231,6 +274,7 @@ export class FleetSimulator {
     moves: 0,
     waits: 0,
     busyTicks: 0,
+    taskSwaps: 0,
   }
 
   constructor(config: Partial<SimConfig> = {}) {
@@ -258,6 +302,7 @@ export class FleetSimulator {
         slot: null,
         dwellUntil: 0,
         heldLast: false,
+        pickupAt: -1,
         moves: 0,
         waits: 0,
         busyTicks: 0,
@@ -267,6 +312,11 @@ export class FleetSimulator {
     for (const r of this.robots) r.soc = this.rng.range(this.cfg.initialSoc[0], this.cfg.initialSoc[1])
     this.costCtx = { map: this.map, oracle: this.oracle, battery: this.cfg.battery, wBattery: this.cfg.wBattery }
     this.table = new ReservationTable(this.map.width * this.map.height, this.cfg.window)
+    if (this.cfg.coordinator !== 'rhcr') {
+      this.token = new TokenTable(this.map.width * this.map.height)
+      for (const r of this.robots) this.token.reservePath(r.id, [r.cell], 0)
+    }
+    this.prepareDemand()
     if (this.cfg.arrivalRate === Number.POSITIVE_INFINITY) this.generateTasks(this.cfg.numTasks)
   }
 
@@ -278,12 +328,24 @@ export class FleetSimulator {
     return this.completedCount
   }
 
+  /** Pickups plus deliveries so far (for the external auditor). */
+  progressCount(): number {
+    return this.pickupsPicked + this.completedCount
+  }
+
+  /** Released but undelivered tasks (for the external auditor). */
+  outstandingTasks(): number {
+    return this.tasksGenerated - this.completedCount
+  }
+
   // ---------------------------------------------------------------- stepping
 
   step(): void {
     if (this.finished) return
     this.generateArrivals()
-    if (this.tick % this.cfg.period === 0 || this.forceReplan) {
+    if (this.cfg.coordinator !== 'rhcr') {
+      this.tokenPass()
+    } else if (this.tick % this.cfg.period === 0 || this.forceReplan) {
       this.epoch()
       this.forceReplan = false
     }
@@ -305,13 +367,49 @@ export class FleetSimulator {
 
   // ---------------------------------------------------------------- arrivals
 
+  private prepareDemand(): void {
+    const pickups = [...this.map.pickups]
+    if (this.cfg.demand === 'hotspot') {
+      // Free cell closest to the geometric centre of the floor.
+      const cx = Math.floor(this.map.width / 2)
+      const cy = Math.floor(this.map.height / 2)
+      let centre = pickups[0]
+      let best = Number.POSITIVE_INFINITY
+      for (let c = 0; c < this.map.blocked.length; c += 1) {
+        if (this.map.blocked[c] === 1) continue
+        const d = Math.abs(cellX(this.map, c) - cx) + Math.abs(cellY(this.map, c) - cy)
+        if (d < best) {
+          best = d
+          centre = c
+        }
+      }
+      const byDist = pickups.sort((a, b) => this.oracle.dist(centre, a) - this.oracle.dist(centre, b) || a - b)
+      this.hotPickups = byDist.slice(0, Math.max(1, Math.ceil(0.1 * byDist.length)))
+    } else if (this.cfg.demand === 'far') {
+      const toDock = (p: Cell) => Math.min(...this.map.deliveries.map((d) => this.oracle.dist(p, d)))
+      const byDist = pickups.sort((a, b) => toDock(b) - toDock(a) || a - b)
+      this.farPickups = byDist.slice(0, Math.max(1, Math.ceil(0.25 * byDist.length)))
+    }
+  }
+
+  private samplePickup(): Cell {
+    switch (this.cfg.demand) {
+      case 'hotspot':
+        return this.rng.next() < 0.8 ? this.rng.pick(this.hotPickups) : this.rng.pick(this.map.pickups)
+      case 'far':
+        return this.rng.pick(this.farPickups)
+      default:
+        return this.rng.pick(this.map.pickups)
+    }
+  }
+
   private generateTasks(n: number): void {
     for (let i = 0; i < n; i += 1) {
       const id = this.tasks.length
       const task: Task = {
         id,
         name: `MSN-${String(id + 1).padStart(5, '0')}`,
-        pickup: this.rng.pick(this.map.pickups),
+        pickup: this.samplePickup(),
         delivery: this.rng.pick(this.map.deliveries),
         arrival: this.tick,
         assigned: -1,
@@ -370,7 +468,8 @@ export class FleetSimulator {
     // so that a robot boxed in on a dock's access cell can be evacuated).
     const busy = this.robots.filter((r) => r.status === 'to_pickup' || r.status === 'to_delivery' || r.status === 'to_charger')
     const busyGoals = new Set(busy.map((r) => r.goal))
-    const blockers = this.robots.filter((r) => r.status === 'parking' && (busyGoals.has(r.cell) || r.heldLast))
+    const dynamic = this.cfg.priority === 'dynamic'
+    const blockers = this.robots.filter((r) => r.status === 'parking' && (busyGoals.has(r.cell) || (dynamic && r.heldLast)))
     const group1 = this.sortByPriority([...busy, ...blockers])
     this.planGroup(group1, table, t, [])
     // (e) Task allocation for eligible robots.
@@ -409,6 +508,9 @@ export class FleetSimulator {
     const goals = new Map<Cell, number>()
     for (const r of list) goals.set(r.goal, (goals.get(r.goal) ?? 0) + 1)
     const blocking = (r: Robot) => (r.goal !== r.cell && goals.has(r.cell) ? 1 : 0)
+    if (this.cfg.priority === 'static') {
+      return [...list].sort((a, b) => STATUS_RANK[a.status] - STATUS_RANK[b.status] || a.id - b.id)
+    }
     return [...list].sort((a, b) => {
       const ba = blocking(a)
       const bb = blocking(b)
@@ -459,7 +561,7 @@ export class FleetSimulator {
         // Hold the blocked agents through prioritized planning (with cascade), then retry.
         const blocked = new Set(res.infeasible)
         const blockedAgents = cbsAgents.filter((a) => blocked.has(a.id))
-        const pp = prioritizedPlan(this.map, this.oracle, blockedAgents, table, t, externalAgents)
+        const pp = prioritizedPlan(this.map, this.oracle, blockedAgents, table, t, externalAgents, { fallback: this.cfg.fallback })
         known = [...externalAgents, ...blockedAgents]
         for (const [id, p] of pp.paths) paths.set(id, p)
         for (const id of pp.held) held.add(id)
@@ -485,7 +587,7 @@ export class FleetSimulator {
       }
     }
     if (remaining.length > 0) {
-      const res = prioritizedPlan(this.map, this.oracle, remaining, table, t, known)
+      const res = prioritizedPlan(this.map, this.oracle, remaining, table, t, known, { fallback: this.cfg.fallback })
       for (const [id, p] of res.paths) paths.set(id, p)
       for (const id of res.held) held.add(id)
       this.acc.holds += res.held.size
@@ -664,15 +766,24 @@ export class FleetSimulator {
     r.status = 'depleted'
     r.goal = r.cell
     this.forceReplan = true
+    if (this.token) {
+      // Token passing has no cascade: the stranded robot becomes a permanent rest
+      // from now on (paths already planned through its cell are not repaired).
+      r.path = [r.cell]
+      r.pathStart = this.tick
+      this.token.reservePath(r.id, r.path, this.tick)
+    }
   }
 
   private startDelivery(r: Robot): void {
     const task = r.task as Task
     task.pickedUp = this.tick
+    this.pickupsPicked += 1
     this.lastProgressTick = this.tick
     r.status = 'to_delivery'
     r.goal = task.delivery
-    this.replanOne(r)
+    // Token passing planned the loaded leg together with the empty one.
+    if (!this.token) this.replanOne(r)
   }
 
   private completeTask(r: Robot): void {
@@ -688,6 +799,10 @@ export class FleetSimulator {
   }
 
   private processArrivals(): void {
+    if (this.token) {
+      this.processArrivalsTP()
+      return
+    }
     for (const r of this.robots) {
       if (r.status === 'depleted' || r.cell !== r.goal) continue
       // A plan may pass through the goal before its final arrival (when the goal
@@ -750,6 +865,240 @@ export class FleetSimulator {
     this.acc.plannerMs += now() - t0
   }
 
+  // ---------------------------------------------------------------- token passing
+
+  /**
+   * One token round (Ma et al., 2017): every robot that has reached the end of
+   * its path and is free requests the token in id order. The token table holds
+   * every robot's complete path ending in a permanent rest, so each plan is
+   * conflict-free against all others for all future ticks.
+   */
+  private tokenPass(): void {
+    const t0 = now()
+    for (const r of this.robots) {
+      if (r.status === 'depleted') continue
+      if (this.tick - r.pathStart < r.path.length - 1) continue
+      if (r.status === 'charging') {
+        if (!chargingDone(r.soc, this.cfg.battery)) continue
+        if (r.slot !== null) this.slotReserved.delete(r.slot)
+        r.slot = null
+        r.status = 'idle'
+      }
+      if (r.status !== 'idle') continue
+      this.tpGetTask(r, 0, null)
+    }
+    this.acc.plannerMs += now() - t0
+  }
+
+  private tpAssignPath(r: Robot, path: Cell[]): void {
+    r.path = path
+    r.pathStart = this.tick
+    ;(this.token as TokenTable).reservePath(r.id, path, this.tick)
+  }
+
+  /** Unwindowed A* to `goal` ending in a permanent rest. */
+  private tpPlanTo(r: Robot, goal: Cell): Cell[] | null {
+    this.acc.astarCalls += 1
+    const res = spaceTimeAStar(this.map, this.oracle, r.cell, goal, this.token as TokenTable, this.tick, {
+      maxExpansions: this.cfg.tpMaxExpansions,
+    })
+    if (!res) return null
+    this.acc.expansions += res.expansions
+    return res.path
+  }
+
+  /** Whole trip: empty leg to the pickup, dwell there, loaded leg to the dock (rest). */
+  private tpPlanTask(r: Robot, task: Task): { path: Cell[]; pickupAt: number } | null {
+    if (!taskFeasible(this.costCtx, r.cell, r.soc, task)) return null
+    const table = this.token as TokenTable
+    const dwell = this.cfg.dwell
+    this.acc.astarCalls += 1
+    const leg1 = spaceTimeAStar(this.map, this.oracle, r.cell, task.pickup, new DwellGoal(table, dwell), this.tick, {
+      maxExpansions: this.cfg.tpMaxExpansions,
+    })
+    if (!leg1) return null
+    this.acc.expansions += leg1.expansions
+    const pickupAt = this.tick + leg1.cost
+    this.acc.astarCalls += 1
+    const leg2 = spaceTimeAStar(this.map, this.oracle, task.pickup, task.delivery, table, pickupAt + dwell, {
+      maxExpansions: this.cfg.tpMaxExpansions,
+    })
+    if (!leg2) return null
+    this.acc.expansions += leg2.expansions
+    const path = [...leg1.path]
+    for (let k = 0; k < dwell; k += 1) path.push(task.pickup)
+    for (let k = 1; k < leg2.path.length; k += 1) path.push(leg2.path[k])
+    return { path, pickupAt }
+  }
+
+  /**
+   * GetTask of token passing for a free robot `r`. `fallback` is a path that
+   * is known to be valid for `r` (used for a robot that just lost its task in
+   * a swap and is not at the end of a path).
+   */
+  private tpGetTask(r: Robot, depth: number, fallback: Cell[] | null): void {
+    const table = this.token as TokenTable
+    const saved = table.entry(r.id)
+    table.releaseAgent(r.id)
+    if (needsCharge(r.soc, this.cfg.battery)) {
+      if (this.tpCharge(r)) return
+    } else if (this.tpTakeTask(r, depth)) {
+      return
+    }
+    // No task: return to the home bay, or rest where the path ended.
+    if (r.cell !== r.home) {
+      const path = this.tpPlanTo(r, r.home) ?? fallback
+      if (path) {
+        r.status = 'parking'
+        r.goal = r.home
+        this.tpAssignPath(r, path)
+        return
+      }
+    }
+    r.status = 'idle'
+    r.goal = r.cell
+    if (fallback === null && saved) {
+      // Resting on the cell where the old path ended is always valid: every
+      // other path was planned around that permanent rest.
+      this.tpAssignPath(r, [r.cell])
+    } else {
+      this.tpAssignPath(r, fallback ?? [r.cell])
+    }
+  }
+
+  private tpTakeTask(r: Robot, depth: number): boolean {
+    const table = this.token as TokenTable
+    const ends = new Map<Cell, number>()
+    for (const o of this.robots) {
+      if (o.id === r.id) continue
+      const e = table.endOf(o.id)
+      if (e >= 0) ends.set(e, o.id)
+    }
+    const cands: Array<{ task: Task; owner: Robot | null; h: number }> = []
+    for (const task of this.pending) cands.push({ task, owner: null, h: this.oracle.dist(r.cell, task.pickup) })
+    if (this.cfg.coordinator === 'tpts' && depth < this.robots.length) {
+      for (const o of this.robots) {
+        if (o.id === r.id || o.status !== 'to_pickup' || !o.task || o.pickupAt <= this.tick) continue
+        cands.push({ task: o.task, owner: o, h: this.oracle.dist(r.cell, o.task.pickup) })
+      }
+    }
+    cands.sort((a, b) => a.h - b.h || a.task.arrival - b.task.arrival || a.task.id - b.task.id)
+    for (const c of cands) {
+      const ownerId = c.owner ? c.owner.id : -1
+      const pe = ends.get(c.task.pickup)
+      const de = ends.get(c.task.delivery)
+      if ((pe !== undefined && pe !== ownerId) || (de !== undefined && de !== ownerId)) continue
+      if (c.owner === null) {
+        const plan = this.tpPlanTask(r, c.task)
+        if (!plan) continue
+        this.tpCommitTask(r, c.task, plan)
+        const i = this.pending.indexOf(c.task)
+        this.pending.splice(i, 1)
+        return true
+      }
+      // Task swap: plan as if the owner's path were not there.
+      const owner = c.owner
+      const savedOwner = table.entry(owner.id) as { path: readonly Cell[]; start: number }
+      table.releaseAgent(owner.id)
+      const plan = this.tpPlanTask(r, c.task)
+      if (plan && plan.pickupAt < owner.pickupAt) {
+        table.reservePath(r.id, plan.path, this.tick)
+        // The owner must be able to leave: it needs a path home from where it is now.
+        const escape = this.tpPlanTo(owner, owner.home)
+        if (escape) {
+          const task = c.task
+          owner.task = null
+          owner.pickupAt = -1
+          task.reassignments += 1
+          this.acc.taskSwaps += 1
+          this.tpCommitTask(r, task, plan)
+          this.tpGetTask(owner, depth + 1, escape)
+          return true
+        }
+        table.releaseAgent(r.id)
+      }
+      table.reservePath(owner.id, savedOwner.path, savedOwner.start)
+    }
+    return false
+  }
+
+  private tpCommitTask(r: Robot, task: Task, plan: { path: Cell[]; pickupAt: number }): void {
+    if (task.assigned < 0) task.assigned = this.tick
+    task.robot = r.id
+    r.task = task
+    r.status = 'to_pickup'
+    r.goal = task.pickup
+    r.pickupAt = plan.pickupAt
+    this.tpAssignPath(r, plan.path)
+  }
+
+  private tpCharge(r: Robot): boolean {
+    const table = this.token as TokenTable
+    const occupied = new Set(this.robots.map((o) => o.cell))
+    const ends = new Set<Cell>()
+    for (const o of this.robots) if (o.id !== r.id) ends.add(table.endOf(o.id))
+    const free = chargerSlots(this.map)
+      .filter((s) => !this.slotReserved.has(s) && !occupied.has(s) && !ends.has(s))
+      .sort((a, b) => this.oracle.dist(r.cell, a) - this.oracle.dist(r.cell, b) || a - b)
+    for (const slot of free) {
+      const path = this.tpPlanTo(r, slot)
+      if (!path) continue
+      r.status = 'to_charger'
+      r.goal = slot
+      r.slot = slot
+      this.slotReserved.set(slot, r.id)
+      this.tpAssignPath(r, path)
+      return true
+    }
+    return false
+  }
+
+  private processArrivalsTP(): void {
+    for (const r of this.robots) {
+      if (r.status === 'depleted') continue
+      const ended = this.tick - r.pathStart >= r.path.length - 1
+      switch (r.status) {
+        case 'to_pickup':
+          if (this.tick === r.pickupAt && r.cell === r.goal) {
+            if (this.cfg.dwell > 0) {
+              r.status = 'loading'
+              r.dwellUntil = this.tick + this.cfg.dwell
+            } else {
+              this.startDelivery(r)
+            }
+          }
+          break
+        case 'loading':
+          if (this.tick >= r.dwellUntil) this.startDelivery(r)
+          break
+        case 'to_delivery':
+          if (ended && r.cell === r.goal) {
+            if (this.cfg.dwell > 0) {
+              r.status = 'unloading'
+              r.dwellUntil = this.tick + this.cfg.dwell
+            } else {
+              this.completeTask(r)
+            }
+          }
+          break
+        case 'unloading':
+          if (this.tick >= r.dwellUntil) this.completeTask(r)
+          break
+        case 'to_charger':
+          if (ended && r.cell === r.goal) {
+            r.status = 'charging'
+            this.acc.chargeSessions += 1
+          }
+          break
+        case 'parking':
+          if (ended && r.cell === r.goal) r.status = 'idle'
+          break
+        default:
+          break
+      }
+    }
+  }
+
   // ---------------------------------------------------------------- reporting
 
   metrics(): SimMetrics {
@@ -787,6 +1136,7 @@ export class FleetSimulator {
       chargeSessions: this.acc.chargeSessions,
       holdEvents: this.acc.holds,
       cbsFallbacks: this.acc.cbsFallbacks,
+      taskSwaps: this.acc.taskSwaps,
       epochs: this.acc.epochs,
       astarCalls: this.acc.astarCalls,
       expansions: this.acc.expansions,

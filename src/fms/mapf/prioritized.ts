@@ -23,6 +23,23 @@ export interface PPAgent {
   readonly goal: Cell
 }
 
+/**
+ * What to do when an agent has no feasible path in the window.
+ *  - 'cascade' (default): hold the start cell and re-plan every agent whose
+ *    reservation crosses it (Proposition 1).
+ *  - 'none': hold the start cell without re-planning anyone (plain
+ *    prioritized planning with a wait-in-place fallback; not conflict-free).
+ *  - 'restart': promote the failed agent to the front of the order and re-plan
+ *    all agents of this call from scratch, up to `maxRestarts` times, then
+ *    fall back to 'none'.
+ */
+export type PPFallback = 'cascade' | 'none' | 'restart'
+
+export interface PPOptions {
+  fallback?: PPFallback
+  maxRestarts?: number
+}
+
 export interface PPResult {
   /** Paths for every agent in `agents` plus any external agent that was re-planned. */
   paths: Map<number, Cell[]>
@@ -39,7 +56,10 @@ export function prioritizedPlan(
   table: ReservationTable,
   startTime: number,
   external: readonly PPAgent[] = [],
+  options: PPOptions = {},
 ): PPResult {
+  const fallback = options.fallback ?? 'cascade'
+  if (fallback === 'restart') return restartPlan(map, oracle, agents, table, startTime, options.maxRestarts ?? 3)
   const order = new Map<number, number>()
   external.forEach((a, i) => order.set(a.id, i))
   agents.forEach((a, i) => order.set(a.id, external.length + i))
@@ -62,7 +82,7 @@ export function prioritizedPlan(
       result = { path: [agent.start], cost: 0, expansions: 0 }
       // Cascade: every agent reserved on the held cell within the window must re-plan.
       const victimIds = new Set<number>()
-      for (let t = startTime; t <= table.horizon; t += 1) {
+      for (let t = startTime; fallback === 'cascade' && t <= table.horizon; t += 1) {
         const occ = table.occupant(agent.start, t)
         if (occ >= 0 && occ !== agent.id && !held.has(occ) && byId.has(occ)) victimIds.add(occ)
       }
@@ -78,4 +98,48 @@ export function prioritizedPlan(
     table.reservePath(agent.id, result.path, startTime)
   }
   return { paths, held, expansions, astarCalls }
+}
+
+/**
+ * Prioritized planning with random-restart style re-ordering: on a failure the
+ * failed agent is moved to the front and the whole call is re-planned; after
+ * `maxRestarts` restarts the remaining failures hold without a cascade.
+ */
+function restartPlan(
+  map: GridMap,
+  oracle: DistanceOracle,
+  agents: readonly PPAgent[],
+  table: ReservationTable,
+  startTime: number,
+  maxRestarts: number,
+): PPResult {
+  let order = [...agents]
+  let expansions = 0
+  let astarCalls = 0
+  for (let attempt = 0; ; attempt += 1) {
+    const paths = new Map<number, Cell[]>()
+    const held = new Set<number>()
+    let failed: PPAgent | null = null
+    for (const agent of order) {
+      astarCalls += 1
+      const result = spaceTimeAStar(map, oracle, agent.start, agent.goal, table, startTime)
+      if (result) {
+        expansions += result.expansions
+        paths.set(agent.id, result.path)
+        table.reservePath(agent.id, result.path, startTime)
+        continue
+      }
+      if (attempt < maxRestarts) {
+        failed = agent
+        break
+      }
+      held.add(agent.id)
+      paths.set(agent.id, [agent.start])
+      table.reservePath(agent.id, [agent.start], startTime)
+    }
+    if (failed === null) return { paths, held, expansions, astarCalls }
+    for (const id of paths.keys()) table.releaseAgent(id)
+    const f = failed
+    order = [f, ...order.filter((a) => a.id !== f.id)]
+  }
 }
