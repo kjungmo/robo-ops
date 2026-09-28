@@ -246,7 +246,10 @@ const NUMERIC = [
   'chargeSessions',
   'holdEvents',
   'cbsFallbacks',
+  'cbsBudgetExceeded',
   'taskSwaps',
+  'tpSearchLimitHits',
+  'tpSwapVetoes',
   'epochs',
   'astarCalls',
   'expansions',
@@ -265,6 +268,7 @@ const NUMERIC = [
   'audit_maxWaitStreak',
   'audit_maxTripWaits',
   'audit_maxTripDelay',
+  'audit_maxWorkTripDelay',
   'audit_maxSlotWait',
   'audit_minSoc',
 ] as Array<keyof Run>

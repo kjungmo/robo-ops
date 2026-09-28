@@ -33,8 +33,14 @@ export interface SimMetrics {
   chargeSessions: number
   holdEvents: number
   cbsFallbacks: number
+  /** CBS fallbacks caused by the node budget (the rest: a robot without any path). */
+  cbsBudgetExceeded: number
   /** Token passing with task swaps: tasks taken over from another robot. */
   taskSwaps: number
+  /** Token passing: searches cut off by the expansion bound. */
+  tpSearchLimitHits: number
+  /** Token passing with task swaps: earlier-arriving swaps dropped because the displaced robot had no path home. */
+  tpSwapVetoes: number
   epochs: number
   astarCalls: number
   expansions: number

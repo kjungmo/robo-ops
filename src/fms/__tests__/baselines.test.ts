@@ -132,3 +132,19 @@ describe('demand models and the one-lane layout', () => {
     expect(uni.freq.size).toBeGreaterThan(90)
   })
 })
+
+describe('baseline and backend instrumentation', () => {
+  it('counts token-passing searches cut off by the expansion bound', () => {
+    const tight = audited({ layout: 'small', fleetSize: 4, numTasks: 20, arrivalRate: Number.POSITIVE_INFINITY, seed: 2, coordinator: 'tp', tpMaxExpansions: 5 })
+    expect(tight.m.tpSearchLimitHits).toBeGreaterThan(0)
+    const loose = audited({ layout: 'small', fleetSize: 4, numTasks: 20, arrivalRate: Number.POSITIVE_INFINITY, seed: 2, coordinator: 'tp' })
+    expect(loose.m.tpSearchLimitHits).toBe(0)
+    expect(loose.m.tpSwapVetoes).toBe(0) // plain TP never attempts a swap
+  })
+
+  it('counts CBS fallbacks caused by the node budget separately', () => {
+    const { m } = audited({ layout: 'small', fleetSize: 8, numTasks: 30, arrivalRate: Number.POSITIVE_INFINITY, seed: 3, mapf: 'cbs', cbsMaxNodes: 1 })
+    expect(m.cbsBudgetExceeded).toBeGreaterThan(0)
+    expect(m.cbsBudgetExceeded).toBeLessThanOrEqual(m.cbsFallbacks)
+  })
+})

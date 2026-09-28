@@ -266,6 +266,7 @@ export class FleetSimulator {
     chargeSessions: 0,
     holds: 0,
     cbsFallbacks: 0,
+    cbsBudgetExceeded: 0,
     epochs: 0,
     astarCalls: 0,
     expansions: 0,
@@ -275,7 +276,9 @@ export class FleetSimulator {
     waits: 0,
     busyTicks: 0,
     taskSwaps: 0,
+    tpSwapVetoes: 0,
   }
+  private readonly tpSearch = { limitHits: 0 }
 
   constructor(config: Partial<SimConfig> = {}) {
     this.cfg = { ...DEFAULT_CONFIG, ...config, battery: { ...DEFAULT_BATTERY, ...(config.battery ?? {}) } }
@@ -583,6 +586,7 @@ export class FleetSimulator {
         remaining = deferred
       } else {
         this.acc.cbsFallbacks += 1
+        if (res.status === 'limit') this.acc.cbsBudgetExceeded += 1
         remaining = [...remaining, ...deferred]
       }
     }
@@ -901,6 +905,7 @@ export class FleetSimulator {
     this.acc.astarCalls += 1
     const res = spaceTimeAStar(this.map, this.oracle, r.cell, goal, this.token as TokenTable, this.tick, {
       maxExpansions: this.cfg.tpMaxExpansions,
+      stats: this.tpSearch,
     })
     if (!res) return null
     this.acc.expansions += res.expansions
@@ -915,6 +920,7 @@ export class FleetSimulator {
     this.acc.astarCalls += 1
     const leg1 = spaceTimeAStar(this.map, this.oracle, r.cell, task.pickup, new DwellGoal(table, dwell), this.tick, {
       maxExpansions: this.cfg.tpMaxExpansions,
+      stats: this.tpSearch,
     })
     if (!leg1) return null
     this.acc.expansions += leg1.expansions
@@ -922,6 +928,7 @@ export class FleetSimulator {
     this.acc.astarCalls += 1
     const leg2 = spaceTimeAStar(this.map, this.oracle, task.pickup, task.delivery, table, pickupAt + dwell, {
       maxExpansions: this.cfg.tpMaxExpansions,
+      stats: this.tpSearch,
     })
     if (!leg2) return null
     this.acc.expansions += leg2.expansions
@@ -1016,6 +1023,7 @@ export class FleetSimulator {
           return true
         }
         table.releaseAgent(r.id)
+        this.acc.tpSwapVetoes += 1
       }
       table.reservePath(owner.id, savedOwner.path, savedOwner.start)
     }
@@ -1136,7 +1144,10 @@ export class FleetSimulator {
       chargeSessions: this.acc.chargeSessions,
       holdEvents: this.acc.holds,
       cbsFallbacks: this.acc.cbsFallbacks,
+      cbsBudgetExceeded: this.acc.cbsBudgetExceeded,
       taskSwaps: this.acc.taskSwaps,
+      tpSearchLimitHits: this.tpSearch.limitHits,
+      tpSwapVetoes: this.acc.tpSwapVetoes,
       epochs: this.acc.epochs,
       astarCalls: this.acc.astarCalls,
       expansions: this.acc.expansions,

@@ -28,6 +28,8 @@ import { type Cell, type GridMap, DistanceOracle } from '../map/grid'
 
 /** Statuses during which a robot drives towards its goal. */
 const TRIP_STATUS = new Set(['to_pickup', 'to_delivery', 'to_charger', 'parking'])
+/** Trips the conditional charge proposition needs a delay bound for (not parking). */
+const WORK_TRIP_STATUS = new Set(['to_pickup', 'to_delivery', 'to_charger'])
 
 /** The minimal read-only view of a robot the auditor needs. */
 export interface ObservedRobot {
@@ -66,6 +68,8 @@ export interface AuditReport {
    * to the goal achieved during the trip.
    */
   maxTripDelay: number
+  /** Largest trip delay over trips to a pickup, a dock or a charger slot only (parking trips excluded). */
+  maxWorkTripDelay: number
   /** Longest time a robot below the charging threshold spent waiting for a slot. */
   maxSlotWait: number
   /** Minimum observed charge over robots that are not depleted. */
@@ -116,6 +120,7 @@ export class TrajectoryAuditor {
       maxWaitStreak: 0,
       maxTripWaits: 0,
       maxTripDelay: 0,
+      maxWorkTripDelay: 0,
       maxSlotWait: 0,
       minSoc: Math.min(1, ...sim.robots.map((x) => x.soc)),
     }
@@ -140,6 +145,11 @@ export class TrajectoryAuditor {
     const bx = b % w
     const by = (b - bx) / w
     return Math.abs(ax - bx) + Math.abs(ay - by) === 1
+  }
+
+  private recordDelay(status: string, delay: number): void {
+    this.r.maxTripDelay = Math.max(this.r.maxTripDelay, delay)
+    if (WORK_TRIP_STATUS.has(status)) this.r.maxWorkTripDelay = Math.max(this.r.maxWorkTripDelay, delay)
   }
 
   /** Call once after every executed tick. */
@@ -190,7 +200,7 @@ export class TrajectoryAuditor {
         this.tripTicks[i] += 1
         const g = this.prevGoal[i]
         const delay = this.tripTicks[i] - (this.oracle.dist(this.tripStart[i], g) - this.oracle.dist(cur[i], g))
-        this.r.maxTripDelay = Math.max(this.r.maxTripDelay, delay)
+        this.recordDelay(this.prevStatus[i], delay)
       }
       if (status !== this.prevStatus[i] || goal !== this.prevGoal[i]) {
         this.tripWaits[i] = 0
@@ -203,7 +213,7 @@ export class TrajectoryAuditor {
           this.tripStart[i] = this.prev[i]
           this.tripTicks[i] = 1
           const delay = 1 - (this.oracle.dist(this.prev[i], goal) - this.oracle.dist(cur[i], goal))
-          this.r.maxTripDelay = Math.max(this.r.maxTripDelay, delay)
+          this.recordDelay(status, delay)
         }
       }
       if (waiting) {

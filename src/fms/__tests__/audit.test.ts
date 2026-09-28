@@ -6,9 +6,9 @@ import { FleetSimulator } from '../sim/simulator'
 const MAP = parseAsciiMap('t', ['......', '..#...', '......'].join('\n'))
 
 /** A scripted "simulation": robots follow given cell sequences. */
-function scripted(tracks: number[][], soc?: number[][]): { sim: ObservedSim; advance: () => void } {
+function scripted(tracks: number[][], soc?: number[][], status = 'to_pickup'): { sim: ObservedSim; advance: () => void } {
   let t = 0
-  const robots: ObservedRobot[] = tracks.map((tr, i) => ({ cell: tr[0], soc: soc ? soc[i][0] : 1, status: 'to_pickup', goal: 17 }))
+  const robots: ObservedRobot[] = tracks.map((tr, i) => ({ cell: tr[0], soc: soc ? soc[i][0] : 1, status, goal: 17 }))
   const sim: ObservedSim = {
     get tick() {
       return t
@@ -28,8 +28,8 @@ function scripted(tracks: number[][], soc?: number[][]): { sim: ObservedSim; adv
   return { sim, advance }
 }
 
-function audit(tracks: number[][], ticks: number, soc?: number[][]) {
-  const { sim, advance } = scripted(tracks, soc)
+function audit(tracks: number[][], ticks: number, soc?: number[][], status?: string) {
+  const { sim, advance } = scripted(tracks, soc, status)
   const a = new TrajectoryAuditor(MAP, 0.2, sim)
   for (let k = 0; k < ticks; k += 1) {
     advance()
@@ -80,6 +80,15 @@ describe('trajectory auditor', () => {
     const r = audit([[12, 12, 12, 13, 14, 15, 16, 17]], 7)
     expect(r.maxTripDelay).toBe(2)
     expect(r.maxTripWaits).toBe(2)
+  })
+
+  it('separates the delay of work trips from that of parking trips', () => {
+    const track = [[12, 12, 12, 13, 14, 15, 16, 17]]
+    const work = audit(track, 7)
+    expect(work.maxWorkTripDelay).toBe(2)
+    const parking = audit(track, 7, undefined, 'parking')
+    expect(parking.maxTripDelay).toBe(2)
+    expect(parking.maxWorkTripDelay).toBe(0)
   })
 
   it('agrees with the simulator on a real run (zero events, same robot-ticks)', () => {

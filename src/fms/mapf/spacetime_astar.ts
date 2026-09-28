@@ -26,6 +26,8 @@ export interface PlanResult {
 export interface AStarOptions {
   /** Abort after this many expansions (returns null). */
   maxExpansions?: number
+  /** If given, `limitHits` is incremented whenever the expansion bound ends the search. */
+  stats?: { limitHits: number }
 }
 
 class MinHeap {
@@ -158,7 +160,10 @@ export function spaceTimeAStar(
     if (closed.has(k)) continue
     closed.add(k)
     expansions += 1
-    if (expansions > maxExpansions) return null
+    if (expansions > maxExpansions) {
+      if (options.stats) options.stats.limitHits += 1
+      return null
+    }
 
     if (cell === goal && constraints.goalFree(goal, t)) {
       return { path: reconstruct(idx), cost: t - startTime, expansions }

@@ -280,3 +280,18 @@ describe('CBS', () => {
     expect(compared).toBeGreaterThan(50)
   })
 })
+
+describe('space-time A* statistics', () => {
+  it('reports when the expansion bound cut the search off', async () => {
+    const { spaceTimeAStar } = await import('../mapf/spacetime_astar')
+    const { parseAsciiMap, DistanceOracle } = await import('../map/grid')
+    const { ReservationTable } = await import('../mapf/constraints')
+    const map = parseAsciiMap('line', '........')
+    const oracle = new DistanceOracle(map)
+    const stats = { limitHits: 0 }
+    expect(spaceTimeAStar(map, oracle, 0, 7, new ReservationTable(8, 20), 0, { maxExpansions: 2, stats })).toBeNull()
+    expect(stats.limitHits).toBe(1)
+    expect(spaceTimeAStar(map, oracle, 0, 7, new ReservationTable(8, 20), 0, { stats })).not.toBeNull()
+    expect(stats.limitHits).toBe(1)
+  })
+})
