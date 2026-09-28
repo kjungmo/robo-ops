@@ -354,7 +354,7 @@ function stressTable(): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Safety and progress stress sweep.} 60 seeds per configuration, 100 tasks per run; every row aggregates both load regimes (Poisson and batch) and both battery regimes (normal; initial charge $\\mathcal{U}[0.2,0.4]$ with doubled drain), with the allocation method rotating over the four cost models with the seed. Conflicts and illegal moves are counted by the independent trajectory auditor on the executed cells; \\emph{stalled} runs tripped the 1000-tick no-progress detector. $W$: largest trip delay (ticks beyond the free-space distance covered); $Q$: longest wait of a robot below $\\theta_{\\mathrm{lo}}$ for a charger slot; both are maxima over all runs of the row.}',
+    '\\caption{\\textbf{Safety and progress stress sweep.} 60 seeds per configuration, 100 tasks per run; every row aggregates both load regimes (Poisson and batch) and both battery regimes (normal; initial charge $\\mathcal{U}[0.2,0.4]$ with doubled drain), with the allocation method rotating over the four cost models with the seed. Conflicts and illegal moves are counted by the independent trajectory auditor on the executed cells; \\emph{stalled} runs tripped the 1000-tick no-progress detector. $W$: largest delay of a trip to a pickup, a dock or a charger slot (ticks beyond the free-space distance covered); $Q$: longest wait of a robot below $\\theta_{\\mathrm{lo}}$ for a charger slot; both are maxima over all runs of the row.}',
   )
   out.push('\\label{tab:stress}')
   out.push('\\scriptsize')
@@ -377,7 +377,7 @@ function stressTable(): { tex: string; summary: string } {
         const rs = runs.filter((r) => r.layout === layout && r.fleetSize === fleet && r.mapf === mapf)
         if (rs.length !== 240) throw new Error(`stress ${layout}/${fleet}/${mapf}: ${rs.length} runs`)
         out.push(
-          `${mapf === 'pp' && fleet === fleets[0] ? layout : ''} & ${mapf === 'pp' ? fleet : ''} & ${mapf.toUpperCase()} & ${rs.length} & ${intComma(sumBy(rs, 'audit_robotTicks'))} & ${sumBy(rs, 'audit_vertexConflicts')} & ${sumBy(rs, 'audit_swapConflicts')} & ${sumBy(rs, 'audit_illegalMoves')} & ${sumBy(rs, 'deadlocked')} & ${sumBy(rs, 'tasksUnfinished')} & ${sumBy(rs, 'depletionEvents')} & ${maxBy(rs, 'audit_maxTripDelay')} / ${maxBy(rs, 'audit_maxSlotWait')} & ${f2(minBy(rs, 'audit_minSoc'))}\\\\`,
+          `${mapf === 'pp' && fleet === fleets[0] ? layout : ''} & ${mapf === 'pp' ? fleet : ''} & ${mapf.toUpperCase()} & ${rs.length} & ${intComma(sumBy(rs, 'audit_robotTicks'))} & ${sumBy(rs, 'audit_vertexConflicts')} & ${sumBy(rs, 'audit_swapConflicts')} & ${sumBy(rs, 'audit_illegalMoves')} & ${sumBy(rs, 'deadlocked')} & ${sumBy(rs, 'tasksUnfinished')} & ${sumBy(rs, 'depletionEvents')} & ${maxBy(rs, 'audit_maxWorkTripDelay')} / ${maxBy(rs, 'audit_maxSlotWait')} & ${f2(minBy(rs, 'audit_minSoc'))}\\\\`,
         )
       }
     }
@@ -391,14 +391,14 @@ function stressTable(): { tex: string; summary: string } {
   const summary = [
     `stress: runs ${runs.length}, robot-steps ${sumBy(runs, 'audit_robotTicks')}, moves ${sumBy(runs, 'moveActions')}, delivered ${sumBy(runs, 'tasksCompleted')}`,
     `stress: audit vertex ${sumBy(runs, 'audit_vertexConflicts')}, swap ${sumBy(runs, 'audit_swapConflicts')}, illegal ${sumBy(runs, 'audit_illegalMoves')}, sim conflicts ${sumBy(runs, 'conflicts')}, stalled ${sumBy(runs, 'deadlocked')}, unfinished ${sumBy(runs, 'tasksUnfinished')}, depletions ${sumBy(runs, 'depletionEvents')} (audit ${sumBy(runs, 'audit_depletions')})`,
-    `stress: max no-progress ${maxBy(runs, 'audit_maxNoProgress')}, max wait streak ${maxBy(runs, 'audit_maxWaitStreak')}, max trip delay W ${maxBy(runs, 'audit_maxTripDelay')}, max slot wait Q ${maxBy(runs, 'audit_maxSlotWait')}, min SoC ${minBy(runs, 'audit_minSoc').toFixed(4)}, max makespan ${maxBy(runs, 'makespan')}`,
-    `stress: CBS runs ${byCbs.length}, CBS fallbacks per run on warehouse/console/narrow: mean ${meanBy(cbsBig, 'cbsFallbacks').toFixed(2)}, max ${maxBy(cbsBig, 'cbsFallbacks')}; runs with any fallback ${cbsBig.filter((r) => Number(r.cbsFallbacks) > 0).length}/${cbsBig.length}`,
+    `stress: max no-progress ${maxBy(runs, 'audit_maxNoProgress')}, max wait streak ${maxBy(runs, 'audit_maxWaitStreak')}, max trip delay W ${maxBy(runs, 'audit_maxWorkTripDelay')} (all trips incl. parking ${maxBy(runs, 'audit_maxTripDelay')}), max slot wait Q ${maxBy(runs, 'audit_maxSlotWait')}, min SoC ${minBy(runs, 'audit_minSoc').toFixed(4)}, max makespan ${maxBy(runs, 'makespan')}`,
+    `stress: CBS runs ${byCbs.length}, CBS fallbacks per run on warehouse/console/narrow: mean ${meanBy(cbsBig, 'cbsFallbacks').toFixed(2)}, max ${maxBy(cbsBig, 'cbsFallbacks')}; runs with any fallback ${cbsBig.filter((r) => Number(r.cbsFallbacks) > 0).length}/${cbsBig.length}; fallbacks from the node budget ${sumBy(byCbs, 'cbsBudgetExceeded')} of ${sumBy(byCbs, 'cbsFallbacks')}`,
     ...['small', 'warehouse', 'console', 'narrow'].map(
-      (l) => `stress ${l}: W ${maxBy(runs.filter((r) => r.layout === l), 'audit_maxTripDelay')}, Q ${maxBy(runs.filter((r) => r.layout === l), 'audit_maxSlotWait')}, minSoc ${minBy(runs.filter((r) => r.layout === l), 'audit_minSoc').toFixed(4)}`,
+      (l) => `stress ${l}: W ${maxBy(runs.filter((r) => r.layout === l), 'audit_maxWorkTripDelay')}, Q ${maxBy(runs.filter((r) => r.layout === l), 'audit_maxSlotWait')}, minSoc ${minBy(runs.filter((r) => r.layout === l), 'audit_minSoc').toFixed(4)}`,
     ),
     ...['normal', 'stress'].map((b) => {
       const x = runs.filter((r) => String(r.variant).endsWith(b))
-      return `stress battery=${b}: runs ${x.length}, robot-steps ${sumBy(x, 'audit_robotTicks')}, runs with depletion ${x.filter((r) => Number(r.depletionEvents) > 0).length}, depletions ${sumBy(x, 'depletionEvents')}, stalled ${sumBy(x, 'deadlocked')} (with depletion ${x.filter((r) => Number(r.deadlocked) > 0 && Number(r.depletionEvents) > 0).length}), unfinished ${sumBy(x, 'tasksUnfinished')}, max no-progress ${maxBy(x, 'audit_maxNoProgress')}, max wait streak ${maxBy(x, 'audit_maxWaitStreak')}, W ${maxBy(x, 'audit_maxTripDelay')}, Q ${maxBy(x, 'audit_maxSlotWait')}, min SoC ${minBy(x, 'audit_minSoc').toFixed(4)}, charge sessions ${sumBy(x, 'chargeSessions')}`
+      return `stress battery=${b}: runs ${x.length}, robot-steps ${sumBy(x, 'audit_robotTicks')}, runs with depletion ${x.filter((r) => Number(r.depletionEvents) > 0).length}, depletions ${sumBy(x, 'depletionEvents')}, stalled ${sumBy(x, 'deadlocked')} (with depletion ${x.filter((r) => Number(r.deadlocked) > 0 && Number(r.depletionEvents) > 0).length}), unfinished ${sumBy(x, 'tasksUnfinished')}, max no-progress ${maxBy(x, 'audit_maxNoProgress')}, max wait streak ${maxBy(x, 'audit_maxWaitStreak')}, W ${maxBy(x, 'audit_maxWorkTripDelay')}, Q ${maxBy(x, 'audit_maxSlotWait')}, min SoC ${minBy(x, 'audit_minSoc').toFixed(4)}, charge sessions ${sumBy(x, 'chargeSessions')}`
     }),
     ...['small', 'warehouse', 'console', 'narrow'].map((l) => {
       const x = runs.filter((r) => String(r.variant).endsWith('stress') && r.layout === l)
@@ -430,6 +430,12 @@ function farthestSlot(layout: string): number {
  * delays (W, Q of the normal-battery stress runs) provably safe, against the
  * defaults. Also the paired CBS-vs-PP makespan from the stress sweep.
  */
+function median(xs: number[]): number {
+  const a = [...xs].sort((x, y) => x - y)
+  const m = Math.floor(a.length / 2)
+  return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2
+}
+
 function reserveTable(): { tex: string; summary: string } {
   const runs = readRuns('stress.json').filter((r) => String(r.variant).endsWith('normal'))
   const bm = DEFAULT_BATTERY.drainMove
@@ -441,6 +447,7 @@ function reserveTable(): { tex: string; summary: string } {
   const capAt = out.length
   const factors: number[] = []
   const zeroOk: string[] = []
+  let covered = 0
   out.push('\\label{tab:reserve}')
   out.push('\\footnotesize')
   out.push('\\begin{tabular}{lrrrcccc}')
@@ -451,20 +458,28 @@ function reserveTable(): { tex: string; summary: string } {
   for (const layout of ['small', 'warehouse', 'console', 'narrow']) {
     const rs = runs.filter((r) => r.layout === layout)
     const D = farthestSlot(layout)
-    const W = maxBy(rs, 'audit_maxTripDelay')
+    const W = maxBy(rs, 'audit_maxWorkTripDelay')
     const Q = maxBy(rs, 'audit_maxSlotWait')
+    // Does any single run satisfy eq. (reserve) with its own W and Q?
+    for (const r of rs) {
+      const w = Number(r.audit_maxWorkTripDelay)
+      const q = Number(r.audit_maxSlotWait)
+      const okRho = DEFAULT_BATTERY.reserve > bm * (3 * w + q + D) + 2 * bw * delta
+      const okTheta = DEFAULT_BATTERY.socLow > bm * (1 + w + q + D)
+      if (okRho && okTheta) covered += 1
+    }
     const rho = bm * (3 * W + Q + D) + 2 * bw * delta
     const rho0 = bm * D + 2 * bw * delta
     const theta = bm * (1 + Q + W + D)
     out.push(`${layout} & ${D} & ${W} & ${Q} & ${f2(rho)} & ${f2(rho0)} & ${f2(theta)} & ${f2(minBy(rs, 'audit_minSoc'))}\\\\`)
     factors.push(rho / DEFAULT_BATTERY.reserve)
     if (rho0 < DEFAULT_BATTERY.reserve) zeroOk.push(`\\emph{${layout}}`)
-    lines.push(`reserve ${layout}: D_sigma ${D}, W ${W}, Q ${Q}, required rho ${rho.toFixed(4)} (W=Q=0: ${rho0.toFixed(4)}), required theta_lo ${theta.toFixed(4)}, min SoC ${minBy(rs, 'audit_minSoc').toFixed(4)}`)
+    lines.push(`reserve ${layout}: D_sigma ${D}, W (work trips) ${W}, W (all trips incl. parking) ${maxBy(rs, 'audit_maxTripDelay')}, median W (work trips) ${median(rs.map((r) => Number(r.audit_maxWorkTripDelay)))}, Q ${Q}, required rho ${rho.toFixed(4)} (W=Q=0: ${rho0.toFixed(4)}), required theta_lo ${theta.toFixed(4)}, min SoC ${minBy(rs, 'audit_minSoc').toFixed(4)}`)
   }
   out.splice(
     capAt,
     0,
-    `\\caption{\\textbf{What \\cref{prop:charge} would need.} $D_\\sigma$: largest free-space distance from any cell to any charger slot. $W$, $Q$: largest trip delay and slot wait measured by the auditor over the normal-battery runs of \\cref{tab:stress} (all fleet sizes, planners and loads of the layout). Required: the right-hand sides of \\cref{eq:reserve} with these $W$, $Q$ and the default drain ($\\beta_{\\mathrm{m}}{=}${bm}$, $\\beta_{\\mathrm{w}}{=}${bw}$, $\\delta{=}${delta}$); the defaults are $\\rho{=}${DEFAULT_BATTERY.reserve}$, $\\theta_{\\mathrm{lo}}{=}${DEFAULT_BATTERY.socLow}$. With $W{=}Q{=}0$ the default reserve would suffice only on ${zeroOk.length ? zeroOk.join(', ') : 'no layout'}; with the measured $W$ and $Q$ it is short by a factor of ${Math.floor(Math.min(...factors))} to ${Math.ceil(Math.max(...factors))} on every layout.}`,
+    `\\caption{\\textbf{What \\cref{prop:charge} would need.} $D_\\sigma$: largest free-space distance from any cell to any charger slot. $W$, $Q$: largest delay of a trip to a pickup, a dock or a slot, and longest slot wait, measured by the auditor over the normal-battery runs of \\cref{tab:stress} (all fleet sizes, planners and loads of the layout). Required: the right-hand sides of \\cref{eq:reserve} with these $W$, $Q$ and the default drain ($\\beta_{\\mathrm{m}}{=}${bm}$, $\\beta_{\\mathrm{w}}{=}${bw}$, $\\delta{=}${delta}$); the defaults are $\\rho{=}${DEFAULT_BATTERY.reserve}$, $\\theta_{\\mathrm{lo}}{=}${DEFAULT_BATTERY.socLow}$. With $W{=}Q{=}0$ the default reserve would suffice only on ${zeroOk.length ? zeroOk.join(', ') : 'no layout'}; with the measured $W$ and $Q$ it is short by a factor of ${Math.min(...factors).toFixed(1)} to ${Math.max(...factors).toFixed(1)}, and ${covered === 0 ? `not one of the ${intComma(runs.length)} runs satisfies \\cref{eq:reserve} with its own $W$ and $Q$` : `${covered} of the ${intComma(runs.length)} runs satisfy \\cref{eq:reserve} with their own $W$ and $Q$`}.}`,
   )
   out.push('\\bottomrule')
   out.push('\\end{tabular}')
@@ -493,7 +508,7 @@ function reserveTable(): { tex: string; summary: string } {
       const sd = Math.sqrt(rel.reduce((a, b) => a + (b - m) ** 2, 0) / (n - 1))
       const half = (T975[n] * sd) / Math.sqrt(n)
       lines.push(
-        `stress cbs vs pp makespan ${layout}/${fleet}: ${m.toFixed(2)} +- ${half.toFixed(2)} (n=${n}); cbs fallbacks/run ${meanBy(cbsRuns, 'cbsFallbacks').toFixed(2)}, epochs/run ${meanBy(cbsRuns, 'epochs').toFixed(1)}, cbs ms/tick ${meanBy(cbsRuns, 'plannerMsPerTick').toFixed(2)} vs pp ${meanBy(pp, 'plannerMsPerTick').toFixed(2)} (10 parallel workers)`,
+        `stress cbs vs pp makespan ${layout}/${fleet}: ${m.toFixed(2)} +- ${half.toFixed(2)} (n=${n}); cbs fallbacks/run ${meanBy(cbsRuns, 'cbsFallbacks').toFixed(2)} (node budget ${meanBy(cbsRuns, 'cbsBudgetExceeded').toFixed(2)}), epochs/run ${meanBy(cbsRuns, 'epochs').toFixed(1)}, cbs ms/tick ${meanBy(cbsRuns, 'plannerMsPerTick').toFixed(2)} vs pp ${meanBy(pp, 'plannerMsPerTick').toFixed(2)} (10 parallel workers)`,
       )
     }
   }
@@ -575,27 +590,31 @@ function baselinesTable(): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Token-passing baselines} (200 tasks, 30 seeds). TP and TPTS \\citep{ma2017lifelong} plan each robot\'s whole trip against the complete paths of all others; RH is the rolling-horizon loop of \\cref{alg:pact} ($w{=}20$, $h{=}5$, PP with hold cascade, $\\kappa_{\\mathrm{d}}{=}3$ unless stated). Paired: seed-paired throughput difference to RH + Hungarian with a 95\\% $t$-interval (29 degrees of freedom). No run of any variant had an executed conflict or stalled.}',
+    '\\caption{\\textbf{Token-passing baselines} (200 tasks, 30 seeds). TP and TPTS \\citep{ma2017lifelong} plan each robot\'s whole trip against the complete paths of all others; RH is the rolling-horizon loop of \\cref{alg:pact} ($w{=}20$, $h{=}5$, PP with hold cascade, $\\kappa_{\\mathrm{d}}{=}3$ unless stated). Paired: seed-paired throughput difference in \\% to RH + Hungarian at the default dock capacity and at $\\kappa_{\\mathrm{d}}{=}1$, the one robot in flight per dock that the TP endpoint rule allows, with 95\\% $t$-intervals (29 degrees of freedom). No run of any variant had an executed conflict or stalled.}',
   )
   out.push('\\label{tab:baselines}')
   out.push('\\scriptsize')
   out.push('\\setlength{\\tabcolsep}{4pt}')
-  out.push('\\begin{tabular}{llcccc}')
+  out.push('\\begin{tabular}{llccccc}')
   out.push('\\toprule')
-  out.push('\\textbf{Setting} & \\textbf{Method} & \\textbf{Throughput} $\\uparrow$ & \\textbf{Paired vs.\\ RH + Hungarian} & \\textbf{Service time} $\\downarrow$ & \\textbf{Task swaps}\\\\')
+  out.push(' & & & \\multicolumn{2}{c}{\\textbf{Paired vs.\\ RH + Hungarian}} & & \\\\')
+  out.push('\\cmidrule(lr){4-5}')
+  out.push('\\textbf{Setting} & \\textbf{Method} & \\textbf{Throughput} $\\uparrow$ & $\\kappa_{\\mathrm{d}}{=}3$ & $\\kappa_{\\mathrm{d}}{=}1$ & \\textbf{Service time} $\\downarrow$ & \\textbf{Task swaps}\\\\')
   out.push('\\midrule')
   const lines: string[] = []
   for (const [setting, label] of settings) {
     const base = runs.filter((r) => r.variant === `${setting}/hungarian`)
+    const base1 = runs.filter((r) => r.variant === `${setting}/hungarian-dock1`)
     variants.forEach(([v, vl], i) => {
       const rs = runs.filter((r) => r.variant === `${setting}/${v}`)
       if (rs.length !== 30) throw new Error(`baselines ${setting}/${v}: ${rs.length}`)
       const p = v === 'hungarian' ? null : paired(rs, base, 'throughput')
+      const p1 = ['tp', 'tpts', 'pact-dock1'].includes(v) ? paired(rs, base1, 'throughput') : null
       out.push(
-        `${i === 0 ? label : ''} & ${vl} & ${msRuns(rs, 'throughput')} & ${p ? fmtCi(p) : '--'} & ${msRuns(rs, 'meanServiceTime', f0)} & ${v === 'tpts' ? f1(meanBy(rs, 'taskSwaps')) : '--'}\\\\`,
+        `${i === 0 ? label : ''} & ${vl} & ${msRuns(rs, 'throughput')} & ${p ? fmtCi(p) : '--'} & ${p1 ? fmtCi(p1) : '--'} & ${msRuns(rs, 'meanServiceTime', f0)} & ${v === 'tpts' ? f1(meanBy(rs, 'taskSwaps')) : '--'}\\\\`,
       )
       lines.push(
-        `baselines ${setting}/${v}: throughput ${meanBy(rs, 'throughput').toFixed(2)}, service ${meanBy(rs, 'meanServiceTime').toFixed(1)}, paired vs hungarian ${p ? `${p.mean.toFixed(2)} +- ${p.half.toFixed(2)}` : '-'}, violations ${rs.reduce((a, r) => a + violations(r), 0)}, stalled ${sumBy(rs, 'deadlocked')}, unfinished ${sumBy(rs, 'tasksUnfinished')}, depletions ${sumBy(rs, 'depletionEvents')}, swaps ${meanBy(rs, 'taskSwaps').toFixed(1)}, astar ${meanBy(rs, 'astarCalls').toFixed(0)}`,
+        `baselines ${setting}/${v}: throughput ${meanBy(rs, 'throughput').toFixed(2)}, service ${meanBy(rs, 'meanServiceTime').toFixed(1)}, paired vs hungarian ${p ? `${p.mean.toFixed(2)} +- ${p.half.toFixed(2)}` : '-'}, violations ${rs.reduce((a, r) => a + violations(r), 0)}, stalled ${sumBy(rs, 'deadlocked')}, unfinished ${sumBy(rs, 'tasksUnfinished')}, depletions ${sumBy(rs, 'depletionEvents')}, swaps ${meanBy(rs, 'taskSwaps').toFixed(1)}, swap vetoes ${meanBy(rs, 'tpSwapVetoes').toFixed(2)} (max ${maxBy(rs, 'tpSwapVetoes')}), search-bound hits ${sumBy(rs, 'tpSearchLimitHits')}, astar ${meanBy(rs, 'astarCalls').toFixed(0)}`,
       )
     })
     const k1 = runs.filter((r) => r.variant === `${setting}/hungarian-dock1`)

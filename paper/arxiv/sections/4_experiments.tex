@@ -83,11 +83,15 @@ appendix for the first round).
 All runs are single-threaded Node.js~22 on an AMD Ryzen~5 5500GT. The
 first-round sweeps (420 runs) run in one process in 109\,s of wall-clock
 time; the second-round sweeps (6{,}180 runs) run on 10 worker processes in
-882\,s, so their planner times are inflated by contention and we quote them
+967\,s, so their planner times are inflated by contention and we quote them
 only as ratios within one sweep. Runs are deterministic given the seed:
 re-running the first round at the final code reproduces every non-timing
 field of every run. The four second-round sweeps, including the coupling
-regimes, were fixed and committed before any of them was run. The benchmark
+regimes, are defined in commit \texttt{4a72ff1} of the repository, which
+precedes every commit of their results; later commits changed only what the
+auditor and the simulator record, not the sweeps or the simulated behaviour.
+The history shows the order of commits, not that no run preceded the first
+one. The benchmark
 driver, the per-run JSON records and the summary CSVs are committed with the
 code.
 
@@ -124,10 +128,11 @@ robot that falls below $\theta_{\mathrm{lo}}$ while all slots are taken
 waits and drains, up to $Q=500$ ticks in these runs, and then no longer
 reaches a slot. Only the two smallest fleets, 4 robots on \emph{small} and 8
 on \emph{narrow}, stay (almost) free of depletions, in 0 and 3 of their 240
-runs with doubled drain. This is
-the failure that \cref{prop:charge} predicts when its delay bounds are not
-met; \cref{tab:reserve} in the appendix shows that the bounds measured even
-with normal batteries would require a reserve 6 to 19 times the default.
+runs with doubled drain. This is the
+premise of \cref{prop:charge}, a bounded slot wait, failing; the
+proposition gives a sufficient condition only, so it does not predict
+where depletion starts; \cref{tab:reserve} in the appendix shows that the bounds measured even
+with normal batteries would require a reserve 6.6 to 18.6 times the default.
 Battery safety is therefore an empirical property of our default parameters,
 not of the policy.
 
@@ -158,16 +163,17 @@ endpoints rather than along paths.
 \emph{small}, where CBS is affordable. CBS shortens the makespan by 2.8\%,
 8.3\% and 8.3\% for 4, 6 and 8 robots (seed-paired: $-2.8\pm2.1$,
 $-8.2\pm3.6$ and $-8.2\pm4.3\%$), cuts wait actions by 19--31\% and
-service time by 6--10\%, at 0.09--0.34 planner ms per tick; it exceeded its
-node budget in 0.6 epochs per run only at 6 robots, falling back to PP for
-that group. The gain is exactly the suboptimality of fixed priorities
+service time by 6--10\%, at 0.09--0.34 planner ms per tick; it fell back
+to PP for a group in 0.6 epochs per run, only at 6 robots. The gain is exactly the suboptimality of fixed priorities
 inside the window. The stress sweep also runs CBS on the larger layouts,
-which the first round did not: there it exceeds its node budget in 0.3 to
-10 epochs per run (1.8 of about 148 on the warehouse with 32 robots, 10 of
-about 180 on \emph{narrow} with 16) and shortens the makespan by only
-1.2--2.6\% (seed-paired over 120 pairs with normal batteries, e.g.\
-$-1.9\pm0.6\%$ on the warehouse with 32 robots), against 4--12\% on
-\emph{small} in the same sweep, at 3 to 16 times the planner time of PP.
+which the first round did not. With normal batteries it falls back to PP in
+0.3 to 10 epochs per run (1.8 of about 148 on the warehouse with 32 robots,
+10 of about 180 on \emph{narrow} with 16; over the whole sweep 8{,}240 of
+its 8{,}242 fallbacks are node-budget exhaustions, the rest robots without
+any path) and shortens the makespan by only 1.2--2.6\% (seed-paired over
+120 pairs, e.g.\ $-1.9\pm0.6\%$ on the warehouse with 32 robots), against
+4--12\% on \emph{small} in the same sweep, at 3 to 15 times the planner
+time of PP.
 \input{tables/planner}
 \input{figures/planner}
 
@@ -260,7 +266,10 @@ a return to the home bay for robots without a task (\cref{app:repro}).
 Unlike Ma et al.'s instances, our pickups lie in the aisles, so our layouts
 are not well-formed for TP and its completeness argument does not apply; in
 the 300 TP and TPTS runs of \cref{tab:baselines} no step conflicts, no run
-stalls and no robot depletes.
+stalls and no robot depletes. Two of our additions could handicap the
+baselines, and neither is active in these runs: no search hits the
+20{,}000-expansion bound, and no earlier-arriving swap is dropped for want
+of a path home for the displaced robot.
 
 TP delivers 29--66\% less throughput than the rolling-horizon loop with
 Hungarian costs, and TPTS 16--55\% less, in every setting. The gap is the
@@ -269,8 +278,10 @@ a task whose dock is the end of another robot's path is not eligible, which
 limits every dock to one robot in flight. Run with the same limit
 ($\kappa_{\mathrm{d}}=1$), the rolling-horizon loop with Hungarian costs
 and TPTS differ by $-2.5$ to $+1.6\%$ (TPTS relative to it, seed-paired) in
-every setting, while TP stays 11--26\% behind it; TP's one-robot-at-a-time assignment is
-what task swaps repair. TPTS pays for its swaps with 23{,}000--93{,}000 A*
+every setting, while TP stays 11--26\% behind it, a gap that task swaps
+close. The baseline gap therefore measures dock capacity, not our allocation
+or planner; and it is an observation about these adapted instances, not
+about TP and TPTS on the well-formed instances they were designed for. TPTS pays for its swaps with 23{,}000--93{,}000 A*
 calls per run, against 4{,}600--9{,}200 for the rolling-horizon loop.
 \sname's path-aware costs stay neutral against Hungarian: at the default
 capacity all five intervals contain zero, and at $\kappa_{\mathrm{d}}=1$

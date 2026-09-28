@@ -1,6 +1,6 @@
 \begin{table}[t]
 \centering
-\caption{\textbf{Safety and progress stress sweep.} 60 seeds per configuration, 100 tasks per run; every row aggregates both load regimes (Poisson and batch) and both battery regimes (normal; initial charge $\mathcal{U}[0.2,0.4]$ with doubled drain), with the allocation method rotating over the four cost models with the seed. Conflicts and illegal moves are counted by the independent trajectory auditor on the executed cells; \emph{stalled} runs tripped the 1000-tick no-progress detector. $W$: largest trip delay (ticks beyond the free-space distance covered); $Q$: longest wait of a robot below $\theta_{\mathrm{lo}}$ for a charger slot; both are maxima over all runs of the row.}
+\caption{\textbf{Safety and progress stress sweep.} 60 seeds per configuration, 100 tasks per run; every row aggregates both load regimes (Poisson and batch) and both battery regimes (normal; initial charge $\mathcal{U}[0.2,0.4]$ with doubled drain), with the allocation method rotating over the four cost models with the seed. Conflicts and illegal moves are counted by the independent trajectory auditor on the executed cells; \emph{stalled} runs tripped the 1000-tick no-progress detector. $W$: largest delay of a trip to a pickup, a dock or a charger slot (ticks beyond the free-space distance covered); $Q$: longest wait of a robot below $\theta_{\mathrm{lo}}$ for a charger slot; both are maxima over all runs of the row.}
 \label{tab:stress}
 \scriptsize
 \setlength{\tabcolsep}{3.5pt}

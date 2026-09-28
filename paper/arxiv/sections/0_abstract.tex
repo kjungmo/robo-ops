@@ -31,8 +31,10 @@ seed-paired 95\% intervals against Hungarian contain zero, and four regimes
 chosen in advance to favour the coupling (one-lane aisles, hotspot demand,
 long empty trips, saturated chargers) show no resolved gain outside the
 regime in which every method strands robots. Token passing and token
-passing with task swaps deliver 16--66\% less, which their endpoint rule
-explains, whereas dock capacity ($+26$--$29\%$), the planning window
+passing with task swaps deliver 16--66\% less than our loop at its default
+dock capacity, but only because their endpoint rule allows one robot in
+flight per dock: with that same limit, token passing with task swaps comes
+within 2.5\% of our loop. Dock capacity ($+26$--$29\%$), the planning window
 ($\pm7\%$) and an optional windowed CBS backend ($-8\%$ makespan on small
 fleets) are the levers that move the fleet. Code, results and this paper are at
 \url{https://github.com/kjungmo/robo-ops}.

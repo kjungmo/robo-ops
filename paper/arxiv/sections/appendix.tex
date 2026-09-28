@@ -5,7 +5,7 @@ dependencies); the benchmark, tests and paper tables are produced by
 \begingroup\footnotesize
 \begin{verbatim}
 npm ci
-npm test        # 34 vitest tests (Hungarian, A*, PP, CBS, TP, auditor, simulator)
+npm test        # 38 vitest tests (Hungarian, A*, PP, CBS, TP, auditor, simulator)
 npm run bench:fms -- main planner scaling ablation battery    # first round, 420 runs
 npm run bench:fms -- stress cascade baselines coupling --jobs 10  # 6,180 runs
 npx tsx scripts/paper-data.ts  # tables/*.tex and figures/data/*.csv from the results

@@ -8,11 +8,16 @@ including the independent auditor's `audit_*` fields.
 files and prints summary lines (quoted below as "script: ...") for every number that
 appears in the text but not in a table. Notation: `file : row-selector : field`.
 
-All results were produced at commit `27080ab`: the first-round sweeps (main, planner,
-scaling, ablation, battery; seeds 1–5) in one process (`bench-meta-main-planner-scaling-ablation-battery.json`),
-the second-round sweeps (stress, cascade, baselines, coupling) on 10 worker processes
-(`bench-meta-stress-cascade-baselines-coupling.json`). The second-round sweep definitions were committed
-in `4a72ff1` before any of them was run.
+The first-round sweeps (main, planner, scaling, ablation, battery; seeds 1–5) were produced at
+commit `27080ab` in one process (`bench-meta-main-planner-scaling-ablation-battery.json`).
+The second-round sweeps (stress, cascade, baselines, coupling) were first run at `27080ab`
+(results commit `dccf403`) and re-run at `2d4342a` on 10 worker processes
+(`bench-meta-stress-cascade-baselines-coupling.json`); `2d4342a` only adds recorded fields
+(`audit_maxWorkTripDelay`, `cbsBudgetExceeded`, `tpSearchLimitHits`, `tpSwapVetoes`), and every
+non-timing field of all 6,180 re-run records equals the `dccf403` record (compared field by field,
+0 differences). The second-round sweep definitions are in `4a72ff1` (`scripts/bench-fms.ts`), which
+precedes both result commits; `git diff 4a72ff1 2d4342a -- scripts/bench-fms.ts` touches only the
+list of recorded fields. Git shows commit order only, which is what §4.1 now claims.
 
 ## Bench-wide totals (abstract, §1, §4.2 "Correctness", §6)
 
@@ -24,10 +29,10 @@ in `4a72ff1` before any of them was run.
 | 8,833,050 robot-ticks ("8.8 million robot-steps") | script: `original sweeps (seeds 1-5): runs 420, robot-steps 8833050` (sum of `audit_robotTicks` = `makespan * fleetSize`) |
 | 5,317,603 move actions; 72,823 wait actions | sum of `moveActions` / `waitActions` over the same records |
 | 81,000 delivered tasks | sum of `tasksCompleted` over the same records (390 runs × 200 + 30 runs × 100) |
-| commit of the benchmarked code `27080ab` | both meta files `: commit` |
+| commit of the benchmarked code `27080ab` (first round), `2d4342a` (second round, behaviour-identical) | both meta files `: commit` |
 | CPU "AMD Ryzen 5 5500GT", Node 22 | `bench-meta-main-planner-scaling-ablation-battery.json : cpu, node` |
 | seeds 1–5 / 1–60 / 1–30 | meta files `: seeds` |
-| 6,180 second-round runs on 10 worker processes, 882 s | `bench-meta-stress-cascade-baselines-coupling.json : runs 6180, workers 10, wallSeconds 882.1` |
+| 6,180 second-round runs on 10 worker processes, 967 s | `bench-meta-stress-cascade-baselines-coupling.json : runs 6180, workers 10, wallSeconds 966.8` |
 | 4,740 runs, 60.4 million robot-steps, no executed conflict (abstract, §1, §6) | script: `first round + stress: runs 4740, robot-steps 60384750, audit vertex+swap+illegal 0` |
 
 ## §4.2 Main results, Table 1 (`tables/main.tex`)
@@ -133,14 +138,16 @@ are printed by the same run.
 | doubled drain: depletion in 1,476 of 2,160 runs, 9,535 events, 227 stalled runs (all after a depletion), 510 undelivered tasks, Q up to 500 | script: `stress battery=stress: runs 2160, ... runs with depletion 1476, depletions 9535, stalled 227 (with depletion 227), unfinished 510, ..., Q 500` |
 | "two thirds of the runs" (abstract) | 1476 / 2160 = 0.68 |
 | 4 robots on small and 8 on narrow: 0 and 3 of 240 doubled-drain runs deplete | `stress.json` filtered to `variant` ending in `stress`, `small`/4 and `narrow`/8, runs with `depletionEvents > 0` (0 and 3; `tables/stress.tex` depletions 0+0 and 3+0) |
-| CBS on larger layouts: 0.3–10 fall-back epochs per run (1.8 of ~148 on warehouse/32, 10 of ~180 on narrow/16); makespan −1.2 to −2.6 % (−1.9±0.6 % warehouse/32) vs −4 to −12 % on small; 3–16× PP planner time | script: `stress cbs vs pp makespan <layout>/<fleet>` lines (fallbacks/run 0.43, 1.79, 0.43, 0.33, 2.33, 10.05; epochs/run 148.5 at warehouse/32, 180.0 at narrow/16; makespan −1.65, −1.93±0.62, −1.19, −1.23, −2.61, −2.43; small −3.95, −8.73, −11.59; ms/tick ratios 1.32/0.33, 4.53/0.70, 1.51/0.43, 1.82/0.59, 0.91/0.13, 5.77/0.36 = 4.0, 6.5, 3.5, 3.1, 7.0, 16.0) |
-| Table 14 (reserve): D_σ, W, Q, required ρ and θ_lo, min SoC; "short by a factor of 6 to 19", "would suffice only on small" | `tables/reserve.tex`; script: `reserve <layout>` lines (required ρ 0.9288 / 0.4818 / 0.3298 / 0.6228 vs default 0.05 → factors 18.6 / 9.6 / 6.6 / 12.5; W=Q=0: 0.0178 / 0.0678 / 0.0568 / 0.0628) |
+| CBS on larger layouts: 0.3–10 fall-back epochs per run (1.8 of ~148 on warehouse/32, 10 of ~180 on narrow/16); 8,240 of 8,242 fallbacks from the node budget; makespan −1.2 to −2.6 % (−1.9±0.6 % warehouse/32) vs −4 to −12 % on small; 3–15× PP planner time | script: `stress cbs vs pp makespan <layout>/<fleet>` lines (fallbacks/run 0.43, 1.79, 0.43, 0.33, 2.33, 10.05; epochs/run 148.5 at warehouse/32, 180.0 at narrow/16; makespan −1.65, −1.93±0.62, −1.19, −1.23, −2.61, −2.43; small −3.95, −8.73, −11.59; ms/tick ratios at `2d4342a` 1.36/0.35, 4.73/0.72, 1.54/0.44, 1.75/0.61, 0.97/0.14, 6.16/0.40 = 3.9, 6.6, 3.5, 2.9, 6.9, 15.4); `stress: CBS runs 2160, ... fallbacks from the node budget 8240 of 8242` |
+| Table 14 (reserve): D_σ, W (work trips only, `audit_maxWorkTripDelay`), Q, required ρ and θ_lo, min SoC; "short by a factor of 6.6 to 18.6", "would suffice only on small", "not one of the 2,160 normal-battery runs satisfies eq. (reserve) with its own W and Q" | `tables/reserve.tex` (caption computed by `reserveTable`); script: `reserve <layout>` lines (required ρ 0.9288 / 0.4818 / 0.3298 / 0.6228 vs default 0.05 → factors 18.6 / 9.6 / 6.6 / 12.5; W=Q=0: 0.0178 / 0.0678 / 0.0568 / 0.0628; work-trip W equals all-trip W on every layout: 246 / 104 / 80 / 156; median work-trip W 38 / 37 / 40 / 38) |
 | Table 5 (cascade), all cells; 27/30/10/27 runs with conflicts without repair; 24/30/0/16 with restarts; 30/30/23/30 stalled with static priorities; fallbacks within 0.7 throughput; 113 of 120 gridlocked (§5) | `tables/cascade.tex`; script: `cascade <setting>/<variant>` lines (throughputs 30.64/30.75/30.66, 33.34/33.97/33.89, 18.96/18.85/18.93, 16.53/16.63/16.69) |
 | dock capacity 4: throughput 33.3, +9.0±1.4 % paired over capacity 3, holds 8.8 vs 3.5 | script: `cascade dock 4 vs dock 3 (cascade, paired throughput): 8.97 +- 1.41`; `cascade warehouse-32-dock4/cascade ... throughput 33.34, holds 8.8`; `warehouse-32/cascade ... holds 3.5` |
 | Table 6 (baselines), all cells; TP −29 to −66 %, TPTS −16 to −55 % vs RH + Hungarian; "16–66 % less" | `tables/baselines.tex`; script: `baselines <setting>/<variant>` lines (TP −40.72, −66.14, −28.62, −53.88, −52.30; TPTS −30.62, −55.14, −16.25, −47.99, −40.12) |
 | TPTS vs RH + Hungarian at κ_d = 1: −2.5 to +1.6 %; TP 11–26 % behind | script: `baselines <setting> tpts/tp vs hungarian-dock1` lines (TPTS 0.63, −2.45, 1.64, −0.03, −2.49; TP −14.11, −26.41, −13.54, −11.35, −22.36) |
 | TPTS 23,000–93,000 A* calls per run, RH 4,600–9,200 | script: `astar` field of the baselines lines (TPTS 23216–92593; hungarian/pact 4629–9212) |
 | no conflict, stall or depletion in the 300 TP/TPTS runs | script: baselines lines for tp/tpts: `violations 0, stalled 0, unfinished 0, depletions 0` |
+| no search hits the 20,000-expansion bound; no swap dropped for want of a path home | script: baselines lines for tp/tpts: `swap vetoes 0.00 (max 0), search-bound hits 0` |
+| Table 6 column "Paired vs. RH + Hungarian, κ_d = 1" | `tables/baselines.tex`, same numbers as the `vs hungarian-dock1` script lines |
 | PACT vs Hungarian at κ_d = 1: one of five intervals excludes 0, +0.9±0.9 % (Poisson) | script: `baselines warehouse-16-poisson pact-dock1 vs hungarian-dock1 (paired throughput): 0.89 +- 0.85` |
 | Table 7 (coupling), all cells; PACT's 12 intervals in the first three regimes contain 0; mean differences ≤ 1.3 % throughput, ≤ 0.6 % service; ≤ 0.5 % on long trips; proxy exclusions +1.7±1.4, −1.5±1.3, +0.6±0.5, −0.5±0.3, −0.5±0.4 | `tables/coupling.tex`; script: `coupling <regime> <a> vs <b>` lines and the `(excludes 0)` markers |
 | saturated chargers: 586–641 depletion events per method over 30 runs, 10–16 stalled runs, PACT +23±18 %, proxy +24±21 %, service 0.0±2.2 %, stalled 10 (PACT) vs 16 (Hungarian) | script: `coupling saturated-chargers/<method>` lines and `coupling saturated-chargers pact vs hungarian` lines |
