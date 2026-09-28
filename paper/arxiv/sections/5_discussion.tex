@@ -73,8 +73,8 @@ bounds would prevent that, not how to enforce them. A charging policy that
 reserves slots ahead of time or raises $\theta_{\mathrm{lo}}$ with the
 charger queue is the obvious next step. Five seeds per configuration in the
 first round bound its resolution to differences of a few percent; the second
-round uses 30 to 60 seeds. Basic CBS runs on groups of up to 32 robots with
-few fall-backs but gains only 1--3\% makespan there; symmetry reasoning
+round uses 30 to 60 seeds. Basic CBS, with PP for robots that share a goal, runs on groups of up to 32
+robots with few node-budget fall-backs but gains only 1--3\% makespan there; symmetry reasoning
 \citep{li2019symmetry} or bounded-suboptimal search \citep{li2021eecbs}
 might gain more. Prioritized planning with a hold cascade is safe but not
 complete: a robot can be delayed for several epochs, and although every run
