@@ -1,0 +1,35 @@
+{
+  "derivedFrom": "src/data/pages/*.json (wireframe labels)",
+  "zones": {
+    "A": {
+      "lines": 3,
+      "docks": 0,
+      "sources": [
+        "n7"
+      ]
+    },
+    "B": {
+      "lines": 3,
+      "docks": 0,
+      "sources": [
+        "n27",
+        "n7"
+      ]
+    },
+    "C": {
+      "lines": 2,
+      "docks": 2,
+      "sources": [
+        "n27",
+        "n7"
+      ]
+    },
+    "D": {
+      "lines": 4,
+      "docks": 0,
+      "sources": [
+        "n7"
+      ]
+    }
+  }
+}
