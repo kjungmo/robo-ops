@@ -1,0 +1,47 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{Token-passing baselines} (200 tasks, 30 seeds). TP and TPTS \citep{ma2017lifelong} plan each robot's whole trip against the complete paths of all others; RH is the rolling-horizon loop of \cref{alg:pact} ($w{=}20$, $h{=}5$, PP with hold cascade, $\kappa_{\mathrm{d}}{=}3$ unless stated). Paired: seed-paired throughput difference to RH + Hungarian with a 95\% $t$-interval (29 degrees of freedom). No run of any variant had an executed conflict or stalled.}
+\label{tab:baselines}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llcccc}
+\toprule
+\textbf{Setting} & \textbf{Method} & \textbf{Throughput} $\uparrow$ & \textbf{Paired vs.\ RH + Hungarian} & \textbf{Service time} $\downarrow$ & \textbf{Task swaps}\\
+\midrule
+warehouse, 16, batch & TP & 10.5\stdv{1.1} & $-40.7\pm1.9$ & 614\stdv{26} & --\\
+ & TPTS & 12.3\stdv{1.1} & $-30.6\pm1.9$ & 563\stdv{21} & 178.2\\
+ & RH + Hungarian & 17.7\stdv{0.8} & -- & 487\stdv{18} & --\\
+ & RH + \sname & 17.7\stdv{0.6} & $+0.4\pm1.0$ & 486\stdv{18} & --\\
+ & RH + Hungarian, $\kappa_{\mathrm{d}}{=}1$ & 12.2\stdv{1.2} & $-31.0\pm2.0$ & 662\stdv{26} & --\\
+ & RH + \sname, $\kappa_{\mathrm{d}}{=}1$ & 12.3\stdv{1.3} & $-30.5\pm2.2$ & 662\stdv{24} & --\\
+\midrule
+warehouse, 32, batch & TP & 10.4\stdv{1.2} & $-66.1\pm0.7$ & 617\stdv{26} & --\\
+ & TPTS & 13.8\stdv{1.4} & $-55.1\pm0.6$ & 516\stdv{17} & 399.5\\
+ & RH + Hungarian & 30.6\stdv{2.6} & -- & 283\stdv{10} & --\\
+ & RH + \sname & 31.0\stdv{2.6} & $+1.1\pm1.1$ & 283\stdv{9} & --\\
+ & RH + Hungarian, $\kappa_{\mathrm{d}}{=}1$ & 14.1\stdv{1.5} & $-54.0\pm0.7$ & 574\stdv{17} & --\\
+ & RH + \sname, $\kappa_{\mathrm{d}}{=}1$ & 14.1\stdv{1.6} & $-53.9\pm0.7$ & 574\stdv{18} & --\\
+\midrule
+warehouse, 16, $\lambda{=}0.15$ & TP & 10.0\stdv{0.9} & $-28.6\pm2.8$ & 201\stdv{31} & --\\
+ & TPTS & 11.7\stdv{0.8} & $-16.3\pm2.4$ & 136\stdv{25} & 323.5\\
+ & RH + Hungarian & 14.0\stdv{0.9} & -- & 74\stdv{15} & --\\
+ & RH + \sname & 14.0\stdv{0.9} & $+0.1\pm0.3$ & 73\stdv{14} & --\\
+ & RH + Hungarian, $\kappa_{\mathrm{d}}{=}1$ & 11.5\stdv{0.9} & $-17.5\pm2.7$ & 162\stdv{37} & --\\
+ & RH + \sname, $\kappa_{\mathrm{d}}{=}1$ & 11.6\stdv{0.9} & $-16.8\pm2.6$ & 160\stdv{37} & --\\
+\midrule
+console, 16, batch & TP & 9.4\stdv{0.8} & $-53.9\pm1.2$ & 730\stdv{23} & --\\
+ & TPTS & 10.6\stdv{0.9} & $-48.0\pm1.4$ & 682\stdv{20} & 190.2\\
+ & RH + Hungarian & 20.4\stdv{1.3} & -- & 413\stdv{12} & --\\
+ & RH + \sname & 20.5\stdv{1.5} & $+0.5\pm1.6$ & 412\stdv{13} & --\\
+ & RH + Hungarian, $\kappa_{\mathrm{d}}{=}1$ & 10.6\stdv{0.9} & $-48.0\pm1.4$ & 794\stdv{19} & --\\
+ & RH + \sname, $\kappa_{\mathrm{d}}{=}1$ & 10.6\stdv{0.9} & $-48.0\pm1.4$ & 793\stdv{20} & --\\
+\midrule
+narrow, 16, batch & TP & 7.9\stdv{0.6} & $-52.3\pm1.1$ & 856\stdv{31} & --\\
+ & TPTS & 9.9\stdv{0.7} & $-40.1\pm1.2$ & 747\stdv{22} & 262.9\\
+ & RH + Hungarian & 16.5\stdv{0.8} & -- & 532\stdv{19} & --\\
+ & RH + \sname & 16.6\stdv{0.8} & $+0.2\pm1.0$ & 532\stdv{19} & --\\
+ & RH + Hungarian, $\kappa_{\mathrm{d}}{=}1$ & 10.2\stdv{0.8} & $-38.6\pm1.2$ & 848\stdv{23} & --\\
+ & RH + \sname, $\kappa_{\mathrm{d}}{=}1$ & 10.2\stdv{0.8} & $-38.4\pm1.3$ & 845\stdv{23} & --\\
+\bottomrule
+\end{tabular}
+\end{table}

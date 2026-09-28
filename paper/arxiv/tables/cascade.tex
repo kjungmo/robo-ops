@@ -1,0 +1,32 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{Hold-cascade and priority ablation} (batch load, Hungarian allocation, PP, 30 seeds; 200 tasks, 100 on \emph{small}). \emph{No repair}: a robot without a path holds its cell but robots whose reservations cross it keep their paths. \emph{Priority restarts}: the failing robot is moved to the front and the group is re-planned, up to 3 times, then as \emph{no repair}. \emph{Static priorities}: status rank and id only, no held-first or blocking-first ordering. Conflicts are counted by the independent auditor; runs are not stopped at a conflict.}
+\label{tab:cascade}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llccccc}
+\toprule
+\textbf{Setting} & \textbf{Fallback} & \textbf{Runs w/ conflict} & \textbf{Conflicts} & \textbf{Stalled runs} & \textbf{Throughput} & \textbf{Holds / run}\\
+\midrule
+warehouse, 32 & hold cascade (default) & 0/30 & 0 & 0/30 & 30.6\stdv{2.6} & 3.5\\
+ & hold, no repair & 27/30 & 156 & 0/30 & 30.7\stdv{2.7} & 5.4\\
+ & priority restarts & 24/30 & 152 & 0/30 & 30.7\stdv{2.9} & 4.7\\
+ & cascade, static priorities & 0/30 & 0 & 30/30 & 1.4\stdv{0.3} & 2328.8\\
+\midrule
+warehouse, 32, $\kappa_{\mathrm{d}}{=}4$ & hold cascade (default) & 0/30 & 0 & 0/30 & 33.3\stdv{2.5} & 8.8\\
+ & hold, no repair & 30/30 & 451 & 0/30 & 34.0\stdv{2.2} & 16.2\\
+ & priority restarts & 30/30 & 457 & 0/30 & 33.9\stdv{2.4} & 15.0\\
+ & cascade, static priorities & 0/30 & 0 & 30/30 & 1.4\stdv{0.2} & 2281.4\\
+\midrule
+small, 8 & hold cascade (default) & 0/30 & 0 & 0/30 & 19.0\stdv{1.1} & 0.5\\
+ & hold, no repair & 10/30 & 45 & 0/30 & 18.8\stdv{1.2} & 1.3\\
+ & priority restarts & 0/30 & 0 & 0/30 & 18.9\stdv{1.1} & 0.0\\
+ & cascade, static priorities & 0/30 & 0 & 23/30 & 5.5\stdv{5.7} & 337.6\\
+\midrule
+narrow, 16 & hold cascade (default) & 0/30 & 0 & 0/30 & 16.5\stdv{0.8} & 2.2\\
+ & hold, no repair & 27/30 & 94 & 0/30 & 16.6\stdv{0.7} & 3.4\\
+ & priority restarts & 16/30 & 64 & 0/30 & 16.7\stdv{0.7} & 1.6\\
+ & cascade, static priorities & 0/30 & 0 & 30/30 & 0.9\stdv{0.3} & 1214.6\\
+\bottomrule
+\end{tabular}
+\end{table}

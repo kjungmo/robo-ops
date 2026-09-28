@@ -7,17 +7,17 @@
 \toprule
 \textbf{Variant} & \textbf{Throughput} $\uparrow$ & \textbf{Service time} $\downarrow$ & \textbf{Wait actions} & \textbf{Holds} & \textbf{Planner ms/tick}\\
 \midrule
-\sname\ (default: $w{=}20$, $h{=}5$, $K{=}6$, $\kappa_{\mathrm{d}}{=}3$, $w_{\mathrm{b}}{=}1$) & 30.3\stdv{2.2} & 287\stdv{12} & 274\stdv{60} & 4.0\stdv{2.8} & 0.63\stdv{0.05}\\
-\quad no battery term ($w_{\mathrm{b}}{=}0$) & 30.3\stdv{2.3} & 285\stdv{13} & 253\stdv{21} & 2.8\stdv{1.8} & 0.60\stdv{0.06}\\
-\quad Hungarian, no battery term & 30.1\stdv{1.8} & 283\stdv{9} & 253\stdv{32} & 3.0\stdv{2.3} & 0.56\stdv{0.07}\\
-\quad candidates $K{=}3$ & 30.2\stdv{2.3} & 285\stdv{13} & 262\stdv{28} & 1.8\stdv{1.8} & 0.61\stdv{0.04}\\
-\quad candidates $K{=}12$ & 30.4\stdv{2.0} & 284\stdv{14} & 228\stdv{33} & 2.4\stdv{1.1} & 0.63\stdv{0.06}\\
-\quad window $w{=}10$ & 32.4\stdv{2.1} & 261\stdv{11} & 150\stdv{7} & 1.2\stdv{1.3} & 0.18\stdv{0.01}\\
-\quad window $w{=}30$ & 28.2\stdv{2.6} & 307\stdv{15} & 357\stdv{72} & 2.8\stdv{1.3} & 1.98\stdv{0.15}\\
-\quad replan every tick ($h{=}1$) & 30.3\stdv{2.3} & 287\stdv{12} & 257\stdv{34} & 4.0\stdv{0.7} & 1.36\stdv{0.15}\\
-\quad no event-triggered epochs & 29.9\stdv{2.3} & 288\stdv{12} & 329\stdv{45} & 0.8\stdv{0.8} & 0.32\stdv{0.02}\\
-\quad Hungarian, no event-triggered epochs & 28.9\stdv{1.7} & 290\stdv{14} & 359\stdv{35} & 1.4\stdv{0.5} & 0.26\stdv{0.01}\\
-\quad dock capacity $\kappa_{\mathrm{d}}{=}2$ & 24.0\stdv{1.5} & 344\stdv{16} & 125\stdv{14} & 1.4\stdv{1.1} & 0.39\stdv{0.03}\\
+\sname\ (default: $w{=}20$, $h{=}5$, $K{=}6$, $\kappa_{\mathrm{d}}{=}3$, $w_{\mathrm{b}}{=}1$) & 30.3\stdv{2.2} & 287\stdv{12} & 274\stdv{60} & 4.0\stdv{2.8} & 0.61\stdv{0.05}\\
+\quad no battery term ($w_{\mathrm{b}}{=}0$) & 30.3\stdv{2.3} & 285\stdv{13} & 253\stdv{21} & 2.8\stdv{1.8} & 0.60\stdv{0.07}\\
+\quad Hungarian, no battery term & 30.1\stdv{1.8} & 283\stdv{9} & 253\stdv{32} & 3.0\stdv{2.3} & 0.57\stdv{0.07}\\
+\quad candidates $K{=}3$ & 30.2\stdv{2.3} & 285\stdv{13} & 262\stdv{28} & 1.8\stdv{1.8} & 0.60\stdv{0.05}\\
+\quad candidates $K{=}12$ & 30.4\stdv{2.0} & 284\stdv{14} & 228\stdv{33} & 2.4\stdv{1.1} & 0.62\stdv{0.07}\\
+\quad window $w{=}10$ & 32.4\stdv{2.1} & 261\stdv{11} & 150\stdv{7} & 1.2\stdv{1.3} & 0.19\stdv{0.00}\\
+\quad window $w{=}30$ & 28.2\stdv{2.6} & 307\stdv{15} & 357\stdv{72} & 2.8\stdv{1.3} & 1.96\stdv{0.16}\\
+\quad replan every tick ($h{=}1$) & 30.3\stdv{2.3} & 287\stdv{12} & 257\stdv{34} & 4.0\stdv{0.7} & 1.35\stdv{0.15}\\
+\quad no event-triggered epochs & 29.9\stdv{2.3} & 288\stdv{12} & 329\stdv{45} & 0.8\stdv{0.8} & 0.30\stdv{0.01}\\
+\quad Hungarian, no event-triggered epochs & 28.9\stdv{1.7} & 290\stdv{14} & 359\stdv{35} & 1.4\stdv{0.5} & 0.26\stdv{0.02}\\
+\quad dock capacity $\kappa_{\mathrm{d}}{=}2$ & 24.0\stdv{1.5} & 344\stdv{16} & 125\stdv{14} & 1.4\stdv{1.1} & 0.39\stdv{0.02}\\
 \quad Hungarian, dock capacity $\kappa_{\mathrm{d}}{=}2$ & 23.7\stdv{1.8} & 347\stdv{16} & 127\stdv{12} & 1.0\stdv{0.7} & 0.30\stdv{0.02}\\
 \bottomrule
 \end{tabular}

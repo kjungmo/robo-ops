@@ -1,0 +1,34 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{Safety and progress stress sweep.} 60 seeds per configuration, 100 tasks per run; every row aggregates both load regimes (Poisson and batch) and both battery regimes (normal; initial charge $\mathcal{U}[0.2,0.4]$ with doubled drain), with the allocation method rotating over the four cost models with the seed. Conflicts and illegal moves are counted by the independent trajectory auditor on the executed cells; \emph{stalled} runs tripped the 1000-tick no-progress detector. $W$: largest trip delay (ticks beyond the free-space distance covered); $Q$: longest wait of a robot below $\theta_{\mathrm{lo}}$ for a charger slot; both are maxima over all runs of the row.}
+\label{tab:stress}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lrlrrccccrrrc}
+\toprule
+\textbf{Layout} & $|\mathcal{R}|$ & \textbf{Planner} & \textbf{Runs} & \textbf{Robot-steps} & \textbf{Vertex} & \textbf{Swap} & \textbf{Illegal} & \textbf{Stalled} & \textbf{Unfinished} & \textbf{Depletions} & $W$ / $Q$ & \textbf{Min SoC}\\
+\midrule
+small & 4 & PP & 240 & 909{,}692 & 0 & 0 & 0 & 0 & 0 & 0 & 82 / 178 & 0.04\\
+ &  & CBS & 240 & 883{,}564 & 0 & 0 & 0 & 0 & 0 & 0 & 63 / 180 & 0.04\\
+ & 6 & PP & 240 & 1{,}060{,}890 & 0 & 0 & 0 & 1 & 12 & 19 & 1523 / 365 & 0.00\\
+ &  & CBS & 240 & 1{,}003{,}338 & 0 & 0 & 0 & 1 & 13 & 25 & 1516 / 348 & 0.00\\
+ & 8 & PP & 240 & 1{,}322{,}400 & 0 & 0 & 0 & 3 & 14 & 245 & 1395 / 500 & 0.00\\
+ &  & CBS & 240 & 1{,}208{,}368 & 0 & 0 & 0 & 0 & 0 & 235 & 112 / 500 & 0.00\\
+\midrule
+warehouse & 16 & PP & 240 & 3{,}312{,}912 & 0 & 0 & 0 & 12 & 24 & 411 & 2025 / 231 & 0.00\\
+ &  & CBS & 240 & 3{,}221{,}408 & 0 & 0 & 0 & 8 & 18 & 401 & 2186 / 237 & 0.00\\
+ & 32 & PP & 240 & 6{,}100{,}448 & 0 & 0 & 0 & 37 & 65 & 1773 & 1844 / 429 & 0.00\\
+ &  & CBS & 240 & 5{,}997{,}120 & 0 & 0 & 0 & 33 & 55 & 1739 & 2016 / 425 & 0.00\\
+\midrule
+console & 16 & PP & 240 & 3{,}158{,}512 & 0 & 0 & 0 & 21 & 55 & 592 & 2290 / 388 & 0.00\\
+ &  & CBS & 240 & 3{,}038{,}480 & 0 & 0 & 0 & 20 & 55 & 538 & 1777 / 385 & 0.00\\
+ & 24 & PP & 240 & 4{,}577{,}280 & 0 & 0 & 0 & 30 & 71 & 1380 & 2271 / 453 & 0.00\\
+ &  & CBS & 240 & 4{,}478{,}448 & 0 & 0 & 0 & 29 & 51 & 1353 & 2282 / 422 & 0.00\\
+\midrule
+narrow & 8 & PP & 240 & 2{,}312{,}984 & 0 & 0 & 0 & 0 & 0 & 3 & 74 / 5 & 0.00\\
+ &  & CBS & 240 & 2{,}233{,}728 & 0 & 0 & 0 & 0 & 0 & 0 & 70 / 5 & 0.02\\
+ & 16 & PP & 240 & 3{,}436{,}384 & 0 & 0 & 0 & 18 & 44 & 422 & 1794 / 239 & 0.00\\
+ &  & CBS & 240 & 3{,}295{,}744 & 0 & 0 & 0 & 14 & 33 & 399 & 1802 / 234 & 0.00\\
+\bottomrule
+\end{tabular}
+\end{table}
