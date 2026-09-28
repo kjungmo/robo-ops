@@ -196,6 +196,15 @@ export class TrajectoryAuditor {
         this.tripWaits[i] = 0
         this.tripTicks[i] = 0
         this.tripStart[i] = cur[i]
+        // From outside it is unknown whether the status changed before this
+        // tick's step (epoch assignment) or after it (arrival processing); count
+        // the step for the new trip as well, which can only overestimate delays.
+        if (TRIP_STATUS.has(status) && !this.depleted[i]) {
+          this.tripStart[i] = this.prev[i]
+          this.tripTicks[i] = 1
+          const delay = 1 - (this.oracle.dist(this.prev[i], goal) - this.oracle.dist(cur[i], goal))
+          this.r.maxTripDelay = Math.max(this.r.maxTripDelay, delay)
+        }
       }
       if (waiting) {
         this.tripWaits[i] += 1
