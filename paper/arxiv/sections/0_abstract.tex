@@ -13,18 +13,27 @@ reservation table, and fed to an optimal Hungarian assignment, while a hold
 cascade keeps prioritized planning conflict-free by construction and
 token-passing endpoint capacities bound dock queues. We prove that
 every executed step is vertex- and swap-conflict-free by construction and that
-the assignment step is optimal; progress and battery safety are not
-guaranteed, and we measure them instead. We evaluate the whole stack in a seeded discrete-time simulator with
-Poisson task streams, loading dwell and an explicit battery model on three
-layouts, one of them derived from an operator console's own zone and dock
-data. Across 420 runs and 8.8 million robot-steps no robot depletes and
-every run delivers all of its tasks. The controlled study of the coupling is
-a negative result that we report as such: greedy, Hungarian,
+the assignment step is optimal; progress is not guaranteed, and battery
+safety holds only under delay bounds that we state but cannot enforce, so we
+measure both. We evaluate the whole stack in a seeded discrete-time
+simulator with Poisson task streams, loading dwell and an explicit battery
+model on four layouts, one of them derived from an operator console's own
+zone and dock data and one with one-lane aisles. An independent trajectory
+auditor finds no executed conflict in 4{,}740 runs with 60.4 million
+robot-steps; with normal batteries no robot depletes and every run delivers
+all of its tasks, but with doubled drain the charging policy strands robots
+in two thirds of the runs. Without the hold cascade conflicts are executed,
+and without dynamic priorities the fleet gridlocks. The controlled study of
+the coupling is a negative result that we report as such: greedy, Hungarian,
 congestion-proxy and MAPF-in-the-loop costs stay within 2.9\% of each other
-in mean throughput in every one of twelve layout/fleet/load cells, and 35 of
-36 seed-paired 95\% intervals against Hungarian contain zero, whereas dock
-capacity ($+26$--$29\%$), the planning window ($\pm7\%$) and an
-optional windowed CBS backend ($-8\%$ makespan on small fleets) are the levers
-that move the fleet. Code, results and this paper are at
+in mean throughput in every one of twelve layout/fleet/load cells, 35 of 36
+seed-paired 95\% intervals against Hungarian contain zero, and four regimes
+chosen in advance to favour the coupling (one-lane aisles, hotspot demand,
+long empty trips, saturated chargers) show no resolved gain outside the
+regime in which every method strands robots. Token passing and token
+passing with task swaps deliver 16--66\% less, which their endpoint rule
+explains, whereas dock capacity ($+26$--$29\%$), the planning window
+($\pm7\%$) and an optional windowed CBS backend ($-8\%$ makespan on small
+fleets) are the levers that move the fleet. Code, results and this paper are at
 \url{https://github.com/kjungmo/robo-ops}.
 \end{abstract}

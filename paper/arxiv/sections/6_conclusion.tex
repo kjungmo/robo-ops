@@ -4,15 +4,20 @@ We presented \sname, a lifelong fleet manager for grid warehouses that runs
 task allocation, windowed prioritized path planning and charging in one
 rolling-horizon loop, couples allocation to planning through arrival-time
 costs of the same planner, and keeps every epoch conflict-free by a hold
-cascade whose conflict-freeness we proved. In 420 seeded runs across three
-layouts, fleets of 4 to 48 robots and two load regimes, the executed plans of
-8.8 million robot-steps contained no conflict, no robot depleted and every run
-delivered all of its tasks. The coupled allocation did not improve throughput
-or service time over static Hungarian or even greedy assignment---the four
-cost models stayed within 2.9\% in every cell, with seed-paired intervals
-that exclude large effects but not small ones---while dock capacity and the
-planning window changed throughput by 7--29\% and, for small fleets, a
-windowed CBS backend shortened the makespan by 8\%.
+cascade whose conflict-freeness we proved. An independent trajectory auditor
+found no executed conflict in 4{,}740 seeded runs with 60.4 million
+robot-steps across four layouts, fleets of 4 to 48 robots, two load
+regimes and both planner backends; removing the cascade brings conflicts
+back and removing the dynamic priorities gridlocks the fleet. With normal
+batteries no robot depleted and every run delivered all of its tasks; with
+doubled drain the threshold charging policy stranded robots whenever the
+slots saturated, which the conditional reserve bound we proved explains but
+does not prevent. The coupled allocation did not improve throughput or
+service time over static Hungarian or even greedy assignment, neither in the
+twelve cells of the main study nor in four regimes chosen beforehand to
+favour it, while dock capacity and the planning window changed throughput
+by 7--29\%, for small fleets a windowed CBS backend shortened the makespan
+by 8\%, and token passing lost 16--66\% to its endpoint rule.
 The implementation, the benchmark and every number in this paper are
 available in the operator console repository so that the study can be
 repeated on layouts where the balance may differ.

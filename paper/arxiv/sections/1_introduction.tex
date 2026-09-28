@@ -64,7 +64,11 @@ Our contributions are:
   \item \emph{A controlled study of what moves a fleet}: 420 seeded runs on
   three layouts sweep allocation cost model, planner backend, fleet size,
   load regime, window, replanning period, dock capacity and battery
-  parameters, with every number traceable to a committed result file.
+  parameters; a second round of 6{,}180 runs adds a 60-seed safety stress
+  test checked by an independent trajectory auditor, an ablation of the hold
+  cascade and of the priorities, token-passing baselines and four regimes
+  chosen in advance to favour the coupling. Every number traces to a
+  committed result file.
 \end{itemize}
 
 The study's main result is negative and, we argue, useful: in every one of
@@ -76,11 +80,17 @@ differences above about 7\% in the noisiest cell and above about 4\% under the P
 load, not small ones. What does move the fleet is elsewhere: raising the
 per-dock in-flight capacity from 2 to 3 raises throughput by 26--29\%,
 shortening the planning window from 20 to 10 ticks raises it by 7\% while
-cutting planner time by $3.4\times$, and windowed CBS reduces makespan by
+cutting planner time by $3.3\times$, and windowed CBS reduces makespan by
 8\% on small fleets (\cref{tab:ablation,tab:planner}); all three effects lie
-outside their seed-paired 95\% intervals. Throughout, the executed plans of
-8.8 million robot-steps contain no vertex or swap conflict, as the
-construction guarantees; no robot depletes and every run delivers all of its
-tasks, which the construction does not guarantee (\cref{subsec:main}). We release the
+outside their seed-paired 95\% intervals. The negative result holds in the
+four regimes we chose to favour the coupling (\cref{subsec:coupling}), and
+token passing \citep{ma2017lifelong} is 16--66\% slower because its
+endpoint rule allows one robot per dock (\cref{subsec:baselines}).
+Throughout, the executed plans of 60.4 million audited robot-steps contain no
+vertex or swap conflict, as the construction guarantees. Progress and charge
+are not guaranteed: with normal batteries no robot depletes and every run
+delivers all of its tasks, but with doubled drain the charging policy
+strands robots once its slots saturate (\cref{subsec:main}), and we prove
+only a conditional reserve bound (\cref{prop:charge}). We release the
 implementation inside the operator console it was built for, together with
 all results.

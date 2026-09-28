@@ -64,9 +64,10 @@ schedules differently, so we report both. Optimising \cref{eq:objective} exactly
 without batteries \citep{yu2013structure}; \sname\ is a rolling-horizon
 heuristic. It enforces the conflict constraint by construction
 (\cref{prop:pp,cor:exec}); the charge constraint is only guarded by a
-heuristic feasibility test (\cref{eq:feasible}), and progress (absence of
-deadlock and livelock) is not guaranteed. Both are measured in
-\cref{sec:exp}.
+heuristic feasibility test (\cref{eq:feasible}), which is provably safe only
+under delay bounds that the default parameters do not meet
+(\cref{prop:charge}), and progress (absence of deadlock and livelock) is not
+guaranteed. Both are measured in \cref{sec:exp}.
 
 \subsection{Planning under reservations: windowed space-time A* with a hold cascade}\label{subsec:planning}
 
@@ -263,9 +264,16 @@ gets a new goal; this re-plan keeps the table conflict-free
 (\cref{cor:exec}). A new epoch starts every $h\le w$ ticks and whenever a
 robot becomes idle while tasks are pending or a robot depletes. Independently
 of the reservation table, the simulator compares the cells of all robots
-before and after every executed step and counts vertex and swap conflicts;
-this check tests the implementation against \cref{cor:exec}, and over all runs
-in \cref{sec:exp} the count is zero.
+before and after every executed step and counts vertex and swap conflicts.
+Because that check still lives inside the simulator and reads the plans it
+executes, the benchmark also runs a separate \emph{trajectory auditor} that
+sees only the robots' observed cells, charge, status and goal after every
+tick and re-derives, with its own code, vertex and swap conflicts, illegal
+moves (non-adjacent jumps, moves onto obstacles, a depleted robot that
+moves), depletions, trip delays, slot waits and the longest interval without
+task progress. Both counts test the implementation against
+\cref{cor:exec}; over all runs in \cref{sec:exp} both are zero whenever the
+hold cascade is enabled.
 
 \subsection{Charging: threshold policy with capacity-constrained slot assignment}\label{subsec:charging}
 
@@ -285,9 +293,60 @@ where $\hat a$ is the estimated time to the pickup used by the allocation
 (\cref{subsec:alloc}) and $\rho$ a reserve margin. The test is a heuristic,
 not a guarantee: it budgets free-space moves only and leaves waits, detours,
 dwell and queueing for a charger slot to the margin $\rho$, and a robot that
-depletes nevertheless becomes a permanent obstacle. With
-\cref{eq:feasible} and $\theta_{\mathrm{lo}}$ above the energy of the longest
-bay-to-slot trip, no depletion occurred in any run of \cref{sec:exp}.
+depletes nevertheless becomes a permanent obstacle.
+
+\noindent\textbf{When is the policy provably safe?}
+Nothing in the loop bounds how long a robot waits: prioritized planning may
+hold a robot for several epochs, and a robot below $\theta_{\mathrm{lo}}$
+waits for a slot as long as all slots are taken. Charge safety can therefore
+only be proved relative to such bounds. Call a \emph{trip} a maximal interval
+in which a robot drives towards a fixed goal (to a pickup, a dock, a slot or
+its bay), its \emph{delay} the number of ticks it takes beyond the reduction
+in free-space distance to the goal that it achieves, and let
+$D_\sigma=\max_{v\in V,\sigma\in\mathcal{C}}d(v,\sigma)$.
+
+\begin{proposition}[Conditional charge safety]\label{prop:charge}
+Consider a run in which every trip has delay at most $W$ and no robot spends
+more than $Q$ consecutive ticks idle or parking with
+$s^r_t<\theta_{\mathrm{lo}}$, and in which every robot starts with
+$s^r_0\ge\theta_{\mathrm{lo}}$. If $\beta_{\mathrm{w}}\le\beta_{\mathrm{m}}$ and
+\begin{equation}\label{eq:reserve}
+  \theta_{\mathrm{lo}} > \beta_{\mathrm{m}}(1+W+Q+D_\sigma),
+  \qquad
+  \rho > \beta_{\mathrm{m}}(3W+Q+D_\sigma) + 2\beta_{\mathrm{w}}\delta,
+\end{equation}
+then no robot depletes in that run.
+\end{proposition}
+\begin{proof}
+Outside a charger slot a robot loses at most $\beta_{\mathrm{m}}$ per tick
+(a move costs $\beta_{\mathrm{m}}$, any other tick $\beta_{\mathrm{w}}$), and
+a trip that ends at its goal $g$ from start $v$ lasts at most $d(v,g)+W$
+ticks. A robot is given a task only when it is idle or parking with
+$s\ge\theta_{\mathrm{lo}}$ and \cref{eq:feasible} holds, where
+$\hat a\ge d(p^r,p_\tau)$ for all three cost models (the congestion term and
+the space-time A* arrival time are never below the free-space distance). The
+task consists of two trips and two dwells, so it ends with
+$s\ge\beta_{\mathrm{m}}\min_\sigma d(d_\tau,\sigma)+\rho-2\beta_{\mathrm{m}}W-2\beta_{\mathrm{w}}\delta>\beta_{\mathrm{m}}(W+Q+D_\sigma)$
+by \cref{eq:reserve}, and charge is higher at every earlier tick of the
+task. An idle or parking robot with $s\ge\theta_{\mathrm{lo}}$ is not
+depleted, and when its charge first falls below $\theta_{\mathrm{lo}}$ it
+has $s>\theta_{\mathrm{lo}}-\beta_{\mathrm{m}}>\beta_{\mathrm{m}}(W+Q+D_\sigma)$.
+Hence in both cases a robot starts to wait for a slot with more than
+$\beta_{\mathrm{m}}(W+Q+D_\sigma)$; it cannot take a task while it waits,
+it waits at most $Q$ ticks, and the trip to its slot $\sigma$ from its cell
+$v$ lasts at most $d(v,\sigma)+W\le D_\sigma+W$ ticks, so it arrives with
+$s>0$. On the slot it only gains charge and leaves with
+$s\ge\theta_{\mathrm{hi}}\ge\theta_{\mathrm{lo}}$.
+\end{proof}
+
+The bounds $W$ and $Q$ are outcomes of a run, not properties of the policy.
+With the largest $W$ and $Q$ measured in our runs, the default reserve
+$\rho=0.05$ is short of \cref{eq:reserve} by a factor of 6 to 19 on every
+layout, and even with $W=Q=0$ it would suffice only on the small layout
+(\cref{tab:reserve}), so \cref{prop:charge} does not cover the default
+configuration. Battery safety
+in this paper is therefore an empirical finding, and \cref{subsec:main}
+shows where it fails: under doubled drain, when the slots saturate.
 
 \begin{algorithm}[t]
 \caption{Charger assignment (one epoch)}\label{alg:charge}

@@ -27,9 +27,16 @@ to planned arrival times, greedily and one robot at a time.
 \citet{ma2019lifelong} added kinematic constraints
 and \citet{liu2019task} studied task sequencing. RHCR \citep{li2021rhcr}
 showed that replanning every $h$ steps over a window of $w$ steps scales to
-hundreds of robots. \sname\ adopts the RHCR execution model and TP-style
-endpoint reservation, and evaluates them together with an explicit battery
-model, which the cited works abstract away.
+hundreds of robots. RHCR is a framework that accepts any windowed MAPF
+solver; our rolling-horizon loop with static Hungarian costs and windowed
+prioritized planning is an instance of it with task assignment and charging
+added, so we do not implement RHCR a second time, and we ablate the one
+place where our planner differs from plain windowed prioritized planning,
+the handling of planner failures (\cref{subsec:cascade}). \sname\ adopts
+the RHCR execution model and TP-style endpoint reservation, evaluates them
+together with an explicit battery model, which the cited works abstract
+away, and compares against TP and TPTS re-implemented in the same simulator
+(\cref{subsec:baselines}).
 
 \noindent\textbf{Task allocation and its coupling with path finding.}
 Assignment problems are classically solved by the Hungarian method

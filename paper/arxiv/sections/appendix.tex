@@ -5,14 +5,28 @@ dependencies); the benchmark, tests and paper tables are produced by
 \begingroup\footnotesize
 \begin{verbatim}
 npm ci
-npm test                       # 18 vitest tests (Hungarian, A*, PP, CBS, simulator)
-npm run bench:fms              # 5 sweeps, 420 runs -> paper/experiments/results/
+npm test        # 34 vitest tests (Hungarian, A*, PP, CBS, TP, auditor, simulator)
+npm run bench:fms -- main planner scaling ablation battery    # first round, 420 runs
+npm run bench:fms -- stress cascade baselines coupling --jobs 10  # 6,180 runs
 npx tsx scripts/paper-data.ts  # tables/*.tex and figures/data/*.csv from the results
 \end{verbatim}
 Every run is deterministic given its seed (the test suite asserts it), so the
 committed \url{paper/experiments/results/*.json} files are reproduced
-bit-for-bit except for the wall-clock fields.
+bit-for-bit except for the wall-clock fields, whatever the number of worker
+processes.
 \endgroup
+Token passing is selected with \texttt{coordinator: 'tp'} or
+\texttt{'tpts'} in \texttt{SimConfig}. Our adaptation to the setting of
+this paper: the token table stores every robot's complete path with a
+permanent rest at its end and no horizon, and space-time A* on it is bounded
+by 20{,}000 expansions; a trip is planned as an empty leg to a pickup that
+must stay free for the loading dwell, the dwell, and a loaded leg ending in a
+rest at the dock; a robot without an eligible task drives to its home bay
+(or rests where it is if no path exists); a robot below
+$\theta_{\mathrm{lo}}$ takes the nearest free charger slot that is not the
+end of another path; and the task-swap step of TPTS only commits a swap if
+the displaced robot still has a path to its home bay, which keeps every step
+conflict-free.
 The operator console shows the
 simulator at \texttt{/fms} (\texttt{npm run dev}).
 
@@ -65,7 +79,7 @@ dwell $\delta$ & 2 ticks & loading and unloading\\
 CBS node budget & 2000 & per group, then PP fallback\\
 stall limit & 1000 ticks & no task progress $\Rightarrow$ run flagged deadlocked\\
 tasks per run & 200 (100 on \emph{small}) & pickups, docks sampled uniformly\\
-seeds & 1--5 & \\
+seeds & 1--5 & 1--60 stress, 1--30 cascade, baselines, coupling\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -82,6 +96,7 @@ seeds & 1--5 & \\
 small & $16\times10$ & 104 & 4 & 2 & 2 (1) & 8 & open\\
 warehouse & $52\times19$ & 715 & 100 & 9 & 8 (4) & 48 & 2\\
 console & $36\times25$ & 658 & 84 & 6 & 6 (3) & 32 & 2\\
+narrow & $52\times15$ & 496 & 80 & 6 & 8 (4) & 32 & 1\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -91,11 +106,14 @@ console & $36\times25$ & 658 & 84 & 6 & 6 (3) & 32 & 2\\
 \input{tables/paired}
 \input{tables/scaling}
 \input{tables/battery}
+\input{tables/reserve}
 
 \Cref{tab:paired} gives the seed-paired comparisons used in
 \cref{subsec:main,subsec:ablation}; \cref{tab:scaling} lists the data behind
 \cref{fig:scaling}; \cref{tab:battery} the battery stress of
-\cref{subsec:main}. Per-run records (all 24 metrics of
-\texttt{SimMetrics}) are in \texttt{paper/experiments/results/*.json}; the
-mapping from every number in this paper to a results field is in
+\cref{subsec:main}; \cref{tab:reserve} the delay bounds of
+\cref{prop:charge}. The per-run records hold all 25 metrics of
+\texttt{SimMetrics} and the 12 auditor fields; they are in the directory
+\texttt{paper/experiments/results/} as one JSON file per sweep, and the
+mapping from every number in this paper to a results field is in the file
 \texttt{paper/arxiv/NUMBERS.md}.
