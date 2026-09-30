@@ -98,6 +98,26 @@ npm run build
 npm run preview      # serves dist/ (default http://localhost:4173)
 ```
 
+## FMS algorithm module (`src/fms/`)
+
+Framework-free TypeScript implementing a lifelong fleet manager, exercised in the
+console at [`/fms`](http://localhost:5173/fms) (sidebar → 시뮬레이션):
+
+| Path | Contents |
+|------|----------|
+| `src/fms/map/` | 4-connected grid model, ASCII loader, benchmark layouts (`small`, `warehouse`, `console` — the last generated from the zone/line/dock vocabulary of the wireframes via `npm run extract:console-site`) |
+| `src/fms/alloc/` | Hungarian (rectangular, infeasible pairs) and greedy assignment; static, congestion-proxy and path-aware cost models with a battery term |
+| `src/fms/mapf/` | windowed space-time A*, reservation table with holds, prioritized planning with hold cascade, windowed CBS, conflict checks |
+| `src/fms/charging/` | two-threshold battery policy, per-slot charger capacity |
+| `src/fms/sim/` | seeded discrete-time lifelong simulator (Poisson task stream, rolling-horizon replanning, endpoint capacities, dwell, stall detector) and metrics |
+| `scripts/bench-fms.ts` | benchmark driver → `paper/experiments/results/` (JSON + CSV, committed) |
+| `paper/arxiv/` | the paper describing and evaluating the module (`latexmk -pdf main.tex`) |
+
+```bash
+npm test              # vitest: Hungarian vs brute force, MAPF property tests, CBS vs exhaustive, determinism
+npm run bench:fms     # 420 seeded runs, ~2 min single core
+```
+
 ## Data Layout
 
 | Path | Contents |
@@ -137,6 +157,7 @@ RoboOps is a plain static web build — the same `dist/` runs on Linux and Windo
 - [x] 30 wireframe screens navigable end-to-end (`navigate` / modal actions wired)
 - [x] Feature specs, PRD summary, and 8 user flows shipped as data alongside the UI
 - [ ] Desktop packaging — Tauri or Electron wrapping the `dist/` build, shipped via GitHub Releases
+- [x] Fleet-management algorithms (allocation, MAPF, charging) with an in-console simulator (`/fms`)
 - [ ] Live telemetry adapter — replace placeholder data with a real fleet API
 - [ ] English UI locale (screens are currently Korean-first)
 

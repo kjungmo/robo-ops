@@ -1,0 +1,25 @@
+\section{Conclusion}\label{sec:concl}
+
+We presented \sname, a lifelong fleet manager for grid warehouses that runs
+task allocation, windowed prioritized path planning and charging in one
+rolling-horizon loop, couples allocation to planning through arrival-time
+costs of the same planner, and keeps every epoch conflict-free by a hold
+cascade whose conflict-freeness we proved. An independent trajectory auditor
+found no executed conflict in 4{,}740 seeded runs with 60.4 million
+robot-steps across four layouts, fleets of 4 to 48 robots, two load
+regimes and both planner backends; removing the cascade brings conflicts
+back and removing the dynamic priorities gridlocks the fleet. With normal
+batteries no robot depleted and every run delivered all of its tasks; with
+doubled drain the threshold charging policy stranded robots whenever the
+slots saturated, which violates the bounded slot wait that our conditional
+reserve bound assumes. The coupled allocation did not improve throughput or
+service time over static Hungarian or even greedy assignment, neither in the
+twelve cells of the main study nor in four regimes chosen to
+favour it, while dock capacity and the planning window changed throughput
+by 7--29\%, for small fleets a windowed CBS backend shortened the makespan
+by 8\%. Token passing lost 16--66\% at our default dock capacity, but at
+the one robot in flight per dock that its endpoint rule allows, token
+passing with task swaps came within 2.5\% of our loop.
+The implementation, the benchmark and every number in this paper are
+available in the operator console repository so that the study can be
+repeated on layouts where the balance may differ.

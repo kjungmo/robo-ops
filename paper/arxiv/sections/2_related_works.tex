@@ -1,0 +1,57 @@
+\section{Related Work}\label{sec:related}
+
+\noindent\textbf{Multi-agent path finding.}
+Optimal MAPF on graphs is NP-hard \citep{yu2013structure}; search-based solvers
+are surveyed by \citet{felner2017search} and benchmarked under the common
+definitions of \citet{stern2019mapf}. Conflict-Based Search (CBS)
+\citep{sharon2015cbs} and its improvements
+\citep{boyarski2015icbs,li2019symmetry,li2021eecbs} are optimal or
+bounded-suboptimal; prioritized planning
+\citep{erdmann1987multiple,vandenberg2005prioritized,cap2015prioritized} with a
+space-time reservation table \citep{silver2005cooperative} is incomplete but
+fast and remains the workhorse of deployed fleets. PIBT
+\citep{okumura2019pibt,okumura2022pibt} replaces long-horizon paths with
+one-step priority inheritance. \sname\ uses windowed prioritized planning as
+its default planner, offers windowed CBS as an optional backend, and adds a
+hold cascade that turns planner failures into consistent (conflict-free) rests.
+
+\noindent\textbf{Lifelong pickup-and-delivery.}
+Warehouse fleets never solve a one-shot instance: tasks arrive continuously
+\citep{wurman2008coordinating}. \citet{ma2017lifelong} formalised
+multi-agent pickup and delivery (MAPD), introduced well-formed instances and
+the token-passing (TP) scheme, in which a robot only takes a task whose pickup
+and delivery are not the endpoint of another robot's path; its variant with
+task swaps (TPTS) lets a robot take over an assigned task whose pickup it
+reaches earlier than the current assignee, which already couples allocation
+to planned arrival times, greedily and one robot at a time.
+\citet{ma2019lifelong} added kinematic constraints
+and \citet{liu2019task} studied task sequencing. RHCR \citep{li2021rhcr}
+showed that replanning every $h$ steps over a window of $w$ steps scales to
+hundreds of robots. RHCR is a framework that accepts any windowed MAPF
+solver; our rolling-horizon loop with static Hungarian costs and windowed
+prioritized planning is an instance of it with task assignment and charging
+added, so we do not implement RHCR a second time, and we ablate the one
+place where our planner differs from plain windowed prioritized planning,
+the handling of planner failures (\cref{subsec:cascade}). \sname\ adopts
+the RHCR execution model and TP-style endpoint reservation, evaluates them
+together with an explicit battery model, which the cited works abstract
+away, and compares against TP and TPTS re-implemented in the same simulator
+(\cref{subsec:baselines}).
+
+\noindent\textbf{Task allocation and its coupling with path finding.}
+Assignment problems are classically solved by the Hungarian method
+\citep{kuhn1955hungarian,munkres1957algorithms,jonker1987shortest} or by
+auctions \citep{bertsekas1988auction}; taxonomies of multi-robot task
+allocation are given by \citet{gerkey2004formal} and
+\citet{korsah2013comprehensive}. Coupling assignment with MAPF has been done
+optimally for teams of interchangeable agents (CBM, \citealp{ma2016optimal})
+and for agents with individual sets of admissible goals (CBS-TA,
+\citealp{honig2018cbsta}), at a cost that limits these methods to one-shot
+instances. \sname\ instead couples the two approximately in the lifelong
+loop: assignment costs are arrival times of windowed space-time A* against
+the live reservation table, solved jointly for all idle robots by the
+Hungarian method, which prices in the traffic that already exists but not the
+interactions among the robots being assigned. None of these ingredients is new
+on its own; the contribution is their combination with batteries and dock
+capacities in one loop, and the controlled measurement of what the coupling
+buys.

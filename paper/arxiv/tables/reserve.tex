@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{What \cref{prop:charge} would need.} $D_\sigma$: largest free-space distance from any cell to any charger slot. $W$, $Q$: largest delay of a trip to a pickup, a dock or a slot, and longest slot wait, measured by the auditor over the normal-battery runs of \cref{tab:stress} (all fleet sizes, planners and loads of the layout). Required: the right-hand sides of \cref{eq:reserve} with these $W$, $Q$ and the default drain ($\beta_{\mathrm{m}}{=}0.001$, $\beta_{\mathrm{w}}{=}0.0002$, $\delta{=}2$); the defaults are $\rho{=}0.05$, $\theta_{\mathrm{lo}}{=}0.2$. With $W{=}Q{=}0$ the default reserve would suffice only on \emph{small}; with the measured $W$ and $Q$ it is short by a factor of 6.6 to 18.6, and not one of the 2{,}160 runs satisfies \cref{eq:reserve} with its own $W$ and $Q$.}
+\label{tab:reserve}
+\footnotesize
+\begin{tabular}{lrrrcccc}
+\toprule
+\textbf{Layout} & $D_\sigma$ & $W$ & $Q$ & \textbf{Req.\ $\rho$} & \textbf{Req.\ $\rho$ ($W{=}Q{=}0$)} & \textbf{Req.\ $\theta_{\mathrm{lo}}$} & \textbf{Min SoC seen}\\
+\midrule
+small & 17 & 246 & 173 & 0.93 & 0.02 & 0.44 & 0.12\\
+warehouse & 67 & 104 & 102 & 0.48 & 0.07 & 0.27 & 0.05\\
+console & 56 & 80 & 33 & 0.33 & 0.06 & 0.17 & 0.10\\
+narrow & 62 & 156 & 92 & 0.62 & 0.06 & 0.31 & 0.04\\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -5,6 +5,13 @@ export type NavSection = {
   pageIds: string[]
 }
 
+export type NavItem = {
+  id: string
+  name: string
+  /** Route override for screens that are not wireframe pages. */
+  href?: string
+}
+
 const SECTIONS: NavSection[] = [
   { title: '인증', pageIds: ['n2', 'n3'] },
   { title: '관제', pageIds: ['n6', 'n7', 'n8', 'n9'] },
@@ -16,12 +23,17 @@ const SECTIONS: NavSection[] = [
 
 const pageNames = new Map(summary.pages.map((page) => [page.pageNodeId, page.pageName]))
 
-export function getNavSections() {
-  return SECTIONS.map((section) => ({
+const EXTRA_SECTIONS: Array<{ title: string; items: NavItem[] }> = [
+  { title: '시뮬레이션', items: [{ id: 'fms', name: 'FMS 시뮬레이터', href: '/fms' }] },
+]
+
+export function getNavSections(): Array<{ title: string; items: NavItem[] }> {
+  const sections = SECTIONS.map((section) => ({
     title: section.title,
-    items: section.pageIds.map((id) => ({
+    items: section.pageIds.map((id): NavItem => ({
       id,
       name: pageNames.get(id) ?? id,
     })),
   }))
+  return [...sections, ...EXTRA_SECTIONS]
 }

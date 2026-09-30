@@ -1,0 +1,29 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  font=\small,
+  box/.style={draw, rounded corners=2pt, align=center, minimum height=9mm, inner sep=4pt, fill=white},
+  stage/.style={box, minimum width=30mm},
+  store/.style={box, fill=gray!10, minimum width=26mm},
+  arr/.style={-{Latex[length=2mm]}, thick},
+  lbl/.style={font=\scriptsize, fill=white, inner sep=1pt}]
+  \node[stage] (busy) {(i) Plan busy robots\\Alg.~\ref{alg:pp}};
+  \node[stage, right=9mm of busy] (charge) {(ii) Charger\\assignment, Alg.~\ref{alg:charge}};
+  \node[stage, right=9mm of charge] (alloc) {(iii) Price idle robots\\$A^{\mathcal{B}}(p^r,p_\tau,t_0)$, Hungarian};
+  \node[stage, right=9mm of alloc] (newp) {(iv) Plan assigned\\and parking robots};
+  \node[store, below=9mm of charge, xshift=22mm] (table) {Reservation table $\mathcal{B}$\\vertices, edges, holds on $[t_0,t_0+w]$};
+  \node[store, left=9mm of table] (tasks) {Pending tasks\\endpoint capacities $\kappa_{\mathrm{d}},\kappa_{\mathrm{p}}$};
+  \node[store, right=9mm of table] (exec) {Execute $h$ ticks\\conflict check, battery, events};
+  \draw[arr] (busy) -- (charge);
+  \draw[arr] (charge) -- (alloc);
+  \draw[arr] (alloc) -- (newp);
+  \draw[arr] (busy.south) |- node[lbl, pos=0.75] {write} (table.west);
+  \draw[arr] (table.north) -- node[lbl] {read} (alloc.south);
+  \draw[arr] (newp.south) |- node[lbl, pos=0.75] {write} (table.east);
+  \draw[arr] (tasks.north) |- ++(0,4mm) -| node[lbl, pos=0.25] {pool} (alloc.south west);
+  \draw[arr] (table.east) -- (exec.west);
+  \draw[arr, dashed] (exec.south) -- ++(0,-5mm) -| ([xshift=-6mm]busy.south) node[lbl, pos=0.25] {next epoch ($h$ ticks, idle robot, depletion)};
+\end{tikzpicture}
+\caption{\textbf{One replanning epoch of \sname.} Busy robots are planned first into a fresh reservation table; low-charge robots are matched to free charger slots; every idle robot is then priced against the candidate pool by running the same windowed space-time A* against the table (MAPF-in-the-loop), the Hungarian method assigns tasks, and the assigned and parking robots are planned last. A hold cascade (Alg.~\ref{alg:pp}) keeps the table conflict-free whenever a robot cannot find a path.}
+\label{fig:overview}
+\end{figure}
