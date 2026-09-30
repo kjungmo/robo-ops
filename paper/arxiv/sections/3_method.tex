@@ -1,4 +1,4 @@
-\section{\sname: A Coupled Lifelong Fleet Manager}\label{sec:method}
+\section{\sname: A Lifelong Fleet Manager with Reservation-Aware Pickup Costs}\label{sec:method}
 
 \sname\ runs a rolling-horizon loop (\cref{fig:overview}): every replanning
 epoch it (i) re-plans the robots that already have goals, (ii) sends
@@ -96,7 +96,8 @@ reservation exists beyond the horizon. The returned cost is the arrival time
   A^{\mathcal{B}}(p,g,t_0) \;=\; \min\{\,t - t_0 : (g,t)\ \text{reachable under }\mathcal{B},\ \mathrm{goalfree}(g,t)\,\},
 \end{equation}
 the per-agent cost of sum-of-costs MAPF restricted to the window. Since
-$d(\cdot,g)$ is consistent, the first goal state popped is optimal, and the
+$d(\cdot,g)$ is consistent, the first goal state popped is optimal
+\citep{hart1968astar}, and the
 search is bounded by $|V|(w+1)$ expansions.
 
 \begin{algorithm}[t]
@@ -126,9 +127,16 @@ robot plans. Prioritized planning is incomplete: a robot may find no path
 within the window. Instead of leaving such a robot unplanned, \sname\ makes it
 \emph{hold} its current cell for the whole window, and re-plans every robot
 whose reservation crosses that cell---including robots planned in an earlier
-group of the same epoch. Holds only accumulate within an epoch, so the cascade
+group of the same epoch. This is a variant of the IStay fail policy of
+\citet{morag2023adapting}, in which agents with invalid paths stay in place
+and the agents whose paths become invalid as a result stay as well; here the
+affected robots are removed and re-planned against the hold instead.
+Holds only accumulate within an epoch, so the cascade
 terminates, and at termination every path is consistent with every
-reservation:
+reservation. The argument is the standard invariant of prioritized planning
+with a reservation table \citep{erdmann1987multiple,silver2005cooperative}:
+a path is inserted only if it is consistent with the table. We state it
+because holds and removals change the table during the cascade.
 
 \begin{proposition}[Conflict-freeness of an epoch]\label{prop:pp}
 Let all robots occupy distinct cells at $t_0$, and let every entry of
@@ -361,7 +369,7 @@ $M\gets$ \textsc{Hungarian}$\bigl([\,d(p^r,\sigma)\,]_{r\in\mathcal{N},\sigma\in
 \ForEach{$(r,\sigma)\in M$}{claim $\sigma$ for $r$; goal of $r\gets\sigma$; status of $r\gets$ charging-bound\;}
 \end{algorithm}
 
-\subsection{Allocating tasks: assignment costs from MAPF-in-the-loop}\label{subsec:alloc}
+\subsection{Allocating tasks: reservation-aware pickup costs}\label{subsec:alloc}
 
 \noindent\textbf{Candidate pool.}
 Pending tasks are kept in arrival order. Following token passing
@@ -399,9 +407,15 @@ The cost matrix is solved by the Hungarian method
 shortest-augmenting-path form of \citet{jonker1987shortest}, applied to the
 rectangular matrix, with infeasible
 pairs priced above the sum of all finite costs; or, for the greedy baseline,
-by repeatedly committing the cheapest remaining pair.
+by repeatedly committing the cheapest remaining pair. The following
+proposition is the standard optimality result for this method; we restate it
+only to cover the rectangular matrix and the pricing of infeasible pairs by
+a large constant, a standard reduction. It concerns the cost matrix, not the joint assignment and paths:
+each entry is computed against the busy robots, so the matching ignores the
+interactions among the robots it assigns, and beyond the window the
+arrival time uses a shortest path that ignores reservations.
 
-\begin{proposition}[Optimality of the assignment step]\label{prop:hungarian}
+\begin{proposition}[Optimality of the assignment step for its cost matrix]\label{prop:hungarian}
 For a cost matrix $C\in(\mathbb{R}_{\ge0}\cup\{\infty\})^{m\times k}$, the
 Hungarian step returns a matching that, among all matchings of maximum
 cardinality over finite entries, minimises total cost; it runs in

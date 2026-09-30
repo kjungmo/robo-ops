@@ -24,6 +24,6 @@
   \draw[arr] (table.east) -- (exec.west);
   \draw[arr, dashed] (exec.south) -- ++(0,-5mm) -| ([xshift=-6mm]busy.south) node[lbl, pos=0.25] {next epoch ($h$ ticks, idle robot, depletion)};
 \end{tikzpicture}
-\caption{\textbf{One replanning epoch of \sname.} Busy robots are planned first into a fresh reservation table; low-charge robots are matched to free charger slots; every idle robot is then priced against the candidate pool by running the same windowed space-time A* against the table (MAPF-in-the-loop), the Hungarian method assigns tasks, and the assigned and parking robots are planned last. A hold cascade (Alg.~\ref{alg:pp}) keeps the table conflict-free whenever a robot cannot find a path.}
+\caption{\textbf{One replanning epoch of \sname.} Busy robots are planned first into a fresh reservation table; low-charge robots are matched to free charger slots; every idle robot is then priced against the candidate pool by running the same windowed space-time A* against the table (a reservation-aware pickup cost), the Hungarian method assigns tasks, and the assigned and parking robots are planned last. A hold cascade (Alg.~\ref{alg:pp}) keeps the table conflict-free whenever a robot cannot find a path.}
 \label{fig:overview}
 \end{figure}

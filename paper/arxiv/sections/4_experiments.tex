@@ -2,8 +2,9 @@
 
 We ask three questions. (Q1) Is the stack correct and stable in lifelong
 operation---no conflicts, no depletions, no deadlocks---across layouts, fleet
-sizes and load regimes? (Q2) Does coupling allocation to the planner through
-path-aware costs improve throughput or service time over static costs?
+sizes and load regimes? (Q2) Does pricing robot-to-pickup assignments with
+reservation-aware arrival times (or a congestion proxy) improve throughput or
+service time over static costs?
 (Q3) Which of the remaining design choices (planner backend, window,
 replanning period, endpoint capacity, battery term) matter, and what do they
 cost in planner time? A second round of experiments, run after an adversarial
@@ -147,13 +148,17 @@ against Hungarian contain zero; the exception is \sname\ on the console with
 32 robots under batch load, $2.3\pm2.0\%$ \emph{below} Hungarian, fewer
 exclusions than the 1.8 expected by chance among 36 intervals. Every interval
 lies within $\pm3.7\%$ under the Poisson load and within $\pm7.1\%$ under
-batch load, so the study excludes large effects of the cost model, not effects
-of a few percent. This includes the cells where coupling could plausibly help: the
+batch load. Read cell by cell, the intervals exclude effects larger than
+these bounds; they do not show that an effect is absent. The study was not
+designed or powered as an equivalence test and fixes no equivalence margin
+in advance, so we claim only that no large effect of the cost model was
+detected, and effects of a few percent remain unresolved. The cells include
+those where coupling could plausibly help: the
 saturated batch regime with 32 robots, where 233--297 wait actions per run
 show that robots do interact, and the light regime with 16--32 robots, where
 robots are idle and the pairing decision is free to matter. Greedy
-assignment is as good as optimal assignment throughout. The reason is
-structural rather than statistical, and \cref{sec:disc} discusses it:
+assignment is not measurably worse than optimal assignment in any cell.
+\Cref{sec:disc} gives our explanation, which these runs do not test directly:
 the quantity the coupling improves, the empty trip to the pickup, is a small
 and well-predicted part of a task, and the congestion that exists arises at
 endpoints rather than along paths.
@@ -275,27 +280,28 @@ baselines, and neither is active in these runs: no search hits the
 of a path home for the displaced robot.
 
 TP delivers 29--66\% less throughput than the rolling-horizon loop with
-Hungarian costs, and TPTS 16--55\% less, in every setting. The gap is the
-endpoint rule:
+Hungarian costs, and TPTS 16--55\% less, in every setting. The gap comes mainly
+from the endpoint rule:
 a task whose dock is the end of another robot's path is not eligible, which
 limits every dock to one robot in flight. Run with the same limit
 ($\kappa_{\mathrm{d}}=1$), the rolling-horizon loop with Hungarian costs
 and TPTS differ by $-2.5$ to $+1.6\%$ (TPTS relative to it, seed-paired) in
 every setting, while TP stays 11--26\% behind it, a gap that task swaps
-close. The baseline gap therefore measures dock capacity, not our allocation
+close. The gap to TPTS therefore measures dock capacity, not our allocation
 or planner; and it is an observation about these adapted instances, not
 about TP and TPTS on the well-formed instances they were designed for. TPTS pays for its swaps with 23{,}000--93{,}000 A*
 calls per run, against 4{,}600--9{,}200 for the rolling-horizon loop.
-\sname's path-aware costs stay neutral against Hungarian: at the default
-capacity all five intervals contain zero, and at $\kappa_{\mathrm{d}}=1$
+Against Hungarian, \sname's path-aware costs show no resolved difference
+except one marginal one: at the default capacity all five intervals contain
+zero, and at $\kappa_{\mathrm{d}}=1$
 one of five excludes it by a hair ($+0.9\pm0.9\%$ under Poisson load).
 
 \subsection{Coupling Regimes}\label{subsec:coupling}
 \input{tables/coupling}
 
-\Cref{sec:disc} argues that the coupling does not pay because the empty trip
-is short and well predicted by the free-space distance and because
-congestion concentrates at the docks. We defined four regimes that attack
+\Cref{sec:disc} explains the null result by two conjectures: the empty trip
+is short and well predicted by the free-space distance, and congestion
+concentrates at the docks. We defined four regimes that attack
 those reasons, committed before their results (\cref{subsec:setup}): one-lane aisles, where a robot loading at
 a pickup blocks the aisle and arrival times depend on traffic; hotspot
 demand, which concentrates traffic in a few aisles; long empty trips from
@@ -307,7 +313,7 @@ compete for 8 slots and the battery term of \cref{eq:cost} is active.
 In the first three regimes the mean differences between \sname\ and
 Hungarian or greedy assignment are at most 1.3\% in throughput and 0.6\% in
 service time, and none of \sname's twelve intervals excludes zero; the
-tightest ones, under the long empty trips, rule out effects above 0.5\%.
+tightest ones, under the long empty trips, exclude effects above 0.5\%.
 The only intervals in these regimes that exclude zero belong to the
 congestion proxy and point both ways ($+1.7\pm1.4\%$ throughput on one-lane
 aisles, $-1.5\pm1.3\%$ throughput and $+0.6\pm0.5\%$ service time under
@@ -321,5 +327,10 @@ $+23\pm18\%$ and $+24\pm21\%$ throughput against Hungarian, but service
 time does not move ($0.0\pm2.2\%$) and throughput, being deliveries over the
 time to the last delivery or the stall, mostly reflects fewer stalled runs
 (10 for \sname, 16 for Hungarian). We do not count this as evidence for the
-coupling. The negative result of \cref{subsec:main} therefore extends to the
-regimes we chose to favour it.
+coupling. Within the safe envelope, the null result of \cref{subsec:main}
+therefore also holds in the regimes we chose to favour the coupling, with
+the same caveat that it is not an equivalence test. These regimes still use
+the pickup-leg cost and the dock-capacity gate; they do not test a
+full-trip, reservation-aware score such as that of \citet{hirayama2026detour}
+or fleets of the size used by \citet{zhang2025flow} and
+\citet{gaber2026grand}.

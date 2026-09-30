@@ -1,9 +1,11 @@
 \section{Discussion and Limitations}\label{sec:disc}
 
-\noindent\textbf{Why the coupling does not pay.}
+\noindent\textbf{Why this coupling did not pay here.}
 The path-aware cost replaces $d(p^r,p_\tau)$ by the arrival time
-$A^{\mathcal{B}}(p^r,p_\tau,t_0)$. The two differ only by the waits and
-detours that reservations impose on the empty trip to the pickup. In our
+$A^{\mathcal{B}}(p^r,p_\tau,t_0)$. Within the window the two differ only by
+the waits and detours that reservations impose on the empty trip to the
+pickup; beyond the window \cref{alg:astar} appends a shortest path that
+ignores reservations. In our
 layouts that difference is small on two counts. First, the empty trip is a
 minor part of a task: under batch load with 32 robots, service time is
 282--287 ticks of which 216--220 are queueing before assignment
@@ -12,21 +14,41 @@ pickup, two dwells and the loaded trip, and the pickup leg is the shorter one be
 robots start near the aisles. Second, with 2-wide aisles the planner absorbs
 most interactions by a one-tick wait or a lane change: a run of 200 tasks
 executes 274 wait actions against 14.9 thousand moves, about 1.4 waits per
-task. The arrival-time estimate therefore rarely re-orders candidates, and
-when it does the change is within the noise of task sampling. Congestion that
+task. We did not record how often the two costs lead to different
+matchings, so the next step is an inference, not a measurement: the
+arrival-time estimate should rarely re-order candidates, and when it does the
+change is within the noise of task sampling. Congestion that
 does matter concentrates at the docks, which the pickup-leg cost cannot see
-and which the endpoint capacity already regulates. We expected one-lane
+and which the endpoint capacity already regulates: on the warehouse layout,
+the nine docks of capacity three bound the number of tasks in flight
+(\cref{subsec:main}), and, as noted above, most of the service time under
+batch load is spent waiting before assignment. This is in line with
+\citet{kou2020idle}, who assign robots to stations in sortation centres so
+as to minimise station idle time.
+We expected one-lane
 aisles, hotspot demand, long empty trips or saturated chargers to change the
-balance and tested them (\cref{subsec:coupling}); none did, within
-intervals of one to two percent. The explanation above survives the test in
+balance and tested them (\cref{subsec:coupling}); the three inside the safe
+envelope did not, within intervals of one to two percent, and the fourth is
+confounded by stalled runs. The explanation above survives the test only in
 a narrower form: even where arrival times deviate from free-space distances,
-the assignment that minimises either one delivers the same throughput,
-because the queue in front of the docks, not the trip to the pickup, sets the
-pace. The negative result remains a statement about our grid warehouses,
-cost models and endpoint rules, not about coupling in general; a coupling
-that also prices the dock queue, or that plans the assigned robots jointly
-as CBS-TA does for one-shot instances \citep{honig2018cbsta}, is not ruled
-out.
+the assignments that minimise either one deliver throughputs that we cannot
+tell apart, which is consistent with the queue in front of the docks, not
+the trip to the pickup, setting the pace. The negative result remains a statement about our grid warehouses,
+fleets of at most 48 robots, cost models and endpoint rules, not about
+coupling in general. It is compatible with the positive results of prior
+and concurrent work, which concern other signals or regimes: RMCA and
+Detour-Delta price complete trips under planned paths or committed
+reservations \citep{chen2021integrated,hirayama2026detour}; LNS-wPBS, whose
+Hungarian-based insertion beats a greedy heuristic, assigns multi-goal task
+sequences on estimates of service time \citep{xu2022multigoal}, whereas
+\sname\ assigns one task per idle robot under a dock-capacity gate, so the
+two greedy-versus-Hungarian comparisons are made on different problems; the
+evaluations of flow-based assignment and GRAND include much larger fleets
+\citep{zhang2025flow,gaber2026grand}; and the assigner of
+\citet{zhu2026combined} chooses a robot's delivery port rather than the
+robot for a given task. A coupling that also prices the loaded leg or the
+dock queue, or that plans the assigned robots jointly as CBS-TA does for
+one-shot instances \citep{honig2018cbsta}, is not ruled out.
 
 \noindent\textbf{Cost analysis.}
 The whole stack runs at 0.02--0.97 ms of planner time per simulated tick for 4
@@ -41,9 +63,14 @@ tables, one $|V|$-vector per endpoint.
 During development, each of three mechanisms removed a jam we had observed;
 the second round of experiments measures all three (\cref{subsec:cascade},
 \cref{subsec:ablation}). (i) The hold
-cascade (\cref{alg:pp}) is what makes ``no path found'' safe: without
-re-planning the robots that cross a held cell, a hold silently invalidates
-earlier reservations. (ii) Endpoint capacities bound the queue in front of a
+cascade (\cref{alg:pp}) is how \sname\ makes ``no path found'' safe: without
+some repair of the robots whose reservations cross a held cell, a hold
+silently invalidates those reservations. The ablation shows that the
+conflicts come from leaving invalidated reservations unrepaired: no repair
+executes conflicts in every setting, and priority restarts, which fall back
+to no repair after three attempts, do so in three of the four settings
+(\cref{tab:cascade}); it does not compare re-planning with the IStay or
+IAvoid remedy of \citet{morag2023adapting}. (ii) Endpoint capacities bound the queue in front of a
 dock; with unbounded queues, robots waiting for the same dock filled both
 lanes of the corridor and the robot leaving the dock could not get out.
 (iii) Planning held robots first, across planning groups, resolves the one
@@ -55,15 +82,19 @@ cascade, executed conflicts appear in most runs; with static instead of
 dynamic priorities, the fleet gridlocks in 113 of 120 runs
 (\cref{tab:cascade}); tightening (ii) from 3 to 2 robots per dock costs a
 fifth of the throughput, and loosening it to 4 gains 9\% at twice the
-holds. These are
-engineering facts about prioritized lifelong planning that the literature
-tends to summarise as ``we did not observe deadlocks''; we report them
-because each one was found by a jam in our own runs before it was fixed.
+holds. Failure handling in lifelong planning has been studied explicitly
+\citep{morag2023adapting,yan2026lsmart,tang2026energy}, and (i) is a
+variant of the IStay policy of \citet{morag2023adapting}; we report the
+three mechanisms because each one was found by a jam in our own runs before
+it was fixed, and \cref{subsec:cascade} measures them for our planner.
 
 \noindent\textbf{Limitations.}
 Everything in this paper is simulation on a unit-speed 4-connected grid with
 synchronous ticks: no kinematics, no localisation error, no communication
-delay, no real robots. Tasks are sampled uniformly over endpoints except in
+delay, no real robots, so our grid-level results may not carry over to real
+execution; \citet{varambally2022which} give a controlled study of how MAPF
+models of different fidelity affect warehouse throughput under more realistic
+execution. Tasks are sampled uniformly over endpoints except in
 two coupling regimes; real demand is also time-varying, which we do not
 model. The battery model is linear and the
 charging policy is a fixed hysteresis; we do not optimise charging
@@ -73,13 +104,24 @@ bounds would prevent that, not how to enforce them. A charging policy that
 reserves slots ahead of time or raises $\theta_{\mathrm{lo}}$ with the
 charger queue is the obvious next step. Five seeds per configuration in the
 first round bound its resolution to differences of a few percent; the second
-round uses 30 to 60 seeds. Basic CBS, with PP for robots that share a goal, runs on groups of up to 32
+round uses 30 to 60 seeds, and neither round was designed as an equivalence
+test. The coupling study has no baseline from the coupling literature: we do
+not run RMCA, LNS-wPBS or Detour-Delta, nor a cost that prices the whole
+pickup-to-delivery trip, and we have no congested setting without the
+dock-capacity gate or with fleets of hundreds of robots. These runs are the
+evaluation we plan next; until then the null result says nothing about those
+methods. We also did not record how often the static and path-aware costs
+produce different matchings, which would test the explanation above
+directly. Basic CBS, with PP for robots that share a goal, runs on groups of up to 32
 robots with few node-budget fall-backs but gains only 1--3\% makespan there; symmetry reasoning
 \citep{li2019symmetry} or bounded-suboptimal search \citep{li2021eecbs}
 might gain more. Prioritized planning with a hold cascade is safe but not
 complete: a robot can be delayed for several epochs, and although every run
 with normal batteries finished, we have no proof that none can deadlock or
-livelock. Our token-passing baselines follow \citet{ma2017lifelong} but run
+livelock. We did not run an IStay- or IAvoid-style variant, in which the
+affected robots stay in place (under IAvoid, after at most one avoiding
+move), so the ablation does not show that re-planning them is better than
+making them stay. Our token-passing baselines follow \citet{ma2017lifelong} but run
 on layouts that are not well-formed for them, with our dwell, charging and
 parking rules added; other adaptations are possible. Finally, the console
 integration displays the simulator; it is not connected to a fleet.

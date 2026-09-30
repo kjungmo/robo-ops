@@ -15,19 +15,34 @@ pickup-and-delivery variant \citep{ma2017lifelong,li2021rhcr}---but a
 deployable FMS has to run them together, at every tick, with hard safety
 constraints.
 
-The interface between allocation and path finding is where most fleet
-managers cut corners. Assignment costs are almost always free-space distances
+The interface between allocation and path finding is where many fleet
+managers cut corners. Assignment costs are often free-space distances
 \citep{ma2017lifelong,liu2019task}, which ignore the traffic that the planner
-already knows about; the methods that couple assignment and MAPF exactly
-(CBM, \citealp{ma2016optimal}; CBS-TA, \citealp{honig2018cbsta}) solve
-one-shot instances and do not transfer to a rolling-horizon loop with
-batteries, dwell times and dock queues, and the lifelong scheme that does use
-planned arrival times, token passing with task swaps \citep{ma2017lifelong},
-applies them greedily, one robot at a time. Whether the cheap decoupling actually
-costs anything in a lifelong warehouse setting is, to our knowledge, an open
-empirical question; and the planners that make lifelong operation scale
-\citep{li2021rhcr} are evaluated without batteries and without dwell times
-or capacity limits at the delivery endpoints.
+already knows about. Coupling the two has been studied at several levels of
+fidelity. Exact methods (CBM, \citealp{ma2016optimal}; CBS-TA,
+\citealp{honig2018cbsta}) solve one-shot instances, and \citet{fan2025joint}
+extend a CBS-based joint search to a continuous task stream by re-solving it
+when the task set changes. In online pickup and delivery, token passing with
+task swaps lets a robot take over a task whose pickup it reaches earlier
+\citep{ma2017lifelong}; \citet{shimokawa2022improvement} estimate pickup
+times to choose the robot in token passing; RMCA prices assignments with
+collision-free paths from prioritized planning and improves them by large
+neighbourhood search \citep{chen2021integrated}; LNS-wPBS combines
+Hungarian-based insertion and large neighbourhood search with windowed
+planning \citep{xu2022multigoal}; and, in concurrent work, Detour-Delta scores
+tasks by the extra delivery time that committed space-time reservations
+impose \citep{hirayama2026detour}. These online methods, an evaluation of
+task-assignment strategies for capacitated agents in lifelong pickup and
+delivery \citep{cilden2025task}, and a simulation study of online assignment
+on warehouse scenarios from a deployed logistics operator
+\citep{zhu2026combined},
+find that the choice of assignment rule changes performance. Batteries
+\citep{kudo2024anytime,tang2026energy} and docks with finite buffers
+\citep{zang2026handover} have also been added to lifelong pickup and
+delivery. What we have not found measured is a narrower question: in a loop
+that also has batteries, loading dwell and per-dock limits on the tasks in
+flight, does replacing free-space robot-to-pickup costs by reservation-aware
+arrival times at the pickup change throughput?
 
 To answer that question with a system rather than a thought experiment, we
 introduce \emph{\sname} (Path-Aware Coupled Tasking), an end-to-end,
@@ -35,14 +50,20 @@ framework-free lifelong fleet manager for grid warehouses
 (\cref{fig:overview}). \sname\ replans the fleet every $h$ ticks over a window
 of $w$ ticks, as in RHCR \citep{li2021rhcr}, with windowed space-time A*
 \citep{silver2005cooperative} under a reservation table and prioritized
-planning \citep{erdmann1987multiple}. Its coupling is deliberately the
-cheapest one that uses real plans: the cost of assigning robot $r$ to task
+planning \citep{erdmann1987multiple}. Its coupling is a deliberately
+cheap one that uses real plans: the cost of assigning robot $r$ to task
 $\tau$ is the arrival time that the same planner reports for $r$'s trip to
 the pickup against the reservations of the robots that are already busy, and
 the Hungarian method \citep{kuhn1955hungarian} turns those costs into an
-optimal assignment. Around the coupling sit the pieces that make a lifelong
+assignment that is optimal for that cost matrix. Unlike RMCA and
+Detour-Delta, the cost prices only the empty trip to the pickup, and it does
+not price the interactions among the robots assigned in the same epoch.
+Around the coupling sit the pieces that make a lifelong
 loop robust: a hold cascade that converts planner failures into consistent
-rests, token-passing endpoint capacities \citep{ma2017lifelong} that keep dock
+rests (a variant of the fail policies of \citet{morag2023adapting}, in which
+the robots whose reservations cross a held cell are re-planned rather than
+made to stay in place), token-passing endpoint capacities
+\citep{ma2017lifelong} that keep dock
 queues short, a two-threshold charging policy with capacity-constrained slot
 assignment, and an optional windowed Conflict-Based Search backend
 \citep{sharon2015cbs}.
@@ -50,17 +71,22 @@ assignment, and an optional windowed Conflict-Based Search backend
 Our contributions are:
 \begin{itemize}
   \item \emph{A tested lifelong FMS stack}: grid map model with benchmark
-  layouts (one generated from an operator console's own zone and dock
-  vocabulary), Hungarian and greedy allocation, windowed space-time A*,
+  layouts (one generated from the zone and dock labels of an operator-console
+  wireframe), Hungarian and greedy allocation, windowed space-time A*,
   prioritized planning with a hold cascade, windowed CBS, charging, and a
   seeded discrete-time simulator; conflict-freeness of every executed step
-  and optimality of the assignment step are proved, and a test suite checks the
+  is proved by the standard reservation-table argument extended to holds, the
+  optimality of the Hungarian step for its cost matrix is restated from the
+  assignment literature, and a test suite checks the
   Hungarian and CBS implementations against exhaustive search and the planners
-  against property tests.
-  \item \emph{Path-aware coupled allocation}: assignment costs from
-  MAPF-in-the-loop arrival times, with a congestion-proxy middle ground, a
-  battery term and candidate pruning, designed so that the coupling adds only
-  a bounded number of windowed A* calls per epoch.
+  against property tests. None of these components is new on its own.
+  \item \emph{Reservation-aware pickup costs}: Hungarian assignment on
+  arrival times at the pickup from the windowed planner, with a
+  congestion-proxy middle ground, a battery term and candidate pruning,
+  designed so that the coupling adds only a bounded number of windowed A*
+  calls per epoch. Pricing assignments with planned paths or estimated pickup times is not
+  new \citep{shimokawa2022improvement,chen2021integrated,hirayama2026detour}; this is a cheaper instance
+  that prices only the pickup leg.
   \item \emph{A controlled study of what moves a fleet}: 420 seeded runs on
   three layouts sweep allocation cost model, planner backend, fleet size,
   load regime, window, replanning period, dock capacity and battery
@@ -71,29 +97,39 @@ Our contributions are:
   committed result file.
 \end{itemize}
 
-The study's main result is negative and, we argue, useful: in every one of
+The study's main result is negative and narrow: with dock capacity limiting
+which tasks can be assigned, in every one of
 twelve layout/fleet/load cells the four allocation cost models---greedy,
-Hungarian, congestion proxy and MAPF-in-the-loop---differ by at most 2.9\% in
+Hungarian, congestion proxy and reservation-aware pickup cost---differ by at most 2.9\% in
 mean throughput, and 35 of 36 seed-paired 95\% intervals against Hungarian
-contain zero (\cref{tab:main,tab:paired}). With five seeds this rules out
-differences above about 7\% in the noisiest cell and above about 4\% under the Poisson
-load, not small ones. What does move the fleet is elsewhere: raising the
+contain zero (\cref{tab:main,tab:paired}). With five seeds the interval
+bounds reach about 7\% in the noisiest cell and about 4\% under the Poisson
+load, so the study detects no large effect but cannot resolve small ones. It
+was not designed as an equivalence test and fixes no equivalence margin, so
+it does not show that the effect is zero; nor does it test costs that price
+the loaded leg, the dock queue or the interactions among the robots being
+assigned. What does move the fleet is elsewhere: raising the
 per-dock in-flight capacity from 2 to 3 raises throughput by 26--29\%,
 shortening the planning window from 20 to 10 ticks raises it by 7\% while
 cutting planner time by $3.3\times$, and windowed CBS reduces makespan by
 8\% on small fleets (\cref{tab:ablation,tab:planner}); all three effects lie
-outside their seed-paired 95\% intervals. The negative result holds in the
-four regimes we chose to favour the coupling (\cref{subsec:coupling}).
-Token passing \citep{ma2017lifelong} is 16--66\% slower than our loop at
-its default dock capacity, but its endpoint rule allows one robot in flight
+outside their seed-paired 95\% intervals. In the four regimes we chose to
+favour the coupling, \sname\ shows no resolved gain except where every method
+strands robots, and there its higher throughput mostly reflects fewer stalled runs
+(\cref{subsec:coupling}).
+Token passing and token passing with task swaps \citep{ma2017lifelong}
+deliver 16--66\% less throughput than our loop at its default dock
+capacity, but their endpoint rule allows one robot in flight
 per dock; at that capacity our loop and token passing with task swaps are
 within $-2.5$ to $+1.6\%$ of each other (\cref{subsec:baselines}), so the
-gap measures dock capacity, not our allocation or planner.
+gap to token passing with task swaps measures dock capacity, not our
+allocation or planner.
 Throughout, the executed plans of 60.4 million audited robot-steps contain no
 vertex or swap conflict, as the construction guarantees. Progress and charge
 are not guaranteed: with normal batteries no robot depletes and every run
 delivers all of its tasks, but with doubled drain the charging policy
 strands robots once its slots saturate (\cref{subsec:main}), and we prove
 only a conditional reserve bound (\cref{prop:charge}). We release the
-implementation inside the operator console it was built for, together with
+implementation inside the operator-console codebase it was developed in,
+together with
 all results.
