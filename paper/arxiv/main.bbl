@@ -1,4 +1,4 @@
-\begin{thebibliography}{26}
+\begin{thebibliography}{44}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -20,20 +20,51 @@ M.~{\v{C}}{\'a}p, P.~Nov{\'a}k, A.~Kleiner, and M.~Seleck{\'y}.
 \newblock Prioritized planning algorithms for trajectory coordination of multiple mobile robots.
 \newblock \emph{IEEE Transactions on Automation Science and Engineering}, 12\penalty0 (3):\penalty0 835--849, 2015.
 
+\bibitem[Chen et~al.(2021)Chen, Alonso-Mora, Bai, Harabor, and Stuckey]{chen2021integrated}
+Z.~Chen, J.~Alonso-Mora, X.~Bai, D.~D. Harabor, and P.~J. Stuckey.
+\newblock Integrated task assignment and path planning for capacitated multi-agent pickup and delivery.
+\newblock \emph{IEEE Robotics and Automation Letters}, 6\penalty0 (3):\penalty0 5816--5823, 2021.
+
+\bibitem[{\c{C}}ilden and Polat(2025)]{cilden2025task}
+E.~{\c{C}}ilden and F.~Polat.
+\newblock Task assignment strategies for capacitated agents engaged in lifelong pickup and delivery tasks.
+\newblock \emph{Knowledge-Based Systems}, 329, 2025.
+\newblock Article 114281.
+
 \bibitem[Erdmann and Lozano-P{\'e}rez(1987)]{erdmann1987multiple}
 M.~Erdmann and T.~Lozano-P{\'e}rez.
 \newblock On multiple moving objects.
 \newblock \emph{Algorithmica}, 2:\penalty0 477--521, 1987.
+
+\bibitem[Fan et~al.(2025)Fan, Ouyang, Xie, Wang, Yan, He, and Tan]{fan2025joint}
+H.~Fan, B.~Ouyang, Q.~Xie, Y.~Wang, Z.~Yan, J.~He, and Q.~Tan.
+\newblock Joint optimization of multi-agent task allocation and path planning for continuous pickup and delivery tasks.
+\newblock In \emph{Proceedings of the IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)}, pages 20014--20019, 2025.
 
 \bibitem[Felner et~al.(2017)Felner, Stern, Shimony, Boyarski, Goldenberg, Sharon, Sturtevant, Wagner, and Surynek]{felner2017search}
 A.~Felner, R.~Stern, S.~E. Shimony, E.~Boyarski, M.~Goldenberg, G.~Sharon, N.~R. Sturtevant, G.~Wagner, and P.~Surynek.
 \newblock Search-based optimal solvers for the multi-agent pathfinding problem: Summary and challenges.
 \newblock In \emph{Proceedings of the International Symposium on Combinatorial Search (SoCS)}, pages 29--37, 2017.
 
+\bibitem[Gaber et~al.(2026)Gaber, Alharbi, Gammelli, and Zardini]{gaber2026grand}
+J.~Gaber, M.~Alharbi, D.~Gammelli, and G.~Zardini.
+\newblock {GRAND}: Guidance, rebalancing, and assignment for networked dispatch in multi-agent path finding.
+\newblock \emph{IEEE Robotics and Automation Letters}, 11\penalty0 (5):\penalty0 5470--5477, 2026.
+
 \bibitem[Gerkey and Matari{\'c}(2004)]{gerkey2004formal}
 B.~P. Gerkey and M.~J. Matari{\'c}.
 \newblock A formal analysis and taxonomy of task allocation in multi-robot systems.
 \newblock \emph{The International Journal of Robotics Research}, 23\penalty0 (9):\penalty0 939--954, 2004.
+
+\bibitem[Hart et~al.(1968)Hart, Nilsson, and Raphael]{hart1968astar}
+P.~E. Hart, N.~J. Nilsson, and B.~Raphael.
+\newblock A formal basis for the heuristic determination of minimum cost paths.
+\newblock \emph{IEEE Transactions on Systems Science and Cybernetics}, 4\penalty0 (2):\penalty0 100--107, 1968.
+
+\bibitem[Hirayama et~al.(2026)Hirayama, Yoshida, Sakaji, and Noda]{hirayama2026detour}
+T.~Hirayama, K.~Yoshida, H.~Sakaji, and I.~Noda.
+\newblock Detour-delta task assignment for reservation-based online {MAPD}.
+\newblock \emph{IEEE Robotics and Automation Letters}, 11\penalty0 (10):\penalty0 12072--12079, 2026.
 
 \bibitem[H{\"o}nig et~al.(2018)H{\"o}nig, Kiesel, Tinka, Durham, and Ayanian]{honig2018cbsta}
 W.~H{\"o}nig, S.~Kiesel, A.~Tinka, J.~W. Durham, and N.~Ayanian.
@@ -49,6 +80,16 @@ R.~Jonker and A.~Volgenant.
 G.~A. Korsah, A.~Stentz, and M.~B. Dias.
 \newblock A comprehensive taxonomy for multi-robot task allocation.
 \newblock \emph{The International Journal of Robotics Research}, 32\penalty0 (12):\penalty0 1495--1512, 2013.
+
+\bibitem[Kou et~al.(2020)Kou, Peng, Ma, Kumar, and Koenig]{kou2020idle}
+N.~M. Kou, C.~Peng, H.~Ma, T.~K.~S. Kumar, and S.~Koenig.
+\newblock Idle time optimization for target assignment and path finding in sortation centers.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial Intelligence (AAAI)}, pages 9925--9932, 2020.
+
+\bibitem[Kudo and Cai(2024)]{kudo2024anytime}
+F.~Kudo and K.~Cai.
+\newblock Anytime multi-task multi-agent pickup and delivery under energy constraint.
+\newblock \emph{IEEE Robotics and Automation Letters}, 9\penalty0 (11):\penalty0 10145--10152, 2024.
 
 \bibitem[Kuhn(1955)]{kuhn1955hungarian}
 H.~W. Kuhn.
@@ -90,6 +131,11 @@ H.~Ma, W.~H{\"o}nig, T.~K.~S. Kumar, N.~Ayanian, and S.~Koenig.
 \newblock Lifelong path planning with kinematic constraints for multi-agent pickup and delivery.
 \newblock In \emph{Proceedings of the AAAI Conference on Artificial Intelligence (AAAI)}, pages 7651--7658, 2019.
 
+\bibitem[Morag et~al.(2023)Morag, Stern, and Felner]{morag2023adapting}
+J.~Morag, R.~Stern, and A.~Felner.
+\newblock Adapting to planning failures in lifelong multi-agent path finding.
+\newblock In \emph{Proceedings of the International Symposium on Combinatorial Search (SoCS)}, pages 47--55, 2023.
+
 \bibitem[Munkres(1957)]{munkres1957algorithms}
 J.~Munkres.
 \newblock Algorithms for the assignment and transportation problems.
@@ -110,6 +156,12 @@ G.~Sharon, R.~Stern, A.~Felner, and N.~R. Sturtevant.
 \newblock Conflict-based search for optimal multi-agent pathfinding.
 \newblock \emph{Artificial Intelligence}, 219:\penalty0 40--66, 2015.
 
+\bibitem[Shimokawa and Matsui(2022)]{shimokawa2022improvement}
+M.~Shimokawa and T.~Matsui.
+\newblock Improvement of task allocation in {TP} algorithm for {MAPD} problem by relaxation of movement limitation and estimation of pickup time.
+\newblock \emph{Transactions of the Japanese Society for Artificial Intelligence}, 37\penalty0 (3):\penalty0 1--13, 2022.
+\newblock Article A-L84.
+
 \bibitem[Silver(2005)]{silver2005cooperative}
 D.~Silver.
 \newblock Cooperative pathfinding.
@@ -120,19 +172,61 @@ R.~Stern, N.~R. Sturtevant, A.~Felner, S.~Koenig, H.~Ma, T.~T. Walker, J.~Li, D.
 \newblock Multi-agent pathfinding: Definitions, variants, and benchmarks.
 \newblock In \emph{Proceedings of the International Symposium on Combinatorial Search (SoCS)}, pages 151--158, 2019.
 
+\bibitem[Tang et~al.(2026)Tang, Gan, Li, Yan, Liu, and Wu]{tang2026energy}
+M.~Tang, L.~Gan, Y.~Li, X.~Yan, H.~Liu, and J.~Wu.
+\newblock Energy-limited lifelong multi-agent pickup and delivery.
+\newblock \emph{Machine Intelligence Research}, 23\penalty0 (1):\penalty0 147--167, 2026.
+
 \bibitem[van~den Berg and Overmars(2005)]{vandenberg2005prioritized}
 J.~P. van~den Berg and M.~H. Overmars.
 \newblock Prioritized motion planning for multiple robots.
 \newblock In \emph{Proceedings of the IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)}, pages 430--435, 2005.
+
+\bibitem[Varambally et~al.(2022)Varambally, Li, and Koenig]{varambally2022which}
+S.~Varambally, J.~Li, and S.~Koenig.
+\newblock Which {MAPF} model works best for automated warehousing?
+\newblock In \emph{Proceedings of the International Symposium on Combinatorial Search (SoCS)}, pages 190--198, 2022.
 
 \bibitem[Wurman et~al.(2008)Wurman, D'Andrea, and Mountz]{wurman2008coordinating}
 P.~R. Wurman, R.~D'Andrea, and M.~Mountz.
 \newblock Coordinating hundreds of cooperative, autonomous vehicles in warehouses.
 \newblock \emph{AI Magazine}, 29\penalty0 (1):\penalty0 9--19, 2008.
 
+\bibitem[Xu et~al.(2022)Xu, Li, Koenig, and Ma]{xu2022multigoal}
+Q.~Xu, J.~Li, S.~Koenig, and H.~Ma.
+\newblock Multi-goal multi-agent pickup and delivery.
+\newblock In \emph{Proceedings of the IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)}, pages 9964--9971, 2022.
+
+\bibitem[Yan et~al.(2026)Yan, Zhang, Liu, Zhang, Jiang, Chen, Smith, and Li]{yan2026lsmart}
+J.~Yan, Y.~Zhang, Z.~Liu, H.~Zhang, H.~Jiang, J.~Chen, S.~F. Smith, and J.~Li.
+\newblock Lifelong scalable multi-agent realistic testbed and a comprehensive study on design choices in lifelong {AGV} fleet management systems.
+\newblock \emph{arXiv preprint arXiv:2602.15721}, 2026.
+
 \bibitem[Yu and LaValle(2013)]{yu2013structure}
 J.~Yu and S.~M. LaValle.
 \newblock Structure and intractability of optimal multi-robot path planning on graphs.
 \newblock In \emph{Proceedings of the AAAI Conference on Artificial Intelligence (AAAI)}, pages 1443--1449, 2013.
+
+\bibitem[Zang et~al.(2026)Zang, Barz, Mannucci, Schillinger, Lier, and H{\"o}nig]{zang2026handover}
+C.~Zang, I.~Barz, A.~Mannucci, P.~Schillinger, F.~Lier, and W.~H{\"o}nig.
+\newblock Lifelong multi-subsystem pickup and delivery with buffer-limited handover stations.
+\newblock \emph{arXiv preprint arXiv:2607.17724}, 2026.
+
+\bibitem[Zhang et~al.(2025)Zhang, Chen, Harabor, Le~Bodic, and Stuckey]{zhang2025flow}
+Y.~Zhang, Z.~Chen, D.~Harabor, P.~Le~Bodic, and P.~J. Stuckey.
+\newblock Flow-based task assignment for large-scale online multi-agent pickup and delivery.
+\newblock \emph{arXiv preprint arXiv:2508.05890}, 2025.
+
+\bibitem[Zheng et~al.(2026)Zheng, Ma, Araki, Chen, and Wu]{zheng2026learning}
+H.~Zheng, Y.~Ma, B.~Araki, J.~Chen, and C.~Wu.
+\newblock Learning-guided prioritized planning for lifelong multi-agent path finding in warehouse automation.
+\newblock \emph{Journal of Artificial Intelligence Research}, 85, 2026.
+\newblock Article 28.
+
+\bibitem[Zhu et~al.(2026)Zhu, Xu, Guo, and Lin]{zhu2026combined}
+F.~Zhu, W.~Xu, Y.~Guo, and F.~Lin.
+\newblock The combined problem of online task assignment and lifelong path finding in logistics warehouses: Rule-based systems matter.
+\newblock \emph{Electronic Proceedings in Theoretical Computer Science (EPTCS)}, 439:\penalty0 167--187, 2026.
+\newblock Proceedings of ICLP 2025.
 
 \end{thebibliography}

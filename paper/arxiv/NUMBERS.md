@@ -113,8 +113,8 @@ Computed by `scripts/paper-data.ts : pairedTable()` from the per-run records (`m
 | "differ by at most 2.9 %" | see §4.2 Table 1 entry above |
 | "+26–29 %" dock capacity | see §4.3 |
 | "7 %" window, "3.3×" planner time | 32.3675 / 30.2912 = 1.069; 0.6109 / 0.1868 = 3.27 |
-| "−8 % makespan" CBS | 8.3 % at 6 and 8 robots (`planner_summary.csv`) |
-| "7–29 %" (conclusion) | window +7 %, dock +26–29 % (throughput); CBS −8 % is makespan and is stated separately |
+| "up to −8 % makespan" CBS | 2.8 % at 4 robots, 8.3 % at 6 and 8 robots (`planner_summary.csv`) |
+| "7–29 %" (conclusion) | window +7 %, dock +26–29 % (throughput); CBS up to −8 % is makespan and is stated separately |
 
 ## Appendix
 
@@ -150,6 +150,6 @@ are printed by the same run.
 | Table 6 column "Paired vs. RH + Hungarian, κ_d = 1" | `tables/baselines.tex`, same numbers as the `vs hungarian-dock1` script lines |
 | PACT vs Hungarian at κ_d = 1: one of five intervals excludes 0, +0.9±0.9 % (Poisson) | script: `baselines warehouse-16-poisson pact-dock1 vs hungarian-dock1 (paired throughput): 0.89 +- 0.85` |
 | Table 7 (coupling), all cells; PACT's 12 intervals in the first three regimes contain 0; mean differences ≤ 1.3 % throughput, ≤ 0.6 % service; ≤ 0.5 % on long trips; proxy exclusions +1.7±1.4, −1.5±1.3, +0.6±0.5, −0.5±0.3, −0.5±0.4 | `tables/coupling.tex`; script: `coupling <regime> <a> vs <b>` lines and the `(excludes 0)` markers |
-| saturated chargers: 586–641 depletion events per method over 30 runs, 10–16 stalled runs, PACT +23±18 %, proxy +24±21 %, service 0.0±2.2 %, stalled 10 (PACT) vs 16 (Hungarian) | script: `coupling saturated-chargers/<method>` lines and `coupling saturated-chargers pact vs hungarian` lines |
+| saturated chargers: 586–641 depletion events per method over 30 runs, 10–16 stalled runs, PACT +23±18 %, proxy +24±21 %, service 0.0±2.2 %, stalled 10 (PACT) vs 16 (Hungarian); greedy vs Hungarian +20.4±22.4 %, 11 stalled (greedy); PACT vs greedy +12.5±17.2 %, proxy vs greedy +9.7±16.2 % | `tables/coupling.tex` (Saturated chargers rows); script: `coupling saturated-chargers/<method>` lines, `coupling saturated-chargers pact vs hungarian` lines and `coupling saturated-chargers <a> vs <b>` lines (greedy vs hungarian throughput 20.42 +- 22.40; pact vs greedy 12.46 +- 17.22; pact-proxy vs greedy 9.68 +- 16.21; `saturated-chargers/greedy` stalled 11) |
 | Prop. 2 inputs β_m = 0.001, β_w = 0.0002, δ = 2, ρ = 0.05, θ_lo = 0.2 | `DEFAULT_BATTERY`, `DEFAULT_CONFIG` (printed into the caption of `tables/reserve.tex`) |
 | doubled drain 0.002 / 0.0004; triple drain 0.003 / 0.0006 | `scripts/bench-fms.ts : BATTERY_STRESS` and the `saturated-chargers` regime |

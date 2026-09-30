@@ -9,11 +9,14 @@ definitions of \citet{stern2019mapf}. Conflict-Based Search (CBS)
 bounded-suboptimal; prioritized planning
 \citep{erdmann1987multiple,vandenberg2005prioritized,cap2015prioritized} with a
 space-time reservation table \citep{silver2005cooperative} is incomplete but
-fast and remains the workhorse of deployed fleets. PIBT
+fast and widely used. PIBT
 \citep{okumura2019pibt,okumura2022pibt} replaces long-horizon paths with
-one-step priority inheritance. \sname\ uses windowed prioritized planning as
-its default planner, offers windowed CBS as an optional backend, and adds a
-hold cascade that turns planner failures into consistent (conflict-free) rests.
+one-step priority inheritance, and in concurrent work
+\citet{zheng2026learning} learn the priority order of rolling-horizon
+prioritized planning for lifelong warehouses. \sname\ uses windowed
+prioritized planning with a fixed, hand-written dynamic priority rule as its
+default planner (\cref{subsec:planning}) and offers windowed CBS as an
+optional backend.
 
 \noindent\textbf{Lifelong pickup-and-delivery.}
 Warehouse fleets never solve a one-shot instance: tasks arrive continuously
@@ -32,11 +35,40 @@ solver; our rolling-horizon loop with static Hungarian costs and windowed
 prioritized planning is an instance of it with task assignment and charging
 added, so we do not implement RHCR a second time, and we ablate the one
 place where our planner differs from plain windowed prioritized planning,
-the handling of planner failures (\cref{subsec:cascade}). \sname\ adopts
-the RHCR execution model and TP-style endpoint reservation, evaluates them
-together with an explicit battery model, which the cited works abstract
-away, and compares against TP and TPTS re-implemented in the same simulator
-(\cref{subsec:baselines}).
+the handling of planner failures (\cref{subsec:cascade}). The concurrent
+LSMART testbed \citep{yan2026lsmart} studies when to plan, how to plan and
+how to recover from planner failures in lifelong fleet management systems
+with realistic execution, using a random goal assigner. \sname\ adopts
+the RHCR execution model and TP-style endpoint reservation, varies the
+assignment cost instead, and compares against TP and TPTS re-implemented in
+the same simulator (\cref{subsec:baselines}).
+
+\noindent\textbf{Planning failures, batteries and docks.}
+A windowed planner can fail to return a valid plan, and a lifelong system
+needs a rule for what the robots do then. \citet{morag2023adapting}
+formalise such fail policies: under IStay the agents whose paths are invalid
+stay in place, which can invalidate further paths whose agents then also
+stay, and IAvoid additionally lets them make one avoiding move. LSMART
+supports making all robots wait in place and compares re-planning with PIBT,
+guided PIBT and a local repair that inserts waits \citep{yan2026lsmart}. Our
+hold cascade
+(\cref{alg:pp}) is a variant of these policies for prioritized planning: the
+failed robot holds its cell, and the robots whose reservations cross that
+cell are removed and re-planned against the hold instead of being made to
+stay; held robots get high priority in the next epoch. Energy has been added
+to MAPD by \citet{kudo2024anytime}, who study multi-task MAPD under power
+limits and charge speeds, and by EL-MAPD \citep{tang2026energy}, which defines
+well-formed energy-limited lifelong instances and a fallback priority
+planning that obtains a feasible action in every planning episode. The
+charging policy of \sname\ is a threshold heuristic without such a
+guarantee; we state a conditional bound and measure where the policy fails
+(\cref{subsec:charging,subsec:main}). Capacity at the endpoints matters as
+well: \citet{kou2020idle} assign robots to sortation stations by min-cost
+flow so as to minimise station idle time, and, in concurrent work, HARR
+coordinates handover stations that have single docks and finite buffers
+through a dock reservation calendar \citep{zang2026handover}. \sname\ bounds
+the number of robots in flight per dock with a token-passing rule and
+measures the effect of that bound (\cref{subsec:ablation}).
 
 \noindent\textbf{Task allocation and its coupling with path finding.}
 Assignment problems are classically solved by the Hungarian method
@@ -46,12 +78,39 @@ allocation are given by \citet{gerkey2004formal} and
 \citet{korsah2013comprehensive}. Coupling assignment with MAPF has been done
 optimally for teams of interchangeable agents (CBM, \citealp{ma2016optimal})
 and for agents with individual sets of admissible goals (CBS-TA,
-\citealp{honig2018cbsta}), at a cost that limits these methods to one-shot
-instances. \sname\ instead couples the two approximately in the lifelong
-loop: assignment costs are arrival times of windowed space-time A* against
-the live reservation table, solved jointly for all idle robots by the
-Hungarian method, which prices in the traffic that already exists but not the
-interactions among the robots being assigned. None of these ingredients is new
-on its own; the contribution is their combination with batteries and dock
-capacities in one loop, and the controlled measurement of what the coupling
-buys.
+\citealp{honig2018cbsta}), at a cost that has kept these methods to one-shot
+instances; \citet{fan2025joint} extend a CBS-based joint task allocation and
+path finding search to continuous pickup and delivery by re-solving it
+whenever the task set changes. Approximate coupling in online MAPD is also
+established. Besides TPTS, \citet{shimokawa2022improvement} estimate pickup
+times to choose the robot for a new task in token passing, and
+\citet{cilden2025task} evaluate task-assignment strategies for capacitated
+agents in lifelong pickup and delivery. RMCA evaluates
+assignments of task sequences with collision-free paths from prioritized
+planning, improves them by large neighbourhood search, and re-runs on the
+released tasks at every timestep \citep{chen2021integrated}. LNS-wPBS builds
+assignments by Hungarian-based insertion on service-time estimates that
+ignore collisions, improves them by large neighbourhood search and plans
+with windowed PBS; in its comparison, Hungarian-based insertion beats a
+greedy heuristic and the search improves on both in most cases
+\citep{xu2022multigoal}. In concurrent work, Detour-Delta ranks candidate
+tasks by the extra delivery time that committed space-time reservations
+impose beyond the geometric shortest path, and reports gains on layouts with
+single-agent aisles, dead ends and tree-like structure, as well as gains
+over its base planner on well-formed maps \citep{hirayama2026detour}.
+Flow-based assignment with congestion-aware edge costs \citep{zhang2025flow}
+and GRAND, which combines learned guidance with rebalancing and assignment
+\citep{gaber2026grand}, report gains in evaluations that include fleets far
+larger than ours. \citet{zhu2026combined} study online assignment
+together with lifelong path finding on data from a deployed warehouse, where
+the assigner chooses a robot's delivery port, and conclude that the
+assignment module, like the routing module, should exploit the layout.
+\sname's coupling is a cheap member of this family: assignment costs are
+arrival times at the pickup of windowed space-time A* against the
+reservations of the robots that are already busy, solved jointly for all
+idle robots by the Hungarian method. It prices the traffic that already
+exists but not the loaded leg, the dock queue or the interactions among the
+robots being assigned. None of these ingredients is new on its own; the
+contribution is their combination with batteries and dock capacities in one
+loop, and the controlled measurement of what this particular coupling buys
+there.
