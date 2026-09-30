@@ -1,13 +1,14 @@
 \section{\sname: A Lifelong Fleet Manager with Reservation-Aware Pickup Costs}\label{sec:method}
 
 \sname\ runs a rolling-horizon loop (\cref{fig:overview}): every replanning
-epoch it (i) re-plans the robots that already have goals, (ii) sends
-low-charge robots to free charger slots, (iii) prices every idle robot against
+epoch it (i) sends low-charge robots to free charger slots, (ii) re-plans the
+robots that already have goals, including those just sent to a charger,
+(iii) prices every idle robot against
 the pending tasks and solves an assignment problem, and (iv) plans the newly
 assigned robots into the same reservation table. The coupling lives in step
 (iii): assignment costs are not free-space distances but arrival times
 computed by the same windowed planner against the reservations written in
-step (i). We first fix the model (\cref{subsec:model}), then describe the
+step (ii). We first fix the model (\cref{subsec:model}), then describe the
 planning layer (\cref{subsec:planning}), the charging policy
 (\cref{subsec:charging}) and the coupled allocation (\cref{subsec:alloc}).
 
@@ -292,7 +293,7 @@ before it accepts work; it leaves the slot when
 $s^r_t\ge\theta_{\mathrm{hi}}$. Free slots are those neither occupied nor
 already claimed by a robot en route, so a station with $k$ slots serves at
 most $k$ robots at a time. Robots needing charge and free slots are matched
-by the Hungarian method on $d(p^r,\sigma)$ (\cref{alg:charge}); a robot for
+by the Hungarian method on $d(p^r,\sigma)$ (\cref{alg:charge}; the greedy baseline matches them greedily); a robot for
 which no slot is free waits at its bay and is retried next epoch. A task
 feasibility test guards against stranding: robot $r$ may take task $\tau$
 only if
@@ -365,7 +366,7 @@ shows where it fails: under doubled drain, when the slots saturate.
 \caption{Charger assignment (one epoch)}\label{alg:charge}
 \KwIn{robots $\mathcal{N}=\{r : s^r_t<\theta_{\mathrm{lo}},\ r$ idle or parking$\}$, free slots $\mathcal{F}\subseteq\mathcal{C}$}
 \lIf{$\mathcal{N}=\emptyset$ \KwSty{or} $\mathcal{F}=\emptyset$}{\Return}
-$M\gets$ \textsc{Hungarian}$\bigl([\,d(p^r,\sigma)\,]_{r\in\mathcal{N},\sigma\in\mathcal{F}}\bigr)$\;
+$M\gets$ \textsc{Hungarian} (greedy matching for the greedy baseline)$\bigl([\,d(p^r,\sigma)\,]_{r\in\mathcal{N},\sigma\in\mathcal{F}}\bigr)$\;
 \ForEach{$(r,\sigma)\in M$}{claim $\sigma$ for $r$; goal of $r\gets\sigma$; status of $r\gets$ charging-bound\;}
 \end{algorithm}
 

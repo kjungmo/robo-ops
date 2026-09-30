@@ -33,7 +33,10 @@ congestion-proxy and reservation-aware pickup costs stay within 2.9\% of each ot
 in mean throughput in every one of twelve layout/fleet/load cells, and four
 regimes chosen to favour the coupling and committed before their results
 (one-lane aisles, hotspot demand, long empty trips, saturated chargers) show
-no resolved gain outside the regime in which every method strands robots.
+no resolved gain of the reservation-aware cost over greedy assignment in any
+regime, and over Hungarian assignment only in the regime in which every method
+strands robots; the proxy shows only small effects of either sign outside that
+regime.
 The study detects no large effect of the cost model but is not an
 equivalence test, and it does not cover costs that price the whole trip or
 the dock queue. Token passing and token
@@ -42,7 +45,7 @@ dock capacity, mainly because their endpoint rule allows one robot in
 flight per dock: with that same limit, token passing with task swaps comes
 within 2.5\% of our loop and token passing stays 11--26\% behind. Dock
 capacity ($+26$--$29\%$), the planning window
-($\pm7\%$) and an optional windowed CBS backend ($-8\%$ makespan on small
+($\pm7\%$) and an optional windowed CBS backend (up to $-8\%$ makespan on small
 fleets) are the levers that move the fleet. Code, results and this paper are at
 \url{https://github.com/kjungmo/robo-ops}.
 \end{abstract}

@@ -15,8 +15,8 @@ pickup-and-delivery variant \citep{ma2017lifelong,li2021rhcr}---but a
 deployable FMS has to run them together, at every tick, with hard safety
 constraints.
 
-The interface between allocation and path finding is where many fleet
-managers cut corners. Assignment costs are often free-space distances
+The interface between allocation and path finding is often simplified.
+Assignment costs are commonly free-space distances
 \citep{ma2017lifelong,liu2019task}, which ignore the traffic that the planner
 already knows about. Coupling the two has been studied at several levels of
 fidelity. Exact methods (CBM, \citealp{ma2016optimal}; CBS-TA,
@@ -111,9 +111,9 @@ the loaded leg, the dock queue or the interactions among the robots being
 assigned. What does move the fleet is elsewhere: raising the
 per-dock in-flight capacity from 2 to 3 raises throughput by 26--29\%,
 shortening the planning window from 20 to 10 ticks raises it by 7\% while
-cutting planner time by $3.3\times$, and windowed CBS reduces makespan by
-8\% on small fleets (\cref{tab:ablation,tab:planner}); all three effects lie
-outside their seed-paired 95\% intervals. In the four regimes we chose to
+cutting planner time by $3.3\times$, and windowed CBS reduces makespan by up to
+8\% on small fleets (\cref{tab:ablation,tab:planner}); the seed-paired 95\%
+intervals of all three exclude zero. In the four regimes we chose to
 favour the coupling, \sname\ shows no resolved gain except where every method
 strands robots, and there its higher throughput mostly reflects fewer stalled runs
 (\cref{subsec:coupling}).

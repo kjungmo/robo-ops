@@ -47,18 +47,20 @@ drawn only from the 25\% of pickup points farthest from any dock. All
 parameters are listed in \cref{tab:params}.
 
 \noindent\textbf{Methods.}
-Four allocation cost models share the same planner, charging policy and
+Four allocation cost models share the same planner, charging thresholds and
 endpoint capacities: \emph{Greedy} (cheapest pair first, static distance),
 \emph{Hungarian} (optimal assignment, static distance), \emph{Proxy}
 (Hungarian on distance plus reservation-table congestion, \cref{eq:cost}) and
-\emph{\sname} (Hungarian on windowed A* arrival times). The planner backend
+\emph{\sname} (Hungarian on windowed A* arrival times). The charging policy is
+the same for all four, except that the greedy baseline also matches low-charge
+robots to charger slots greedily. The planner backend
 is prioritized planning (PP) with the hold cascade unless stated; windowed
 CBS is compared on \emph{small} and, in the stress sweep, on every layout.
 Defaults are $w=20$, $h=5$, $K=6$, $\kappa_{\mathrm{d}}=3$,
 $\kappa_{\mathrm{p}}=1$, $w_{\mathrm{b}}=1$. As baselines we re-implement
 token passing (TP) and token passing with task swaps (TPTS)
 \citep{ma2017lifelong} in the same simulator, with the same battery model,
-dwell, charging policy and feasibility test (\cref{subsec:baselines}).
+dwell, charging thresholds and feasibility test (\cref{subsec:baselines}).
 
 \noindent\textbf{Metrics.}
 Throughput is delivered tasks per 100 ticks; service time is delivery minus
@@ -326,8 +328,11 @@ triple drain every method strands robots (586--641 depletion events over
 $+23\pm18\%$ and $+24\pm21\%$ throughput against Hungarian, but service
 time does not move ($0.0\pm2.2\%$) and throughput, being deliveries over the
 time to the last delivery or the stall, mostly reflects fewer stalled runs
-(10 for \sname, 16 for Hungarian). We do not count this as evidence for the
-coupling. Within the safe envelope, the null result of \cref{subsec:main}
+(10 for \sname, 16 for Hungarian). Static greedy assignment, which also
+matches robots to charger slots greedily, shows a comparable, unresolved $+20.4\pm22.4\%$ against Hungarian (11 stalled runs),
+and against greedy assignment neither path-aware interval excludes zero
+($+12.5\pm17.2\%$ for \sname, $+9.7\pm16.2\%$ for the proxy). We do not
+count this as evidence for the coupling. Within the safe envelope, the null result of \cref{subsec:main}
 therefore also holds in the regimes we chose to favour the coupling, with
 the same caveat that it is not an equivalence test. These regimes still use
 the pickup-leg cost and the dock-capacity gate; they do not test a

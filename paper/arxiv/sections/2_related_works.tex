@@ -9,7 +9,7 @@ definitions of \citet{stern2019mapf}. Conflict-Based Search (CBS)
 bounded-suboptimal; prioritized planning
 \citep{erdmann1987multiple,vandenberg2005prioritized,cap2015prioritized} with a
 space-time reservation table \citep{silver2005cooperative} is incomplete but
-fast and remains the workhorse of deployed fleets. PIBT
+fast and widely used. PIBT
 \citep{okumura2019pibt,okumura2022pibt} replaces long-horizon paths with
 one-step priority inheritance, and in concurrent work
 \citet{zheng2026learning} learn the priority order of rolling-horizon
@@ -49,8 +49,9 @@ needs a rule for what the robots do then. \citet{morag2023adapting}
 formalise such fail policies: under IStay the agents whose paths are invalid
 stay in place, which can invalidate further paths whose agents then also
 stay, and IAvoid additionally lets them make one avoiding move. LSMART
-compares waiting in place, re-planning with PIBT, guided PIBT and a local
-repair that inserts waits \citep{yan2026lsmart}. Our hold cascade
+supports making all robots wait in place and compares re-planning with PIBT,
+guided PIBT and a local repair that inserts waits \citep{yan2026lsmart}. Our
+hold cascade
 (\cref{alg:pp}) is a variant of these policies for prioritized planning: the
 failed robot holds its cell, and the robots whose reservations cross that
 cell are removed and re-planned against the hold instead of being made to
