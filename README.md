@@ -73,8 +73,9 @@ That makes the repository three things at once:
 
 ## Getting Started
 
-Requires [Node.js](https://nodejs.org/) 22 (the version CI and the paper's
-benchmark use; 20.19+ and 24 also pass CI).
+Requires [Node.js](https://nodejs.org/) 22, the version the paper's benchmark
+and CI use. The first-round benchmark also reproduces the committed records
+under Node.js 20.20 and 24.21 (checked on the development host).
 
 ```bash
 npm ci          # or: npm install
