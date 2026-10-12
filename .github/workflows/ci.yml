@@ -1,0 +1,46 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  console:
+    name: lint, tests, build, paper guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - name: Paper number guard (tables, figure data, every number in the text)
+        run: npm run check:paper
+
+  determinism:
+    name: first-round sweeps reproduce the committed records (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - name: Re-run the 420 first-round runs
+        run: npm run bench:fms -- main planner scaling ablation battery --out "$RUNNER_TEMP/rerun"
+      - name: Compare with the committed records (wall-clock fields excluded)
+        run: npm run check:results -- "$RUNNER_TEMP/rerun"
+      - name: Host
+        run: |
+          node --version
+          grep -m1 "model name" /proc/cpuinfo

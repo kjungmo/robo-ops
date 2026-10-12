@@ -20,6 +20,7 @@ Operator console for an <b>AMR/AGV integrated remote fleet-control platform</b> 
   <a href="#what-is-roboops">About</a> ·
   <a href="#screens">Screens</a> ·
   <a href="#getting-started">Getting Started</a> ·
+  <a href="#paper">Paper</a> ·
   <a href="#data-layout">Data Layout</a> ·
   <a href="#refreshing-the-design-data">Refresh</a> ·
   <a href="#deployment">Deployment</a> ·
@@ -72,10 +73,11 @@ That makes the repository three things at once:
 
 ## Getting Started
 
-Requires [Node.js](https://nodejs.org/) (LTS).
+Requires [Node.js](https://nodejs.org/) 22 (the version CI and the paper's
+benchmark use; 20.19+ and 24 also pass CI).
 
 ```bash
-npm install
+npm ci          # or: npm install
 npm run dev
 ```
 
@@ -111,12 +113,48 @@ console at [`/fms`](http://localhost:5173/fms) (sidebar → 시뮬레이션):
 | `src/fms/charging/` | two-threshold battery policy, per-slot charger capacity |
 | `src/fms/sim/` | seeded discrete-time lifelong simulator (Poisson task stream, rolling-horizon replanning, endpoint capacities, dwell, stall detector) and metrics |
 | `scripts/bench-fms.ts` | benchmark driver → `paper/experiments/results/` (JSON + CSV, committed) |
-| `paper/arxiv/` | the paper describing and evaluating the module (`latexmk -pdf main.tex`) |
+| `paper/arxiv/` | the paper describing and evaluating the module |
 
 ```bash
-npm test              # vitest: Hungarian vs brute force, MAPF property tests, CBS vs exhaustive, determinism
-npm run bench:fms     # 420 seeded runs, ~2 min single core
+npm test              # 38 vitest tests: Hungarian vs brute force, MAPF property tests, CBS vs exhaustive, token passing, auditor, determinism
+npm run check:paper   # number guard: every table and every number in the paper against the committed results
 ```
+
+Run one simulation from the command line (prints the metrics of the run as JSON):
+
+```bash
+npx tsx -e "import { runSimulation } from './src/fms/index'; console.log(runSimulation({ layout: 'warehouse', fleetSize: 16, numTasks: 50, alloc: 'pact', seed: 1 }))"
+```
+
+## Paper
+
+`paper/arxiv/` holds the manuscript *PACT: A Conflict-Free Lifelong Fleet Manager
+for Warehouse AMRs and a Controlled Study of Reservation-Aware Pickup Costs*
+(Jungmo Kang, 2026; preprint, not peer reviewed). It describes `src/fms/` and
+evaluates it in simulation only: there is no real robot and no fleet connection
+anywhere in this repository. The study's main result is negative (the
+reservation-aware pickup cost did not measurably change throughput in the tested
+settings), and the default charging policy strands robots under doubled battery
+drain; both are reported in the paper.
+
+Reproduce the results (Node.js 22; timings below are from a 6-core Ryzen 5 5500GT):
+
+```bash
+npm ci
+npm test
+npm run bench:fms -- main planner scaling ablation battery --out /tmp/pact-rerun       # first round: 420 runs, one process, about 2 min
+npm run bench:fms -- stress cascade baselines coupling --jobs 10 --out /tmp/pact-rerun # second round: 6,180 runs, 10 processes, about 16 min
+npm run check:results -- /tmp/pact-rerun   # field-by-field comparison with the committed records
+npm run check:paper                        # tables, figure data and every number in the text
+```
+
+- Without `--out`, `bench:fms` overwrites `paper/experiments/results/`; with no sweep names it runs all nine sweeps in one process (about 2 hours).
+- Every field of a run is deterministic given its seed except the four wall-clock fields (`wallMs`, `plannerMs`, `allocMs`, `plannerMsPerTick`), which `check:results` leaves out. Planner times in the paper are therefore indicative only.
+- The committed first-round records predate four diagnostic fields; a re-run has them and `check:results` reports that as expected.
+- `npm run paper:data` rewrites `paper/arxiv/tables/*.tex` and `figures/data/*.csv` from `paper/experiments/results/`. `paper/arxiv/NUMBERS.md` maps each number in the paper to its source field.
+- Build the PDF with `pdflatex main && pdflatex main && pdflatex main` in `paper/arxiv/` (the `.bbl` is committed; a TeX Live with `pgfplots` and `algorithm2e` is needed).
+
+To cite the software or the paper, see [`CITATION.cff`](CITATION.cff).
 
 ## Data Layout
 
@@ -168,7 +206,9 @@ Sponsorship funds maintenance, new features, and faster issue response. 💛
 
 ## License
 
-Apache License 2.0 — see [LICENSE](LICENSE).
+Apache License 2.0 — see [LICENSE](LICENSE). This covers the code and the data
+in this repository; the manuscript in `paper/arxiv/` is by the same author and
+will carry its own licence where it is posted.
 
 ## Acknowledgements
 

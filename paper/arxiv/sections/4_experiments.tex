@@ -80,16 +80,26 @@ sweeps seeds 1--30; results are reported as mean\stdv{std}. Runs with the
 same seed see the same task stream and initial charge, so we compare
 variants by seed-paired relative differences with two-sided 95\%
 Student-$t$ intervals ($n-1$ degrees of freedom; \cref{tab:paired} in the
-appendix for the first round).
+appendix for the first round). The intervals are reported comparison by
+comparison, without a correction for multiple comparisons, so among many
+intervals a few are expected to exclude zero by chance; we say so where we
+count exclusions.
 
 \noindent\textbf{Hardware and protocol.}
 All runs are single-threaded Node.js~22 on an AMD Ryzen~5 5500GT. The
 first-round sweeps (420 runs) run in one process in 109\,s of wall-clock
 time; the second-round sweeps (6{,}180 runs) run on 10 worker processes in
 967\,s, so their planner times are inflated by contention and we quote them
-only as ratios within one sweep. Runs are deterministic given the seed:
-re-running the first round at the final code reproduces every non-timing
-field of every run. The four second-round sweeps, including the coupling
+only as ratios within one sweep. Runs are deterministic given the seed: the
+only random draws are the task stream and the initial charge, from one
+seeded generator. We repeated all 6{,}600 runs at the code of this
+manuscript on the same host with the same worker counts, and every field
+other than the four wall-clock fields equals the committed record
+(\cref{app:repro}). The wall-clock fields do not repeat: per configuration,
+the mean planner time of the first-round repeat was between 0.95 and 1.62 times
+the committed value (the host was shared with other work during the
+repeat), and the planner times in this paper are indicative to
+that extent. The four second-round sweeps, including the coupling
 regimes, are defined in commit \texttt{4a72ff1} of the repository, which
 precedes every commit of their results; later commits changed only what the
 auditor and the simulator record, not the sweeps or the simulated behaviour.
@@ -106,9 +116,10 @@ Over the 420 first-round runs---8{,}833{,}050 robot-ticks, 5{,}317{,}603
 move actions and 81{,}000 delivered tasks---the executed steps contain zero
 vertex or swap conflicts, as \cref{cor:exec} requires, according to both the
 simulator and the independent auditor, no robot ever depletes, and every run
-delivers all of its tasks without tripping the stall detector, on every
-layout, fleet size from 4 to 48, load regime, allocation method and planner
-backend. Hold fall-backs are rare (at most 5.2 per run on average in the
+delivers all of its tasks without tripping the stall detector. These runs
+cover three layouts, fleets of 4 to 48 robots, both load regimes, the four
+allocation methods and both planner backends, but not every combination of
+them (\cref{subsec:setup}). Hold fall-backs are rare (at most 5.2 per run on average in the
 main sweep, reached with 32 robots under batch load). The battery stress
 (\cref{tab:battery}) forces 22.6--23.2 charging sessions per run for 16
 robots and still records zero depletions, with a final mean charge of
@@ -143,12 +154,14 @@ not of the policy.
 \Cref{tab:main} is the controlled comparison. In none of the twelve
 layout/fleet/load cells does the choice of cost model change throughput by
 more than 2.9\% (warehouse, 32 robots, batch: 29.7 greedy vs.\ 30.6
-Hungarian and Proxy vs.\ 30.3 \sname), and in every cell the four means lie
-within one standard deviation of each other; the same holds for service
-time. Paired by seed (\cref{tab:paired}), 35 of the 36 throughput intervals
+Hungarian and Proxy vs.\ 30.3 \sname), and in every cell the four throughput
+means differ by less than the smallest of their four standard deviations;
+the service-time means differ by less than the largest of theirs. Paired by seed (\cref{tab:paired}), 35 of the 36 throughput intervals
 against Hungarian contain zero; the exception is \sname\ on the console with
-32 robots under batch load, $2.3\pm2.0\%$ \emph{below} Hungarian, fewer
-exclusions than the 1.8 expected by chance among 36 intervals. Every interval
+32 robots under batch load, $2.3\pm2.0\%$ \emph{below} Hungarian. One
+exclusion is no more than chance would produce: 36 independent 95\%
+intervals of true-zero effects would give 1.8 on average, and ours share
+baselines and seeds, so they are not independent. Every interval
 lies within $\pm3.7\%$ under the Poisson load and within $\pm7.1\%$ under
 batch load. Read cell by cell, the intervals exclude effects larger than
 these bounds; they do not show that an effect is absent. The study was not
@@ -183,7 +196,8 @@ $\kappa_{\mathrm{d}}$ robots bound for one dock, so the backend is CBS for
 robots with distinct goals followed by PP for the rest, not CBS alone. It
 shortens the makespan by only 1.2--2.6\% (seed-paired over 120 pairs, e.g.\ $-1.9\pm0.6\%$ on the warehouse with 32 robots), against
 4--12\% on \emph{small} in the same sweep, at 3 to 15 times the planner
-time of PP.
+time of PP in the committed run (a wall-clock ratio measured under
+contention, which shifts between repetitions).
 \input{tables/planner}
 \input{figures/planner}
 
@@ -210,8 +224,8 @@ Lowering the per-dock in-flight capacity from 3 to 2 drops throughput from
 i.e.\ capacity 3 is worth $+26$--$29\%$ (seed-paired, capacity 2 costs
 $20.7\pm3.3\%$ and $22.5\pm2.2\%$), and utilisation falls from 0.64 to
 0.42 because tasks wait in the pool for a free dock. During development,
-capacity 4 produced dock-front gridlocks in 2 of 30 runs under an earlier
-priority scheme. With the final priorities, capacity 4 completes all 30 runs
+capacity 4 produced dock-front gridlocks in some runs under an earlier
+priority scheme; those runs are not part of the committed benchmark. With the final priorities, capacity 4 completes all 30 runs
 of \cref{tab:cascade} (throughput 33.3, seed-paired $+9.0\pm1.4\%$ over capacity 3) but needs more than twice the holds (8.8 per run against 3.5), and
 with static priorities it stalls in every one of them. We keep capacity 3 as
 the default, which the first-round results were run with.
@@ -224,7 +238,8 @@ planner time from 0.61 to 0.19 ms/tick; a window of 30 lowers throughput to
 windows commit robots to longer reserved waits behind others and make
 fall-backs more likely; \citet{li2021rhcr} likewise observe that RHCR
 sometimes achieves higher throughput with shorter windows, because resolving
-distant conflicts adds unnecessary waits. Replanning every tick ($h=1$) leaves throughput unchanged (30.3) at
+distant conflicts adds unnecessary waits, although in most of their cases a
+finite window changes throughput by less than 1\%. Replanning every tick ($h=1$) leaves throughput unchanged (30.3) at
 $2.2\times$ the planner time. Disabling event-triggered epochs, so that idle
 robots wait for the next periodic epoch, costs 1--5\% throughput and adds
 55--125 wait actions; only the Hungarian loss is resolved by the paired
@@ -235,7 +250,7 @@ Removing the battery factor ($w_{\mathrm{b}}=0$) changes throughput by less
 than 0.5 for both cost models ($+0.01$ for \sname, $-0.43$ for Hungarian),
 also in the battery stress (\cref{tab:battery}); with $\theta_{\mathrm{lo}}=0.2$ and the feasibility
 check of \cref{eq:feasible}, charging decisions are rarely marginal. Pricing
-3 or 12 candidates instead of 6 changes throughput by at most 0.2.
+3 or 12 candidates instead of 6 changes throughput by at most 0.13.
 
 \subsection{Hold Cascade and Priorities}\label{subsec:cascade}
 \input{tables/cascade}
@@ -251,7 +266,7 @@ Re-planning the group with the failing robot promoted to the front, up to
 three times, before holding without repair is no substitute: it avoids
 conflicts on \emph{small} but not on the larger layouts (24, 30 and 16 of 30
 runs). Neither alternative buys throughput: all three fallbacks deliver
-within 0.7 tasks per 100 ticks of each other in every setting, so the
+within 0.63 tasks per 100 ticks of each other in every setting, so the
 cascade's re-plans cost nothing measurable. Static priorities (status rank,
 then id) keep every step conflict-free, because the cascade is still on,
 but the fleet gridlocks: 30 of 30 runs stall on the warehouse, with and
@@ -292,7 +307,8 @@ every setting, while TP stays 11--26\% behind it, a gap that task swaps
 close. The gap to TPTS therefore measures dock capacity, not our allocation
 or planner; and it is an observation about these adapted instances, not
 about TP and TPTS on the well-formed instances they were designed for. TPTS pays for its swaps with 23{,}000--93{,}000 A*
-calls per run, against 4{,}600--9{,}200 for the rolling-horizon loop.
+calls per run, against 4{,}600--9{,}200 for the rolling-horizon loop at its
+default dock capacity.
 Against Hungarian, \sname's path-aware costs show no resolved difference
 except one marginal one: at the default capacity all five intervals contain
 zero, and at $\kappa_{\mathrm{d}}=1$

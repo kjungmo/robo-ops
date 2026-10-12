@@ -8,6 +8,14 @@ including the independent auditor's `audit_*` fields.
 files and prints summary lines (quoted below as "script: ...") for every number that
 appears in the text but not in a table. Notation: `file : row-selector : field`.
 
+This file is documentation. The check is `npm run check:paper` (`scripts/check-paper.ts`):
+it regenerates every table and figure data file and compares them byte for byte, recomputes
+every `<sweep>_summary.csv` from `<sweep>.json`, recomputes every number quoted in the text
+(one claim per number, built from the results and from the constants in `src/fms`), and fails
+if any digit in the abstract, the sections, the appendix or a figure caption is not covered
+by a claim. CI runs it on every push. `npm run check:results -- <dir>` compares a re-run of
+the benchmark (`npm run bench:fms -- <sweeps> --out <dir>`) with the committed records.
+
 The first-round sweeps (main, planner, scaling, ablation, battery; seeds 1–5) were produced at
 commit `27080ab` in one process (`bench-meta-main-planner-scaling-ablation-battery.json`).
 The second-round sweeps (stress, cascade, baselines, coupling) were first run at `27080ab`
@@ -24,7 +32,10 @@ list of recorded fields. Git shows commit order only, which is what §4.1 now cl
 | Claim | Source |
 |---|---|
 | 420 runs; 0 conflicts (simulator and auditor); 0 deadlocks; 0 depletions; 109 s wall | `bench-meta-main-planner-scaling-ablation-battery.json : runs 420, totalConflicts 0, auditVertexConflicts 0, auditSwapConflicts 0, auditIllegalMoves 0, totalDeadlocks 0, totalDepletions 0, wallSeconds 108.6`; script: `original sweeps (seeds 1-5): ... audit vertex 0, swap 0, illegal 0, depletions 0, sim conflicts 0, stalled 0, unfinished 0` |
-| re-running the first round at the final code reproduces every non-timing field | every record of the five first-round `*.json` compared field by field (except `wallMs`, `plannerMs`, `allocMs`, `plannerMsPerTick`) against the previous committed results (commit `74922c7`/`0e53c4c`): 0 differences in 420 runs |
+| all 6,600 runs repeated at the manuscript code: every field other than the four wall-clock fields equals the committed record (§4.1, appendix A) | `paper/experiments/repro/repeat.json : records 6600, differingFields 0` (written by `npm run check:results -- <dir> --report ...` from a repeat with the same worker counts, 1 and 10; `commit`, `node`, `cpu` of the repeat are in the file) |
+| first-round planner time of the repeat between 0.95 and 1.62 times the committed value (§4.1) | `repeat.json : sweeps[main..battery] : timingMin / timingMax` (per configuration: mean `plannerMsPerTick` of the repeat divided by the committed mean) |
+| first-round records lack 4 fields (appendix C) | `main.json` etc. have 50 keys, `stress.json` etc. 54; the four are `cbsBudgetExceeded`, `tpSearchLimitHits`, `tpSwapVetoes`, `audit_maxWorkTripDelay`, recorded since `2d4342a`; `repeat.json : sweeps[] : fieldsAbsentFromCommitted` |
+| 38 `SimMetrics` fields (10 configuration, 28 measured), 13 auditor fields (appendix C) | keys of a `stress.json` record: 54 = 38 + 13 `audit_*` + `sweep`, `variant`, `wallMs` |
 | every run delivers all of its tasks | sum of `tasksUnfinished` over all 420 records = 0 (longest run: `makespan` 4189, scaling sweep) |
 | 8,833,050 robot-ticks ("8.8 million robot-steps") | script: `original sweeps (seeds 1-5): runs 420, robot-steps 8833050` (sum of `audit_robotTicks` = `makespan * fleetSize`) |
 | 5,317,603 move actions; 72,823 wait actions | sum of `moveActions` / `waitActions` over the same records |
@@ -42,9 +53,9 @@ Every cell: `main_summary.csv : layout, fleetSize, arrivalRate ∈ {0.15, inf}, 
 | Claim | Source |
 |---|---|
 | ≤ 2.9 % throughput spread in every cell; worst cell warehouse/32/batch: 29.7 greedy, 30.6 Hungarian, 30.6 Proxy, 30.3 PACT | `main_summary.csv : warehouse, 32, inf : throughput_mean` = 29.7237 / 30.5503 / 30.5988 / 30.2912 → (30.5988−29.7237)/30.5988 = 2.86 % ≤ 2.9 % |
-| "within one standard deviation": max std per cell ≤ 2.6 | `main_summary.csv : throughput_std` (max 2.6 at console/32/inf) |
+| throughput means differ by less than the smallest of the four standard deviations in every cell; service-time means by less than the largest | `main_summary.csv : throughput_mean/std, meanServiceTime_mean/std` per cell (service time: the range exceeds the smallest std only in warehouse/16/0.15, 3.7 vs 2.7, largest 7.7) |
 | 233–297 wait actions per run (warehouse, 32, batch) | `main_summary.csv : warehouse, 32, inf, hungarian/greedy : waitActions_mean` = 233.4 (min) / 296.8 (max) |
-| service 282–287, queueing 216–220 (warehouse, 32, batch) | `main_summary.csv : warehouse, 32, inf, * : meanServiceTime_mean` = 282.5–287.4; `meanWaitTime_mean` = 216.3–220.1 |
+| service 283–287, queueing 216–220, "the remaining 66 ticks or so" (warehouse, 32, batch; §5) | `main_summary.csv : warehouse, 32, inf, * : meanServiceTime_mean` = 282.5–287.4 (283–287 as rounded in Table 1); `meanWaitTime_mean` = 216.3–220.1; `meanExecTime_mean` = 66.2–67.3 |
 | holds ≤ 5.2 per run in the main sweep | max of `main_summary.csv : holdEvents_mean` = 5.2 (console, 32, inf, hungarian) |
 | "about 1.4 waits per task": 274 waits vs 14.9 thousand moves (273.8 / 200 = 1.37) | `main_summary.csv : warehouse, 32, inf, pact : waitActions_mean` = 273.8; `moveActions_mean` = 14937.2 |
 
@@ -78,13 +89,12 @@ All rows: `ablation_summary.csv : variant : throughput_mean, meanServiceTime_mea
 |---|---|
 | dock capacity 2: 24.0 (PACT) / 23.7 (Hungarian) vs 30.3 / 30.6 → +26 / +29 % for capacity 3 | `pact-dock2 : throughput_mean` = 23.9853, `hungarian-dock2` = 23.6748; defaults `main_summary.csv : warehouse, 32, inf, pact/hungarian` = 30.2912 / 30.5503 |
 | utilisation 0.64 → 0.42 | `pact : utilization_mean` = 0.6362; `pact-dock2` = 0.4175 |
-| capacity 4 gridlocked 2 of 30 development runs | development stress run under an earlier priority scheme, not part of the committed benchmark (stated as such in the text) |
 | w=10: 32.4 (+7 %), waits 150 vs 274, 0.19 vs 0.61 ms/tick | `pact-w10 : throughput_mean` = 32.3675, `waitActions_mean` = 149.8, `plannerMsPerTick_mean` = 0.1868; `pact` = 30.2912 / 273.8 / 0.6109 |
 | w=30: 28.2 (−7 %), 1.96 ms/tick | `pact-w30` = 28.2265 / 1.9584 |
 | h=1: 30.3 at 2.2× planner time | `pact-h1 : throughput_mean` = 30.254, `plannerMsPerTick_mean` = 1.3451 (1.3451 / 0.6109 = 2.20) |
 | no event epochs: −1–5 % throughput, +55–125 waits | `pact-noEvent` = 29.9066 (−1.3 %), waits 329.2 (+55.4); `hungarian-noEvent` = 28.925 vs 30.5503 (−5.3 %), waits 358.6 vs 233.4 (+125.2) |
 | battery term neutral (< 0.5: +0.01 PACT, −0.43 Hungarian) | `pact-noBattery` 30.3025 vs `pact` 30.2912; `hungarian-noBattery` 30.119 vs `main_summary.csv : warehouse, 32, inf, hungarian` 30.5503 |
-| K = 3 / 12 change ≤ 0.2 | `pact-K3` = 30.234, `pact-K12` = 30.4203 vs 30.2912 |
+| K = 3 / 12 change ≤ 0.13 | `pact-K3` = 30.234, `pact-K12` = 30.4203 vs 30.2912 (differences 0.057 and 0.129) |
 
 
 ## Seed-paired comparisons, Table 11 (`tables/paired.tex`), §1, §4.2, §4.3, §6
@@ -95,7 +105,7 @@ Computed by `scripts/paper-data.ts : pairedTable()` from the per-run records (`m
 |---|---|
 | 35 of 36 cost-model intervals vs Hungarian contain 0; the exception PACT console/32/batch −2.3±2.0 % | script summary `intervals containing 0: 35; excluding 0: console/inf/32: -2.29 +- 2.02` |
 | every interval within ±3.7 % under Poisson load and ±7.1 % under batch load ("about 4 %" / "about 7 %" in §1) | script summary `largest |interval bound| ... 7.06% (console/inf/8); under Poisson load: 3.71%` |
-| 1.8 exclusions expected by chance | 36 × 0.05 |
+| 1.8 exclusions expected by chance among independent intervals | 36 × 0.05 (the text notes that the 36 intervals share baselines and seeds) |
 | window w=10 +6.9±1.6 %, w=30 −6.9±3.9 % | script summary lines `window $w{=}10$` / `$w{=}30$` |
 | dock capacity 2 costs 20.7±3.3 % (PACT) / 22.5±2.2 % (Hungarian) | script summary lines `dock capacity 2` |
 | no event epochs: Hungarian −5.2±3.3 %, PACT −1.2±5.2 % | script summary lines `no event epochs` |
@@ -107,6 +117,8 @@ Computed by `scripts/paper-data.ts : pairedTable()` from the per-run records (`m
 | 22.6–23.2 charging sessions per run; 0 depletions; final SoC 0.34–0.38 | `battery_summary.csv : variant : chargeSessions_mean` = 23.2 / 22.6 / 23.0 / 22.6; `depletionEvents_mean` = 0; `finalMeanSoc_mean` = 0.3747 / 0.378 / 0.3745 / 0.3442 |
 
 ## §1 / §6 headline sentences
+
+The abstract quotes only 4,740 runs, 60.4 million robot-steps, 2.9 % and 2.5 % (sources above and below).
 
 | Claim | Source |
 |---|---|
@@ -122,7 +134,17 @@ Computed by `scripts/paper-data.ts : pairedTable()` from the per-run records (`m
 |---|---|
 | Table 10 (layouts): sizes, free cells, endpoint counts | `src/fms/map/layouts.ts` constants; verified by `npx tsx -e` listing (small 16×10 / 104 free; warehouse 52×19 / 715; console 36×25 / 658; narrow 52×15 / 496 free, 80 pickups, 6 docks, 8 slots, 32 homes) |
 | Table 9 (parameters) | `DEFAULT_CONFIG`, `DEFAULT_BATTERY` in `src/fms/sim/simulator.ts`, `src/fms/charging/policy.ts` |
-| 34 tests | `npm test` output (vitest: 34 passed) |
+| 38 tests | `npm test` output (vitest: 38 passed); the guard counts the `it(` cases in `src/fms/__tests__` |
+| run limit 20,000 ticks, token-passing search bound 20,000 expansions | `DEFAULT_CONFIG.maxTicks`, `DEFAULT_CONFIG.tpMaxExpansions` |
+
+## §5 Limitations
+
+| Claim | Source |
+|---|---|
+| layouts of at most 715 free cells | `freeCellCount` of the four layouts (104 / 715 / 658 / 496) |
+| each run delivers 100 or 200 tasks and ends within 4,189 ticks (first round and stress sweep) | `numTasks` and max `makespan` over the first-round and `stress.json` records |
+| Node.js 22, one host | meta files `: node, cpu` |
+| half-widths of 0.2 to 1.6 % (three coupling regimes inside the safe envelope) | the 12 PACT intervals of `tables/coupling.tex` in the first three regimes: half-widths 0.16–1.56 |
 
 ## Second round (§4.2 stress, §4.4–4.6, Prop. 2, Tables 2, 5, 6, 7, 14)
 
@@ -140,7 +162,7 @@ are printed by the same run.
 | 4 robots on small and 8 on narrow: 0 and 3 of 240 doubled-drain runs deplete | `stress.json` filtered to `variant` ending in `stress`, `small`/4 and `narrow`/8, runs with `depletionEvents > 0` (0 and 3; `tables/stress.tex` depletions 0+0 and 3+0) |
 | CBS on larger layouts: 0.3–10 fall-back epochs per run (1.8 of ~148 on warehouse/32, 10 of ~180 on narrow/16); 8,240 of 8,242 fallbacks from the node budget; makespan −1.2 to −2.6 % (−1.9±0.6 % warehouse/32) vs −4 to −12 % on small; 3–15× PP planner time | script: `stress cbs vs pp makespan <layout>/<fleet>` lines (fallbacks/run 0.43, 1.79, 0.43, 0.33, 2.33, 10.05; epochs/run 148.5 at warehouse/32, 180.0 at narrow/16; makespan −1.65, −1.93±0.62, −1.19, −1.23, −2.61, −2.43; small −3.95, −8.73, −11.59; ms/tick ratios at `2d4342a` 1.36/0.35, 4.73/0.72, 1.54/0.44, 1.75/0.61, 0.97/0.14, 6.16/0.40 = 3.9, 6.6, 3.5, 2.9, 6.9, 15.4); `stress: CBS runs 2160, ... fallbacks from the node budget 8240 of 8242` |
 | Table 14 (reserve): D_σ, W (work trips only, `audit_maxWorkTripDelay`), Q, required ρ and θ_lo, min SoC; "short by a factor of 6.6 to 18.6", "would suffice only on small", "not one of the 2,160 normal-battery runs satisfies eq. (reserve) with its own W and Q" | `tables/reserve.tex` (caption computed by `reserveTable`); script: `reserve <layout>` lines (required ρ 0.9288 / 0.4818 / 0.3298 / 0.6228 vs default 0.05 → factors 18.6 / 9.6 / 6.6 / 12.5; W=Q=0: 0.0178 / 0.0678 / 0.0568 / 0.0628; work-trip W equals all-trip W on every layout: 246 / 104 / 80 / 156; median work-trip W 38 / 37 / 40 / 38) |
-| Table 5 (cascade), all cells; 27/30/10/27 runs with conflicts without repair; 24/30/0/16 with restarts; 30/30/23/30 stalled with static priorities; fallbacks within 0.7 throughput; 113 of 120 gridlocked (§5) | `tables/cascade.tex`; script: `cascade <setting>/<variant>` lines (throughputs 30.64/30.75/30.66, 33.34/33.97/33.89, 18.96/18.85/18.93, 16.53/16.63/16.69) |
+| Table 5 (cascade), all cells; 27/30/10/27 runs with conflicts without repair; 24/30/0/16 with restarts; 30/30/23/30 stalled with static priorities; fallbacks within 0.63 throughput; 113 of 120 gridlocked (§5) | `tables/cascade.tex`; script: `cascade <setting>/<variant>` lines (throughputs 30.64/30.75/30.66, 33.34/33.97/33.89, 18.96/18.85/18.93, 16.53/16.63/16.69) |
 | dock capacity 4: throughput 33.3, +9.0±1.4 % paired over capacity 3, holds 8.8 vs 3.5 | script: `cascade dock 4 vs dock 3 (cascade, paired throughput): 8.97 +- 1.41`; `cascade warehouse-32-dock4/cascade ... throughput 33.34, holds 8.8`; `warehouse-32/cascade ... holds 3.5` |
 | Table 6 (baselines), all cells; TP −29 to −66 %, TPTS −16 to −55 % vs RH + Hungarian; "16–66 % less" | `tables/baselines.tex`; script: `baselines <setting>/<variant>` lines (TP −40.72, −66.14, −28.62, −53.88, −52.30; TPTS −30.62, −55.14, −16.25, −47.99, −40.12) |
 | TPTS vs RH + Hungarian at κ_d = 1: −2.5 to +1.6 %; TP 11–26 % behind | script: `baselines <setting> tpts/tp vs hungarian-dock1` lines (TPTS 0.63, −2.45, 1.64, −0.03, −2.49; TP −14.11, −26.41, −13.54, −11.35, −22.36) |

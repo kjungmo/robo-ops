@@ -1,4 +1,4 @@
-\begin{thebibliography}{44}
+\begin{thebibliography}{45}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -45,6 +45,11 @@ H.~Fan, B.~Ouyang, Q.~Xie, Y.~Wang, Z.~Yan, J.~He, and Q.~Tan.
 A.~Felner, R.~Stern, S.~E. Shimony, E.~Boyarski, M.~Goldenberg, G.~Sharon, N.~R. Sturtevant, G.~Wagner, and P.~Surynek.
 \newblock Search-based optimal solvers for the multi-agent pathfinding problem: Summary and challenges.
 \newblock In \emph{Proceedings of the International Symposium on Combinatorial Search (SoCS)}, pages 29--37, 2017.
+
+\bibitem[Forte et~al.(2021)Forte, Mannucci, Andreasson, and Pecora]{forte2021online}
+P.~Forte, A.~Mannucci, H.~Andreasson, and F.~Pecora.
+\newblock Online task assignment and coordination in multi-robot fleets.
+\newblock \emph{IEEE Robotics and Automation Letters}, 6\penalty0 (3):\penalty0 4584--4591, 2021.
 
 \bibitem[Gaber et~al.(2026)Gaber, Alharbi, Gammelli, and Zardini]{gaber2026grand}
 J.~Gaber, M.~Alharbi, D.~Gammelli, and G.~Zardini.
@@ -212,10 +217,11 @@ C.~Zang, I.~Barz, A.~Mannucci, P.~Schillinger, F.~Lier, and W.~H{\"o}nig.
 \newblock Lifelong multi-subsystem pickup and delivery with buffer-limited handover stations.
 \newblock \emph{arXiv preprint arXiv:2607.17724}, 2026.
 
-\bibitem[Zhang et~al.(2025)Zhang, Chen, Harabor, Le~Bodic, and Stuckey]{zhang2025flow}
+\bibitem[Zhang et~al.(2026)Zhang, Chen, Harabor, Le~Bodic, and Stuckey]{zhang2025flow}
 Y.~Zhang, Z.~Chen, D.~Harabor, P.~Le~Bodic, and P.~J. Stuckey.
 \newblock Flow-based task assignment for large-scale online multi-agent pickup and delivery.
-\newblock \emph{arXiv preprint arXiv:2508.05890}, 2025.
+\newblock In \emph{Proceedings of the International Conference on Autonomous Agents and Multiagent Systems (AAMAS)}, 2026.
+\newblock arXiv:2508.05890.
 
 \bibitem[Zheng et~al.(2026)Zheng, Ma, Araki, Chen, and Wu]{zheng2026learning}
 H.~Zheng, Y.~Ma, B.~Araki, J.~Chen, and C.~Wu.

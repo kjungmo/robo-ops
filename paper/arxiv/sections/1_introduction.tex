@@ -16,13 +16,14 @@ deployable FMS has to run them together, at every tick, with hard safety
 constraints.
 
 The interface between allocation and path finding is often simplified.
-Assignment costs are commonly free-space distances
-\citep{ma2017lifelong,liu2019task}, which ignore the traffic that the planner
+Assignment costs are commonly free-space distances, that is, shortest-path
+lengths that ignore the other robots
+\citep{ma2017lifelong,liu2019task}, and so ignore the traffic that the planner
 already knows about. Coupling the two has been studied at several levels of
 fidelity. Exact methods (CBM, \citealp{ma2016optimal}; CBS-TA,
 \citealp{honig2018cbsta}) solve one-shot instances, and \citet{fan2025joint}
-extend a CBS-based joint search to a continuous task stream by re-solving it
-when the task set changes. In online pickup and delivery, token passing with
+extend a CBS-based joint search to a continuous task stream by updating
+its task allocation as tasks arrive. In online pickup and delivery, token passing with
 task swaps lets a robot take over a task whose pickup it reaches earlier
 \citep{ma2017lifelong}; \citet{shimokawa2022improvement} estimate pickup
 times to choose the robot in token passing; RMCA prices assignments with
@@ -58,12 +59,12 @@ the Hungarian method \citep{kuhn1955hungarian} turns those costs into an
 assignment that is optimal for that cost matrix. Unlike RMCA and
 Detour-Delta, the cost prices only the empty trip to the pickup, and it does
 not price the interactions among the robots assigned in the same epoch.
-Around the coupling sit the pieces that make a lifelong
-loop robust: a hold cascade that converts planner failures into consistent
+Around the coupling sit the pieces that kept the lifelong
+loop running in our runs: a hold cascade that converts planner failures into consistent
 rests (a variant of the fail policies of \citet{morag2023adapting}, in which
 the robots whose reservations cross a held cell are re-planned rather than
-made to stay in place), token-passing endpoint capacities
-\citep{ma2017lifelong} that keep dock
+made to stay in place), endpoint capacities that generalise the
+token-passing endpoint rule of \citet{ma2017lifelong} and keep dock
 queues short, a two-threshold charging policy with capacity-constrained slot
 assignment, and an optional windowed Conflict-Based Search backend
 \citep{sharon2015cbs}.
@@ -94,7 +95,8 @@ Our contributions are:
   test checked by an independent trajectory auditor, an ablation of the hold
   cascade and of the priorities, token-passing baselines and four regimes
   chosen to favour the coupling and committed before their results. Every number traces to a
-  committed result file.
+  committed result file, and a script in the repository checks the text and
+  the tables against those files (\cref{app:repro}).
 \end{itemize}
 
 The study's main result is negative and narrow: with dock capacity limiting

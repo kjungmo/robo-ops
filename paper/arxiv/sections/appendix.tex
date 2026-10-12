@@ -9,12 +9,24 @@ npm test        # 38 vitest tests (Hungarian, A*, PP, CBS, TP, auditor, simulato
 npm run bench:fms -- main planner scaling ablation battery    # first round, 420 runs
 npm run bench:fms -- stress cascade baselines coupling --jobs 10  # 6,180 runs
 npx tsx scripts/paper-data.ts  # tables/*.tex and figures/data/*.csv from the results
+npm run check:paper            # every number in the text and tables against the results
 \end{verbatim}
-Every run is deterministic given its seed (the test suite asserts it), so the
-committed \url{paper/experiments/results/*.json} files are reproduced
-bit-for-bit except for the wall-clock fields, whatever the number of worker
-processes.
 \endgroup
+The committed results were written at commits \texttt{27080ab} (first round) and \texttt{2d4342a} (second round) of the
+repository, and the code under \texttt{src/fms/} has not changed since the
+second. Every run is deterministic given its seed (the test suite asserts it
+for one configuration). The bench commands above overwrite the committed
+files; with \texttt{-{}-out <dir>} they write elsewhere, and
+\texttt{npm run check:results -{}- <dir>} compares such a re-run with the
+committed records field by field, leaving out the four wall-clock fields
+(\texttt{wallMs}, \texttt{plannerMs}, \texttt{allocMs},
+\texttt{plannerMsPerTick}). Our repeat of all 6{,}600 runs found no other
+difference; its summary is the file
+\texttt{paper/experiments/repro/repeat.json}. Regenerating the tables from
+a re-run changes their planner-time columns. The last command is a guard: it
+regenerates every table and figure data file and recomputes every number
+quoted in the text from the committed records, and it fails if a number in
+the text has no such check.
 Token passing is selected with \texttt{coordinator: 'tp'} or
 \texttt{'tpts'} in \texttt{SimConfig}. Our adaptation to the setting of
 this paper: the token table stores every robot's complete path with a
@@ -78,6 +90,7 @@ initial SoC & $\mathcal{U}[0.5,1.0]$ & $\mathcal{U}[0.2,0.4]$ in the battery str
 dwell $\delta$ & 2 ticks & loading and unloading\\
 CBS node budget & 2000 & per group, then PP fallback\\
 stall limit & 1000 ticks & no task progress $\Rightarrow$ run flagged deadlocked\\
+run limit & 20{,}000 ticks & a run that neither finishes nor stalls stops here\\
 tasks per run & 200 (100 on \emph{small}) & pickups, docks sampled uniformly\\
 seeds & 1--5 & 1--60 stress, 1--30 cascade, baselines, coupling\\
 \bottomrule
@@ -112,8 +125,11 @@ narrow & $52\times15$ & 496 & 80 & 6 & 8 (4) & 32 & 1\\
 \cref{subsec:main,subsec:ablation}; \cref{tab:scaling} lists the data behind
 \cref{fig:scaling}; \cref{tab:battery} the battery stress of
 \cref{subsec:main}; \cref{tab:reserve} the delay bounds of
-\cref{prop:charge}. The per-run records hold all 25 metrics of
-\texttt{SimMetrics} and the 12 auditor fields; they are in the directory
+\cref{prop:charge}. The per-run records hold the 38 fields of
+\texttt{SimMetrics} (10 that identify the configuration and 28 measured quantities) and 13 auditor fields, with the sweep name, the variant label and
+the wall-clock time of the run; the first-round records were written before 4 of these fields were added (three counters of the
+baselines and of the CBS backend, and the work-trip delay) and lack them.
+The records are in the directory
 \texttt{paper/experiments/results/} as one JSON file per sweep, and the
 mapping from every number in this paper to a results field is in the file
 \texttt{paper/arxiv/NUMBERS.md}.

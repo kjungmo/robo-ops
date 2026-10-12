@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use the fleet-management module or its results, please cite the paper below."
+title: "RoboOps: operator console and PACT fleet-management module for AMR/AGV fleets"
+type: software
+authors:
+  - family-names: Kang
+    given-names: Jungmo
+    email: kangjmo91@gmail.com
+    orcid: "https://orcid.org/0009-0002-0394-1861"
+license: Apache-2.0
+repository-code: "https://github.com/kjungmo/robo-ops"
+url: "https://github.com/kjungmo/robo-ops"
+keywords:
+  - multi-robot task allocation
+  - multi-agent path finding
+  - lifelong pickup and delivery
+  - fleet management
+  - warehouse robotics
+preferred-citation:
+  type: unpublished
+  title: "PACT: A Conflict-Free Lifelong Fleet Manager for Warehouse AMRs and a Controlled Study of Reservation-Aware Pickup Costs"
+  authors:
+    - family-names: Kang
+      given-names: Jungmo
+      orcid: "https://orcid.org/0009-0002-0394-1861"
+  year: 2026
+  notes: "Preprint, not peer reviewed. Manuscript, code and results at https://github.com/kjungmo/robo-ops"

@@ -10,6 +10,9 @@
     "preview": "vite preview",
     "test": "vitest run",
     "bench:fms": "tsx scripts/bench-fms.ts",
+    "paper:data": "tsx scripts/paper-data.ts",
+    "check:paper": "tsx scripts/check-paper.ts",
+    "check:results": "tsx scripts/check-results.ts",
     "extract:console-site": "tsx scripts/extract-console-site.ts"
   },
   "dependencies": {

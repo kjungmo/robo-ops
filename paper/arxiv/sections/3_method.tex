@@ -49,7 +49,8 @@ $(\theta_{\mathrm{lo}},\theta_{\mathrm{hi}})$, \cref{subsec:charging}.
 Two robots conflict when they occupy the same cell at the same tick (vertex
 conflict) or traverse the same edge in opposite directions during the same
 tick (swap conflict); following a robot into the cell it just left is
-allowed, as in the standard MAPF definitions of \citet{stern2019mapf}.
+allowed, the convention that \citet{stern2019mapf} report for most
+search-based MAPF work.
 
 \noindent\textbf{Objective.}
 Given the stream $\mathcal{T}$, the fleet manager chooses, at every tick, an
@@ -63,8 +64,9 @@ per robot, so as to minimise the mean service time of the delivered tasks
 and we also report throughput $|\mathcal{T}|/T_{\mathrm{mk}}$, where the
 makespan $T_{\mathrm{mk}}=\max_k c_k$. For a finite stream throughput is the
 inverse makespan, a different objective from mean service time that can rank
-schedules differently, so we report both. Optimising \cref{eq:objective} exactly is intractable even
-without batteries \citep{yu2013structure}; \sname\ is a rolling-horizon
+schedules differently, so we report both. We do not attempt to optimise \cref{eq:objective} exactly: even
+without batteries and with all tasks known, it contains optimal MAPF, which is NP-hard on general
+graphs \citep{yu2013structure}; \sname\ is a rolling-horizon
 heuristic. It enforces the conflict constraint by construction
 (\cref{prop:pp,cor:exec}); the charge constraint is only guarded by a
 heuristic feasibility test (\cref{eq:feasible}), which is provably safe only
@@ -90,7 +92,8 @@ $t'\in[t,t_0+w]$ and not held).
 Each robot plans on the time-expanded graph
 $V\times\{t_0,\dots,t_0+w\}$ with the exact distance $d(\cdot,g)$ as
 heuristic (\cref{alg:astar}). A state $(g,t)$ is a goal only if
-$\mathrm{goalfree}(g,t)$; a state at the horizon is closed with cost
+$\mathrm{goalfree}(g,t)$ (and the search fails at once if the start cell
+is reserved at $t_0$, which does not happen for a robot's own cell); a state at the horizon is closed with cost
 $t-t_0+d(v,g)$ and completed with a deterministic shortest path, because no
 reservation exists beyond the horizon. The returned cost is the arrival time
 \begin{equation}\label{eq:arrival}
@@ -279,10 +282,13 @@ before and after every executed step and counts vertex and swap conflicts.
 Because that check still lives inside the simulator and reads the plans it
 executes, the benchmark also runs a separate \emph{trajectory auditor} that
 sees only the robots' observed cells, charge, status and goal after every
-tick and re-derives, with its own code, vertex and swap conflicts, illegal
+tick, together with the simulator's running count of pickups and deliveries,
+and re-derives, with its own code, vertex and swap conflicts, illegal
 moves (non-adjacent jumps, moves onto obstacles, a depleted robot that
 moves), depletions, trip delays, slot waits and the longest interval without
-task progress. Both counts test the implementation against
+task progress. Its conflict and illegal-move counts use the observed cells
+alone; trip delays and slot waits also rely on the status and goal that the
+simulator reports. Both conflict counts test the implementation against
 \cref{cor:exec}; over all runs in \cref{sec:exp} both are zero whenever the
 hold cascade is enabled.
 
@@ -373,10 +379,12 @@ $M\gets$ \textsc{Hungarian} (greedy matching for the greedy baseline)$\bigl([\,d
 \subsection{Allocating tasks: reservation-aware pickup costs}\label{subsec:alloc}
 
 \noindent\textbf{Candidate pool.}
-Pending tasks are kept in arrival order. Following token passing
-\citep{ma2017lifelong}, a task enters the candidate pool only while its dock
+Pending tasks are kept in arrival order. Generalising the endpoint rule of
+token passing \citep{ma2017lifelong}, in which no other path may end at a
+task's pickup or delivery cell, a task enters the candidate pool only while its dock
 has fewer than $\kappa_{\mathrm{d}}$ robots in flight (assigned and not yet
-delivered) and its pickup fewer than $\kappa_{\mathrm{p}}$; the pool holds
+delivered, counting the tasks already admitted to the pool in this epoch)
+and its pickup fewer than $\kappa_{\mathrm{p}}$ robots on their way to it; the pool holds
 the oldest $\max(2m,8)$ such tasks for $m$ eligible robots. This endpoint
 reservation is what keeps dock queues short enough for \cref{alg:pp} to
 resolve (\cref{subsec:ablation}).
@@ -395,8 +403,9 @@ For eligible robot $r$ and pool task $\tau$ the cost is
 \end{equation}
 with $c(r,\tau)=\infty$ when \cref{eq:feasible} fails. The battery factor
 makes a low-charge robot look farther, so long trips go to well-charged
-robots. The congestion proxy counts, along the free-space shortest path, the
-cells reserved by other robots at the time the robot would traverse them
+robots. The congestion proxy counts, along the free-space shortest path and
+up to the horizon, the cells that another robot has reserved at the tick the
+robot would traverse them or one tick earlier or later
 (held cells count $w_{\mathrm{h}}$); the path-aware cost is the arrival time
 \cref{eq:arrival} of \cref{alg:astar} against the table that already contains
 group~1. Costs are computed for the $K$ nearest pool tasks of each robot
@@ -436,8 +445,9 @@ $\min\ell=m-\nu$ and every maximum finite matching $M'$ appears, extended,
 with cost $(m-\nu)\Lambda+F(M')$. Dropping the $\Lambda$-pairs of the
 minimiser therefore leaves a maximum-cardinality finite matching of minimum
 finite cost. Each of the $m$ rows is inserted by one shortest-augmenting-path
-phase with potentials \citep{jonker1987shortest} of $O(mk)$ time, which gives
-$O(m^2k)$.
+phase with potentials \citep{jonker1987shortest}; a phase marks at most
+$m+1$ columns and scans the $k$ columns once per mark, which is $O(mk)$
+time and gives $O(m^2k)$ in total.
 \end{proof}
 
 \begin{algorithm}[t]
@@ -455,11 +465,16 @@ group~2 $\gets$ newly assigned $\cup$ parking robots not in group~1; \textsc{PP}
 \end{algorithm}
 
 \noindent\textbf{Complexity.}
-Let $|V|$ be the number of free cells. One epoch costs
-$O\bigl(|\mathcal{R}|^2\,|V|\,w\bigr)$ for planning (\cref{prop:pp}, each
-call bounded by $|V|(w+1)$ expansions; in practice the cascade is rare and
-the cost is linear in $|\mathcal{R}|$), plus $O(mK\,|V|\,w)$ for path-aware
-pricing and $O(m^2\,|\mathcal{T}_{\mathrm{pool}}|)$ for the assignment. The
-static and proxy variants replace the pricing term by $O(mK)$ table look-ups
-(distances are cached), which is the entire runtime overhead of the coupling;
-\cref{subsec:main} reports it as planner milliseconds per simulated tick.
+Let $|V|$ be the number of free cells. We count node expansions of
+\cref{alg:astar}, each of which costs a logarithmic heap operation. One epoch
+of prioritized planning needs $O\bigl(|\mathcal{R}|^2\,|V|\,w\bigr)$
+expansions (\cref{prop:pp}, each
+call bounded by $|V|(w+1)$ expansions; in our runs the cascade is rare,
+\cref{subsec:main}), path-aware pricing adds $O(mK\,|V|\,w)$ expansions, and
+the assignment of $m$ robots to a pool of $k$ tasks takes
+$O(\min(m,k)^2\max(m,k))$ time (\cref{prop:hungarian}). The static variant replaces the pricing term by $O(mK)$
+look-ups of cached distances, and the proxy by one walk along a cached
+shortest path per priced pair. These bounds do not cover the optional CBS
+backend, whose constraint tree is cut off by a node budget.
+\Cref{subsec:main} reports the measured cost as planner milliseconds per
+simulated tick.
