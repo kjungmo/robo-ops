@@ -16,12 +16,12 @@ slots saturated, which violates the bounded slot wait that our conditional
 reserve bound assumes. With dock capacity limiting the tasks in flight, the
 pickup-leg coupling did not measurably improve throughput or service time
 over static Hungarian or even greedy assignment, neither in the twelve cells
-of the main study nor in the regimes chosen to favour it that stay inside
+of the main study nor in the regimes in which we expected it to matter that stay inside
 the safe envelope. The study detects no large effect but is not an
 equivalence test, and it leaves full-trip and dock-aware costs untested.
 Dock capacity and the planning window changed throughput
-by 7--29\%, and for small fleets a windowed CBS backend shortened the makespan
-by up to 8\%. Token passing and token passing with task swaps delivered 16--66\%
+by 7--29\%, and on the small layout a windowed CBS backend shortened the makespan
+by 4--12\%. Token passing and token passing with task swaps delivered 16--66\%
 less at our default dock capacity, but at
 the one robot in flight per dock that their endpoint rule allows, token
 passing with task swaps came within 2.5\% of our loop.

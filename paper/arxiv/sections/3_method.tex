@@ -97,9 +97,15 @@ is reserved at $t_0$, which does not happen for a robot's own cell); a state at 
 $t-t_0+d(v,g)$ and completed with a deterministic shortest path, because no
 reservation exists beyond the horizon. The returned cost is the arrival time
 \begin{equation}\label{eq:arrival}
-  A^{\mathcal{B}}(p,g,t_0) \;=\; \min\{\,t - t_0 : (g,t)\ \text{reachable under }\mathcal{B},\ \mathrm{goalfree}(g,t)\,\},
+  A^{\mathcal{B}}(p,g,t_0) \;=\; \min\Bigl(
+  \min_{\substack{(g,t)\ \text{reachable under }\mathcal{B}\\ \mathrm{goalfree}(g,t)}} (t - t_0),\;\;
+  \min_{(v,\,t_0+w)\ \text{reachable under }\mathcal{B}} \bigl(w + d(v,g)\bigr)\Bigr),
 \end{equation}
-the per-agent cost of sum-of-costs MAPF restricted to the window. Since
+the per-agent cost of sum-of-costs MAPF restricted to the window. The second
+term is the horizon case of \cref{alg:astar}: for a goal farther than $w$
+from the robot only it applies, so the reservations can change the estimate
+only through the waits and detours of the first $w$ ticks, and the rest is a
+free-space distance. Since
 $d(\cdot,g)$ is consistent, the first goal state popped is optimal
 \citep{hart1968astar}, and the
 search is bounded by $|V|(w+1)$ expansions.
@@ -110,7 +116,7 @@ search is bounded by $|V|(w+1)$ expansions.
 \KwOut{path $\pi=(\pi_0=p,\pi_1,\dots)$ and arrival time, or \textsc{fail}}
 $\mathit{open}\gets\{(p,t_0)\}$ with $f=d(p,g)$; $\mathit{closed}\gets\emptyset$\;
 \While{$\mathit{open}\neq\emptyset$}{
-  pop $(v,t)$ with minimal $f$ (ties: larger $g$-value, then FIFO)\;
+  pop $(v,t)$ with minimal $f$ (ties: later time $t$, then FIFO)\;
   \lIf{$(v,t)\in\mathit{closed}$}{\textbf{continue}}
   add $(v,t)$ to $\mathit{closed}$\;
   \lIf{$v=g$ \KwSty{and} $\mathrm{goalfree}(g,t)$}{\Return path to $(v,t)$, cost $t-t_0$}
@@ -124,7 +130,7 @@ $\mathit{open}\gets\{(p,t_0)\}$ with $f=d(p,g)$; $\mathit{closed}\gets\emptyset$
 \Return \textsc{fail}\;
 \end{algorithm}
 
-\noindent\textbf{Prioritized planning with a hold cascade.}
+\noindent\textbf{Prioritized planning (PP) with a hold cascade.}
 Robots are planned one after another in priority order
 (\cref{alg:pp}); each path is written into $\mathcal{B}$ before the next
 robot plans. Prioritized planning is incomplete: a robot may find no path
@@ -212,15 +218,15 @@ stops, and an epoch starts before the next step is executed.
 \caption{Prioritized planning with hold cascade}\label{alg:pp}
 \KwIn{ordered robots $(r_1,\dots,r_m)$ with starts and goals, external robots $\mathcal{X}$ already in $\mathcal{B}$, epoch $t_0$}
 \KwOut{paths for $r_1,\dots,r_m$ (and re-planned members of $\mathcal{X}$), held set $\mathcal{K}$}
-$Q\gets(r_1,\dots,r_m)$; $\mathcal{K}\gets\emptyset$\;
-\While{$Q\neq\emptyset$}{
-  $r\gets$ pop front of $Q$\;
+$L\gets(r_1,\dots,r_m)$; $\mathcal{K}\gets\emptyset$\;
+\While{$L\neq\emptyset$}{
+  $r\gets$ pop front of $L$\;
   $\pi\gets$ \textsc{A*}$(p^r,g^r,t_0,w,\mathcal{B})$ \tcp*{\cref{alg:astar}}
   \If{$\pi=$ \textsc{fail}}{
     $\pi\gets(p^r)$; $\mathcal{K}\gets\mathcal{K}\cup\{r\}$ \tcp*{hold current cell}
     $\mathcal{V}\gets\{\,r'\notin\mathcal{K} : r'$ reserved $(p^r,t)$ in $\mathcal{B}$ for some $t\in[t_0,t_0+w]\,\}$\;
     remove the reservations of every $r'\in\mathcal{V}$ from $\mathcal{B}$\;
-    push $\mathcal{V}$ (in priority order) to the front of $Q$\;
+    push $\mathcal{V}$ (in priority order) to the front of $L$\;
   }
   write $\pi$ into $\mathcal{B}$ (with a hold at its last cell if it ends before the horizon)\;
 }
@@ -252,17 +258,17 @@ whole group when the constraint tree exceeds a node budget.
 \caption{Windowed CBS for one group (high level)}\label{alg:cbs}
 \KwIn{robots $\mathcal{A}$ with distinct goals, base reservations $\mathcal{B}$, epoch $t_0$, window $w$, node budget $N_{\max}$}
 \KwOut{conflict-free paths on $[t_0,t_0+w]$ with minimal sum of arrival times, or \textsc{fail}}
-root: $\mathcal{C}_r\gets\emptyset$, $\pi_r\gets$ \textsc{A*} under $\mathcal{B}\cup\mathcal{C}_r$ for each $r\in\mathcal{A}$\;
+root: $\Omega_r\gets\emptyset$, $\pi_r\gets$ \textsc{A*} under $\mathcal{B}\cup\Omega_r$ for each $r\in\mathcal{A}$\;
 \lIf{some $\pi_r=$ \textsc{fail}}{\Return \textsc{fail}}
 $\mathit{open}\gets\{\text{root}\}$\;
 \While{$\mathit{open}\neq\emptyset$}{
   $\nu\gets$ node with minimal $\sum_r\mathrm{cost}(\pi_r)$ (ties: fewer conflicts, then FIFO)\;
-  $\kappa\gets$ earliest conflict of $\nu$ on $[t_0,t_0+w]$\;
-  \lIf{$\kappa=\emptyset$}{\Return paths of $\nu$}
+  $\xi\gets$ earliest conflict of $\nu$ on $[t_0,t_0+w]$\;
+  \lIf{$\xi=\emptyset$}{\Return paths of $\nu$}
   \lIf{$|\text{generated}|\ge N_{\max}$}{\Return \textsc{fail}}
-  \ForEach{robot $r\in\kappa$}{
-    child $\nu'\gets\nu$ with $\mathcal{C}_r$ extended by the vertex $(v,t)$ or edge $(u\!\to\!v,t)$ of $\kappa$\;
-    re-plan $\pi_r$ under $\mathcal{B}\cup\mathcal{C}_r$; \lIf{feasible}{add $\nu'$ to $\mathit{open}$}
+  \ForEach{robot $r\in\xi$}{
+    child $\nu'\gets\nu$ with $\Omega_r$ extended by the vertex $(v,t)$ or edge $(u\!\to\!v,t)$ of $\xi$\;
+    re-plan $\pi_r$ under $\mathcal{B}\cup\Omega_r$; \lIf{feasible}{add $\nu'$ to $\mathit{open}$}
   }
 }
 \Return \textsc{fail}\;
@@ -282,7 +288,8 @@ before and after every executed step and counts vertex and swap conflicts.
 Because that check still lives inside the simulator and reads the plans it
 executes, the benchmark also runs a separate \emph{trajectory auditor} that
 sees only the robots' observed cells, charge, status and goal after every
-tick, together with the simulator's running count of pickups and deliveries,
+tick, together with the map and the simulator's running counts of pickups
+and deliveries and of outstanding tasks,
 and re-derives, with its own code, vertex and swap conflicts, illegal
 moves (non-adjacent jumps, moves onto obstacles, a depleted robot that
 moves), depletions, trip delays, slot waits and the longest interval without
@@ -383,8 +390,9 @@ Pending tasks are kept in arrival order. Generalising the endpoint rule of
 token passing \citep{ma2017lifelong}, in which no other path may end at a
 task's pickup or delivery cell, a task enters the candidate pool only while its dock
 has fewer than $\kappa_{\mathrm{d}}$ robots in flight (assigned and not yet
-delivered, counting the tasks already admitted to the pool in this epoch)
-and its pickup fewer than $\kappa_{\mathrm{p}}$ robots on their way to it; the pool holds
+delivered) and its pickup fewer than $\kappa_{\mathrm{p}}$ robots on their
+way to it, in both cases counting the tasks already admitted to the pool in
+this epoch; the pool holds
 the oldest $\max(2m,8)$ such tasks for $m$ eligible robots. This endpoint
 reservation is what keeps dock queues short enough for \cref{alg:pp} to
 resolve (\cref{subsec:ablation}).
@@ -396,12 +404,13 @@ For eligible robot $r$ and pool task $\tau$ the cost is
 \qquad
   \hat a(r,\tau) =
   \begin{cases}
-    d(p^r,p_\tau) & \text{static (greedy, Hungarian)}\\[2pt]
+    d(p^r,p_\tau) & \text{static}\\[2pt]
     d(p^r,p_\tau) + w_{\mathrm{c}}\,\chi_{\mathcal{B}}(p^r\!\leadsto\!p_\tau) & \text{congestion proxy}\\[2pt]
-    A^{\mathcal{B}}(p^r,p_\tau,t_0) & \text{path-aware (\sname)}
+    A^{\mathcal{B}}(p^r,p_\tau,t_0) & \text{path-aware}
   \end{cases}
 \end{equation}
-with $c(r,\tau)=\infty$ when \cref{eq:feasible} fails. The battery factor
+with $c(r,\tau)=\infty$ when \cref{eq:feasible} fails; greedy and Hungarian
+assignment use the static estimate and \sname\ the path-aware one. The battery factor
 makes a low-charge robot look farther, so long trips go to well-charged
 robots. The congestion proxy counts, along the free-space shortest path and
 up to the horizon, the cells that another robot has reserved at the tick the
@@ -472,9 +481,11 @@ expansions (\cref{prop:pp}, each
 call bounded by $|V|(w+1)$ expansions; in our runs the cascade is rare,
 \cref{subsec:main}), path-aware pricing adds $O(mK\,|V|\,w)$ expansions, and
 the assignment of $m$ robots to a pool of $k$ tasks takes
-$O(\min(m,k)^2\max(m,k))$ time (\cref{prop:hungarian}). The static variant replaces the pricing term by $O(mK)$
-look-ups of cached distances, and the proxy by one walk along a cached
-shortest path per priced pair. These bounds do not cover the optional CBS
+$O(\min(m,k)^2\max(m,k))$ time (\cref{prop:hungarian}). In every variant,
+finding the $K$ nearest pool tasks of each robot sorts the pool once per
+robot, $O(mk\log k)$ comparisons. The static variant replaces the pricing term by $O(mK)$
+look-ups of cached distances, and the proxy by one walk down a cached
+distance table per priced pair. These bounds do not cover the optional CBS
 backend, whose constraint tree is cut off by a node budget.
 \Cref{subsec:main} reports the measured cost as planner milliseconds per
 simulated tick.

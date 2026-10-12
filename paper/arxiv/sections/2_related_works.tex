@@ -22,7 +22,7 @@ optional backend.
 Warehouse fleets never solve a one-shot instance: tasks arrive continuously
 \citep{wurman2008coordinating}. \citet{ma2017lifelong} formalised
 multi-agent pickup and delivery (MAPD), defined well-formed MAPD instances
-(building on the well-formed infrastructures of \citealp{cap2015prioritized}) and
+(building on the well-formed infrastructures of \citealp{cap2015complete}) and
 the token-passing (TP) scheme, in which a robot only takes a task whose pickup
 and delivery are not the endpoint of another robot's path; its variant with
 task swaps (TPTS) lets a robot take over an assigned task whose pickup it
@@ -31,8 +31,8 @@ to planned arrival times, greedily and one robot at a time.
 \citet{ma2019lifelong} added kinematic constraints
 and \citet{liu2019task} studied task sequencing. RHCR \citep{li2021rhcr}
 showed that replanning every $h$ steps over a window of $w$ steps scales to
-hundreds of robots. RHCR is a framework that accepts any windowed MAPF
-solver; our rolling-horizon loop with static Hungarian costs and windowed
+hundreds of robots. RHCR is a framework: its authors note that regular MAPF
+solvers can be adapted to its windowed subproblem. Our rolling-horizon loop with static Hungarian costs and windowed
 prioritized planning is an instance of it with task assignment and charging
 added, so we do not implement RHCR a second time, and we ablate the one
 place where our planner differs from plain windowed prioritized planning,
@@ -112,7 +112,8 @@ over its base planner on well-formed maps \citep{hirayama2026detour}.
 Flow-based assignment with congestion-aware edge costs \citep{zhang2025flow}
 and GRAND, which combines learned guidance with rebalancing and assignment
 \citep{gaber2026grand}, report gains in evaluations that include fleets far
-larger than ours. Outside grid MAPD, \citet{forte2021online} assign tasks
+larger than ours; \citet{chen2024traffic} use traffic-flow estimates to
+guide the paths, not the assignments, of lifelong MAPF. Outside grid MAPD, \citet{forte2021online} assign tasks
 online to fleets of coordinated robots and count the interference between
 robots as a cost of the assignment. \citet{zhu2026combined} study online assignment
 together with lifelong path finding on data from a deployed warehouse, where

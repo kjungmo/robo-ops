@@ -49,7 +49,7 @@ To answer that question with a system rather than a thought experiment, we
 introduce \emph{\sname} (Path-Aware Coupled Tasking), an end-to-end,
 framework-free lifelong fleet manager for grid warehouses
 (\cref{fig:overview}). \sname\ replans the fleet every $h$ ticks over a window
-of $w$ ticks, as in RHCR \citep{li2021rhcr}, with windowed space-time A*
+of $w$ ticks, as in rolling-horizon collision resolution (RHCR) \citep{li2021rhcr}, with windowed space-time A*
 \citep{silver2005cooperative} under a reservation table and prioritized
 planning \citep{erdmann1987multiple}. Its coupling is a deliberately
 cheap one that uses real plans: the cost of assigning robot $r$ to task
@@ -66,7 +66,7 @@ the robots whose reservations cross a held cell are re-planned rather than
 made to stay in place), endpoint capacities that generalise the
 token-passing endpoint rule of \citet{ma2017lifelong} and keep dock
 queues short, a two-threshold charging policy with capacity-constrained slot
-assignment, and an optional windowed Conflict-Based Search backend
+assignment, and an optional windowed Conflict-Based Search (CBS) backend
 \citep{sharon2015cbs}.
 
 Our contributions are:
@@ -94,7 +94,8 @@ Our contributions are:
   parameters; a second round of 6{,}180 runs adds a 60-seed safety stress
   test checked by an independent trajectory auditor, an ablation of the hold
   cascade and of the priorities, token-passing baselines and four regimes
-  chosen to favour the coupling and committed before their results. Every number traces to a
+  in which we expected the coupling to matter most, defined before their
+  results were committed. Every number traces to a
   committed result file, and a script in the repository checks the text and
   the tables against those files (\cref{app:repro}).
 \end{itemize}
@@ -113,10 +114,12 @@ the loaded leg, the dock queue or the interactions among the robots being
 assigned. What does move the fleet is elsewhere: raising the
 per-dock in-flight capacity from 2 to 3 raises throughput by 26--29\%,
 shortening the planning window from 20 to 10 ticks raises it by 7\% while
-cutting planner time by $3.3\times$, and windowed CBS reduces makespan by up to
-8\% on small fleets (\cref{tab:ablation,tab:planner}); the seed-paired 95\%
-intervals of all three exclude zero. In the four regimes we chose to
-favour the coupling, \sname\ shows no resolved gain except where every method
+cutting the planner's A* expansions per tick by 79\%, and windowed CBS reduces makespan by
+4--12\% on the small layout (\cref{tab:ablation,subsec:main}). The
+dock-capacity and window differences survive a Holm correction over the
+fourteen lever and planner comparisons of the first round, and the CBS gain
+is measured on 120 seed pairs per fleet size. In the four regimes in which
+we expected the coupling to matter, \sname\ shows no resolved gain except where every method
 strands robots, and there its higher throughput mostly reflects fewer stalled runs
 (\cref{subsec:coupling}).
 Token passing and token passing with task swaps \citep{ma2017lifelong}

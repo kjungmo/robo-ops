@@ -1,8 +1,9 @@
 \begin{table}[t]
 \centering
-\caption{\textbf{Planner backend on the small layout} (batch load, 100 tasks, Hungarian allocation, 5 seeds). Windowed CBS resolves conflicts inside the window optimally and falls back to prioritized planning (PP) when its node budget (2000) is exceeded.}
+\caption{\textbf{Planner backend on the small layout} (batch load, 100 tasks, Hungarian allocation, 5 seeds). Windowed CBS plans the robots with distinct goals jointly inside the window and falls back to prioritized planning (PP) when its node budget (2000) is exceeded. Planner ms/tick is wall-clock time (\cref{subsec:setup}).}
 \label{tab:planner}
 \small
+\setlength{\tabcolsep}{4pt}
 \begin{tabular}{rlccccc}
 \toprule
 $|\mathcal{R}|$ & \textbf{Planner} & \textbf{Makespan} $\downarrow$ & \textbf{Service time} $\downarrow$ & \textbf{Wait actions} $\downarrow$ & \textbf{Planner ms/tick} & \textbf{CBS fallbacks}\\

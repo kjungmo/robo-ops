@@ -54,10 +54,12 @@ one-shot instances \citep{honig2018cbsta}, is not ruled out.
 \noindent\textbf{Cost analysis.}
 The whole stack runs at 0.02--0.97 ms of planner time per simulated tick for 4
 to 48 robots on one core (\cref{fig:scaling}); a tick of one second of robot
-motion therefore leaves three orders of magnitude of headroom, and the
+motion is long by comparison, and the
 coupling's extra A* calls ($+35\%$ at 48 robots) are affordable even though
-they are not useful here. Windowed CBS at the small fleet sizes where it is
-exact costs 0.09--0.34 ms/tick. These are wall-clock times on one host and
+they are not useful here. These are means over all ticks of a run: we
+did not record the time of a single epoch, which is what a real-time
+deadline would have to bound. Windowed CBS on the small layout
+costs 0.09--0.34 ms/tick. These are wall-clock times on one host and
 vary between repetitions (\cref{subsec:setup}). We did not measure memory;
 the planner keeps one cached distance table, a vector over the grid cells,
 per goal cell.
@@ -110,8 +112,9 @@ we did not measure steady-state throughput on longer streams. All runs were
 made on one host with Node.js~22; determinism was checked there, and
 planner times are wall-clock measurements that vary between repetitions
 (\cref{subsec:setup}). The auditor's conflict counts need only the observed
-cells, but its delay and slot-wait measurements trust the status and goal
-that the simulator reports. The battery model is linear and the
+cells and the map, but its delay and slot-wait measurements trust the status and goal
+that the simulator reports, and its no-progress interval the simulator's
+counts of deliveries and outstanding tasks. The battery model is linear and the
 charging policy is a fixed hysteresis; we do not optimise charging
 schedules; under doubled drain it strands robots whenever the slots
 saturate (\cref{tab:stress}), and \cref{prop:charge} only says which delay
@@ -121,14 +124,16 @@ charger queue is the obvious next step. Five seeds per configuration in the
 first round bound its resolution to differences of a few percent; the second
 round uses 30 to 60 seeds, and neither round was designed as an equivalence
 test. The coupling study has no baseline from the coupling literature: we do
-not run RMCA, LNS-wPBS or Detour-Delta, nor a cost that prices the whole
+not run RMCA, LNS-wPBS or Detour-Delta, nor the CENTRAL algorithm of
+\citet{ma2017lifelong} (Hungarian assignment followed by a MAPF solve) or a
+PIBT-based MAPD solver \citep{okumura2022pibt}, nor a cost that prices the whole
 pickup-to-delivery trip, and we have no congested setting without the
 dock-capacity gate or with fleets of hundreds of robots. These runs are the
 evaluation we plan next; until then the null result says nothing about those
 methods. We also did not record how often the static and path-aware costs
 produce different matchings, which would test the explanation above
 directly. Basic CBS, with PP for robots that share a goal, runs on groups of up to 32
-robots with few node-budget fall-backs but gains only 1--3\% makespan there; symmetry reasoning
+robots with few node-budget fallbacks but gains only 2--4\% makespan there under batch load; symmetry reasoning
 \citep{li2019symmetry} or bounded-suboptimal search \citep{li2021eecbs}
 might gain more. Prioritized planning with a hold cascade is safe but not
 complete: a robot can be delayed for several epochs, and although every run

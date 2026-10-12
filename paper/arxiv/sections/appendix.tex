@@ -5,7 +5,7 @@ dependencies); the benchmark, tests and paper tables are produced by
 \begingroup\footnotesize
 \begin{verbatim}
 npm ci
-npm test        # 38 vitest tests (Hungarian, A*, PP, CBS, TP, auditor, simulator)
+npm test        # vitest: Hungarian, A*, PP, CBS, TP, auditor, simulator, properties
 npm run bench:fms -- main planner scaling ablation battery    # first round, 420 runs
 npm run bench:fms -- stress cascade baselines coupling --jobs 10  # 6,180 runs
 npx tsx scripts/paper-data.ts  # tables/*.tex and figures/data/*.csv from the results
@@ -13,8 +13,11 @@ npm run check:paper            # every number in the text and tables against the
 \end{verbatim}
 \endgroup
 The committed results were written at commits \texttt{27080ab} (first round) and \texttt{2d4342a} (second round) of the
-repository, and the code under \texttt{src/fms/} has not changed since the
-second. Every run is deterministic given its seed (the test suite asserts it
+repository. Since the second, the code under \texttt{src/fms/} gained
+diagnostic counters, options that are off by default, comments, and two
+corrections that these runs do not exercise (the stall clock now starts when
+a task becomes outstanding, and a token-passing robot that takes a task while
+standing on its pickup starts loading at once). Every run is deterministic given its seed (the test suite asserts it
 for one configuration). The bench commands above overwrite the committed
 files; with \texttt{-{}-out <dir>} they write elsewhere, and
 \texttt{npm run check:results -{}- <dir>} compares such a re-run with the
@@ -23,10 +26,23 @@ committed records field by field, leaving out the four wall-clock fields
 \texttt{plannerMsPerTick}). Our repeat of all 6{,}600 runs found no other
 difference; its summary is the file
 \texttt{paper/experiments/repro/repeat.json}. Regenerating the tables from
-a re-run changes their planner-time columns. The last command is a guard: it
-regenerates every table and figure data file and recomputes every number
-quoted in the text from the committed records, and it fails if a number in
-the text has no such check.
+a re-run changes their planner-time columns. The last command is a guard.
+It regenerates every table and figure data file and compares them byte for
+byte; it recomputes every summary file from the per-run records; it
+recomputes every numeral written in digits in the abstract, the sections,
+this appendix and the figure captions from the committed records and from
+constants exported by \texttt{src/fms}, and fails if a digit in that text
+has no such check; and it checks which data column every plotted curve
+reads. Three kinds of numbers are not recomputed but pinned, which means
+that changing one fails the guard until a reviewed snapshot
+(\texttt{paper/experiments/guard/pins.json}) is updated: numerals inside the
+formulas and algorithms of \cref{sec:method}, numbers written as words
+that the script does not list as a claim, and the two facts taken from the
+git history (\cref{subsec:setup}). The guard does not check the logic of a
+sentence, the references to tables and figures, or the drawing of the
+figures beyond their data columns. The bounds stated in
+\cref{prop:pp,prop:charge}, \cref{alg:astar} and \cref{eq:cost} are
+exercised by unit tests (\texttt{src/fms/\_\_tests\_\_/properties.test.ts}).
 Token passing is selected with \texttt{coordinator: 'tp'} or
 \texttt{'tpts'} in \texttt{SimConfig}. Our adaptation to the setting of
 this paper: the token table stores every robot's complete path with a
@@ -34,7 +50,7 @@ permanent rest at its end and no horizon, and space-time A* on it is bounded
 by 20{,}000 expansions; a trip is planned as an empty leg to a pickup that
 must stay free for the loading dwell, the dwell, and a loaded leg ending in a
 rest at the dock; a robot without an eligible task drives to its home bay
-(or rests where it is if no path exists); a robot below
+(or rests where it is if no path exists) and takes no task on the way; a robot below
 $\theta_{\mathrm{lo}}$ takes the nearest free charger slot that is not the
 end of another path; and the task-swap step of TPTS only commits a swap if
 the displaced robot still has a path to its home bay, which keeps every step
@@ -43,6 +59,10 @@ The operator console shows the
 simulator at \texttt{/fms} (\texttt{npm run dev}).
 
 \section{Notation and Parameters}\label{app:params}
+
+\Cref{tab:notation} lists the notation, \cref{tab:params} the default
+parameters with the values the sweeps change, and \cref{tab:layouts} the
+four layouts.
 
 \begin{table}[h]
 \centering
@@ -84,14 +104,14 @@ candidates $K$ & 6 & nearest pool tasks priced per robot\\
 pool size & $\max(2m,8)$ & $m$ eligible robots, oldest tasks first\\
 $\kappa_{\mathrm{d}}$ / $\kappa_{\mathrm{p}}$ & 3 / 1 & endpoint reservation capacities\\
 $w_{\mathrm{b}}$ / $w_{\mathrm{c}}$ / $w_{\mathrm{h}}$ & 1 / 1 / 10 & \cref{eq:cost}\\
-$\beta_{\mathrm{m}}$ / $\beta_{\mathrm{w}}$ / $\gamma$ & 0.001 / 0.0002 / 0.005 & SoC units per tick\\
+$\beta_{\mathrm{m}}$ / $\beta_{\mathrm{w}}$ / $\gamma$ & 0.001 / 0.0002 / 0.005 & charge units per tick\\
 $\theta_{\mathrm{lo}}$ / $\theta_{\mathrm{hi}}$ / $\rho$ & 0.2 / 0.9 / 0.05 & \\
-initial SoC & $\mathcal{U}[0.5,1.0]$ & $\mathcal{U}[0.2,0.4]$ in the battery stress\\
+initial charge & $\mathcal{U}[0.5,1.0]$ & $\mathcal{U}[0.2,0.4]$ in the battery stress\\
 dwell $\delta$ & 2 ticks & loading and unloading\\
 CBS node budget & 2000 & per group, then PP fallback\\
-stall limit & 1000 ticks & no task progress $\Rightarrow$ run flagged deadlocked\\
+stall limit & 1000 ticks & no task progress $\Rightarrow$ run flagged stalled\\
 run limit & 20{,}000 ticks & a run that neither finishes nor stalls stops here\\
-tasks per run & 200 (100 on \emph{small}) & pickups, docks sampled uniformly\\
+tasks per run & 200 (100 on \emph{small}; stress: 100) & pickups, docks sampled uniformly\\
 seeds & 1--5 & 1--60 stress, 1--30 cascade, baselines, coupling\\
 \bottomrule
 \end{tabular}

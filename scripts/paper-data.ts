@@ -12,9 +12,10 @@
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
+import { holm, tTwoSidedP } from './stats'
 import { DistanceOracle, chargerSlots, loadLayout, DEFAULT_BATTERY, DEFAULT_CONFIG } from '../src/fms/index'
 
-const RESULTS = join(process.cwd(), 'paper/experiments/results')
+const RESULTS = process.env.PACT_RESULTS ?? join(process.cwd(), 'paper/experiments/results')
 const PAPER = join(process.cwd(), 'paper/arxiv')
 
 export type Row = Record<string, string>
@@ -83,10 +84,11 @@ function plannerTable(rows: Row[]): string {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Planner backend on the small layout} (batch load, 100 tasks, Hungarian allocation, 5 seeds). Windowed CBS resolves conflicts inside the window optimally and falls back to prioritized planning (PP) when its node budget (2000) is exceeded.}',
+    '\\caption{\\textbf{Planner backend on the small layout} (batch load, 100 tasks, Hungarian allocation, 5 seeds). Windowed CBS plans the robots with distinct goals jointly inside the window and falls back to prioritized planning (PP) when its node budget (2000) is exceeded. Planner ms/tick is wall-clock time (\\cref{subsec:setup}).}',
   )
   out.push('\\label{tab:planner}')
   out.push('\\small')
+  out.push('\\setlength{\\tabcolsep}{4pt}')
   out.push('\\begin{tabular}{rlccccc}')
   out.push('\\toprule')
   out.push('$|\\mathcal{R}|$ & \\textbf{Planner} & \\textbf{Makespan} $\\downarrow$ & \\textbf{Service time} $\\downarrow$ & \\textbf{Wait actions} $\\downarrow$ & \\textbf{Planner ms/tick} & \\textbf{CBS fallbacks}\\\\')
@@ -132,7 +134,7 @@ function ablationTable(rows: Row[]): string {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Ablations} on the warehouse layout with 32 robots under batch load (200 tasks, 5 seeds). Each row changes one setting of the default configuration.}',
+    '\\caption{\\textbf{Ablations} on the warehouse layout with 32 robots under batch load (200 tasks, 5 seeds). Each row changes one setting of the default configuration. Planner ms/tick is wall-clock time (\\cref{subsec:setup}).}',
   )
   out.push('\\label{tab:ablation}')
   out.push('\\scriptsize')
@@ -168,7 +170,7 @@ function batteryTable(rows: Row[]): string {
   out.push('\\small')
   out.push('\\begin{tabular}{lccccc}')
   out.push('\\toprule')
-  out.push('\\textbf{Variant} & \\textbf{Throughput} & \\textbf{Service time} & \\textbf{Charging sessions} & \\textbf{Depletions} & \\textbf{Final mean SoC}\\\\')
+  out.push('\\textbf{Variant} & \\textbf{Throughput} & \\textbf{Service time} & \\textbf{Charging sessions} & \\textbf{Depletions} & \\textbf{Final mean charge}\\\\')
   out.push('\\midrule')
   for (const [variant, label] of order) {
     const r = rows.find((x) => x.variant === variant)
@@ -185,7 +187,7 @@ function scalingTable(rows: Row[]): string {
   const out: string[] = []
   out.push('\\begin{table}[t]')
   out.push('\\centering')
-  out.push('\\caption{\\textbf{Fleet-size scaling} on the warehouse layout under batch load (200 tasks, 5 seeds); data of \\cref{fig:scaling}.}')
+  out.push('\\caption{\\textbf{Fleet-size scaling} on the warehouse layout under batch load (200 tasks, 5 seeds); data of \\cref{fig:scaling}. Planner ms/tick is wall-clock time (\\cref{subsec:setup}).}')
   out.push('\\label{tab:scaling}')
   out.push('\\footnotesize')
   out.push('\\begin{tabular}{rlcccccc}')
@@ -240,6 +242,8 @@ export interface Paired {
   mean: number
   half: number
   n: number
+  /** Two-sided p-value of the paired t statistic (1 when the differences are all zero). */
+  p: number
 }
 
 export function paired(a: Run[], b: Run[], key: string): Paired {
@@ -254,7 +258,8 @@ export function paired(a: Run[], b: Run[], key: string): Paired {
   const mean = rel.reduce((x, y) => x + y, 0) / n
   const sd = Math.sqrt(rel.reduce((x, y) => x + (y - mean) ** 2, 0) / (n - 1))
   if (T975[n] === undefined) throw new Error(`no t quantile for n=${n}`)
-  return { mean, half: (T975[n] * sd) / Math.sqrt(n), n }
+  const p = sd === 0 ? (mean === 0 ? 1 : 0) : tTwoSidedP(mean / (sd / Math.sqrt(n)), n - 1)
+  return { mean, half: (T975[n] * sd) / Math.sqrt(n), n, p }
 }
 
 const fmtCi = (p: Paired) => {
@@ -271,19 +276,26 @@ function pairedTable(): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Seed-paired differences.} Mean per-seed relative difference in \\%, with a two-sided 95\\% Student-$t$ interval over the 5 seeds (4 degrees of freedom). Runs with the same seed share the task stream and initial charge, so differences are paired. Top: throughput of each cost model relative to Hungarian in every cell of \\cref{tab:main}. Bottom: the levers of \\cref{subsec:ablation} (throughput relative to the default of the same cost model on the warehouse, 32 robots, batch) and windowed CBS (makespan relative to PP on \\emph{small}).}',
+    '\\caption{\\textbf{Seed-paired differences.} Mean per-seed relative difference in \\%, with a two-sided 95\\% Student-$t$ interval over the 5 seeds (4 degrees of freedom). Runs with the same seed share the task stream and initial charge, so differences are paired. Top: throughput and service time of each cost model relative to Hungarian in every cell of \\cref{tab:main}; under $\\lambda{=}0.15$ with 16 or 32 robots the makespan is set by the last arrival, so the throughput columns of those rows are uninformative. Bottom: the levers of \\cref{subsec:ablation} (throughput relative to the default of the same cost model on the warehouse, 32 robots, batch) and windowed CBS (makespan relative to PP on \\emph{small}); $^{\\ast}$ marks the differences that survive Holm\'s procedure at 5\\% over these fourteen comparisons.}',
   )
   out.push('\\label{tab:paired}')
   out.push('\\footnotesize')
-  out.push('\\begin{tabular}{llrccc}')
+  out.push('\\setlength{\\tabcolsep}{2.5pt}')
+  out.push('\\begin{tabular}{llrcccccc}')
   out.push('\\toprule')
-  out.push('\\textbf{Layout} & \\textbf{Load} & $|\\mathcal{R}|$ & Greedy & Proxy & \\sname\\\\')
+  out.push(' & & & \\multicolumn{3}{c}{\\textbf{Throughput}} & \\multicolumn{3}{c}{\\textbf{Service time}}\\\\')
+  out.push('\\cmidrule(lr){4-6}\\cmidrule(lr){7-9}')
+  out.push('\\textbf{Layout} & \\textbf{Load} & $|\\mathcal{R}|$ & Greedy & Proxy & \\sname & Greedy & Proxy & \\sname\\\\')
   out.push('\\midrule')
   let nComp = 0
   let nZero = 0
   let worst = 0
   let worstCell = ''
   let worstPoisson = 0
+  let nSvc = 0
+  let nSvcZero = 0
+  let svcMinP = 1
+  let svcWorst = 0
   const excl: string[] = []
   for (const layout of ['warehouse', 'console']) {
     for (const rate of ['0.15', 'inf']) {
@@ -302,12 +314,19 @@ function pairedTable(): { tex: string; summary: string } {
             worstCell = `${layout}/${rate}/${fleet}`
           }
         }
-        out.push(`${layout} & ${rate === 'inf' ? 'batch' : `$\\lambda{=}${rate}$`} & ${fleet} & ${cells.map(fmtCi).join(' & ')}\\\\`)
+        const svc = ['greedy', 'pact-proxy', 'pact'].map((m) => paired(sel(m), base, 'meanServiceTime'))
+        for (const c of svc) {
+          nSvc += 1
+          if (c.mean - c.half <= 0 && c.mean + c.half >= 0) nSvcZero += 1
+          svcMinP = Math.min(svcMinP, c.p)
+          svcWorst = Math.max(svcWorst, Math.abs(c.mean - c.half), Math.abs(c.mean + c.half))
+        }
+        out.push(`${layout} & ${rate === 'inf' ? 'batch' : `$\\lambda{=}${rate}$`} & ${fleet} & ${cells.map(fmtCi).join(' & ')} & ${svc.map(fmtCi).join(' & ')}\\\\`)
       }
     }
   }
   out.push('\\midrule')
-  out.push('\\multicolumn{3}{l}{\\textbf{Lever} (warehouse, 32, batch)} & \\multicolumn{3}{c}{\\textbf{Throughput} vs.\\ default}\\\\')
+  out.push('\\multicolumn{3}{l}{\\textbf{Lever} (warehouse, 32, batch)} & \\multicolumn{6}{c}{\\textbf{Throughput} vs.\\ default}\\\\')
   const v = (name: string) => abl.filter((r) => r.variant === name)
   const hungMain = main.filter((r) => r.layout === 'warehouse' && rateKey(r) === 'inf' && r.fleetSize === 32 && r.alloc === 'hungarian')
   const levers: Array<[string, Paired]> = [
@@ -318,20 +337,29 @@ function pairedTable(): { tex: string; summary: string } {
     ['no event epochs (\\sname)', paired(v('pact-noEvent'), v('pact'), 'throughput')],
     ['no event epochs (Hungarian)', paired(v('hungarian-noEvent'), hungMain, 'throughput')],
     ['replan every tick (\\sname)', paired(v('pact-h1'), v('pact'), 'throughput')],
+    ['no battery term (\\sname)', paired(v('pact-noBattery'), v('pact'), 'throughput')],
+    ['no battery term (Hungarian)', paired(v('hungarian-noBattery'), hungMain, 'throughput')],
+    ['candidates $K{=}3$ (\\sname)', paired(v('pact-K3'), v('pact'), 'throughput')],
+    ['candidates $K{=}12$ (\\sname)', paired(v('pact-K12'), v('pact'), 'throughput')],
   ]
-  for (const [label, p] of levers) out.push(`\\multicolumn{3}{l}{${label}} & \\multicolumn{3}{c}{${fmtCi(p)}}\\\\`)
-  out.push('\\multicolumn{3}{l}{\\textbf{Planner} (small, batch)} & \\multicolumn{3}{c}{\\textbf{Makespan} of CBS vs.\\ PP}\\\\')
-  for (const fleet of [4, 6, 8]) {
+  const planner: Array<[string, Paired]> = [4, 6, 8].map((fleet) => {
     const sel = (m: string) => plan.filter((r) => r.fleetSize === fleet && r.mapf === m)
-    out.push(`\\multicolumn{3}{l}{${fleet} robots} & \\multicolumn{3}{c}{${fmtCi(paired(sel('cbs'), sel('pp'), 'makespan'))}}\\\\`)
-  }
+    return [`${fleet} robots`, paired(sel('cbs'), sel('pp'), 'makespan')]
+  })
+  const family = [...levers, ...planner]
+  const survives = holm(family.map(([, p]) => p.p))
+  const star = (i: number) => (survives[i] ? '$^{\\ast}$' : '')
+  levers.forEach(([label, p], i) => out.push(`\\multicolumn{3}{l}{${label}} & \\multicolumn{6}{c}{${fmtCi(p)}${star(i)}}\\\\`))
+  out.push('\\multicolumn{3}{l}{\\textbf{Planner} (small, batch)} & \\multicolumn{6}{c}{\\textbf{Makespan} of CBS vs.\\ PP}\\\\')
+  planner.forEach(([label, p], i) => out.push(`\\multicolumn{3}{l}{${label}} & \\multicolumn{6}{c}{${fmtCi(p)}${star(levers.length + i)}}\\\\`))
   out.push('\\bottomrule')
   out.push('\\end{tabular}')
   out.push('\\end{table}')
   const summary = [
     `cost-model comparisons: ${nComp}, intervals containing 0: ${nZero}; excluding 0: ${excl.join('; ')}`,
     `largest |interval bound| over cost models: ${worst.toFixed(2)}% (${worstCell}); under Poisson load: ${worstPoisson.toFixed(2)}%`,
-    ...levers.map(([l, p]) => `${l}: ${p.mean.toFixed(2)} +- ${p.half.toFixed(2)}`),
+    `service time against Hungarian: ${nSvc} comparisons, intervals containing 0: ${nSvcZero}, smallest p ${svcMinP.toFixed(3)}, largest |interval bound| ${svcWorst.toFixed(2)}%`,
+    ...family.map(([l, p], i) => `${l}: ${p.mean.toFixed(2)} +- ${p.half.toFixed(2)}, p ${p.p.toFixed(4)}${survives[i] ? ', survives Holm over the 14' : ''}`),
   ].join('\n')
   return { tex: out.join('\n') + '\n', summary }
 }
@@ -356,15 +384,15 @@ function stressTable(): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Safety and progress stress sweep.} 60 seeds per configuration, 100 tasks per run; every row aggregates both load regimes (Poisson and batch) and both battery regimes (normal; initial charge $\\mathcal{U}[0.2,0.4]$ with doubled drain), with the allocation method rotating over the four cost models with the seed. Conflicts and illegal moves are counted by the independent trajectory auditor on the executed cells; \\emph{stalled} runs tripped the 1000-tick no-progress detector. $W$: largest delay of a trip to a pickup, a dock or a charger slot (ticks beyond the free-space distance covered); $Q$: longest wait of a robot below $\\theta_{\\mathrm{lo}}$ for a charger slot; both are maxima over all runs of the row.}',
+    '\\caption{\\textbf{Safety and progress stress sweep.} 60 seeds per configuration, 100 tasks per run; every row aggregates both load regimes (Poisson with $\\lambda{=}0.15$, $0.3$ on \\emph{small}, and batch) and both battery regimes (normal; initial charge $\\mathcal{U}[0.2,0.4]$ with doubled drain), with the allocation method rotating over the four cost models with the seed. Conflicts and illegal moves are counted by the independent trajectory auditor on the executed cells; \\emph{stalled} runs tripped the 1000-tick no-progress detector. $W$: largest delay of a trip to a pickup, a dock or a charger slot (ticks beyond the free-space distance covered); $Q$: longest wait of a robot below $\\theta_{\\mathrm{lo}}$ for a charger slot; both are maxima over all runs of the row.}',
   )
   out.push('\\label{tab:stress}')
   out.push('\\scriptsize')
-  out.push('\\setlength{\\tabcolsep}{3.5pt}')
+  out.push('\\setlength{\\tabcolsep}{2.8pt}')
   out.push('\\begin{tabular}{lrlrrccccrrrc}')
   out.push('\\toprule')
   out.push(
-    '\\textbf{Layout} & $|\\mathcal{R}|$ & \\textbf{Planner} & \\textbf{Runs} & \\textbf{Robot-steps} & \\textbf{Vertex} & \\textbf{Swap} & \\textbf{Illegal} & \\textbf{Stalled} & \\textbf{Unfinished} & \\textbf{Depletions} & $W$ / $Q$ & \\textbf{Min SoC}\\\\',
+    '\\textbf{Layout} & $|\\mathcal{R}|$ & \\textbf{Planner} & \\textbf{Runs} & \\textbf{Robot-steps} & \\textbf{Vertex} & \\textbf{Swap} & \\textbf{Illegal} & \\textbf{Stalled} & \\textbf{Unfinished} & \\textbf{Depletions} & $W$ / $Q$ & \\textbf{Min charge}\\\\',
   )
   out.push('\\midrule')
   const layouts: Array<[string, number[]]> = [
@@ -454,7 +482,7 @@ function reserveTable(): { tex: string; summary: string } {
   out.push('\\footnotesize')
   out.push('\\begin{tabular}{lrrrcccc}')
   out.push('\\toprule')
-  out.push('\\textbf{Layout} & $D_\\sigma$ & $W$ & $Q$ & \\textbf{Req.\\ $\\rho$} & \\textbf{Req.\\ $\\rho$ ($W{=}Q{=}0$)} & \\textbf{Req.\\ $\\theta_{\\mathrm{lo}}$} & \\textbf{Min SoC seen}\\\\')
+  out.push('\\textbf{Layout} & $D_\\sigma$ & $W$ & $Q$ & \\textbf{Req.\\ $\\rho$} & \\textbf{Req.\\ $\\rho$ ($W{=}Q{=}0$)} & \\textbf{Req.\\ $\\theta_{\\mathrm{lo}}$} & \\textbf{Min charge seen}\\\\')
   out.push('\\midrule')
   const lines: string[] = []
   for (const layout of ['small', 'warehouse', 'console', 'narrow']) {

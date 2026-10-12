@@ -24,6 +24,6 @@
 \end{groupplot}
 \node at ($(group c2r1.south)+(0,-11mm)$) {\pgfplotslegendfromname{scalinglegend}};
 \end{tikzpicture}
-\caption{\textbf{Fleet-size scaling} on the warehouse layout under batch load (200 tasks, mean\stdv{std} over 5 seeds; data in \cref{tab:scaling}). Throughput saturates once dock capacity ($9$ docks $\times\,\kappa_{\mathrm{d}}{=}3$) binds; planner cost grows roughly linearly in the fleet and stays below one millisecond per simulated tick; path-aware pricing adds the extra A* calls of the third panel.}
+\caption{\textbf{Fleet-size scaling} on the warehouse layout under batch load (200 tasks, mean\stdv{std} over 5 seeds; data in \cref{tab:scaling}). Throughput saturates once dock capacity ($9$ docks $\times\,\kappa_{\mathrm{d}}{=}3$) binds; planner time per tick (wall clock, see \cref{subsec:setup}) grows faster than the fleet up to 32 robots and flattens with the throughput; path-aware pricing adds the extra A* calls of the third panel.}
 \label{fig:scaling}
 \end{figure}

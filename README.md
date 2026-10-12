@@ -108,16 +108,18 @@ console at [`/fms`](http://localhost:5173/fms) (sidebar → 시뮬레이션):
 
 | Path | Contents |
 |------|----------|
-| `src/fms/map/` | 4-connected grid model, ASCII loader, benchmark layouts (`small`, `warehouse`, `console` — the last generated from the zone/line/dock vocabulary of the wireframes via `npm run extract:console-site`) |
+| `src/fms/map/` | 4-connected grid model, ASCII loader, benchmark layouts (`small`, `warehouse`, `narrow` with one-lane aisles, and `console`, generated from the zone/line/dock vocabulary of the wireframes via `npm run extract:console-site`) |
 | `src/fms/alloc/` | Hungarian (rectangular, infeasible pairs) and greedy assignment; static, congestion-proxy and path-aware cost models with a battery term |
-| `src/fms/mapf/` | windowed space-time A*, reservation table with holds, prioritized planning with hold cascade, windowed CBS, conflict checks |
+| `src/fms/mapf/` | windowed space-time A*, reservation table with holds, prioritized planning with hold cascade, windowed CBS, conflict checks, and the unwindowed token table of the token-passing baselines (TP, TPTS) |
 | `src/fms/charging/` | two-threshold battery policy, per-slot charger capacity |
-| `src/fms/sim/` | seeded discrete-time lifelong simulator (Poisson task stream, rolling-horizon replanning, endpoint capacities, dwell, stall detector) and metrics |
+| `src/fms/sim/` | seeded discrete-time lifelong simulator (Poisson task stream, rolling-horizon replanning, endpoint capacities, dwell, stall detector), token-passing baselines, metrics, and the independent trajectory auditor (`audit.ts`) |
 | `scripts/bench-fms.ts` | benchmark driver → `paper/experiments/results/` (JSON + CSV, committed) |
+| `scripts/regenerate.sh`, `scripts/measure-timing.sh` | regenerate all results at the current commit; measure the reported wall-clock numbers on a quiet host |
+| `scripts/check-paper.ts`, `scripts/check-results.ts` | number guard for the paper; field-by-field comparison of a re-run with the committed records |
 | `paper/arxiv/` | the paper describing and evaluating the module |
 
 ```bash
-npm test              # 38 vitest tests: Hungarian vs brute force, MAPF property tests, CBS vs exhaustive, token passing, auditor, determinism
+npm test              # vitest: Hungarian vs brute force, MAPF property tests, CBS vs exhaustive, token passing, auditor, determinism
 npm run check:paper   # number guard: every table and every number in the paper against the committed results
 ```
 

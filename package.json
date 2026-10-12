@@ -1,7 +1,14 @@
 {
   "name": "robo-ops",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Operator console for AMR/AGV fleets and PACT, a lifelong fleet-management module (task allocation, multi-agent path finding, charging) with its benchmark and paper",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kjungmo/robo-ops.git"
+  },
+  "author": "Jungmo Kang <kangjmo91@gmail.com>",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,6 +20,8 @@
     "paper:data": "tsx scripts/paper-data.ts",
     "check:paper": "tsx scripts/check-paper.ts",
     "check:results": "tsx scripts/check-results.ts",
+    "regenerate": "bash scripts/regenerate.sh",
+    "measure:timing": "bash scripts/measure-timing.sh",
     "extract:console-site": "tsx scripts/extract-console-site.ts"
   },
   "dependencies": {

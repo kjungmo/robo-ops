@@ -13,7 +13,7 @@ it regenerates every table and figure data file and compares them byte for byte,
 every `<sweep>_summary.csv` from `<sweep>.json`, recomputes every number quoted in the text
 (one claim per number, built from the results and from the constants in `src/fms`), and fails
 if any digit in the abstract, the sections, the appendix or a figure caption is not covered
-by a claim. CI runs it on every push. `npm run check:results -- <dir>` compares a re-run of
+by a claim. CI runs it on pull requests and on pushes to `main`. `npm run check:results -- <dir>` compares a re-run of
 the benchmark (`npm run bench:fms -- <sweeps> --out <dir>`) with the committed records.
 
 The first-round sweeps (main, planner, scaling, ablation, battery; seeds 1–5) were produced at
@@ -25,7 +25,7 @@ The second-round sweeps (stress, cascade, baselines, coupling) were first run at
 non-timing field of all 6,180 re-run records equals the `dccf403` record (compared field by field,
 0 differences). The second-round sweep definitions are in `4a72ff1` (`scripts/bench-fms.ts`), which
 precedes both result commits; `git diff 4a72ff1 2d4342a -- scripts/bench-fms.ts` touches only the
-list of recorded fields. Git shows commit order only, which is what §4.1 now claims.
+list of recorded fields. Git shows commit order only, which is what §4.1 claims: `4a72ff1` (2026-09-28 17:06:16 +0900) precedes `dccf403` (17:42:40) by 36 minutes.
 
 ## Bench-wide totals (abstract, §1, §4.2 "Correctness", §6)
 
@@ -37,8 +37,8 @@ list of recorded fields. Git shows commit order only, which is what §4.1 now cl
 | first-round records lack 4 fields (appendix C) | `main.json` etc. have 50 keys, `stress.json` etc. 54; the four are `cbsBudgetExceeded`, `tpSearchLimitHits`, `tpSwapVetoes`, `audit_maxWorkTripDelay`, recorded since `2d4342a`; `repeat.json : sweeps[] : fieldsAbsentFromCommitted` |
 | 38 `SimMetrics` fields (10 configuration, 28 measured), 13 auditor fields (appendix C) | keys of a `stress.json` record: 54 = 38 + 13 `audit_*` + `sweep`, `variant`, `wallMs` |
 | every run delivers all of its tasks | sum of `tasksUnfinished` over all 420 records = 0 (longest run: `makespan` 4189, scaling sweep) |
-| 8,833,050 robot-ticks ("8.8 million robot-steps") | script: `original sweeps (seeds 1-5): runs 420, robot-steps 8833050` (sum of `audit_robotTicks` = `makespan * fleetSize`) |
-| 5,317,603 move actions; 72,823 wait actions | sum of `moveActions` / `waitActions` over the same records |
+| 8,833,050 robot-steps | script: `original sweeps (seeds 1-5): runs 420, robot-steps 8833050` (sum of `audit_robotTicks` = `makespan * fleetSize`) |
+| 5,317,603 move actions | sum of `moveActions` over the same records |
 | 81,000 delivered tasks | sum of `tasksCompleted` over the same records (390 runs × 200 + 30 runs × 100) |
 | commit of the benchmarked code `27080ab` (first round), `2d4342a` (second round, behaviour-identical) | both meta files `: commit` |
 | CPU "AMD Ryzen 5 5500GT", Node 22 | `bench-meta-main-planner-scaling-ablation-battery.json : cpu, node` |
@@ -175,3 +175,18 @@ are printed by the same run.
 | saturated chargers: 586–641 depletion events per method over 30 runs, 10–16 stalled runs, PACT +23±18 %, proxy +24±21 %, service 0.0±2.2 %, stalled 10 (PACT) vs 16 (Hungarian); greedy vs Hungarian +20.4±22.4 %, 11 stalled (greedy); PACT vs greedy +12.5±17.2 %, proxy vs greedy +9.7±16.2 % | `tables/coupling.tex` (Saturated chargers rows); script: `coupling saturated-chargers/<method>` lines, `coupling saturated-chargers pact vs hungarian` lines and `coupling saturated-chargers <a> vs <b>` lines (greedy vs hungarian throughput 20.42 +- 22.40; pact vs greedy 12.46 +- 17.22; pact-proxy vs greedy 9.68 +- 16.21; `saturated-chargers/greedy` stalled 11) |
 | Prop. 2 inputs β_m = 0.001, β_w = 0.0002, δ = 2, ρ = 0.05, θ_lo = 0.2 | `DEFAULT_BATTERY`, `DEFAULT_CONFIG` (printed into the caption of `tables/reserve.tex`) |
 | doubled drain 0.002 / 0.0004; triple drain 0.003 / 0.0006 | `scripts/bench-fms.ts : BATTERY_STRESS` and the `saturated-chargers` regime |
+
+## Claims added in the review round (all recomputed by `scripts/check-paper.ts`)
+
+| Claim | Source |
+|---|---|
+| service-time intervals against Hungarian: all 36 contain zero, smallest p = 0.07, up to ±10.8 % (§4.2; `tables/paired.tex`) | `main.json`, seed-paired `meanServiceTime`; p-values from `scripts/stats.ts` |
+| makespan differs by at most 4.3 % between 16 and 32 robots under λ = 0.15 (§4.2) | `main.json : makespan`, same seed and cost model, both layouts |
+| Holm's procedure over the 14 lever and planner comparisons keeps dock capacity (both cost models), window 10 and CBS at 6 robots (§4.2, §4.3, `tables/paired.tex`) | paired t-tests on `ablation.json`, `main.json`, `planner.json`; `holm()` in `scripts/stats.ts` |
+| Holm over the 8 fallback comparisons keeps no-repair at capacity 4 (+2.0 ± 1.2 %); restarts +1.7 ± 1.3 % and +1.0 ± 1.0 % nominal (§4.4) | `cascade.json`, throughput of `none` / `restart` against `cascade`, seed-paired |
+| A* expansions per tick: 18 / 752 / 1,021 at 4 / 32 / 48 robots (56-fold); +25 % for the path-aware cost at 48 (§4.2) | `scaling_summary.csv : expansions_mean / makespan_mean` |
+| expansions per tick, window 10: 0.21 of the default; window 30: 3.5 times; h = 1: 2.2 times (§4.3); −79 % (§1) | `ablation_summary.csv : expansions_mean / makespan_mean` |
+| CBS expands 1.03 / 1.32 / 1.07 times the nodes per tick of PP on small (§4.2) | `planner_summary.csv : expansions_mean / makespan_mean` |
+| CBS on small: −3.9 ± 0.6, −8.7 ± 0.7, −11.6 ± 0.9 % makespan over 120 pairs; larger layouts, batch: 2.4–4.1 % over 60 pairs; Poisson: at most 2.5 %; 2.1–12.2 times the expansions per tick (§4.2) | `stress.json`, normal-battery runs, paired by seed (and load) |
+| stress sweep: 100 tasks on every layout, λ = 0.3 on small; long trips: λ = 0.1 (§4.1) | `stress.json`, `coupling.json : numTasks, arrivalRate` |
+| pool size max(2m, 8); infeasible offset 10^6 (§3.3, Prop. 3, appendix B) | `POOL_FACTOR`, `POOL_MIN` (`src/fms/sim/simulator.ts`), `INFEASIBLE_OFFSET` (`src/fms/alloc/hungarian.ts`) |

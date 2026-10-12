@@ -11,11 +11,12 @@
  * excluded from the comparison: they depend on the host and on its load. Every
  * other field must be identical, or the script exits with status 1.
  *
- * One schema difference is expected and reported, not counted: the committed
- * first-round files (main, planner, scaling, ablation, battery) were written
- * at commit 27080ab, before the four fields in ADDED_LATER were recorded
- * (commit 2d4342a), so a fresh run has those four fields and the committed
- * first-round records do not.
+ * With --allow-new-fields, fields that the fresh records have and the
+ * committed records lack are listed and not counted as differences, and
+ * sweeps that have no committed file are listed and skipped. This is the
+ * regression test for a change that only adds diagnostics: every field that
+ * existed before must still be identical. scripts/regenerate.sh runs it
+ * before it replaces the committed results.
  *
  * It also prints how far the wall-clock fields moved, per sweep, so that the
  * spread of the timing columns quoted in the paper can be stated. With
@@ -27,11 +28,8 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { dirname, join, resolve } from 'node:path'
 
 export const TIMING = ['wallMs', 'plannerMs', 'allocMs', 'plannerMsPerTick'] as const
-/** Recorded since commit 2d4342a; absent from the committed first-round records. */
-export const ADDED_LATER = ['cbsBudgetExceeded', 'tpSearchLimitHits', 'tpSwapVetoes', 'audit_maxWorkTripDelay'] as const
-export const FIRST_ROUND = ['main', 'planner', 'scaling', 'ablation', 'battery'] as const
 const COMMITTED = join(process.cwd(), 'paper/experiments/results')
-const SWEEPS = ['main', 'planner', 'scaling', 'ablation', 'battery', 'stress', 'cascade', 'baselines', 'coupling']
+export const SWEEPS = ['main', 'planner', 'scaling', 'ablation', 'battery', 'stress', 'cascade', 'baselines', 'coupling', 'tpfree']
 
 type Rec = Record<string, unknown>
 
@@ -41,13 +39,13 @@ export interface SweepDiff {
   /** Human-readable descriptions of the first differences (capped). */
   differences: string[]
   differenceCount: number
-  /** Fields of ADDED_LATER that the fresh records have and the committed first-round records lack. */
+  /** Fields that the fresh records have and the committed records lack (only with allowNewFields). */
   addedLater: string[]
   /** Per configuration: fresh mean plannerMsPerTick divided by the committed mean. */
   timingRatios: number[]
 }
 
-export function compareSweep(sweep: string, committed: Rec[], fresh: Rec[]): SweepDiff {
+export function compareSweep(sweep: string, committed: Rec[], fresh: Rec[], allowNewFields = false): SweepDiff {
   const differences: string[] = []
   let differenceCount = 0
   const note = (msg: string) => {
@@ -58,14 +56,13 @@ export function compareSweep(sweep: string, committed: Rec[], fresh: Rec[]): Swe
   const n = Math.min(committed.length, fresh.length)
   const groups = new Map<string, { a: number; b: number }>()
   const addedLater = new Set<string>()
-  const firstRound = (FIRST_ROUND as readonly string[]).includes(sweep)
   for (let i = 0; i < n; i += 1) {
     const a = committed[i]
     const b = fresh[i]
     const keys = new Set([...Object.keys(a), ...Object.keys(b)])
     for (const k of keys) {
       if ((TIMING as readonly string[]).includes(k)) continue
-      if (firstRound && !(k in a) && k in b && (ADDED_LATER as readonly string[]).includes(k)) addedLater.add(k)
+      if (allowNewFields && !(k in a) && k in b) addedLater.add(k)
       else if (!(k in a) || !(k in b)) note(`${sweep}[${i}].${k}: field ${k in a ? 'missing in the fresh run' : 'not in the committed record'}`)
       else if (!Object.is(a[k], b[k])) note(`${sweep}[${i}] (${String(a.variant)}, seed ${String(a.seed)}).${k}: committed ${String(a[k])}, fresh ${String(b[k])}`)
     }
@@ -102,20 +99,32 @@ function main() {
     for (const sweep of meta.sweeps as string[]) metaOf.set(sweep, meta)
   }
   const report: Array<Record<string, unknown>> = []
+  const allowNew = process.argv.includes('--allow-new-fields')
+  const newSweeps: string[] = []
   let bad = 0
   let total = 0
   for (const sweep of SWEEPS) {
     if (!found.includes(`${sweep}.json`)) continue
+    if (!existsSync(join(COMMITTED, `${sweep}.json`))) {
+      if (allowNew) {
+        newSweeps.push(sweep)
+        console.log(`${sweep}: no committed file (new sweep), skipped`)
+      } else {
+        bad += 1
+        console.log(`${sweep}: no committed file`)
+      }
+      continue
+    }
     const committed = JSON.parse(readFileSync(join(COMMITTED, `${sweep}.json`), 'utf8')) as Rec[]
     const fresh = JSON.parse(readFileSync(join(dir, `${sweep}.json`), 'utf8')) as Rec[]
-    const d = compareSweep(sweep, committed, fresh)
+    const d = compareSweep(sweep, committed, fresh, allowNew)
     total += d.records
     bad += d.differenceCount
     const r = d.timingRatios
     const sorted = [...r].sort((x, y) => x - y)
     const timing = r.length ? `planner ms/tick, fresh/committed per configuration: min ${sorted[0].toFixed(2)}, median ${sorted[Math.floor(sorted.length / 2)].toFixed(2)}, max ${sorted[sorted.length - 1].toFixed(2)}` : ''
     console.log(`${sweep}: ${d.records} records, ${d.differenceCount} differing non-timing fields; ${timing}`)
-    if (d.addedLater.length) console.log(`  fields recorded since 2d4342a, absent from the committed ${sweep} records (expected): ${d.addedLater.join(', ')}`)
+    if (d.addedLater.length) console.log(`  fields absent from the committed ${sweep} records (allowed): ${d.addedLater.join(', ')}`)
     for (const line of d.differences) console.log(`  ${line}`)
     const meta = metaOf.get(sweep)
     report.push({
@@ -140,6 +149,8 @@ function main() {
       cpu: uniq('cpu'),
       dates: metas.map((m) => String(m.date)).sort(),
       excludedFields: TIMING,
+      allowNewFields: allowNew,
+      sweepsWithoutCommittedFile: newSweeps,
       records: total,
       differingFields: bad,
       sweeps: report,

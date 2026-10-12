@@ -11,7 +11,7 @@
 export { Rng } from './core/rng'
 export * from './map/grid'
 export * from './map/layouts'
-export { hungarian, assignmentCost } from './alloc/hungarian'
+export { hungarian, assignmentCost, INFEASIBLE_OFFSET } from './alloc/hungarian'
 export { greedyAssign } from './alloc/greedy'
 export * from './alloc/cost'
 export * from './mapf/constraints'

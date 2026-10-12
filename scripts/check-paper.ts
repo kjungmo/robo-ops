@@ -24,9 +24,10 @@
  * committed records like any other field; they are not reproducible to the
  * digit on another host, which the paper states.
  */
-import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { DEFAULT_BATTERY, DEFAULT_CONFIG, chargerSlots, freeCellCount, loadLayout } from '../src/fms/index'
+import { DEFAULT_BATTERY, DEFAULT_CONFIG, INFEASIBLE_OFFSET, POOL_FACTOR, POOL_MIN, chargerSlots, freeCellCount, loadLayout } from '../src/fms/index'
+import { holm, tQuantileTwoSided, tTwoSidedP } from './stats'
 import { type Paired, type Row, type Run, buildPaperData, paired, readCsv, readRuns } from './paper-data'
 
 const ROOT = process.cwd()
@@ -112,6 +113,8 @@ const f0 = (x: number) => x.toFixed(0)
 const f1 = (x: number) => x.toFixed(1)
 const f2 = (x: number) => x.toFixed(2)
 const mil = (x: number) => (x / 1e6).toFixed(1)
+/** Upper bound to one decimal (never rounds a bound down). */
+const up1 = (x: number) => (Math.ceil(x * 10 - 1e-9) / 10).toFixed(1)
 const sgn = (x: number, f: (v: number) => string = f1) => (Math.abs(x) < 0.05 ? '0.0' : `${x > 0 ? '+' : '-'}${f(Math.abs(x))}`)
 /** "$+1.7\pm1.4\%$"-style body of a paired interval (without the dollars). */
 /** Upper bound to two decimals (never rounds a bound down). */
@@ -178,6 +181,18 @@ const pDock2H = paired(ablRuns('hungarian-dock2'), hungMain, 'throughput')
 const pNoEvP = paired(ablRuns('pact-noEvent'), ablRuns('pact'), 'throughput')
 const pNoEvH = paired(ablRuns('hungarian-noEvent'), hungMain, 'throughput')
 
+// Holm's procedure over the fourteen lever and planner comparisons (as in tables/paired.tex).
+const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen']
+const word = (k: number) => WORDS[k]
+const Word = (k: number) => WORDS[k][0].toUpperCase() + WORDS[k].slice(1)
+const eptOf = (r: Row) => n(r, 'expansions_mean') / n(r, 'makespan_mean')
+const eptRuns = (rs: Run[]) => rs.reduce((a, r) => a + Number(r.expansions) / Number(r.makespan), 0) / rs.length
+const pH1 = paired(ablRuns('pact-h1'), ablRuns('pact'), 'throughput')
+const pNoBatP = paired(ablRuns('pact-noBattery'), ablRuns('pact'), 'throughput')
+const pNoBatH = paired(ablRuns('hungarian-noBattery'), hungMain, 'throughput')
+const pK3 = paired(ablRuns('pact-K3'), ablRuns('pact'), 'throughput')
+const pK12 = paired(ablRuns('pact-K12'), ablRuns('pact'), 'throughput')
+
 // Planner sweep (small layout) and CBS in the stress sweep.
 const cbsMakespan = [4, 6, 8].map((fl) => 100 * (n(plan(fl, 'cbs'), 'makespan_mean') / n(plan(fl, 'pp'), 'makespan_mean') - 1))
 const cbsWaits = [4, 6, 8].map((fl) => 100 * (n(plan(fl, 'cbs'), 'waitActions_mean') / n(plan(fl, 'pp'), 'waitActions_mean') - 1))
@@ -217,6 +232,24 @@ const cbsStress = STRESS_CFG.map(([layout, fleet]) => {
     ratio: mean(cbs, 'plannerMsPerTick') / mean(pick('pp'), 'plannerMsPerTick'),
   }
 })
+const leverFamily: Array<[string, Paired]> = [
+  ['w10', pW10], ['w30', pW30], ['dock2P', pDock2P], ['dock2H', pDock2H], ['noEvP', pNoEvP], ['noEvH', pNoEvH], ['h1', pH1],
+  ['noBatP', pNoBatP], ['noBatH', pNoBatH], ['K3', pK3], ['K12', pK12], ['cbs4', cbsPaired[0]], ['cbs6', cbsPaired[1]], ['cbs8', cbsPaired[2]],
+]
+const leverHolm = holm(leverFamily.map(([, x]) => x.p))
+const leverSurvivors = leverFamily.filter((_, i) => leverHolm[i]).map(([k]) => k)
+// CBS against PP in the stress sweep, split by load (60 seed pairs each).
+const cbsSplit = STRESS_CFG.map(([layout, fleet]) => {
+  const pick = (m: string, load: string) => stressNormal.filter((r) => r.layout === layout && r.fleetSize === fleet && r.mapf === m && String(r.variant).includes(load))
+  return {
+    layout,
+    fleet,
+    batch: paired(pick('cbs', 'batch'), pick('pp', 'batch'), 'makespan'),
+    poisson: paired(pick('cbs', 'poisson'), pick('pp', 'poisson'), 'makespan'),
+    expBatch: eptRuns(pick('cbs', 'batch')) / eptRuns(pick('pp', 'batch')),
+  }
+})
+const splitBig = cbsSplit.filter((x) => x.layout !== 'small')
 const cbsBig = cbsStress.filter((x) => x.layout !== 'small')
 const cbsSmall = cbsStress.filter((x) => x.layout === 'small')
 const cbsAt = (layout: string, fleet: number) => cbsStress.find((x) => x.layout === layout && x.fleet === fleet) as (typeof cbsStress)[number]
@@ -271,6 +304,9 @@ const cascThr = (s: string) => ['cascade', 'none', 'restart'].map((v) => mean(ca
 const cascSpread = Math.max(...CASC.map((s) => Math.max(...cascThr(s)) - Math.min(...cascThr(s))))
 const pDock4 = paired(casc('warehouse-32-dock4', 'cascade'), casc('warehouse-32', 'cascade'), 'throughput')
 const staticStalled = CASC.map((s) => sum(casc(s, 'static'), 'deadlocked'))
+const cascPair = (s: string, v: string) => paired(casc(s, v), casc(s, 'cascade'), 'throughput')
+const cascFamily: Array<[string, Paired]> = CASC.flatMap((s) => ['none', 'restart'].map((v) => [`${s}/${v}`, cascPair(s, v)] as [string, Paired]))
+const cascHolm = holm(cascFamily.map(([, x]) => x.p))
 
 // Baselines sweep.
 const BASE = ['warehouse-16-batch', 'warehouse-32-batch', 'warehouse-16-poisson', 'console-16-batch', 'narrow-16-batch']
@@ -320,10 +356,6 @@ const auditKeys = recordKeys.filter((k) => k.startsWith('audit_'))
 const extraKeys = ['sweep', 'variant', 'wallMs']
 const metricKeys = recordKeys.filter((k) => !k.startsWith('audit_') && !extraKeys.includes(k))
 const CONFIG_KEYS = ['layout', 'fleetSize', 'numTasks', 'arrivalRate', 'seed', 'alloc', 'mapf', 'window', 'period', 'wBattery']
-const testCount = readdirSync(join(ROOT, 'src/fms/__tests__'))
-  .filter((f) => f.endsWith('.test.ts'))
-  .reduce((a, f) => a + (readFileSync(join(ROOT, 'src/fms/__tests__', f), 'utf8').match(/^\s*it\(/gm) ?? []).length, 0)
-
 // Repeat of all sweeps (scripts/check-results.ts --report).
 const repeat = JSON.parse(readFileSync(join(ROOT, 'paper/experiments/repro/repeat.json'), 'utf8')) as {
   commit: string
@@ -343,6 +375,10 @@ interface FileSpec {
   claims: string[]
   /** Numerals that are notation, not results. */
   structural: string[]
+  /** Formulas built from constants of src/fms that must occur (they sit in math, which 'nomath' does not scan). */
+  always?: string[]
+  /** Pin every formula and algorithm line that holds a digit to the reviewed snapshot. */
+  pinMath?: boolean
 }
 
 function assert(cond: boolean, msg: string): void {
@@ -352,7 +388,7 @@ function assert(cond: boolean, msg: string): void {
 function specs(): FileSpec[] {
   const out: FileSpec[] = []
   const lessRange = `${f0(lessLo)}--${f0(lessHi)}`
-  const cbsBest = f0(Math.max(...cbsMakespan.map(Math.abs)))
+  const cbsSmallRange = `${f0(Math.min(...cbsSmall.map((x) => Math.abs(x.mean))))}--${f0(Math.max(...cbsSmall.map((x) => Math.abs(x.mean))))}`
   const steps = mil(sum(firstAndStress, 'audit_robotTicks'))
   assert(firstAndStress.reduce((a, r) => a + violations(r), 0) === 0, 'no audited conflict or illegal move in first round + stress')
   assert(sum(firstAndStress, 'conflicts') === 0, 'no simulator-counted conflict in first round + stress')
@@ -372,29 +408,35 @@ function specs(): FileSpec[] {
     mode: 'all',
     claims: [
       R`in ${ic(firstAndStress.length)} runs with ${steps} million`,
-      R`on four synthetic layouts`,
+      R`on ${word(new Set(firstAndStress.map((r) => r.layout)).size)} synthetic layouts`,
+      R`in all ${word(CELLS.length)} layout/fleet/load cells`,
+      R`with doubled drain the charging policy strands robots in two thirds of runs`,
       R`within ${f1(maxSpread)}\% of each other`,
       R`within ${f1(Math.max(...tptsVs1.map(Math.abs)))}\% of our loop`,
     ],
     structural: [],
   })
 
-  const allThree = [pW10, pDock2P, pDock2H, ...cbsPaired]
-  assert(allThree.every(excludesZero), 'window, dock capacity and CBS intervals exclude zero')
+  assert(['w10', 'dock2P', 'dock2H', 'cbs6'].join() === [...leverSurvivors].sort((a, b) => ['w10', 'dock2P', 'dock2H', 'cbs6'].indexOf(a) - ['w10', 'dock2P', 'dock2H', 'cbs6'].indexOf(b)).join(), 'Holm survivors: window 10, dock capacity (both cost models), CBS at 6 robots')
+  assert(Math.abs(tTwoSidedP(2.776, 4) - 0.05) < 2e-4 && Math.abs(tQuantileTwoSided(0.05, 29) - 2.045) < 1e-3, 't distribution agrees with tabulated quantiles')
+  assert(cbsSmall.every((x) => x.pairs === 120 && x.mean + x.half < 0), 'CBS gain on small resolved on 120 pairs')
   out.push({
     file: 'sections/1_introduction.tex',
     mode: 'all',
     claims: [
-      R`${first.length} seeded runs on`,
+      R`${first.length} seeded runs on ${word(new Set(first.map((r) => r.layout)).size)} layouts`,
+      R`in every one of ${word(CELLS.length)} layout/fleet/load cells the ${word(METHODS.length)} allocation cost models`,
+      R`With ${word(meta1.seeds.main[1])} seeds the interval`,
       R`a second round of ${ic(meta2.runs)} runs adds a ${meta2.seeds.stress[1]}-seed safety stress`,
       R`differ by at most ${f1(maxSpread)}\% in`,
       R`${mainPaired.length - mainExcl.length} of ${mainPaired.length} seed-paired 95\% intervals`,
       R`reach about ${f0(worstBatch)}\% in the noisiest cell and about ${f0(worstPoisson)}\% under the Poisson`,
       R`capacity from 2 to ${DEFAULT_CONFIG.dockCapacity} raises throughput by ${f0(Math.min(dockGainPact, dockGainHung))}--${f0(Math.max(dockGainPact, dockGainHung))}\%`,
       R`window from ${DEFAULT_CONFIG.window} to 10 ticks raises it by ${f0(w10Gain)}\% while`,
-      R`cutting planner time by $${f1(n(pactDefault, 'plannerMsPerTick_mean') / n(abl('pact-w10'), 'plannerMsPerTick_mean'))}\times$`,
-      R`makespan by up to ${cbsBest}\% on small fleets`,
-      R`the seed-paired 95\% intervals of all three exclude zero`,
+      R`A* expansions per tick by ${f0(100 * (1 - eptOf(abl('pact-w10')) / eptOf(pactDefault)))}\%`,
+      R`makespan by ${cbsSmallRange}\% on the small layout`,
+      R`${word(leverFamily.length)} lever and planner comparisons of the first round`,
+      R`${cbsSmall[0].pairs} seed pairs per fleet size`,
       R`deliver ${lessRange}\% less throughput`,
       R`within $${sgn(Math.min(...tptsVs1))}$ to $${sgn(Math.max(...tptsVs1))}\%$ of each other`,
       R`${steps} million audited robot-steps`,
@@ -415,6 +457,8 @@ function specs(): FileSpec[] {
       R`it would suffice only on the small layout`,
     ],
     structural: ['4-connected', '4-neighbour', 'group~1', 'group~2', 'Group~1'],
+    always: [R`the oldest $\max(${POOL_FACTOR}m,${POOL_MIN})$ such tasks`, R`(the implementation uses $S+10^${Math.log10(INFEASIBLE_OFFSET)}$)`],
+    pinMath: true,
   })
   assert(reserveFactors.every((x) => x.covered === 0), 'no normal-battery run satisfies eq. (reserve)')
   assert(reserveFactors.filter((x) => x.zeroOk).map((x) => x.layout).join() === 'small', 'W=Q=0 suffices only on small')
@@ -441,7 +485,7 @@ function specs(): FileSpec[] {
       R`from ${DEFAULT_CONFIG.dockCapacity} to 2 robots per dock costs a fifth of the throughput, and loosening it to 4 gains ${f0(pDock4.mean)}\% at more than twice the`,
       R`the second round uses ${meta2.seeds.cascade[1]} to ${meta2.seeds.stress[1]} seeds`,
       R`groups of up to ${maxOf(stressCbs, 'fleetSize')} robots`,
-      R`gains only ${f0(Math.min(...cbsBig.map((x) => Math.abs(x.mean))))}--${f0(Math.max(...cbsBig.map((x) => Math.abs(x.mean))))}\% makespan there`,
+      R`gains only ${f0(Math.min(...splitBig.map((x) => Math.abs(x.batch.mean))))}--${f0(Math.max(...splitBig.map((x) => Math.abs(x.batch.mean))))}\% makespan there under batch load`,
       ...limitationClaims(),
     ],
     structural: [R`A^{\mathcal{B}}(p^r,p_\tau,t_0)`, '4-connected', '2-wide aisles'],
@@ -457,7 +501,9 @@ function specs(): FileSpec[] {
       R`in ${ic(firstAndStress.length)} seeded runs with ${steps} million`,
       R`fleets of ${minOf(firstAndStress, 'fleetSize')} to ${maxOf(firstAndStress, 'fleetSize')} robots`,
       R`by ${f0(Math.abs(w10Gain))}--${f0(Math.max(dockGainPact, dockGainHung))}\%`,
-      R`by up to ${cbsBest}\%`,
+      R`shortened the makespan by ${cbsSmallRange}\%`,
+      R`across ${word(new Set(firstAndStress.map((r) => r.layout)).size)} layouts`,
+      R`neither in the ${word(CELLS.length)} cells of the main study`,
       R`delivered ${lessRange}\% less`,
       R`within ${f1(Math.max(...tptsVs1.map(Math.abs)))}\% of our loop`,
     ],
@@ -472,7 +518,7 @@ function specs(): FileSpec[] {
   out.push({
     file: 'figures/scaling.tex',
     mode: 'caption',
-    claims: [R`(${DEFAULT_CONFIG.numTasks} tasks, mean\stdv{std} over ${meta1.seeds.scaling[1]} seeds;`, R`($${LW.docks}$ docks $\times\,\kappa_{\mathrm{d}}{=}${DEFAULT_CONFIG.dockCapacity}$)`, R`stays below one millisecond`],
+    claims: [R`(${DEFAULT_CONFIG.numTasks} tasks, mean\stdv{std} over ${meta1.seeds.scaling[1]} seeds;`, R`($${LW.docks}$ docks $\times\,\kappa_{\mathrm{d}}{=}${DEFAULT_CONFIG.dockCapacity}$)`, R`up to 32 robots`],
     structural: [],
   })
   return out
@@ -506,8 +552,12 @@ function experiments(): FileSpec {
     R`(${LS.size}, ${LS.free} free cells) is an open floor with ${LS.pickups} pickups, ${LS.docks} docks, ${LS.slots} slots and ${LS.homes} bays`,
     R`(${LN.size}, ${LN.free} free cells)`,
     R`${LN.pickups} pickups, ${LN.docks} docks, ${LN.slots} slots, ${LN.homes} bays`,
-    R`Each run delivers ${DEFAULT_CONFIG.numTasks} tasks (100 on \emph{small})`,
+    R`Each run delivers ${DEFAULT_CONFIG.numTasks} tasks (100 on \emph{small}, and ${maxOf(stress, 'numTasks')} on every layout in the stress sweep)`,
     R`$\lambda=0.15$ tasks per tick, which is below the capacity of fleets of 16 or more robots and saturates a fleet of 8`,
+    R`$\lambda=${maxOf(stress.filter((r) => r.layout === 'small' && r.arrivalRate !== null), 'arrivalRate')}$ on \emph{small}`,
+    R`\cref{subsec:coupling} $\lambda=${maxOf(byVariant('coupling', 'long-trips/pact'), 'arrivalRate')}$`,
+    R`the ${word(leverFamily.length)} lever and planner comparisons of \cref{tab:paired} and the ${word(cascFamily.length)} fallback comparisons`,
+    R`family-wise level of 5\%`,
     R`releases all tasks at $t=0$`,
     R`$\delta=${DEFAULT_CONFIG.dwell}$ ticks`,
     R`uniform in $[${f1(DEFAULT_CONFIG.initialSoc[0])},${f1(DEFAULT_CONFIG.initialSoc[1])}]$`,
@@ -525,10 +575,13 @@ function experiments(): FileSpec {
     R`(${meta1.runs} runs) run in one process in ${f0(meta1.wallSeconds)}\,s`,
     R`(${ic(meta2.runs)} runs) run on ${meta2.workers} worker processes in ${f0(meta2.wallSeconds)}\,s`,
     R`\texttt{4a72ff1}`,
+    R`(\texttt{dccf403}) by 36 minutes on the same day`,
+    R`a gap of 36 minutes`,
     ...repeatClaims(),
   )
   assert(String(meta1.cpu).includes('Ryzen 5 5500GT') && String(meta2.cpu).includes('Ryzen 5 5500GT'), 'CPU model in both meta files')
   assert(B.drainMove === 0.001 && B.drainWait === 0.0002, 'default drain')
+  assert(minOf(stress, 'numTasks') === 100 && stress.filter((r) => r.layout !== 'small' && r.arrivalRate !== null).every((r) => r.arrivalRate === 0.15), 'stress sweep: 100 tasks, lambda 0.15 except on small')
   for (const s of ['warehouse', 'console', 'narrow']) assert(mean(R_('main').concat(R_('coupling')).filter((r) => r.layout === s), 'numTasks') === 200, `200 tasks on ${s}`)
   assert(R_('planner').every((r) => r.numTasks === 100 && r.layout === 'small'), '100 tasks on small')
 
@@ -542,7 +595,8 @@ function experiments(): FileSpec {
   const small4 = stressDrain.filter((r) => r.layout === 'small' && r.fleetSize === 4)
   const narrow8 = stressDrain.filter((r) => r.layout === 'narrow' && r.fleetSize === 8)
   c.push(
-    R`Over the ${first.length} first-round runs---${ic(sum(first, 'audit_robotTicks'))} robot-ticks, ${ic(sum(first, 'moveActions'))} move actions and ${ic(sum(first, 'tasksCompleted'))} delivered tasks`,
+    R`Over the ${first.length} first-round runs---${ic(sum(first, 'audit_robotTicks'))} robot-steps, ${ic(sum(first, 'moveActions'))} move actions and ${ic(sum(first, 'tasksCompleted'))} delivered tasks`,
+    R`These runs cover ${word(new Set(first.map((r) => r.layout)).size)} layouts`,
     R`fleets of ${minOf(first, 'fleetSize')} to ${maxOf(first, 'fleetSize')} robots, both load`,
     R`(at most ${f1(holdMax)} per run on average in the main sweep, reached with 32 robots`,
     R`forces ${f1(Math.min(...sess))}--${f1(Math.max(...sess))} charging sessions per run for ${batt('pact').fleetSize} robots`,
@@ -568,6 +622,20 @@ function experiments(): FileSpec {
   const ex = mainExcl[0]
   assert(mainExcl.length === 1 && ex.method === 'pact' && ex.cell.join() === 'console,inf,32' && ex.p.mean < 0, 'the one exclusion is PACT on console/32/batch, below Hungarian')
   const waits32 = w32.map((r) => n(r, 'waitActions_mean'))
+  const svcPaired = CELLS.flatMap((c) => ['greedy', 'pact-proxy', 'pact'].map((m) => paired(mainSel(c[0], c[1], c[2], m), mainSel(c[0], c[1], c[2], 'hungarian'), 'meanServiceTime')))
+  assert(svcPaired.every((x) => !excludesZero(x)), 'all service-time intervals against Hungarian contain zero')
+  // Cells in which the makespan is set by the last arrival: Poisson load, 16 or 32 robots.
+  const arrivalBound = CELLS.filter((c) => c[1] !== 'inf' && c[2] >= 16)
+  const arrivalGap = Math.max(
+    ...['warehouse', 'console'].flatMap((l) =>
+      METHODS.flatMap((m) =>
+        mainSel(l, '0.15', 16, m).map((a) => {
+          const b = mainSel(l, '0.15', 32, m).find((x) => x.seed === a.seed) as Run
+          return (100 * Math.abs(Number(a.makespan) - Number(b.makespan))) / Number(b.makespan)
+        }),
+      ),
+    ),
+  )
   const range = (rows: Row[], k: string) => Math.max(...rows.map((x) => n(x, `${k}_mean`))) - Math.min(...rows.map((x) => n(x, `${k}_mean`)))
   const cellRows = CELLS.map(([l, r, fl]) => METHODS.map((m) => mainRow(l, r, fl, m)))
   assert(cellRows.every((rows) => range(rows, 'throughput') < Math.min(...rows.map((x) => n(x, 'throughput_std')))), 'throughput means differ by less than the smallest standard deviation in every cell')
@@ -579,7 +647,12 @@ function experiments(): FileSpec {
     R`${mainPaired.length} independent 95\% intervals of true-zero effects would give ${f1(0.05 * mainPaired.length)} on average`,
     R`within $\pm${f1(worstPoisson)}\%$ under the Poisson load and within $\pm${f1(worstBatch)}\%$ under batch load`,
     R`with 32 robots, where ${f0(Math.min(...waits32))}--${f0(Math.max(...waits32))} wait actions per run`,
-    R`the light regime with 16--32 robots`,
+    R`${Word(arrivalBound.length)} of the ${word(CELLS.length)} cells cannot show`,
+    R`a fleet of 16 or 32 robots keeps up`,
+    R`at most ${up1(arrivalGap)}\% between 16 and 32 robots`,
+    R`The ${word(3 * arrivalBound.length)} throughput intervals of those cells`,
+    R`all ${svcPaired.length} service-time intervals against Hungarian contain zero (smallest $p=${Math.min(...svcPaired.map((x) => x.p)).toFixed(2)}$); they are wide, up to $\pm${up1(Math.max(...svcPaired.map(bound)))}\%$`,
+    R`In none of the ${word(CELLS.length)} layout/fleet/load cells`,
   )
 
   // Planner backend.
@@ -587,14 +660,20 @@ function experiments(): FileSpec {
   const fb = [4, 6, 8].map((fl) => n(plan(fl, 'cbs'), 'cbsFallbacks_mean'))
   assert(fb[0] === 0 && fb[2] === 0 && fb[1] > 0, 'CBS fallbacks only at 6 robots in the planner sweep')
   const w32c = cbsAt('warehouse', 32)
+  const w32s = splitBig.find((x) => x.layout === 'warehouse' && x.fleet === 32) as (typeof splitBig)[number]
+  assert(splitBig.every((x) => excludesZero(x.batch) && x.batch.mean < 0), 'CBS gain under batch load resolved on every larger layout')
+  assert(cbsPaired.map(excludesZero).join() === 'true,true,true' && leverSurvivors.includes('cbs6') && !leverSurvivors.includes('cbs4') && !leverSurvivors.includes('cbs8'), 'planner sweep: nominal at 4, 6, 8; Holm keeps 6')
   const n16c = cbsAt('narrow', 16)
   c.push(
     R`by ${f1(-cbsMakespan[0])}\%, ${f1(-cbsMakespan[1])}\% and ${f1(-cbsMakespan[2])}\% for 4, 6 and 8 robots (seed-paired: $${ci(cbsPaired[0])}$, $${ci(cbsPaired[1])}$ and $${ci(cbsPaired[2])}\%$)`,
-    R`cuts wait actions by ${f0(Math.min(...cbsWaits.map(Math.abs)))}--${f0(Math.max(...cbsWaits.map(Math.abs)))}\% and service time by ${f0(Math.min(...cbsService.map(Math.abs)))}--${f0(Math.max(...cbsService.map(Math.abs)))}\%, at ${f2(Math.min(...cbsMs))}--${f2(Math.max(...cbsMs))} planner ms per tick`,
+    R`cuts wait actions by ${f0(Math.min(...cbsWaits.map(Math.abs)))}--${f0(Math.max(...cbsWaits.map(Math.abs)))}\% and service time by ${f0(Math.min(...cbsService.map(Math.abs)))}--${f0(Math.max(...cbsService.map(Math.abs)))}\%, while expanding ${[4, 6, 8].map((fl) => f2(eptOf(plan(fl, 'cbs')) / eptOf(plan(fl, 'pp')))).join(', ').replace(/, ([^,]*)$/, ' and $1')} times as many A* nodes per tick as PP (${f2(Math.min(...cbsMs))}--${f2(Math.max(...cbsMs))} planner ms per tick)`,
+    R`only the one at 6 robots survives the Holm correction; the stress sweep below repeats the comparison on ${cbsSmall[0].pairs} seed pairs per fleet size`,
     R`in ${f1(fb[1])} epochs per run, only at 6 robots`,
     R`falls back to PP in ${f1(Math.min(...cbsBig.map((x) => x.fallbacks)))} to ${f0(Math.max(...cbsBig.map((x) => x.fallbacks)))} epochs per run (${f1(w32c.fallbacks)} of about ${f0(w32c.epochs)} on the warehouse with 32 robots, ${f0(n16c.fallbacks)} of about ${f0(n16c.epochs)} on \emph{narrow} with 16; over the whole sweep ${ic(sum(stressCbs, 'cbsBudgetExceeded'))} of its ${ic(sum(stressCbs, 'cbsFallbacks'))} fallbacks`,
-    R`by only ${f1(Math.min(...cbsBig.map((x) => Math.abs(x.mean))))}--${f1(Math.max(...cbsBig.map((x) => Math.abs(x.mean))))}\% (seed-paired over ${w32c.pairs} pairs, e.g.\ $-${f1(Math.abs(w32c.mean))}\pm${f1(w32c.half)}\%$ on the warehouse with 32 robots), against ${f0(Math.min(...cbsSmall.map((x) => Math.abs(x.mean))))}--${f0(Math.max(...cbsSmall.map((x) => Math.abs(x.mean))))}\% on \emph{small}`,
-    R`at ${f0(Math.min(...cbsBig.map((x) => x.ratio)))} to ${f0(Math.max(...cbsBig.map((x) => x.ratio)))} times the planner time of PP`,
+    R`it shortens the makespan by ${f0(Math.min(...cbsSmall.map((x) => Math.abs(x.mean))))}--${f0(Math.max(...cbsSmall.map((x) => Math.abs(x.mean))))}\% (seed-paired over ${w32c.pairs} pairs: ${cbsSmall.map((x, i) => R`$-${f1(Math.abs(x.mean))}\pm${f1(x.half)}${i === 2 ? R`\%` : ''}$`).join(', ').replace(/, ([^,]*)$/, ' and $1')} for 4, 6 and 8 robots)`,
+    R`under batch load is ${f1(Math.min(...splitBig.map((x) => Math.abs(x.batch.mean))))}--${f1(Math.max(...splitBig.map((x) => Math.abs(x.batch.mean))))}\% (${w32s.batch.n} pairs, e.g.\ $-${f1(Math.abs(w32s.batch.mean))}\pm${f1(w32s.batch.half)}\%$ on the warehouse with 32 robots)`,
+    R`the difference is at most ${up1(Math.max(...splitBig.map((x) => Math.abs(x.poisson.mean))))}\%`,
+    R`CBS expands ${f1(Math.min(...splitBig.map((x) => x.expBatch)))} to ${f1(Math.max(...splitBig.map((x) => x.expBatch)))} times as many A* nodes per tick as PP on the larger layouts under batch load`,
   )
   assert(sum(stressCbs, 'cbsFallbacks') - sum(stressCbs, 'cbsBudgetExceeded') === 2, 'two CBS fallbacks are failed searches')
 
@@ -603,12 +682,13 @@ function experiments(): FileSpec {
   const s48h = scal(48, 'hungarian')
   const s48p = scal(48, 'pact')
   assert(n(scal(48, 'hungarian'), 'throughput_mean') - n(scal(40, 'hungarian'), 'throughput_mean') < 1, 'throughput flattens beyond 40 robots')
+  assert(eptOf(scal(32, 'hungarian')) / eptOf(s4) > 32 / 4 && eptOf(s48h) / eptOf(scal(32, 'hungarian')) < 48 / 32, 'expansions per tick grow faster than the fleet up to 32 robots and slower after')
   c.push(
     R`from 4 to 48 robots under batch load`,
     R`rises from ${f1(n(s4, 'throughput_mean'))} to ${f1(n(s48p, 'throughput_mean'))} tasks per 100 ticks and flattens beyond 40 robots, where utilisation has fallen to ${f2(n(s48h, 'utilization_mean'))} because $${LW.docks}$ docks $\times\,\kappa_{\mathrm{d}}=${DEFAULT_CONFIG.dockCapacity}$`,
     R`falls from ${f0(n(s4, 'meanServiceTime_mean'))} to ${f0(n(s48h, 'meanServiceTime_mean'))} ticks`,
-    R`from ${f2(n(s4, 'plannerMsPerTick_mean'))} to ${f2(n(s48h, 'plannerMsPerTick_mean'))} ms per simulated tick for Hungarian and to ${f2(n(s48p, 'plannerMsPerTick_mean'))} for \sname`,
-    R`costs ${f0(100 * (n(s48p, 'astarCalls_mean') / n(s48h, 'astarCalls_mean') - 1))}\% more A* calls at 48 robots (${ic(n(s48p, 'astarCalls_mean'))} vs.\ ${ic(n(s48h, 'astarCalls_mean'))} per run)`,
+    R`grow ${f0(eptOf(s48h) / eptOf(s4))}-fold for ${f0(48 / 4)} times as many robots, from ${f0(eptOf(s4))} at 4 robots to ${f0(eptOf(scal(32, 'hungarian')))} at 32 and ${ic(eptOf(s48h))} at 48 (planner time from ${f2(n(s4, 'plannerMsPerTick_mean'))} to ${f2(n(s48h, 'plannerMsPerTick_mean'))} ms per simulated tick, and to ${f2(n(s48p, 'plannerMsPerTick_mean'))} for \sname)`,
+    R`costs ${f0(100 * (n(s48p, 'astarCalls_mean') / n(s48h, 'astarCalls_mean') - 1))}\% more A* calls at 48 robots (${ic(n(s48p, 'astarCalls_mean'))} vs.\ ${ic(n(s48h, 'astarCalls_mean'))} per run) and ${f0(100 * (eptOf(s48p) / eptOf(s48h) - 1))}\% more expansions per tick`,
   )
 
   // Ablations.
@@ -620,7 +700,9 @@ function experiments(): FileSpec {
   const kDiff = Math.max(...['pact-K3', 'pact-K12'].map((v) => Math.abs(n(abl(v), 'throughput_mean') - n(pactDefault, 'throughput_mean'))))
   const battDiff = Math.max(Math.abs(n(batt('pact-noBattery'), 'throughput_mean') - n(batt('pact'), 'throughput_mean')), Math.abs(n(batt('hungarian-noBattery'), 'throughput_mean') - n(batt('hungarian'), 'throughput_mean')))
   assert(battDiff < 0.5 && Math.max(...noBat.map(Math.abs)) < 0.5, 'battery term changes throughput by less than 0.5')
-  assert(excludesZero(pNoEvH) && !excludesZero(pNoEvP), 'only the Hungarian no-event loss is resolved')
+  assert(excludesZero(pNoEvH) && !excludesZero(pNoEvP) && !leverSurvivors.includes('noEvH'), 'only the Hungarian no-event loss is resolved, at the nominal level')
+  assert(excludesZero(pW30) && !leverSurvivors.includes('w30'), 'window 30: nominal only')
+  assert(![pH1, pNoBatP, pNoBatH, pK3, pK12].some(excludesZero), 'h=1, battery term and K: intervals contain zero')
   assert(sum(d4, 'deadlocked') === 0 && sum(d4, 'tasksUnfinished') === 0 && d4.length === 30, 'capacity 4 completes all 30 runs')
   assert(sum(casc('warehouse-32-dock4', 'static'), 'deadlocked') === 30, 'capacity 4 with static priorities stalls in every run')
   c.push(
@@ -631,8 +713,11 @@ function experiments(): FileSpec {
     R`capacity 4 completes all ${d4.length} runs of`,
     R`(throughput ${f1(mean(d4, 'throughput'))}, seed-paired $${ci(pDock4)}\%$ over capacity ${DEFAULT_CONFIG.dockCapacity}) but needs more than twice the holds (${f1(mean(d4, 'holdEvents'))} per run against ${f1(mean(d3, 'holdEvents'))})`,
     R`We keep capacity ${DEFAULT_CONFIG.dockCapacity} as the default`,
-    R`A window of 10 ticks raises throughput to ${f1(n(abl('pact-w10'), 'throughput_mean'))} ($+${f0(w10Gain)}\%$, seed-paired $${ci(pW10)}\%$) and halves wait actions (${f0(n(abl('pact-w10'), 'waitActions_mean'))} vs.\ ${f0(n(pactDefault, 'waitActions_mean'))}) while cutting planner time from ${f2(n(pactDefault, 'plannerMsPerTick_mean'))} to ${f2(n(abl('pact-w10'), 'plannerMsPerTick_mean'))} ms/tick; a window of 30 lowers throughput to ${f1(n(abl('pact-w30'), 'throughput_mean'))} ($${ci(pW30)}\%$) at ${f2(n(abl('pact-w30'), 'plannerMsPerTick_mean'))} ms/tick`,
-    R`($h=1$) leaves throughput unchanged (${f1(n(abl('pact-h1'), 'throughput_mean'))}) at $${f1(n(abl('pact-h1'), 'plannerMsPerTick_mean') / n(pactDefault, 'plannerMsPerTick_mean'))}\times$ the planner time`,
+    R`A window of 10 ticks raises throughput to ${f1(n(abl('pact-w10'), 'throughput_mean'))} ($+${f0(w10Gain)}\%$, seed-paired $${ci(pW10)}\%$) and halves wait actions (${f0(n(abl('pact-w10'), 'waitActions_mean'))} vs.\ ${f0(n(pactDefault, 'waitActions_mean'))}) while cutting the A* expansions per tick to ${f2(eptOf(abl('pact-w10')) / eptOf(pactDefault))} of the default (planner time from ${f2(n(pactDefault, 'plannerMsPerTick_mean'))} to ${f2(n(abl('pact-w10'), 'plannerMsPerTick_mean'))} ms/tick); a window of 30 lowers throughput to ${f1(n(abl('pact-w30'), 'throughput_mean'))} ($${ci(pW30)}\%$, nominal) at ${f1(eptOf(abl('pact-w30')) / eptOf(pactDefault))} times the expansions per tick (${f2(n(abl('pact-w30'), 'plannerMsPerTick_mean'))} ms/tick)`,
+    R`($h=1$) shows no throughput change (${f1(n(abl('pact-h1'), 'throughput_mean'))}; seed-paired $${ci(pH1)}\%$, an interval too wide to call it none) at $${f1(eptOf(abl('pact-h1')) / eptOf(pactDefault))}\times$ the A* expansions per tick`,
+    R`the window of 10 and CBS at 6 robots`,
+    R`Of the ${word(leverFamily.length)} lever and planner intervals of \cref{tab:paired}, ${word(leverSurvivors.length)} survive`,
+    R`With ${word(meta1.seeds.ablation[1])} seeds these ${word(4)} comparisons have seed-paired intervals of $\pm${f1(Math.min(...[pNoBatP, pNoBatH, pK3, pK12].map((x) => x.half)))}$ to $\pm${f1(Math.max(...[pNoBatP, pNoBatH, pK3, pK12].map((x) => x.half)))}\%$`,
     R`costs ${f0(Math.min(...noEv.map(Math.abs)))}--${f0(Math.max(...noEv.map(Math.abs)))}\% throughput and adds ${f0(Math.min(...noEvWaits))}--${f0(Math.max(...noEvWaits))} wait actions`,
     R`($${ci(pNoEvH)}\%$, against $${ci(pNoEvP)}\%$ for \sname)`,
     R`($w_{\mathrm{b}}=0$) changes throughput by less than 0.5 for both cost models ($${s2(noBat[0])}$ for \sname, $${s2(noBat[1])}$ for Hungarian)`,
@@ -647,6 +732,8 @@ function experiments(): FileSpec {
   assert(CASC.every((s) => withConflict(casc(s, 'cascade')) === 0 && sum(casc(s, 'cascade'), 'deadlocked') === 0), 'with the cascade no conflict and no stall')
   assert(CASC.every((s) => withConflict(casc(s, 'static')) === 0), 'static priorities stay conflict-free')
   assert(restart[2] === 0, 'restarts avoid conflicts on small')
+  assert(cascFamily.filter((_, i) => cascHolm[i]).map(([k]) => k).join() === 'warehouse-32-dock4/none', 'Holm over the eight fallback comparisons keeps no-repair at capacity 4 only')
+  assert(cascFamily.filter(([, x]) => excludesZero(x)).map(([k]) => k).join() === 'warehouse-32-dock4/none,warehouse-32-dock4/restart,narrow-16/restart', 'nominal exclusions among the fallback comparisons')
   assert(staticStalled[0] === 30 && staticStalled[1] === 30 && staticStalled[3] === 30, 'static priorities: 30 of 30 on warehouse (both capacities) and narrow')
   assert(CASC.every((s) => mean(casc(s, 'static'), 'holdEvents') > 300), 'hundreds to thousands of holds per run with static priorities')
   c.push(
@@ -654,6 +741,10 @@ function experiments(): FileSpec {
     R`conflicts are executed in ${none[0]}, ${none[1]}, ${none[2]} and ${none[3]} of the 30 runs per setting`,
     R`(${restart[0]}, ${restart[1]} and ${restart[3]} of 30 runs)`,
     R`within ${up2(cascSpread)} tasks per 100 ticks of each other`,
+    R`dropping the repair gains $${ci(cascPair('warehouse-32-dock4', 'none'))}\%$ with capacity-4 docks, the one difference among the ${word(cascFamily.length)} that survives`,
+    R`gain $${ci(cascPair('warehouse-32-dock4', 'restart'))}\%$ there and $${ci(cascPair('narrow-16', 'restart'))}\%$ on \emph{narrow} at the nominal level, and the other ${word(cascFamily.filter(([, x]) => !excludesZero(x)).length)} intervals contain zero`,
+    R`up to about ${f0(cascPair('warehouse-32-dock4', 'none').mean)}\% of throughput`,
+    R`conflicts on \emph{small} but not on the larger layouts`,
     R`30 of 30 runs stall on the warehouse, with and without capacity-4 docks, and on \emph{narrow}, and ${staticStalled[2]} of 30 on \emph{small}`,
   )
 
@@ -674,6 +765,9 @@ function experiments(): FileSpec {
     R`differ by $${sgn(Math.min(...tptsVs1))}$ to $${sgn(Math.max(...tptsVs1))}\%$ (TPTS relative`,
     R`TP stays ${f0(Math.min(...tpVs1.map(Math.abs)))}--${f0(Math.max(...tpVs1.map(Math.abs)))}\% behind it`,
     R`with ${rnd(Math.min(...tptsA), 1000)}--${rnd(Math.max(...tptsA), 1000)} A* calls per run, against ${rnd(Math.min(...rhAstar), 100)}--${rnd(Math.max(...rhAstar), 100)} for the rolling-horizon loop`,
+    R`at the default capacity all ${word(pactVsH.length)} intervals contain zero`,
+    R`with triple drain every method strands robots`,
+    R`none of \sname's ${word(pactSafe.length)} intervals excludes zero`,
     R`at $\kappa_{\mathrm{d}}=1$ one of five excludes it by a hair ($${ci(hair)}\%$ under Poisson load)`,
   )
 
@@ -728,7 +822,6 @@ function appendix(): FileSpec {
     file: 'sections/appendix.tex',
     mode: 'all',
     claims: [
-      R`# ${testCount} vitest tests`,
       R`# first round, ${meta1.runs} runs`,
       R`--jobs ${meta2.workers}  # ${meta2.runs.toLocaleString('en-US')} runs`,
       R`commits \texttt{${meta1.commit}} (first round) and \texttt{${meta2.commit}} (second round)`,
@@ -740,12 +833,12 @@ function appendix(): FileSpec {
       R`$w_{\mathrm{b}}$ / $w_{\mathrm{c}}$ / $w_{\mathrm{h}}$ & ${C.wBattery} / ${C.congestionWeight} / ${C.holdPenalty} &`,
       R`$\beta_{\mathrm{m}}$ / $\beta_{\mathrm{w}}$ / $\gamma$ & ${B.drainMove} / ${B.drainWait} / ${B.chargeRate} &`,
       R`$\theta_{\mathrm{lo}}$ / $\theta_{\mathrm{hi}}$ / $\rho$ & ${B.socLow} / ${B.socHigh} / ${B.reserve} &`,
-      R`initial SoC & $\mathcal{U}[${f1(C.initialSoc[0])},${f1(C.initialSoc[1])}]$ & $\mathcal{U}[0.2,0.4]$ in the battery stress`,
+      R`initial charge & $\mathcal{U}[${f1(C.initialSoc[0])},${f1(C.initialSoc[1])}]$ & $\mathcal{U}[0.2,0.4]$ in the battery stress`,
       R`dwell $\delta$ & ${C.dwell} ticks`,
       R`CBS node budget & ${C.cbsMaxNodes} &`,
       R`stall limit & ${C.stallLimit} ticks`,
       R`run limit & ${ic(C.maxTicks)} ticks`,
-      R`tasks per run & ${C.numTasks} (100 on \emph{small})`,
+      R`tasks per run & ${C.numTasks} (100 on \emph{small}; stress: ${maxOf(stress, 'numTasks')})`,
       R`seeds & ${meta1.seeds.main[0]}--${meta1.seeds.main[1]} & ${meta2.seeds.stress[0]}--${meta2.seeds.stress[1]} stress, ${meta2.seeds.cascade[0]}--${meta2.seeds.cascade[1]} cascade, baselines, coupling`,
       R`(zones A--D with ${zoneLines.join(', ')} shelf lines;`,
       lay('small', LS, 'open'),
@@ -755,7 +848,8 @@ function appendix(): FileSpec {
       R`the ${metricKeys.length} fields of \texttt{SimMetrics} (${CONFIG_KEYS.length} that identify the configuration and ${metricKeys.length - CONFIG_KEYS.length} measured quantities) and ${auditKeys.length} auditor fields`,
       R`written before ${R_('stress').length ? recordKeys.length - Object.keys(R_('main')[0]).length : 0} of these fields were added`,
     ],
-    structural: ['4-connected grid graph', R`A^{\mathcal{B}}(p,g,t_0)`, R`$\max(2m,8)$`],
+    structural: ['4-connected grid graph', R`A^{\mathcal{B}}(p,g,t_0)`],
+    always: [R`pool size & $\max(${POOL_FACTOR}m,${POOL_MIN})$ &`],
   }
 }
 
@@ -784,6 +878,23 @@ function checkProse(spec: FileSpec): void {
   }
   for (const s of spec.structural) {
     if (maskAll(text, mask, s) === 0) fail(`${spec.file}: structural numeral no longer in the text (remove it from the guard): ${s}`)
+  }
+  for (const a of spec.always ?? []) {
+    if (maskAll(text, mask, norm(a)) === 0) fail(`${spec.file}: expected formula not found: ${a}`)
+  }
+  // Number words: recomputed when a claim covers them, pinned to the snapshot otherwise.
+  const words: string[] = []
+  for (const m of text.matchAll(NUMBER_WORD)) {
+    if (spec.mode === 'caption') continue
+    let covered = true
+    for (let i = m.index; i < m.index + m[0].length; i += 1) if (!mask[i]) covered = false
+    if (!covered) words.push(text.slice(Math.max(0, m.index - 30), Math.min(text.length, m.index + m[0].length + 30)))
+  }
+  pinsNow[`${spec.file}#words`] = words
+  if (spec.pinMath) {
+    const frags: string[] = []
+    for (const m of text.matchAll(/\\begin\{(equation|algorithm)\}.*?\\end\{\1\}|\$[^$]*\$/g)) if (/[0-9]/.test(m[0])) frags.push(m[0])
+    pinsNow[`${spec.file}#math`] = frags
   }
   // References, citation keys and file names are not numbers of the paper.
   maskRegex(text, mask, /\\(label|cref|Cref|ref|citep|citet|citealp|input|url|includegraphics)\{[^}]*\}/g)
@@ -819,6 +930,71 @@ function checkProse(spec: FileSpec): void {
   }
 }
 
+/** Words that state a number or a ratio. */
+const NUMBER_WORD = /\b(two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|twenty|thirty|sixty|hundred|hundreds|thousand|thousands|twice|thrice|double|doubled|doubles|triple|tripled|half|halves|third|thirds|quarter|fifth)\b/gi
+const PINS = join(ROOT, 'paper/experiments/guard/pins.json')
+const pinsNow: Record<string, string[]> = {}
+
+function checkPins(): void {
+  if (process.argv.includes('--update-pins')) {
+    mkdirSync(join(ROOT, 'paper/experiments/guard'), { recursive: true })
+    writeFileSync(PINS, `${JSON.stringify(pinsNow, null, 1)}\n`)
+    console.log(`pins written to ${PINS}`)
+    return
+  }
+  if (!existsSync(PINS)) {
+    fail('no pin snapshot (run: npm run check:paper -- --update-pins)')
+    return
+  }
+  const old = JSON.parse(readFileSync(PINS, 'utf8')) as Record<string, string[]>
+  for (const key of new Set([...Object.keys(old), ...Object.keys(pinsNow)])) {
+    const a = old[key] ?? []
+    const b = pinsNow[key] ?? []
+    const gone = a.filter((x) => !b.includes(x))
+    const added = b.filter((x) => !a.includes(x))
+    for (const x of added.slice(0, 3)) fail(`${key}: pinned text changed or is new (review it, then: npm run check:paper -- --update-pins): "${x}"`)
+    if (added.length === 0 && (gone.length > 0 || a.length !== b.length)) fail(`${key}: ${gone.length} pinned fragment(s) no longer in the text (npm run check:paper -- --update-pins)`)
+  }
+}
+
+// ---------------------------------------------------------------- figure column mappings
+
+/** Which column of which data file every plotted curve reads: [x, y, file]. */
+const PLOTS: Record<string, Array<[string, string, string]>> = {
+  'figures/planner.tex': [
+    ['fleetSize', 'makespan_mean', 'planner_pp.csv'],
+    ['fleetSize', 'makespan_mean', 'planner_cbs.csv'],
+    ['fleetSize', 'waitActions_mean', 'planner_pp.csv'],
+    ['fleetSize', 'waitActions_mean', 'planner_cbs.csv'],
+    ['window', 'throughput_mean', 'window.csv'],
+    ['window', '10*plannerMsPerTick_mean', 'window.csv'],
+  ],
+  'figures/scaling.tex': [
+    ['fleetSize', 'throughput_mean', 'scaling_hungarian.csv'],
+    ['fleetSize', 'throughput_mean', 'scaling_pact.csv'],
+    ['fleetSize', 'plannerMsPerTick_mean', 'scaling_hungarian.csv'],
+    ['fleetSize', 'plannerMsPerTick_mean', 'scaling_pact.csv'],
+    ['fleetSize', 'astarCalls_mean', 'scaling_hungarian.csv'],
+    ['fleetSize', 'astarCalls_mean', 'scaling_pact.csv'],
+  ],
+}
+
+function checkPlots(): void {
+  for (const [file, expected] of Object.entries(PLOTS)) {
+    const text = norm(readFileSync(join(PAPER, file), 'utf8'))
+    const found: string[] = []
+    for (const m of text.matchAll(/table\[([^\]]*)\]\s*\{figures\/data\/([^}]*)\}/g)) {
+      const x = /(?:^|,)\s*x=([^,]*)/.exec(m[1])?.[1].trim() ?? '?'
+      const y = /y expr=([^,]*)/.exec(m[1])?.[1].replace(/\\thisrow\{([^}]*)\}/g, '$1').trim() ?? /(?:^|,)\s*y=([^,]*)/.exec(m[1])?.[1].trim() ?? '?'
+      const err = /y error expr=([^,]*)/.exec(m[1])?.[1].replace(/\\thisrow\{([^}]*)\}/g, '$1').trim() ?? /y error=([^,]*)/.exec(m[1])?.[1].trim() ?? '?'
+      if (err !== y.replace(/_mean$/, '_std')) fail(`${file}: error bars of ${y} read ${err}`)
+      found.push([x, y, m[2]].join('|'))
+    }
+    const want = expected.map((e) => e.join('|'))
+    if (found.join(' ') !== want.join(' ')) fail(`${file}: plotted columns are [${found.join(' ')}], expected [${want.join(' ')}]`)
+  }
+}
+
 // ---------------------------------------------------------------- 5. abstract
 
 export function plainAbstract(): string {
@@ -846,6 +1022,8 @@ function main(): void {
   const prose = readdirSync(join(PAPER, 'sections')).map((f) => `sections/${f}`).concat(readdirSync(join(PAPER, 'figures')).filter((f) => f.endsWith('.tex')).map((f) => `figures/${f}`))
   for (const f of prose) if (!all.some((s) => s.file === f)) fail(`${f} is not covered by the guard`)
   for (const spec of all) checkProse(spec)
+  checkPins()
+  checkPlots()
   checkAbstract()
   const claims = all.reduce((a, s) => a + s.claims.length, 0)
   if (process.argv.includes('--abstract')) console.log(`${plainAbstract()}\n(${plainAbstract().length} characters)`)
