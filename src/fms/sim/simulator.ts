@@ -4,9 +4,9 @@
  * Every tick: (1) new tasks arrive from a seeded Poisson stream; (2) at the
  * start of each replanning epoch (every `period` ticks, or immediately when a
  * robot became idle while tasks are pending, or after a depletion) the fleet
- * is re-planned over a rolling window of `window` ticks: busy robots first,
- * then charger assignment, then task allocation, then the newly assigned and
- * parking robots; (3) every robot executes one action of its current plan and
+ * is re-planned over a rolling window of `window` ticks: charger assignment
+ * first, then the busy robots, then task allocation, then the newly assigned
+ * and parking robots; (3) every robot executes one action of its current plan and
  * the executed step is checked for vertex and swap conflicts; (4) robots that
  * reached a goal transition (pickup -> delivery, delivery -> idle, charger ->
  * charging, home -> idle) and get an immediate single-agent re-plan against

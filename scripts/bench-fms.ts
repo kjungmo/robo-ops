@@ -4,6 +4,7 @@
  *   npm run bench:fms                          # all sweeps, single process
  *   npm run bench:fms -- main                  # selected sweeps
  *   npm run bench:fms -- stress --jobs 10      # run on 10 worker processes
+ *   npm run bench:fms -- main --out /tmp/rerun # write somewhere else (for check:results)
  *
  * Sweeps: main | planner | scaling | ablation | battery (seeds 1-5, the
  * original study) and stress | cascade | baselines | coupling (seeds 1-60 or
@@ -17,7 +18,7 @@
  * information. Results do not depend on --jobs except for wall-clock fields.
  */
 import { mkdirSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import { cpus, totalmem } from 'node:os'
 import { execSync, fork } from 'node:child_process'
 import { FleetSimulator, type SimConfig } from '../src/fms/index'
@@ -26,7 +27,7 @@ import type { SimMetrics } from '../src/fms/sim/metrics'
 
 const SEEDS = [1, 2, 3, 4, 5]
 const range = (a: number, b: number) => Array.from({ length: b - a + 1 }, (_, i) => a + i)
-const OUT = join(process.cwd(), 'paper/experiments/results')
+const DEFAULT_OUT = join(process.cwd(), 'paper/experiments/results')
 
 type AuditFields = { [K in keyof AuditReport as `audit_${K}`]: number }
 type Run = SimMetrics & AuditFields & { sweep: string; variant: string; wallMs: number }
@@ -378,8 +379,14 @@ async function runAll(jobs: Job[], workers: number): Promise<Run[]> {
 async function main() {
   const args = process.argv.slice(2)
   const ji = args.indexOf('--jobs')
+  const oi = args.indexOf('--out')
   const workers = ji >= 0 ? Number(args[ji + 1]) : 1
-  const only = args.filter((a, i) => !a.startsWith('--') && (ji < 0 || i !== ji + 1))
+  if (!Number.isInteger(workers) || workers < 1) throw new Error('--jobs needs a positive integer')
+  if (oi >= 0 && args[oi + 1] === undefined) throw new Error('--out needs a directory')
+  const OUT = oi >= 0 ? resolve(args[oi + 1]) : DEFAULT_OUT
+  const only = args.filter((a, i) => !a.startsWith('--') && (ji < 0 || i !== ji + 1) && (oi < 0 || i !== oi + 1))
+  const known = sweeps().map((s) => s.name)
+  for (const name of only) if (!known.includes(name)) throw new Error(`unknown sweep '${name}' (known: ${known.join(', ')})`)
   mkdirSync(OUT, { recursive: true })
   const started = Date.now()
   const all: Run[] = []

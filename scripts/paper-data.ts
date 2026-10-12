@@ -5,18 +5,21 @@
  *
  *   npx tsx scripts/paper-data.ts
  *
- * Writes paper/arxiv/tables/*.tex and paper/arxiv/figures/data/*.csv.
+ * Writes paper/arxiv/tables/*.tex and paper/arxiv/figures/data/*.csv and prints
+ * the summary lines that NUMBERS.md quotes. `buildPaperData()` returns the same
+ * files without writing them; scripts/check-paper.ts uses it to verify that the
+ * committed tables and figure data are what the committed results produce.
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 import { DistanceOracle, chargerSlots, loadLayout, DEFAULT_BATTERY, DEFAULT_CONFIG } from '../src/fms/index'
 
 const RESULTS = join(process.cwd(), 'paper/experiments/results')
 const PAPER = join(process.cwd(), 'paper/arxiv')
 
-type Row = Record<string, string>
+export type Row = Record<string, string>
 
-function readCsv(name: string): Row[] {
+export function readCsv(name: string): Row[] {
   const text = readFileSync(join(RESULTS, name), 'utf8').trim()
   const [head, ...lines] = text.split('\n')
   const cols = head.split(',')
@@ -93,12 +96,11 @@ function plannerTable(rows: Row[]): string {
       const r = rows.find((x) => num(x, 'fleetSize') === fleet && x.variant === mapf)
       if (!r) throw new Error(`missing planner row ${fleet} ${mapf}`)
       const other = rows.find((x) => num(x, 'fleetSize') === fleet && x.variant !== mapf) as Row
-      const bold = (k: string, lowerBetter = true) => {
+      // Lower is better in all three columns; integer format in both rows.
+      const bold = (k: string) => {
         const a = num(r, `${k}_mean`)
         const b = num(other, `${k}_mean`)
-        const best = lowerBetter ? a <= b : a >= b
-        const v = k === 'plannerMsPerTick' ? ms(r, k, f2) : k === 'makespan' || k === 'waitActions' ? ms(r, k, f0) : ms(r, k)
-        return best ? `\\textbf{${f0(a)}}\\stdv{${f0(num(r, `${k}_std`))}}` : v
+        return a <= b ? `\\textbf{${f0(a)}}\\stdv{${f0(num(r, `${k}_std`))}}` : ms(r, k, f0)
       }
       out.push(
         `${mapf === 'pp' ? fleet : ''} & ${mapf === 'pp' ? 'PP' : 'Windowed CBS'} & ${bold('makespan')} & ${bold('meanServiceTime')} & ${bold('waitActions')} & ${ms(r, 'plannerMsPerTick', f2)} & ${mapf === 'cbs' ? ms(r, 'cbsFallbacks') : '--'}\\\\`,
@@ -220,9 +222,9 @@ function seriesCsv(rows: Row[], filter: (r: Row) => boolean, xKey: string, cols:
 // seed; we report the mean per-seed relative difference and a two-sided 95%
 // Student-t interval with n-1 = 4 degrees of freedom.
 
-type Run = Record<string, number | string | null>
+export type Run = Record<string, number | string | null>
 
-function readRuns(name: string): Run[] {
+export function readRuns(name: string): Run[] {
   return JSON.parse(readFileSync(join(RESULTS, name), 'utf8')) as Run[]
 }
 
@@ -234,13 +236,13 @@ const T975: Record<number, number> = {
   60: 2.001, 120: 1.98,
 }
 
-interface Paired {
+export interface Paired {
   mean: number
   half: number
   n: number
 }
 
-function paired(a: Run[], b: Run[], key: string): Paired {
+export function paired(a: Run[], b: Run[], key: string): Paired {
   const bySeed = new Map(b.map((r) => [r.seed, r]))
   const rel: number[] = []
   for (const r of a) {
@@ -414,7 +416,7 @@ function stressTable(): { tex: string; summary: string } {
 }
 
 /** Largest free-space distance from any free cell to any charger slot. */
-function farthestSlot(layout: string): number {
+export function farthestSlot(layout: string): number {
   const map = loadLayout(layout)
   const oracle = new DistanceOracle(map)
   let best = 0
@@ -426,7 +428,7 @@ function farthestSlot(layout: string): number {
 }
 
 /**
- * Proposition 3 check: the reserve and threshold that would make the measured
+ * Proposition 2 check: the reserve and threshold that would make the measured
  * delays (W, Q of the normal-battery stress runs) provably safe, against the
  * defaults. Also the paired CBS-vs-PP makespan from the stress sweep.
  */
@@ -700,22 +702,29 @@ function couplingTable(): { tex: string; summary: string } {
   return { tex: out.join('\n') + '\n', summary: lines.join('\n') }
 }
 
-function main() {
-  mkdirSync(join(PAPER, 'tables'), { recursive: true })
-  mkdirSync(join(PAPER, 'figures/data'), { recursive: true })
+export interface PaperData {
+  /** Path relative to paper/arxiv -> file content. */
+  files: Map<string, string>
+  /** The printed summary lines (numbers quoted in the text but not in a table). */
+  summary: string[]
+}
+
+export function buildPaperData(): PaperData {
+  const files = new Map<string, string>()
+  const summary: string[] = []
   const mainRows = readCsv('main_summary.csv')
   const plannerRows = readCsv('planner_summary.csv')
   const scalingRows = readCsv('scaling_summary.csv')
   const ablationRows = readCsv('ablation_summary.csv')
   const batteryRows = readCsv('battery_summary.csv')
-  writeFileSync(join(PAPER, 'tables/main.tex'), mainTable(mainRows))
-  writeFileSync(join(PAPER, 'tables/planner.tex'), plannerTable(plannerRows))
-  writeFileSync(join(PAPER, 'tables/ablation.tex'), ablationTable(ablationRows))
-  writeFileSync(join(PAPER, 'tables/battery.tex'), batteryTable(batteryRows))
-  writeFileSync(join(PAPER, 'tables/scaling.tex'), scalingTable(scalingRows))
+  files.set('tables/main.tex', mainTable(mainRows))
+  files.set('tables/planner.tex', plannerTable(plannerRows))
+  files.set('tables/ablation.tex', ablationTable(ablationRows))
+  files.set('tables/battery.tex', batteryTable(batteryRows))
+  files.set('tables/scaling.tex', scalingTable(scalingRows))
   const pairedOut = pairedTable()
-  writeFileSync(join(PAPER, 'tables/paired.tex'), pairedOut.tex)
-  console.log(pairedOut.summary)
+  files.set('tables/paired.tex', pairedOut.tex)
+  summary.push(...pairedOut.summary.split('\n'))
   for (const [name, fn] of [
     ['stress', stressTable],
     ['reserve', reserveTable],
@@ -724,20 +733,30 @@ function main() {
     ['coupling', couplingTable],
   ] as Array<[string, () => { tex: string; summary: string }]>) {
     const r = fn()
-    writeFileSync(join(PAPER, `tables/${name}.tex`), r.tex)
-    console.log(r.summary)
+    files.set(`tables/${name}.tex`, r.tex)
+    summary.push(...r.summary.split('\n'))
   }
   const cols = ['throughput', 'meanServiceTime', 'plannerMsPerTick', 'waitActions', 'astarCalls', 'utilization', 'makespan']
-  writeFileSync(join(PAPER, 'figures/data/scaling_hungarian.csv'), seriesCsv(scalingRows, (r) => r.variant === 'hungarian', 'fleetSize', cols))
-  writeFileSync(join(PAPER, 'figures/data/scaling_pact.csv'), seriesCsv(scalingRows, (r) => r.variant === 'pact', 'fleetSize', cols))
-  writeFileSync(join(PAPER, 'figures/data/planner_pp.csv'), seriesCsv(plannerRows, (r) => r.variant === 'pp', 'fleetSize', ['makespan', 'meanServiceTime', 'waitActions', 'plannerMsPerTick']))
-  writeFileSync(join(PAPER, 'figures/data/planner_cbs.csv'), seriesCsv(plannerRows, (r) => r.variant === 'cbs', 'fleetSize', ['makespan', 'meanServiceTime', 'waitActions', 'plannerMsPerTick']))
+  files.set('figures/data/scaling_hungarian.csv', seriesCsv(scalingRows, (r) => r.variant === 'hungarian', 'fleetSize', cols))
+  files.set('figures/data/scaling_pact.csv', seriesCsv(scalingRows, (r) => r.variant === 'pact', 'fleetSize', cols))
+  files.set('figures/data/planner_pp.csv', seriesCsv(plannerRows, (r) => r.variant === 'pp', 'fleetSize', ['makespan', 'meanServiceTime', 'waitActions', 'plannerMsPerTick']))
+  files.set('figures/data/planner_cbs.csv', seriesCsv(plannerRows, (r) => r.variant === 'cbs', 'fleetSize', ['makespan', 'meanServiceTime', 'waitActions', 'plannerMsPerTick']))
   // Window ablation as a small series (w = 10, 20, 30).
   const win = ablationRows
     .filter((r) => ['pact-w10', 'pact', 'pact-w30'].includes(r.variant))
     .map((r) => ({ ...r, window: r.variant === 'pact-w10' ? '10' : r.variant === 'pact-w30' ? '30' : '20' }))
-  writeFileSync(join(PAPER, 'figures/data/window.csv'), seriesCsv(win, () => true, 'window', ['throughput', 'meanServiceTime', 'plannerMsPerTick', 'waitActions']))
+  files.set('figures/data/window.csv', seriesCsv(win, () => true, 'window', ['throughput', 'meanServiceTime', 'plannerMsPerTick', 'waitActions']))
+  return { files, summary }
+}
+
+function main() {
+  const { files, summary } = buildPaperData()
+  for (const [rel, content] of files) {
+    mkdirSync(dirname(join(PAPER, rel)), { recursive: true })
+    writeFileSync(join(PAPER, rel), content)
+  }
+  for (const line of summary) console.log(line)
   console.log('paper tables and figure data written')
 }
 
-main()
+if (process.argv[1] && resolve(process.argv[1]) === resolve(new URL(import.meta.url).pathname)) main()
