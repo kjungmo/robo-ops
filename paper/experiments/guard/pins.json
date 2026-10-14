@@ -1,11 +1,9 @@
 {
- "sections/0_abstract.tex#words": [
-  " layout/fleet/load cells, and four regimes chosen beforehand to "
- ],
+ "sections/0_abstract.tex#words": [],
  "sections/1_introduction.tex#words": [
   "ady knows about. Coupling the two has been studied at several l",
   "and keep dock queues short, a two-threshold charging policy wit",
-  ", token-passing baselines and four regimes in which we expected ",
+  "ee rules for idle robots, and four regimes in which we expected ",
   " pairs per fleet size. In the four regimes in which we expected ",
   "rs all of its tasks, but with doubled drain the charging policy str"
  ],
@@ -85,8 +83,6 @@
   "}. \\noindent\\textbf{Methods.} Four allocation cost models share ",
   "ng policy is the same for all four, except that the greedy basel",
   " we count exclusions. For the two families in which we read ind",
-  "nd every field other than the four wall-clock fields equals the ",
-  "ndicative to that extent. The four second-round sweeps, includin",
   "obots, both load regimes, the four allocation methods and both p",
   "yout including \\emph{narrow}, two or three fleet sizes per layo",
   "cluding \\emph{narrow}, two or three fleet sizes per layout, both ",
@@ -95,6 +91,7 @@
   " and 3 of their 240 runs with doubled drain. This is the premise of",
   "sname), and in every cell the four throughput means differ by le",
   "ss than the smallest of their four standard deviations; the serv",
+  "aware assignment cannot help. Two design choices bound what the",
   "r run, only at 6 robots. With five seeds, of these three makespa",
   "ts. With five seeds, of these three makespan differences only the",
   "budget exhaustions, the other two failed searches). These count",
@@ -103,17 +100,20 @@
   "3 of 30 on \\emph{small}, with thousands of holds per run. Planning he",
   "stalls and no robot depletes. Two of our additions could handic",
   "me for the displaced robot. A third one is active: our robot with",
+  " same settings and seeds with two more variants: the drive home",
   "} explains the null result by two conjectures: the empty trip i",
   "ates at the docks. We defined four regimes that attack those rea",
   "ef{tab:coupling} compares the four cost models on 30 paired seed",
-  "30 paired seeds. In the first three regimes the mean differences "
+  " the main study. In the other three it changes less: 6\\% in the o",
+  "ical treatments. In the first three regimes the mean differences ",
+  "ts above 0.5\\%, but there the two costs rarely differ. The only"
  ],
  "sections/5_discussion.tex#words": [
   ",t_0)$. Within the window the two differ only by the waits and ",
   "s that difference is small on two counts. First, the empty trip",
   "ntain the trip to the pickup, two dwells and the loaded trip (w",
   "d how they divide between the two trips). Second, with 2-wide a",
-  " did not record how often the two costs lead to different match",
+  "asure the consequence: in the twelve cells of the main study the a",
   " on the warehouse layout, the nine docks of capacity three bound",
   "t, the nine docks of capacity three bound the number of tasks in ",
   "(\\cref{subsec:coupling}); the three inside the safe envelope did ",
@@ -136,14 +136,11 @@
   "ivered all of its tasks; with doubled drain the threshold charging "
  ],
  "sections/appendix.tex#words": [
-  "off by default, comments, and two corrections that these runs d",
-  "eld by field, leaving out the four wall-clock fields (\\texttt{wa",
   "mn every plotted curve reads. Three kinds of numbers are not reco",
   " not list as a claim, and the two facts taken from the git hist",
   "e, and \\cref{tab:layouts} the four layouts. \\begin{table}[h] \\ce",
   " with 3, 3, 2, 4 shelf lines; two named shipping docks, each a ",
-  "shipping docks, each a bay of three delivery cells).} \\label{tab:",
-  "4 of these fields were added (three counters of the baselines and"
+  "shipping docks, each a bay of three delivery cells).} \\label{tab:"
  ],
  "figures/overview.tex#words": [],
  "figures/planner.tex#words": [],

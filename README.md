@@ -135,27 +135,27 @@ npx tsx -e "import { runSimulation } from './src/fms/index'; console.log(runSimu
 for Warehouse AMRs and a Controlled Study of Reservation-Aware Pickup Costs*
 (Jungmo Kang, 2026; preprint, not peer reviewed). It describes `src/fms/` and
 evaluates it in simulation only: there is no real robot and no fleet connection
-anywhere in this repository. The study's main result is negative (the
+anywhere in this repository. The study's main result is negative and weak: the
 reservation-aware pickup cost did not measurably change throughput in the tested
-settings), and the default charging policy strands robots under doubled battery
-drain; both are reported in the paper.
+settings, and recorded counters show that it changed the task matching in only
+1–14 % of the allocations. The default charging policy strands robots under
+doubled battery drain. Both are reported in the paper.
 
-Reproduce the results (Node.js 22; timings below are from a 6-core Ryzen 5 5500GT):
+Reproduce the results (Node.js 22; durations measured on a 6-core Ryzen 5 5500GT):
 
 ```bash
 npm ci
 npm test
-npm run bench:fms -- main planner scaling ablation battery --out /tmp/pact-rerun       # first round: 420 runs, one process, about 2 min
-npm run bench:fms -- stress cascade baselines coupling --jobs 10 --out /tmp/pact-rerun # second round: 6,180 runs, 10 processes, about 16 min
+npm run bench:fms -- main planner scaling ablation battery --out /tmp/pact-rerun   # 420 runs, one process, about 2 min
 npm run check:results -- /tmp/pact-rerun   # field-by-field comparison with the committed records
 npm run check:paper                        # tables, figure data and every number in the text
 ```
 
-- Without `--out`, `bench:fms` overwrites `paper/experiments/results/`; with no sweep names it runs all nine sweeps in one process (about 2 hours).
-- Every field of a run is deterministic given its seed except the four wall-clock fields (`wallMs`, `plannerMs`, `allocMs`, `plannerMsPerTick`), which `check:results` leaves out. Planner times in the paper are therefore indicative only.
-- The committed first-round records predate four diagnostic fields; a re-run has them and `check:results` reports that as expected.
-- `bash scripts/regenerate.sh 10` re-runs all ten sweeps at the current commit (about 22 minutes with 10 worker processes, about 2.5 hours with one), refuses to replace the committed records if any field that existed before differs, and then replaces them. The `tpfree` sweep (token passing with an interruptible or as-published rule for robots without a task) is defined in the driver; its records are added by that script.
-- `bash scripts/measure-timing.sh` measures the wall-clock numbers of the paper (planner, scaling and ablation sweeps, one process, at least three repeats, about 5 minutes). It starts a repeat only when the 1-minute load average is at most 0.50, records the load and the top CPU consumers before and after each repeat in `paper/experiments/timing/`, and marks a repeat invalid when the host was busy. Wall-clock fields in `paper/experiments/results/` are not the ones the paper reports.
+- All ten sweeps: `npm run bench:fms -- --jobs 8 --out /tmp/pact-rerun` (7,200 runs, about 20 minutes with 8 worker processes), then `check:results` as above.
+- Without `--out`, `bench:fms` overwrites `paper/experiments/results/`.
+- Every field of a run is deterministic given its seed except the four wall-clock fields (`wallMs`, `plannerMs`, `allocMs`, `plannerMsPerTick`), which `check:results` leaves out. CI repeats the 420-run comparison on GitHub's runners under Node.js 20, 22 and 24.
+- The committed records were written by `bash scripts/regenerate.sh 8` at commit `63a2db7`. The script re-runs all ten sweeps at the current commit, refuses to replace the committed records if any field that existed before differs, and then replaces them (`paper/experiments/repro/regeneration.json` holds the comparison).
+- Planner times in the paper do not come from those records. `bash scripts/measure-timing.sh` measures them (planner, scaling and ablation sweeps, one process, three repeats, about 5 minutes). It starts a repeat only when the 1-minute load average is at most 0.50, records the load and the top CPU consumers before and after each repeat in `paper/experiments/timing/`, and marks a repeat invalid when the host was busy.
 - `npm run check:paper -- --update-pins` rewrites `paper/experiments/guard/pins.json` after a reviewed change to a formula or to a number written as a word.
 - `npm run paper:data` rewrites `paper/arxiv/tables/*.tex` and `figures/data/*.csv` from `paper/experiments/results/`. `paper/arxiv/NUMBERS.md` maps each number in the paper to its source field.
 - Build the PDF with `pdflatex main && pdflatex main && pdflatex main` in `paper/arxiv/` (the `.bbl` is committed; a TeX Live with `pgfplots` and `algorithm2e` is needed).

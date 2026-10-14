@@ -91,9 +91,10 @@ Our contributions are:
   \item \emph{A controlled study of what moves a fleet}: 420 seeded runs on
   three layouts sweep allocation cost model, planner backend, fleet size,
   load regime, window, replanning period, dock capacity and battery
-  parameters; a second round of 6{,}180 runs adds a 60-seed safety stress
+  parameters; a second round of 6{,}780 runs adds a 60-seed safety stress
   test checked by an independent trajectory auditor, an ablation of the hold
-  cascade and of the priorities, token-passing baselines and four regimes
+  cascade and of the priorities, token-passing baselines under three rules
+  for idle robots, and four regimes
   in which we expected the coupling to matter most, defined before their
   results were committed. Every number traces to a
   committed result file, and a script in the repository checks the text and
@@ -105,7 +106,12 @@ which tasks can be assigned, in every one of
 twelve layout/fleet/load cells the four allocation cost models---greedy,
 Hungarian, congestion proxy and reservation-aware pickup cost---differ by at most 2.9\% in
 mean throughput, and 35 of 36 seed-paired 95\% intervals against Hungarian
-contain zero (\cref{tab:main,tab:paired}). With five seeds the interval
+contain zero (\cref{tab:main,tab:paired}). Counters recorded next to every
+allocation show that the test is weak as well as negative: in these cells the
+reservation-aware cost changes the matching in only 1--14\% of the
+allocations, because 60--86\% of the priced pickups lie beyond the planning
+window, where the estimate falls back to a free-space distance
+(\cref{tab:diagnostic}). With five seeds the interval
 bounds reach about 7\% in the noisiest cell and about 4\% under the Poisson
 load, so the study detects no large effect but cannot resolve small ones. It
 was not designed as an equivalence test and fixes no equivalence margin, so
@@ -119,14 +125,16 @@ cutting the planner's A* expansions per tick by 79\%, and windowed CBS reduces m
 dock-capacity and window differences survive a Holm correction over the
 fourteen lever and planner comparisons of the first round, and the CBS gain
 is measured on 120 seed pairs per fleet size. In the four regimes in which
-we expected the coupling to matter, \sname\ shows no resolved gain except where every method
+we expected the coupling to matter, the matching changes in 2--27\% of the
+allocations and \sname\ shows no resolved gain except where every method
 strands robots, and there its higher throughput mostly reflects fewer stalled runs
 (\cref{subsec:coupling}).
 Token passing and token passing with task swaps \citep{ma2017lifelong}
 deliver 16--66\% less throughput than our loop at its default dock
 capacity, but their endpoint rule allows one robot in flight
-per dock; at that capacity our loop and token passing with task swaps are
-within $-2.5$ to $+1.6\%$ of each other (\cref{subsec:baselines}), so the
+per dock; at that capacity token passing with task swaps is within $-10.7$
+to $+3.7\%$ of our loop, depending on what its robots do when they have no
+task (\cref{subsec:baselines}), so the
 gap to token passing with task swaps measures dock capacity, not our
 allocation or planner.
 Throughout, the executed plans of 60.4 million audited robot-steps contain no

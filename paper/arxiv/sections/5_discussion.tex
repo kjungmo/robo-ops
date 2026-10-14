@@ -14,10 +14,12 @@ pickup, two dwells and the loaded trip (we did not record how they divide
 between the two trips). Second, with 2-wide aisles the planner absorbs
 most interactions by a one-tick wait or a lane change: a run of 200 tasks
 executes 274 wait actions against 14.9 thousand moves, about 1.4 waits per
-task. We did not record how often the two costs lead to different
-matchings, so the next step is an inference, not a measurement: the
-arrival-time estimate should rarely re-order candidates, and when it does the
-change is within the noise of task sampling. Congestion that
+task. The counters of \cref{tab:diagnostic} measure the consequence: in
+the twelve cells of the main study the arrival-time estimate differs from
+the free-space distance for 6--26\% of the priced pairs, by 1.9--3.0 ticks
+on average, and changes the matching in 1--14\% of the allocations; most
+pickups (60--86\%) lie beyond the window, where the estimate cannot see
+reservations at all. Congestion that
 does matter concentrates at the docks, which the pickup-leg cost cannot see
 and which the endpoint capacity already regulates: on the warehouse layout,
 the nine docks of capacity three bound the number of tasks in flight
@@ -29,7 +31,9 @@ We expected one-lane
 aisles, hotspot demand, long empty trips or saturated chargers to change the
 balance and tested them (\cref{subsec:coupling}); the three inside the safe
 envelope did not, within interval half-widths of 0.2 to 1.6\%, and the fourth is
-confounded by stalled runs. The explanation above survives the test only in
+confounded by stalled runs. Only one of them, hotspot demand, changed the
+matching often (27\% of the allocations), and there too every interval of
+the path-aware cost contains zero. The explanation above survives the test only in
 a narrower form: even where arrival times deviate from free-space distances,
 the assignments that minimise either one deliver throughputs that we cannot
 tell apart, which is consistent with the queue in front of the docks, not
@@ -52,15 +56,15 @@ dock queue, or that plans the assigned robots jointly as CBS-TA does for
 one-shot instances \citep{honig2018cbsta}, is not ruled out.
 
 \noindent\textbf{Cost analysis.}
-The whole stack runs at 0.02--0.97 ms of planner time per simulated tick for 4
+The whole stack runs at 0.02--0.98 ms of planner time per simulated tick for 4
 to 48 robots on one core (\cref{fig:scaling}); a tick of one second of robot
 motion is long by comparison, and the
 coupling's extra A* calls ($+35\%$ at 48 robots) are affordable even though
 they are not useful here. These are means over all ticks of a run: we
 did not record the time of a single epoch, which is what a real-time
 deadline would have to bound. Windowed CBS on the small layout
-costs 0.09--0.34 ms/tick. These are wall-clock times on one host and
-vary between repetitions (\cref{subsec:setup}). We did not measure memory;
+costs 0.09--0.30 ms/tick. These are wall-clock times on one idle host
+(medians of three repeats, \cref{subsec:setup}); under load they are longer. We did not measure memory;
 the planner keeps one cached distance table, a vector over the grid cells,
 per goal cell.
 
@@ -110,8 +114,8 @@ and the stress sweep, ends within 4{,}189 ticks, so throughput computed from
 the makespan includes the start from the home bays and the last deliveries;
 we did not measure steady-state throughput on longer streams. All runs were
 made on one host with Node.js~22; determinism was checked there, and
-planner times are wall-clock measurements that vary between repetitions
-(\cref{subsec:setup}). The auditor's conflict counts need only the observed
+planner times are wall-clock measurements on that host while idle
+(\cref{subsec:setup}); they say nothing about a loaded or a different machine. The auditor's conflict counts need only the observed
 cells and the map, but its delay and slot-wait measurements trust the status and goal
 that the simulator reports, and its no-progress interval the simulator's
 counts of deliveries and outstanding tasks. The battery model is linear and the
@@ -130,9 +134,10 @@ PIBT-based MAPD solver \citep{okumura2022pibt}, nor a cost that prices the whole
 pickup-to-delivery trip, and we have no congested setting without the
 dock-capacity gate or with fleets of hundreds of robots. These runs are the
 evaluation we plan next; until then the null result says nothing about those
-methods. We also did not record how often the static and path-aware costs
-produce different matchings, which would test the explanation above
-directly. Basic CBS, with PP for robots that share a goal, runs on groups of up to 32
+methods. The counters of \cref{tab:diagnostic} show that our own test of
+the pickup-leg cost is weak, since the cost seldom changes the matching; a
+shorter-range demand, a longer window or more priced candidates would make
+it stronger, and we did not run those. Basic CBS, with PP for robots that share a goal, runs on groups of up to 32
 robots with few node-budget fallbacks but gains only 2--4\% makespan there under batch load; symmetry reasoning
 \citep{li2019symmetry} or bounded-suboptimal search \citep{li2021eecbs}
 might gain more. Prioritized planning with a hold cascade is safe but not
@@ -143,5 +148,5 @@ affected robots stay in place (under IAvoid, after at most one avoiding
 move), so the ablation does not show that re-planning them is better than
 making them stay. Our token-passing baselines follow \citet{ma2017lifelong} but run
 on layouts that are not well-formed for them, with our dwell, charging and
-parking rules added; other adaptations are possible. Finally, the console
+parking rules added; \cref{tab:tpfree} varies the rule for idle robots, and other adaptations are possible. Finally, the console
 integration displays the simulator; it is not connected to a fleet.

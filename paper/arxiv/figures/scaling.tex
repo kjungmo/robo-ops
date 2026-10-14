@@ -16,14 +16,14 @@
 \addplot[red, mark=square*, mark size=1.4pt] table[col sep=comma, x=fleetSize, y=throughput_mean, y error=throughput_std] {figures/data/scaling_pact.csv};
 \addlegendentry{\sname\ (path-aware cost)}
 \nextgroupplot[ylabel={planner ms per tick}]
-\addplot[blue, mark=*, mark size=1.4pt] table[col sep=comma, x=fleetSize, y=plannerMsPerTick_mean, y error=plannerMsPerTick_std] {figures/data/scaling_hungarian.csv};
-\addplot[red, mark=square*, mark size=1.4pt] table[col sep=comma, x=fleetSize, y=plannerMsPerTick_mean, y error=plannerMsPerTick_std] {figures/data/scaling_pact.csv};
+\addplot[blue, mark=*, mark size=1.4pt] table[col sep=comma, x=fleetSize, y=plannerMs_median] {figures/data/scaling_hungarian.csv};
+\addplot[red, mark=square*, mark size=1.4pt] table[col sep=comma, x=fleetSize, y=plannerMs_median] {figures/data/scaling_pact.csv};
 \nextgroupplot[ylabel={A* calls per run}]
 \addplot[blue, mark=*, mark size=1.4pt] table[col sep=comma, x=fleetSize, y=astarCalls_mean, y error=astarCalls_std] {figures/data/scaling_hungarian.csv};
 \addplot[red, mark=square*, mark size=1.4pt] table[col sep=comma, x=fleetSize, y=astarCalls_mean, y error=astarCalls_std] {figures/data/scaling_pact.csv};
 \end{groupplot}
 \node at ($(group c2r1.south)+(0,-11mm)$) {\pgfplotslegendfromname{scalinglegend}};
 \end{tikzpicture}
-\caption{\textbf{Fleet-size scaling} on the warehouse layout under batch load (200 tasks, mean\stdv{std} over 5 seeds; data in \cref{tab:scaling}). Throughput saturates once dock capacity ($9$ docks $\times\,\kappa_{\mathrm{d}}{=}3$) binds; planner time per tick (wall clock, see \cref{subsec:setup}) grows faster than the fleet up to 32 robots and flattens with the throughput; path-aware pricing adds the extra A* calls of the third panel.}
+\caption{\textbf{Fleet-size scaling} on the warehouse layout under batch load (200 tasks, mean\stdv{std} over 5 seeds; data in \cref{tab:scaling}). Throughput saturates once dock capacity ($9$ docks $\times\,\kappa_{\mathrm{d}}{=}3$) binds; planner time per tick (median of three repeats on an idle host, \cref{subsec:setup}; no error bars) grows faster than the fleet up to 32 robots and flattens with the throughput; path-aware pricing adds the extra A* calls of the third panel.}
 \label{fig:scaling}
 \end{figure}

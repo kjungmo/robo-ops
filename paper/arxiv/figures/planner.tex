@@ -20,10 +20,10 @@
 \nextgroupplot[xlabel={window $w$ (warehouse, 32 robots)}, ylabel={throughput / planner ms per tick}, xtick={10,20,30}, ymin=0, ymax=48, legend pos=north east, legend style={font=\scriptsize}]
 \addplot[black, mark=*, mark size=1.4pt] table[col sep=comma, x=window, y=throughput_mean, y error=throughput_std] {figures/data/window.csv};
 \addlegendentry{throughput}
-\addplot[orange, mark=triangle*, mark size=1.6pt] table[col sep=comma, x=window, y expr=10*\thisrow{plannerMsPerTick_mean}, y error expr=10*\thisrow{plannerMsPerTick_std}] {figures/data/window.csv};
+\addplot[orange, mark=triangle*, mark size=1.6pt] table[col sep=comma, x=window, y expr=10*\thisrow{plannerMs_median}] {figures/data/window.csv};
 \addlegendentry{$10\times$ planner ms/tick}
 \end{groupplot}
 \end{tikzpicture}
-\caption{\textbf{Planner backend and window.} Left, centre: on the small layout, windowed CBS shortens the makespan and removes wait actions relative to prioritized planning (PP) at every fleet size (\cref{tab:planner}). Right: on the warehouse with 32 robots, a shorter window raises throughput and cuts planner time (\cref{tab:ablation}); the planner cost is scaled by 10 to share the axis.}
+\caption{\textbf{Planner backend and window.} Left, centre: on the small layout, windowed CBS shortens the makespan and removes wait actions relative to prioritized planning (PP) at every fleet size (\cref{tab:planner}). Right: on the warehouse with 32 robots, a shorter window raises throughput and cuts planner time (\cref{tab:ablation}); the planner time is the median of three repeats on an idle host (\cref{subsec:setup}), without error bars, and is scaled by 10 to share the axis.}
 \label{fig:planner}
 \end{figure}

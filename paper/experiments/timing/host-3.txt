@@ -1,0 +1,23 @@
+== before repeat 3
+date: 2026-10-14T09:22:21+09:00
+loadavg: 0.50 2.90 4.61 1/1015 31702
+cores: 12
+top CPU consumers (%cpu command):
+ 6.1 2.1.296
+ 3.7 2.1.296
+ 2.0 2.1.296
+ 1.9 2.1.296
+ 0.9 claude
+ 0.7 claude
+== after repeat 3
+date: 2026-10-14T09:23:14+09:00
+loadavg: 0.86 2.62 4.42 1/986 32063
+cores: 12
+top CPU consumers (%cpu command):
+ 5.9 2.1.296
+ 3.6 2.1.296
+ 1.9 2.1.296
+ 1.9 2.1.296
+ 0.8 claude
+ 0.7 claude
+verdict: valid

@@ -10,20 +10,22 @@ fleet, evaluated against busy robots' reservations, fed to a Hungarian
 assignment. A hold cascade, a variant of existing fail policies, keeps
 prioritized planning conflict-free, and token-passing-style endpoint
 capacities bound dock queues. We prove that every executed step is vertex-
-and swap-conflict-free; progress is not guaranteed, and battery safety holds
-only under delay bounds we state but cannot enforce, so we measure both. In
+and swap-conflict-free; progress and battery safety are not guaranteed,
+so we measure both. In
 a seeded simulator on four synthetic layouts, an independent auditor finds
 no executed conflict in 4{,}740 runs with 60.4 million robot-steps; with
 normal batteries no robot depletes, but with doubled drain the charging
 policy strands robots in two thirds of runs. The coupling study is a
-negative result: greedy, Hungarian, congestion-proxy and reservation-aware
-pickup costs stay within 2.9\% of each other in mean throughput in all
-twelve layout/fleet/load cells, and four regimes chosen beforehand to favour
-the coupling show no resolved gain over greedy, and over Hungarian only
-where every method strands robots. The study detects no large effect but is
-not an equivalence test, and omits costs that price the whole trip or the
-dock queue. With the same one-robot-per-dock limit, token passing with task
-swaps comes within 2.5\% of our loop. Dock capacity, the planning window and
-windowed CBS are the levers that move the fleet. Code:
+negative and weak result: greedy, Hungarian, congestion-proxy and
+reservation-aware pickup costs stay within 2.9\% of each other in mean
+throughput in all twelve layout/fleet/load cells, but counters show
+that the reservation-aware cost changes the matching in only 1--14\% of
+the allocations, since most pickups lie beyond its window.
+The study detects no large effect, is not an equivalence test, and omits
+costs that price the whole trip or the dock queue. With the same
+one-robot-per-dock limit, token passing with task swaps is within $-10.7$ to
+$+3.7\%$ of our loop, depending on its idle rule. Dock capacity,
+the planning window and windowed conflict-based search are the levers that
+move the fleet. Code:
 \url{https://github.com/kjungmo/robo-ops}
 \end{abstract}

@@ -118,7 +118,7 @@ function plannerTable(rows: Row[]): string {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Planner backend on the small layout} (batch load, 100 tasks, Hungarian allocation, 5 seeds). Windowed CBS plans the robots with distinct goals jointly inside the window and falls back to prioritized planning (PP) when its node budget (2000) is exceeded. Planner ms/tick is wall-clock time (\\cref{subsec:setup}).}',
+    '\\caption{\\textbf{Planner backend on the small layout} (batch load, 100 tasks, Hungarian allocation, 5 seeds). Windowed CBS plans the robots with distinct goals jointly inside the window and falls back to prioritized planning (PP) when its node budget (2000) is exceeded. Planner ms/tick: median over three repeats on an idle host of the mean over seeds, with [minimum, maximum] (\\cref{subsec:setup}).}',
   )
   out.push('\\label{tab:planner}')
   out.push('\\small')
@@ -168,7 +168,7 @@ function ablationTable(rows: Row[]): string {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Ablations} on the warehouse layout with 32 robots under batch load (200 tasks, 5 seeds). Each row changes one setting of the default configuration. Planner ms/tick is wall-clock time (\\cref{subsec:setup}).}',
+    '\\caption{\\textbf{Ablations} on the warehouse layout with 32 robots under batch load (200 tasks, 5 seeds). Each row changes one setting of the default configuration. Planner ms/tick: median over three repeats on an idle host of the mean over seeds, with [minimum, maximum] (\\cref{subsec:setup}).}',
   )
   out.push('\\label{tab:ablation}')
   out.push('\\scriptsize')
@@ -221,7 +221,7 @@ function scalingTable(rows: Row[]): string {
   const out: string[] = []
   out.push('\\begin{table}[t]')
   out.push('\\centering')
-  out.push('\\caption{\\textbf{Fleet-size scaling} on the warehouse layout under batch load (200 tasks, 5 seeds); data of \\cref{fig:scaling}. Exp./tick: A* node expansions per simulated tick. Planner ms/tick is wall-clock time (\\cref{subsec:setup}).}')
+  out.push('\\caption{\\textbf{Fleet-size scaling} on the warehouse layout under batch load (200 tasks, 5 seeds); data of \\cref{fig:scaling}. Exp./tick: A* node expansions per simulated tick. Planner ms/tick: median over three repeats on an idle host of the mean over seeds, with [minimum, maximum] (\\cref{subsec:setup}).}')
   out.push('\\label{tab:scaling}')
   out.push('\\footnotesize')
   out.push('\\setlength{\\tabcolsep}{4pt}')
@@ -735,16 +735,16 @@ export function diagnosticTable(): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{How often the coupling changes anything.} Counters recorded next to every allocation, pooled over the seeds of a configuration (5 in the twelve cells of \\cref{tab:main}, 30 in the four regimes of \\cref{tab:coupling}). \\emph{Beyond $w$}: priced robot--task pairs whose pickup is farther than the window, for which the estimate is a free-space distance after the first $w$ ticks (\\cref{eq:arrival}). \\emph{$\\hat a\\neq d$}: priced pairs whose estimate differs from the free-space distance; \\emph{gap}: mean difference in ticks over those pairs, next to the mean distance $\\bar d$ of all priced pairs. \\emph{Matching differs}: allocations whose matching differs from the Hungarian matching on the static costs of the same robots and tasks.}',
+    '\\caption{\\textbf{How often the coupling changes anything.} Counters recorded next to every allocation, pooled over the seeds of a configuration (5 in the twelve cells of \\cref{tab:main}, 30 in the four regimes of \\cref{tab:coupling}). \\emph{Beyond $w$}: priced robot--task pairs whose pickup is farther than the window, for which the estimate is a free-space distance after the first $w$ ticks (\\cref{eq:arrival}). \\emph{$\\hat a\\neq d$}: priced pairs whose estimate differs from the free-space distance; \\emph{gap}: mean difference in ticks over those pairs, next to the mean distance $\\bar d$ of all priced pairs. \\emph{Matching}: allocations whose matching differs from the Hungarian matching on the static costs of the same robots and tasks.}',
   )
   out.push('\\label{tab:diagnostic}')
   out.push('\\scriptsize')
-  out.push('\\setlength{\\tabcolsep}{4pt}')
+  out.push('\\setlength{\\tabcolsep}{3pt}')
   out.push('\\begin{tabular}{lrrrrrrrr}')
   out.push('\\toprule')
   out.push(' & \\multicolumn{6}{c}{\\textbf{\\sname\\ (path-aware)}} & \\multicolumn{2}{c}{\\textbf{Proxy}}\\\\')
   out.push('\\cmidrule(lr){2-7}\\cmidrule(lr){8-9}')
-  out.push('\\textbf{Setting} & \\textbf{Pairs/run} & \\textbf{Beyond $w$ (\\%)} & \\textbf{$\\hat a\\neq d$ (\\%)} & \\textbf{Gap} & $\\bar d$ & \\textbf{Matching differs (\\%)} & \\textbf{$\\hat a\\neq d$ (\\%)} & \\textbf{Matching differs (\\%)}\\\\')
+  out.push('\\textbf{Setting} & \\textbf{Pairs/run} & \\textbf{Beyond $w$, \\%} & \\textbf{$\\hat a\\neq d$, \\%} & \\textbf{Gap} & $\\bar d$ & \\textbf{Matching, \\%} & \\textbf{$\\hat a\\neq d$, \\%} & \\textbf{Matching, \\%}\\\\')
   out.push('\\midrule')
   const lines: string[] = []
   rows.forEach(([label, pick], i) => {
@@ -796,10 +796,10 @@ export function tpfreeTable(): { tex: string; summary: string } {
   )
   out.push('\\label{tab:tpfree}')
   out.push('\\scriptsize')
-  out.push('\\setlength{\\tabcolsep}{4pt}')
+  out.push('\\setlength{\\tabcolsep}{3pt}')
   out.push('\\begin{tabular}{llccccc}')
   out.push('\\toprule')
-  out.push('\\textbf{Setting} & \\textbf{Variant} & \\textbf{Throughput} $\\uparrow$ & \\textbf{Paired vs.\\ home} & \\textbf{Paired vs.\\ RH, $\\kappa_{\\mathrm{d}}{=}1$} & \\textbf{Service time} $\\downarrow$ & \\textbf{Stalled}\\\\')
+  out.push('\\textbf{Setting} & \\textbf{Variant} & \\textbf{Throughput} $\\uparrow$ & \\textbf{vs.\\ home} & \\textbf{vs.\\ RH ($\\kappa_{\\mathrm{d}}{=}1$)} & \\textbf{Service time} $\\downarrow$ & \\textbf{Stalled}\\\\')
   out.push('\\midrule')
   const lines: string[] = []
   for (const [setting, label] of settings) {

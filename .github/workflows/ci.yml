@@ -38,10 +38,8 @@ jobs:
       - run: npm ci
       - name: Re-run the 420 first-round runs
         run: npm run bench:fms -- main planner scaling ablation battery --out "$RUNNER_TEMP/rerun"
-      # --allow-new-fields: the committed records predate the diagnostic
-      # counters; it is removed once scripts/regenerate.sh has been run.
       - name: Compare with the committed records (wall-clock fields excluded)
-        run: npm run check:results -- "$RUNNER_TEMP/rerun" --allow-new-fields
+        run: npm run check:results -- "$RUNNER_TEMP/rerun"
       - name: Host
         run: |
           node --version

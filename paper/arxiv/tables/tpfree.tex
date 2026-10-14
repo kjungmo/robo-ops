@@ -1,0 +1,47 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{What a token-passing robot without a task does} (200 tasks, 30 seeds). \emph{Home}: it drives to its own home bay and takes no task on the way, the variant of \cref{tab:baselines}. \emph{Home, interruptible}: it requests the token at every tick on that drive. \emph{As published}: it rests where its path ended and moves, to the nearest free endpoint, only off the delivery cell of a pending task, requesting the token at every tick \citep{ma2017lifelong}. Paired: seed-paired throughput difference in \% with 95\% $t$-intervals (29 degrees of freedom), to the \emph{home} variant of the same algorithm and to the rolling-horizon loop with Hungarian costs at $\kappa_{\mathrm{d}}{=}1$. Stalled: runs (of 30) that tripped the stall detector; no run of any variant had an executed conflict.}
+\label{tab:tpfree}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llccccc}
+\toprule
+\textbf{Setting} & \textbf{Variant} & \textbf{Throughput} $\uparrow$ & \textbf{vs.\ home} & \textbf{vs.\ RH ($\kappa_{\mathrm{d}}{=}1$)} & \textbf{Service time} $\downarrow$ & \textbf{Stalled}\\
+\midrule
+warehouse, 16, batch & TP, home & 10.5\stdv{1.1} & -- & $-14.1\pm0.9$ & 614\stdv{26} & 0\\
+ & TP, home, interruptible & 10.5\stdv{1.2} & $+0.1\pm0.4$ & $-14.0\pm1.0$ & 614\stdv{26} & 0\\
+ & TP, as published & 10.4\stdv{1.2} & $-1.0\pm0.6$ & $-14.9\pm1.1$ & 614\stdv{26} & 0\\
+ & TPTS, home & 12.3\stdv{1.1} & -- & $+0.6\pm0.9$ & 563\stdv{21} & 0\\
+ & TPTS, home, interruptible & 12.7\stdv{1.2} & $+3.1\pm0.7$ & $+3.7\pm0.8$ & 540\stdv{21} & 0\\
+ & TPTS, as published & 11.3\stdv{1.3} & $-7.8\pm1.3$ & $-7.2\pm1.3$ & 568\stdv{24} & 0\\
+\midrule
+warehouse, 32, batch & TP, home & 10.4\stdv{1.2} & -- & $-26.4\pm0.9$ & 617\stdv{26} & 0\\
+ & TP, home, interruptible & 10.4\stdv{1.2} & $-0.1\pm0.5$ & $-26.5\pm0.9$ & 617\stdv{26} & 0\\
+ & TP, as published & 10.4\stdv{1.2} & $+0.1\pm0.6$ & $-26.3\pm0.8$ & 617\stdv{26} & 0\\
+ & TPTS, home & 13.8\stdv{1.4} & -- & $-2.5\pm0.8$ & 516\stdv{17} & 0\\
+ & TPTS, home, interruptible & 14.3\stdv{1.4} & $+3.7\pm0.7$ & $+1.1\pm1.0$ & 499\stdv{16} & 0\\
+ & TPTS, as published & 13.6\stdv{1.4} & $-0.8\pm1.3$ & $-3.2\pm1.3$ & 498\stdv{18} & 0\\
+\midrule
+warehouse, 16, $\lambda{=}0.15$ & TP, home & 10.0\stdv{0.9} & -- & $-13.5\pm1.4$ & 201\stdv{31} & 0\\
+ & TP, home, interruptible & 9.9\stdv{0.9} & $-0.5\pm0.5$ & $-14.0\pm1.5$ & 203\stdv{31} & 0\\
+ & TP, as published & 9.9\stdv{0.9} & $-0.6\pm0.6$ & $-14.1\pm1.5$ & 205\stdv{31} & 0\\
+ & TPTS, home & 11.7\stdv{0.8} & -- & $+1.6\pm0.9$ & 136\stdv{25} & 0\\
+ & TPTS, home, interruptible & 11.9\stdv{0.8} & $+2.0\pm0.5$ & $+3.7\pm1.0$ & 125\stdv{24} & 0\\
+ & TPTS, as published & 10.6\stdv{0.9} & $-9.7\pm1.2$ & $-8.2\pm1.3$ & 163\stdv{29} & 0\\
+\midrule
+console, 16, batch & TP, home & 9.4\stdv{0.8} & -- & $-11.4\pm0.8$ & 730\stdv{23} & 0\\
+ & TP, home, interruptible & 9.4\stdv{0.8} & $+0.1\pm0.2$ & $-11.3\pm0.8$ & 730\stdv{23} & 0\\
+ & TP, as published & 9.4\stdv{0.9} & $+0.1\pm0.3$ & $-11.2\pm0.9$ & 729\stdv{23} & 0\\
+ & TPTS, home & 10.6\stdv{0.9} & -- & $0.0\pm0.6$ & 682\stdv{20} & 0\\
+ & TPTS, home, interruptible & 10.7\stdv{0.9} & $+1.3\pm0.3$ & $+1.3\pm0.7$ & 675\stdv{19} & 0\\
+ & TPTS, as published & 10.9\stdv{0.9} & $+2.9\pm0.8$ & $+2.9\pm1.0$ & 661\stdv{20} & 0\\
+\midrule
+narrow, 16, batch & TP, home & 7.9\stdv{0.6} & -- & $-22.4\pm0.7$ & 856\stdv{31} & 0\\
+ & TP, home, interruptible & 7.9\stdv{0.6} & $+0.1\pm0.2$ & $-22.3\pm0.7$ & 856\stdv{31} & 0\\
+ & TP, as published & 7.9\stdv{0.6} & $-0.1\pm0.4$ & $-22.4\pm0.7$ & 856\stdv{31} & 0\\
+ & TPTS, home & 9.9\stdv{0.7} & -- & $-2.5\pm0.7$ & 747\stdv{22} & 0\\
+ & TPTS, home, interruptible & 10.2\stdv{0.7} & $+3.5\pm0.4$ & $+0.9\pm0.8$ & 709\stdv{20} & 0\\
+ & TPTS, as published & 9.1\stdv{0.6} & $-8.5\pm0.7$ & $-10.7\pm1.0$ & 764\stdv{25} & 0\\
+\bottomrule
+\end{tabular}
+\end{table}
