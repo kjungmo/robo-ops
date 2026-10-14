@@ -3,21 +3,22 @@ date: 2026-10-14T09:20:57+09:00
 loadavg: 0.47 3.64 4.99 1/1030 31162
 cores: 12
 top CPU consumers (%cpu command):
- 6.3 2.1.296
- 3.9 2.1.296
- 2.0 2.1.296
- 2.0 2.1.296
- 0.9 claude
- 0.8 claude
+ 6.3 dev-tool
+ 3.9 dev-tool
+ 2.0 dev-tool
+ 2.0 dev-tool
+ 0.9 dev-tool
+ 0.8 dev-tool
 == after repeat 2
 date: 2026-10-14T09:21:50+09:00
 loadavg: 0.81 3.25 4.78 1/1011 31492
 cores: 12
 top CPU consumers (%cpu command):
- 6.1 2.1.296
- 3.8 2.1.296
- 2.0 2.1.296
- 1.9 2.1.296
- 0.9 claude
- 0.7 claude
+ 6.1 dev-tool
+ 3.8 dev-tool
+ 2.0 dev-tool
+ 1.9 dev-tool
+ 0.9 dev-tool
+ 0.7 dev-tool
 verdict: valid
+note: the command names of interactive development tools in the lists above (12 lines) were replaced by 'dev-tool' after the run; the CPU shares are unchanged
