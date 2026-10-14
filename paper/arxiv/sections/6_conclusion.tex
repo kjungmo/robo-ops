@@ -9,22 +9,25 @@ we proved. An independent trajectory auditor
 found no executed conflict in 4{,}740 seeded runs with 60.4 million
 robot-steps across four layouts, fleets of 4 to 48 robots, two load
 regimes and both planner backends; removing the cascade brings conflicts
-back and removing the dynamic priorities gridlocks the fleet. With normal
+back and removing the dynamic priorities gridlocks the fleet. In these runs, with normal
 batteries no robot depleted and every run delivered all of its tasks; with
 doubled drain the threshold charging policy stranded robots whenever the
 slots saturated, which violates the bounded slot wait that our conditional
 reserve bound assumes. With dock capacity limiting the tasks in flight, the
 pickup-leg coupling did not measurably improve throughput or service time
 over static Hungarian or even greedy assignment, neither in the twelve cells
-of the main study nor in the regimes chosen to favour it that stay inside
-the safe envelope. The study detects no large effect but is not an
-equivalence test, and it leaves full-trip and dock-aware costs untested.
+of the main study nor in the regimes in which we expected it to matter that stay inside
+the safe envelope. The test is weak: recorded counters show that the
+coupled cost changed the matching in only 1--14\% of the allocations of the
+main study, and often only under hotspot demand (27\%). The study detects no large effect, is not an
+equivalence test, and leaves full-trip and dock-aware costs untested.
 Dock capacity and the planning window changed throughput
-by 7--29\%, and for small fleets a windowed CBS backend shortened the makespan
-by up to 8\%. Token passing and token passing with task swaps delivered 16--66\%
+by 7--29\%, and on the small layout a windowed CBS backend shortened the makespan
+by 4--12\%. Token passing and token passing with task swaps delivered 16--66\%
 less at our default dock capacity, but at
 the one robot in flight per dock that their endpoint rule allows, token
-passing with task swaps came within 2.5\% of our loop.
+passing with task swaps was within $-10.7$ to $+3.7\%$ of our loop, depending
+on its rule for idle robots.
 The implementation, the benchmark and every number in this paper are
 available in the operator console repository so that the study can be
 repeated on layouts where the balance may differ.

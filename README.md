@@ -20,6 +20,7 @@ Operator console for an <b>AMR/AGV integrated remote fleet-control platform</b> 
   <a href="#what-is-roboops">About</a> ·
   <a href="#screens">Screens</a> ·
   <a href="#getting-started">Getting Started</a> ·
+  <a href="#paper">Paper</a> ·
   <a href="#data-layout">Data Layout</a> ·
   <a href="#refreshing-the-design-data">Refresh</a> ·
   <a href="#deployment">Deployment</a> ·
@@ -72,10 +73,12 @@ That makes the repository three things at once:
 
 ## Getting Started
 
-Requires [Node.js](https://nodejs.org/) (LTS).
+Requires [Node.js](https://nodejs.org/) 22, the version the paper's benchmark
+and CI use. The first-round benchmark also reproduces the committed records
+under Node.js 20.20 and 24.21 (checked on the development host).
 
 ```bash
-npm install
+npm ci          # or: npm install
 npm run dev
 ```
 
@@ -105,18 +108,59 @@ console at [`/fms`](http://localhost:5173/fms) (sidebar → 시뮬레이션):
 
 | Path | Contents |
 |------|----------|
-| `src/fms/map/` | 4-connected grid model, ASCII loader, benchmark layouts (`small`, `warehouse`, `console` — the last generated from the zone/line/dock vocabulary of the wireframes via `npm run extract:console-site`) |
+| `src/fms/map/` | 4-connected grid model, ASCII loader, benchmark layouts (`small`, `warehouse`, `narrow` with one-lane aisles, and `console`, generated from the zone/line/dock vocabulary of the wireframes via `npm run extract:console-site`) |
 | `src/fms/alloc/` | Hungarian (rectangular, infeasible pairs) and greedy assignment; static, congestion-proxy and path-aware cost models with a battery term |
-| `src/fms/mapf/` | windowed space-time A*, reservation table with holds, prioritized planning with hold cascade, windowed CBS, conflict checks |
+| `src/fms/mapf/` | windowed space-time A*, reservation table with holds, prioritized planning with hold cascade, windowed CBS, conflict checks, and the unwindowed token table of the token-passing baselines (TP, TPTS) |
 | `src/fms/charging/` | two-threshold battery policy, per-slot charger capacity |
-| `src/fms/sim/` | seeded discrete-time lifelong simulator (Poisson task stream, rolling-horizon replanning, endpoint capacities, dwell, stall detector) and metrics |
+| `src/fms/sim/` | seeded discrete-time lifelong simulator (Poisson task stream, rolling-horizon replanning, endpoint capacities, dwell, stall detector), token-passing baselines, metrics, and the independent trajectory auditor (`audit.ts`) |
 | `scripts/bench-fms.ts` | benchmark driver → `paper/experiments/results/` (JSON + CSV, committed) |
-| `paper/arxiv/` | the paper describing and evaluating the module (`latexmk -pdf main.tex`) |
+| `scripts/regenerate.sh`, `scripts/measure-timing.sh` | regenerate all results at the current commit; measure the reported wall-clock numbers on a quiet host |
+| `scripts/check-paper.ts`, `scripts/check-results.ts` | number guard for the paper; field-by-field comparison of a re-run with the committed records |
+| `paper/arxiv/` | the paper describing and evaluating the module |
 
 ```bash
-npm test              # vitest: Hungarian vs brute force, MAPF property tests, CBS vs exhaustive, determinism
-npm run bench:fms     # 420 seeded runs, ~2 min single core
+npm test              # vitest: Hungarian vs brute force, MAPF property tests, CBS vs exhaustive, token passing, auditor, determinism
+npm run check:paper   # number guard: every table and every number in the paper against the committed results
 ```
+
+Run one simulation from the command line (prints the metrics of the run as JSON):
+
+```bash
+npx tsx -e "import { runSimulation } from './src/fms/index'; console.log(runSimulation({ layout: 'warehouse', fleetSize: 16, numTasks: 50, alloc: 'pact', seed: 1 }))"
+```
+
+## Paper
+
+`paper/arxiv/` holds the manuscript *PACT: A Conflict-Free Lifelong Fleet Manager
+for Warehouse AMRs and a Controlled Study of Reservation-Aware Pickup Costs*
+(Jungmo Kang, 2026; preprint, not peer reviewed). It describes `src/fms/` and
+evaluates it in simulation only: there is no real robot and no fleet connection
+anywhere in this repository. The study's main result is negative and weak: the
+reservation-aware pickup cost did not measurably change throughput in the tested
+settings, and recorded counters show that it changed the task matching in only
+1–14 % of the allocations. The default charging policy strands robots under
+doubled battery drain. Both are reported in the paper.
+
+Reproduce the results (Node.js 22; durations measured on a 6-core Ryzen 5 5500GT):
+
+```bash
+npm ci
+npm test
+npm run bench:fms -- main planner scaling ablation battery --out /tmp/pact-rerun   # 420 runs, one process, about 2 min
+npm run check:results -- /tmp/pact-rerun   # field-by-field comparison with the committed records
+npm run check:paper                        # tables, figure data and every number in the text
+```
+
+- All ten sweeps: `npm run bench:fms -- --jobs 8 --out /tmp/pact-rerun` (7,200 runs, about 20 minutes with 8 worker processes), then `check:results` as above.
+- Without `--out`, `bench:fms` overwrites `paper/experiments/results/`.
+- Every field of a run is deterministic given its seed except the four wall-clock fields (`wallMs`, `plannerMs`, `allocMs`, `plannerMsPerTick`), which `check:results` leaves out. CI repeats the 420-run comparison on GitHub's runners under Node.js 20, 22 and 24.
+- The committed records were written by `bash scripts/regenerate.sh 8` at commit `63a2db7`. The script re-runs all ten sweeps at the current commit, refuses to replace the committed records if any field that existed before differs, and then replaces them (`paper/experiments/repro/regeneration.json` holds the comparison).
+- Planner times in the paper do not come from those records. `bash scripts/measure-timing.sh` measures them (planner, scaling and ablation sweeps, one process, three repeats, about 5 minutes). It starts a repeat only when the 1-minute load average is at most 0.50, records the load and the top CPU consumers before and after each repeat in `paper/experiments/timing/`, and marks a repeat invalid when the host was busy.
+- `npm run check:paper -- --update-pins` rewrites `paper/experiments/guard/pins.json` after a reviewed change to a formula or to a number written as a word.
+- `npm run paper:data` rewrites `paper/arxiv/tables/*.tex` and `figures/data/*.csv` from `paper/experiments/results/`. `paper/arxiv/NUMBERS.md` maps each number in the paper to its source field.
+- Build the PDF with `pdflatex main && pdflatex main && pdflatex main` in `paper/arxiv/` (the `.bbl` is committed; a TeX Live with `pgfplots` and `algorithm2e` is needed).
+
+To cite the software or the paper, see [`CITATION.cff`](CITATION.cff).
 
 ## Data Layout
 
@@ -168,7 +212,9 @@ Sponsorship funds maintenance, new features, and faster issue response. 💛
 
 ## License
 
-Apache License 2.0 — see [LICENSE](LICENSE).
+Apache License 2.0 — see [LICENSE](LICENSE). This covers the code and the data
+in this repository; the manuscript in `paper/arxiv/` is by the same author and
+will carry its own licence where it is posted.
 
 ## Acknowledgements
 

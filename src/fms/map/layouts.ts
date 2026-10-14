@@ -11,10 +11,12 @@
  *                 (src/fms/map/console_site.json, produced by
  *                 scripts/extract-console-site.ts).
  *
- * All generated layouts satisfy the "well-formed" property used by lifelong
- * MAPD (Ma et al., 2017): every home bay, charger slot and dock is a dead-end
- * pocket off a corridor, so a robot resting there never blocks another robot's
- * path between endpoints.
+ * In every layout each home bay, charger slot and dock is a dead-end pocket
+ * off a corridor, so a robot resting there never blocks another robot's path
+ * between endpoints. Pickup points, however, lie on the aisles, so a robot
+ * resting at a pickup can block a path: the layouts are NOT well-formed in the
+ * sense of lifelong MAPD (Ma et al., 2017), and the fleet manager does not
+ * rely on that property (see the paper, section 3.1).
  */
 import { parseAsciiMap, type GridMap } from './grid'
 import consoleSite from './console_site.json'

@@ -1,0 +1,486 @@
+{
+ "what": "Planner wall-clock time per simulated tick (ms), seed-mean per configuration, measured by scripts/measure-timing.sh in one process on a quiet host. median/min/max are over the valid repeats.",
+ "commit": "c9d6b03",
+ "node": "v22.22.2",
+ "cpu": "AMD Ryzen 5 5500GT with Radeon Graphics",
+ "cores": 12,
+ "workers": 1,
+ "loadMax": 0.5,
+ "attempts": 3,
+ "validRepeats": [
+  1,
+  2,
+  3
+ ],
+ "invalidRepeats": [],
+ "load": [
+  {
+   "repeat": 1,
+   "before": 0.43,
+   "after": 0.77,
+   "valid": true
+  },
+  {
+   "repeat": 2,
+   "before": 0.47,
+   "after": 0.81,
+   "valid": true
+  },
+  {
+   "repeat": 3,
+   "before": 0.5,
+   "after": 0.86,
+   "valid": true
+  }
+ ],
+ "configs": [
+  {
+   "sweep": "planner",
+   "layout": "small",
+   "fleetSize": 4,
+   "variant": "pp",
+   "perRepeat": [
+    0.08365,
+    0.08376,
+    0.08329
+   ],
+   "median": 0.08365,
+   "min": 0.08329,
+   "max": 0.08376
+  },
+  {
+   "sweep": "planner",
+   "layout": "small",
+   "fleetSize": 4,
+   "variant": "cbs",
+   "perRepeat": [
+    0.09088,
+    0.09126,
+    0.09028
+   ],
+   "median": 0.09088,
+   "min": 0.09028,
+   "max": 0.09126
+  },
+  {
+   "sweep": "planner",
+   "layout": "small",
+   "fleetSize": 6,
+   "variant": "pp",
+   "perRepeat": [
+    0.18766,
+    0.18933,
+    0.18414
+   ],
+   "median": 0.18766,
+   "min": 0.18414,
+   "max": 0.18933
+  },
+  {
+   "sweep": "planner",
+   "layout": "small",
+   "fleetSize": 6,
+   "variant": "cbs",
+   "perRepeat": [
+    0.29951,
+    0.29931,
+    0.3021
+   ],
+   "median": 0.29951,
+   "min": 0.29931,
+   "max": 0.3021
+  },
+  {
+   "sweep": "planner",
+   "layout": "small",
+   "fleetSize": 8,
+   "variant": "pp",
+   "perRepeat": [
+    0.2472,
+    0.25335,
+    0.24659
+   ],
+   "median": 0.2472,
+   "min": 0.24659,
+   "max": 0.25335
+  },
+  {
+   "sweep": "planner",
+   "layout": "small",
+   "fleetSize": 8,
+   "variant": "cbs",
+   "perRepeat": [
+    0.29765,
+    0.30134,
+    0.29653
+   ],
+   "median": 0.29765,
+   "min": 0.29653,
+   "max": 0.30134
+  },
+  {
+   "sweep": "scaling",
+   "layout": "warehouse",
+   "fleetSize": 4,
+   "variant": "hungarian",
+   "perRepeat": [
+    0.01956,
+    0.01945,
+    0.01944
+   ],
+   "median": 0.01945,
+   "min": 0.01944,
+   "max": 0.01956
+  },
+  {
+   "sweep": "scaling",
+   "layout": "warehouse",
+   "fleetSize": 4,
+   "variant": "pact",
+   "perRepeat": [
+    0.0248,
+    0.02444,
+    0.02444
+   ],
+   "median": 0.02444,
+   "min": 0.02444,
+   "max": 0.0248
+  },
+  {
+   "sweep": "scaling",
+   "layout": "warehouse",
+   "fleetSize": 8,
+   "variant": "hungarian",
+   "perRepeat": [
+    0.05594,
+    0.05516,
+    0.055
+   ],
+   "median": 0.05516,
+   "min": 0.055,
+   "max": 0.05594
+  },
+  {
+   "sweep": "scaling",
+   "layout": "warehouse",
+   "fleetSize": 8,
+   "variant": "pact",
+   "perRepeat": [
+    0.06371,
+    0.06249,
+    0.063
+   ],
+   "median": 0.063,
+   "min": 0.06249,
+   "max": 0.06371
+  },
+  {
+   "sweep": "scaling",
+   "layout": "warehouse",
+   "fleetSize": 16,
+   "variant": "hungarian",
+   "perRepeat": [
+    0.17304,
+    0.17215,
+    0.17345
+   ],
+   "median": 0.17304,
+   "min": 0.17215,
+   "max": 0.17345
+  },
+  {
+   "sweep": "scaling",
+   "layout": "warehouse",
+   "fleetSize": 16,
+   "variant": "pact",
+   "perRepeat": [
+    0.1962,
+    0.19698,
+    0.19579
+   ],
+   "median": 0.1962,
+   "min": 0.19579,
+   "max": 0.19698
+  },
+  {
+   "sweep": "scaling",
+   "layout": "warehouse",
+   "fleetSize": 24,
+   "variant": "hungarian",
+   "perRepeat": [
+    0.3599,
+    0.37421,
+    0.36006
+   ],
+   "median": 0.36006,
+   "min": 0.3599,
+   "max": 0.37421
+  },
+  {
+   "sweep": "scaling",
+   "layout": "warehouse",
+   "fleetSize": 24,
+   "variant": "pact",
+   "perRepeat": [
+    0.39727,
+    0.39275,
+    0.39053
+   ],
+   "median": 0.39275,
+   "min": 0.39053,
+   "max": 0.39727
+  },
+  {
+   "sweep": "scaling",
+   "layout": "warehouse",
+   "fleetSize": 32,
+   "variant": "hungarian",
+   "perRepeat": [
+    0.5647,
+    0.55983,
+    0.56504
+   ],
+   "median": 0.5647,
+   "min": 0.55983,
+   "max": 0.56504
+  },
+  {
+   "sweep": "scaling",
+   "layout": "warehouse",
+   "fleetSize": 32,
+   "variant": "pact",
+   "perRepeat": [
+    0.62666,
+    0.63823,
+    0.62578
+   ],
+   "median": 0.62666,
+   "min": 0.62578,
+   "max": 0.63823
+  },
+  {
+   "sweep": "scaling",
+   "layout": "warehouse",
+   "fleetSize": 40,
+   "variant": "hungarian",
+   "perRepeat": [
+    0.69608,
+    0.68693,
+    0.68789
+   ],
+   "median": 0.68789,
+   "min": 0.68693,
+   "max": 0.69608
+  },
+  {
+   "sweep": "scaling",
+   "layout": "warehouse",
+   "fleetSize": 40,
+   "variant": "pact",
+   "perRepeat": [
+    0.83045,
+    0.85259,
+    0.82283
+   ],
+   "median": 0.83045,
+   "min": 0.82283,
+   "max": 0.85259
+  },
+  {
+   "sweep": "scaling",
+   "layout": "warehouse",
+   "fleetSize": 48,
+   "variant": "hungarian",
+   "perRepeat": [
+    0.76728,
+    0.76062,
+    0.76236
+   ],
+   "median": 0.76236,
+   "min": 0.76062,
+   "max": 0.76728
+  },
+  {
+   "sweep": "scaling",
+   "layout": "warehouse",
+   "fleetSize": 48,
+   "variant": "pact",
+   "perRepeat": [
+    0.99194,
+    0.98173,
+    0.98274
+   ],
+   "median": 0.98274,
+   "min": 0.98173,
+   "max": 0.99194
+  },
+  {
+   "sweep": "ablation",
+   "layout": "warehouse",
+   "fleetSize": 32,
+   "variant": "pact",
+   "perRepeat": [
+    0.62341,
+    0.61682,
+    0.62039
+   ],
+   "median": 0.62039,
+   "min": 0.61682,
+   "max": 0.62341
+  },
+  {
+   "sweep": "ablation",
+   "layout": "warehouse",
+   "fleetSize": 32,
+   "variant": "pact-noBattery",
+   "perRepeat": [
+    0.61074,
+    0.60293,
+    0.60258
+   ],
+   "median": 0.60293,
+   "min": 0.60258,
+   "max": 0.61074
+  },
+  {
+   "sweep": "ablation",
+   "layout": "warehouse",
+   "fleetSize": 32,
+   "variant": "hungarian-noBattery",
+   "perRepeat": [
+    0.57365,
+    0.57181,
+    0.56713
+   ],
+   "median": 0.57181,
+   "min": 0.56713,
+   "max": 0.57365
+  },
+  {
+   "sweep": "ablation",
+   "layout": "warehouse",
+   "fleetSize": 32,
+   "variant": "pact-w10",
+   "perRepeat": [
+    0.19177,
+    0.18996,
+    0.19027
+   ],
+   "median": 0.19027,
+   "min": 0.18996,
+   "max": 0.19177
+  },
+  {
+   "sweep": "ablation",
+   "layout": "warehouse",
+   "fleetSize": 32,
+   "variant": "pact-w30",
+   "perRepeat": [
+    1.99646,
+    1.9856,
+    2.00382
+   ],
+   "median": 1.99646,
+   "min": 1.9856,
+   "max": 2.00382
+  },
+  {
+   "sweep": "ablation",
+   "layout": "warehouse",
+   "fleetSize": 32,
+   "variant": "pact-h1",
+   "perRepeat": [
+    1.35642,
+    1.34594,
+    1.34739
+   ],
+   "median": 1.34739,
+   "min": 1.34594,
+   "max": 1.35642
+  },
+  {
+   "sweep": "ablation",
+   "layout": "warehouse",
+   "fleetSize": 32,
+   "variant": "pact-K3",
+   "perRepeat": [
+    0.60943,
+    0.61236,
+    0.6104
+   ],
+   "median": 0.6104,
+   "min": 0.60943,
+   "max": 0.61236
+  },
+  {
+   "sweep": "ablation",
+   "layout": "warehouse",
+   "fleetSize": 32,
+   "variant": "pact-K12",
+   "perRepeat": [
+    0.63706,
+    0.62597,
+    0.63147
+   ],
+   "median": 0.63147,
+   "min": 0.62597,
+   "max": 0.63706
+  },
+  {
+   "sweep": "ablation",
+   "layout": "warehouse",
+   "fleetSize": 32,
+   "variant": "pact-dock2",
+   "perRepeat": [
+    0.39975,
+    0.39859,
+    0.39839
+   ],
+   "median": 0.39859,
+   "min": 0.39839,
+   "max": 0.39975
+  },
+  {
+   "sweep": "ablation",
+   "layout": "warehouse",
+   "fleetSize": 32,
+   "variant": "hungarian-dock2",
+   "perRepeat": [
+    0.29609,
+    0.29388,
+    0.29307
+   ],
+   "median": 0.29388,
+   "min": 0.29307,
+   "max": 0.29609
+  },
+  {
+   "sweep": "ablation",
+   "layout": "warehouse",
+   "fleetSize": 32,
+   "variant": "pact-noEvent",
+   "perRepeat": [
+    0.31546,
+    0.31035,
+    0.31231
+   ],
+   "median": 0.31231,
+   "min": 0.31035,
+   "max": 0.31546
+  },
+  {
+   "sweep": "ablation",
+   "layout": "warehouse",
+   "fleetSize": 32,
+   "variant": "hungarian-noEvent",
+   "perRepeat": [
+    0.26325,
+    0.2605,
+    0.26047
+   ],
+   "median": 0.2605,
+   "min": 0.26047,
+   "max": 0.26325
+  }
+ ]
+}

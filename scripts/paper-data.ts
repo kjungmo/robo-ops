@@ -5,18 +5,56 @@
  *
  *   npx tsx scripts/paper-data.ts
  *
- * Writes paper/arxiv/tables/*.tex and paper/arxiv/figures/data/*.csv.
+ * Writes paper/arxiv/tables/*.tex and paper/arxiv/figures/data/*.csv and prints
+ * the summary lines that NUMBERS.md quotes. `buildPaperData()` returns the same
+ * files without writing them; scripts/check-paper.ts uses it to verify that the
+ * committed tables and figure data are what the committed results produce.
  */
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { dirname, join, resolve } from 'node:path'
+import { holm, tTwoSidedP } from './stats'
 import { DistanceOracle, chargerSlots, loadLayout, DEFAULT_BATTERY, DEFAULT_CONFIG } from '../src/fms/index'
 
-const RESULTS = join(process.cwd(), 'paper/experiments/results')
+const RESULTS = process.env.PACT_RESULTS ?? join(process.cwd(), 'paper/experiments/results')
 const PAPER = join(process.cwd(), 'paper/arxiv')
+/** Wall-clock numbers measured on a quiet host by scripts/measure-timing.sh. */
+const TIMING = process.env.PACT_TIMING ?? join(process.cwd(), 'paper/experiments/timing/summary.json')
 
-type Row = Record<string, string>
+interface TimingEntry {
+  sweep: string
+  layout: string
+  fleetSize: number
+  variant: string
+  median: number
+  min: number
+  max: number
+}
+let timingCache: TimingEntry[] | null | undefined
+export function timingEntries(): TimingEntry[] | null {
+  if (timingCache === undefined) timingCache = existsSync(TIMING) ? (JSON.parse(readFileSync(TIMING, 'utf8')).configs as TimingEntry[]) : null
+  return timingCache
+}
+export function timingOf(sweep: string, layout: string, fleetSize: number, variant: string): TimingEntry | null {
+  const all = timingEntries()
+  if (!all) return null
+  const hit = all.find((e) => e.sweep === sweep && e.layout === layout && e.fleetSize === fleetSize && e.variant === variant)
+  if (!hit) throw new Error(`no timing for ${sweep}/${layout}/${fleetSize}/${variant}`)
+  return hit
+}
+/**
+ * Planner ms/tick cell of a table. With a timing file: median over the valid
+ * quiet-host repeats and their range. Without one (before the timing run):
+ * the wall-clock field of the committed record, mean and std over seeds.
+ */
+function msCell(r: Row): string {
+  const t = timingOf(r.sweep, r.layout, Number(r.fleetSize), r.variant)
+  if (!t) return ms(r, 'plannerMsPerTick', f2)
+  return `${f2(t.median)}\\,{\\tiny[${f2(t.min)},\\,${f2(t.max)}]}`
+}
 
-function readCsv(name: string): Row[] {
+export type Row = Record<string, string>
+
+export function readCsv(name: string): Row[] {
   const text = readFileSync(join(RESULTS, name), 'utf8').trim()
   const [head, ...lines] = text.split('\n')
   const cols = head.split(',')
@@ -80,10 +118,11 @@ function plannerTable(rows: Row[]): string {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Planner backend on the small layout} (batch load, 100 tasks, Hungarian allocation, 5 seeds). Windowed CBS resolves conflicts inside the window optimally and falls back to prioritized planning (PP) when its node budget (2000) is exceeded.}',
+    '\\caption{\\textbf{Planner backend on the small layout} (batch load, 100 tasks, Hungarian allocation, 5 seeds). Windowed CBS plans the robots with distinct goals jointly inside the window and falls back to prioritized planning (PP) when its node budget (2000) is exceeded. Planner ms/tick: median over three repeats on an idle host of the mean over seeds, with [minimum, maximum] (\\cref{subsec:setup}).}',
   )
   out.push('\\label{tab:planner}')
   out.push('\\small')
+  out.push('\\setlength{\\tabcolsep}{4pt}')
   out.push('\\begin{tabular}{rlccccc}')
   out.push('\\toprule')
   out.push('$|\\mathcal{R}|$ & \\textbf{Planner} & \\textbf{Makespan} $\\downarrow$ & \\textbf{Service time} $\\downarrow$ & \\textbf{Wait actions} $\\downarrow$ & \\textbf{Planner ms/tick} & \\textbf{CBS fallbacks}\\\\')
@@ -93,15 +132,14 @@ function plannerTable(rows: Row[]): string {
       const r = rows.find((x) => num(x, 'fleetSize') === fleet && x.variant === mapf)
       if (!r) throw new Error(`missing planner row ${fleet} ${mapf}`)
       const other = rows.find((x) => num(x, 'fleetSize') === fleet && x.variant !== mapf) as Row
-      const bold = (k: string, lowerBetter = true) => {
+      // Lower is better in all three columns; integer format in both rows.
+      const bold = (k: string) => {
         const a = num(r, `${k}_mean`)
         const b = num(other, `${k}_mean`)
-        const best = lowerBetter ? a <= b : a >= b
-        const v = k === 'plannerMsPerTick' ? ms(r, k, f2) : k === 'makespan' || k === 'waitActions' ? ms(r, k, f0) : ms(r, k)
-        return best ? `\\textbf{${f0(a)}}\\stdv{${f0(num(r, `${k}_std`))}}` : v
+        return a <= b ? `\\textbf{${f0(a)}}\\stdv{${f0(num(r, `${k}_std`))}}` : ms(r, k, f0)
       }
       out.push(
-        `${mapf === 'pp' ? fleet : ''} & ${mapf === 'pp' ? 'PP' : 'Windowed CBS'} & ${bold('makespan')} & ${bold('meanServiceTime')} & ${bold('waitActions')} & ${ms(r, 'plannerMsPerTick', f2)} & ${mapf === 'cbs' ? ms(r, 'cbsFallbacks') : '--'}\\\\`,
+        `${mapf === 'pp' ? fleet : ''} & ${mapf === 'pp' ? 'PP' : 'Windowed CBS'} & ${bold('makespan')} & ${bold('meanServiceTime')} & ${bold('waitActions')} & ${msCell(r)} & ${mapf === 'cbs' ? ms(r, 'cbsFallbacks') : '--'}\\\\`,
       )
     }
   }
@@ -130,7 +168,7 @@ function ablationTable(rows: Row[]): string {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Ablations} on the warehouse layout with 32 robots under batch load (200 tasks, 5 seeds). Each row changes one setting of the default configuration.}',
+    '\\caption{\\textbf{Ablations} on the warehouse layout with 32 robots under batch load (200 tasks, 5 seeds). Each row changes one setting of the default configuration. Planner ms/tick: median over three repeats on an idle host of the mean over seeds, with [minimum, maximum] (\\cref{subsec:setup}).}',
   )
   out.push('\\label{tab:ablation}')
   out.push('\\scriptsize')
@@ -141,7 +179,7 @@ function ablationTable(rows: Row[]): string {
   for (const [variant, label] of order) {
     const r = rows.find((x) => x.variant === variant)
     if (!r) throw new Error(`missing ablation row ${variant}`)
-    out.push(`${label} & ${ms(r, 'throughput')} & ${ms(r, 'meanServiceTime', f0)} & ${ms(r, 'waitActions', f0)} & ${ms(r, 'holdEvents')} & ${ms(r, 'plannerMsPerTick', f2)}\\\\`)
+    out.push(`${label} & ${ms(r, 'throughput')} & ${ms(r, 'meanServiceTime', f0)} & ${ms(r, 'waitActions', f0)} & ${ms(r, 'holdEvents')} & ${msCell(r)}\\\\`)
   }
   out.push('\\bottomrule')
   out.push('\\end{tabular}')
@@ -166,7 +204,7 @@ function batteryTable(rows: Row[]): string {
   out.push('\\small')
   out.push('\\begin{tabular}{lccccc}')
   out.push('\\toprule')
-  out.push('\\textbf{Variant} & \\textbf{Throughput} & \\textbf{Service time} & \\textbf{Charging sessions} & \\textbf{Depletions} & \\textbf{Final mean SoC}\\\\')
+  out.push('\\textbf{Variant} & \\textbf{Throughput} & \\textbf{Service time} & \\textbf{Charging sessions} & \\textbf{Depletions} & \\textbf{Final mean charge}\\\\')
   out.push('\\midrule')
   for (const [variant, label] of order) {
     const r = rows.find((x) => x.variant === variant)
@@ -183,19 +221,20 @@ function scalingTable(rows: Row[]): string {
   const out: string[] = []
   out.push('\\begin{table}[t]')
   out.push('\\centering')
-  out.push('\\caption{\\textbf{Fleet-size scaling} on the warehouse layout under batch load (200 tasks, 5 seeds); data of \\cref{fig:scaling}.}')
+  out.push('\\caption{\\textbf{Fleet-size scaling} on the warehouse layout under batch load (200 tasks, 5 seeds); data of \\cref{fig:scaling}. Exp./tick: A* node expansions per simulated tick. Planner ms/tick: median over three repeats on an idle host of the mean over seeds, with [minimum, maximum] (\\cref{subsec:setup}).}')
   out.push('\\label{tab:scaling}')
   out.push('\\footnotesize')
-  out.push('\\begin{tabular}{rlcccccc}')
+  out.push('\\setlength{\\tabcolsep}{4pt}')
+  out.push('\\begin{tabular}{rlccccccc}')
   out.push('\\toprule')
-  out.push('$|\\mathcal{R}|$ & \\textbf{Alloc.} & \\textbf{Throughput} & \\textbf{Service time} & \\textbf{Utilisation} & \\textbf{Wait actions} & \\textbf{A* calls} & \\textbf{Planner ms/tick}\\\\')
+  out.push('$|\\mathcal{R}|$ & \\textbf{Alloc.} & \\textbf{Throughput} & \\textbf{Service time} & \\textbf{Utilisation} & \\textbf{Wait actions} & \\textbf{A* calls} & \\textbf{Exp./tick} & \\textbf{Planner ms/tick}\\\\')
   out.push('\\midrule')
   for (const fleet of [4, 8, 16, 24, 32, 40, 48]) {
     for (const alloc of ['hungarian', 'pact']) {
       const r = rows.find((x) => num(x, 'fleetSize') === fleet && x.variant === alloc)
       if (!r) throw new Error(`missing scaling row ${fleet} ${alloc}`)
       out.push(
-        `${alloc === 'hungarian' ? fleet : ''} & ${METHOD_LABEL[alloc]} & ${ms(r, 'throughput')} & ${ms(r, 'meanServiceTime', f0)} & ${ms(r, 'utilization', f2)} & ${ms(r, 'waitActions', f0)} & ${ms(r, 'astarCalls', f0)} & ${ms(r, 'plannerMsPerTick', f2)}\\\\`,
+        `${alloc === 'hungarian' ? fleet : ''} & ${METHOD_LABEL[alloc]} & ${ms(r, 'throughput')} & ${ms(r, 'meanServiceTime', f0)} & ${ms(r, 'utilization', f2)} & ${ms(r, 'waitActions', f0)} & ${ms(r, 'astarCalls', f0)} & ${f0(num(r, 'expansions_mean') / num(r, 'makespan_mean'))} & ${msCell(r)}\\\\`,
       )
     }
   }
@@ -207,9 +246,15 @@ function scalingTable(rows: Row[]): string {
 
 function seriesCsv(rows: Row[], filter: (r: Row) => boolean, xKey: string, cols: string[]): string {
   const sel = rows.filter(filter).sort((a, b) => num(a, xKey) - num(b, xKey))
-  const head = [xKey, ...cols.flatMap((c) => [`${c}_mean`, `${c}_std`])]
+  const timed = timingEntries() !== null
+  const head = [xKey, ...cols.flatMap((c) => [`${c}_mean`, `${c}_std`]), 'expansionsPerTick', ...(timed ? ['plannerMs_median', 'plannerMs_min', 'plannerMs_max'] : [])]
   const lines = [head.join(',')]
-  for (const r of sel) lines.push(head.map((h) => r[h]).join(','))
+  for (const r of sel) {
+    const t = timingOf(r.sweep, r.layout, Number(r.fleetSize), r.variant)
+    const extra: Record<string, string> = { expansionsPerTick: (num(r, 'expansions_mean') / num(r, 'makespan_mean')).toFixed(2) }
+    if (t) Object.assign(extra, { plannerMs_median: String(t.median), plannerMs_min: String(t.min), plannerMs_max: String(t.max) })
+    lines.push(head.map((h) => extra[h] ?? r[h]).join(','))
+  }
   return lines.join('\n') + '\n'
 }
 
@@ -220,9 +265,9 @@ function seriesCsv(rows: Row[], filter: (r: Row) => boolean, xKey: string, cols:
 // seed; we report the mean per-seed relative difference and a two-sided 95%
 // Student-t interval with n-1 = 4 degrees of freedom.
 
-type Run = Record<string, number | string | null>
+export type Run = Record<string, number | string | null>
 
-function readRuns(name: string): Run[] {
+export function readRuns(name: string): Run[] {
   return JSON.parse(readFileSync(join(RESULTS, name), 'utf8')) as Run[]
 }
 
@@ -234,13 +279,15 @@ const T975: Record<number, number> = {
   60: 2.001, 120: 1.98,
 }
 
-interface Paired {
+export interface Paired {
   mean: number
   half: number
   n: number
+  /** Two-sided p-value of the paired t statistic (1 when the differences are all zero). */
+  p: number
 }
 
-function paired(a: Run[], b: Run[], key: string): Paired {
+export function paired(a: Run[], b: Run[], key: string): Paired {
   const bySeed = new Map(b.map((r) => [r.seed, r]))
   const rel: number[] = []
   for (const r of a) {
@@ -252,7 +299,8 @@ function paired(a: Run[], b: Run[], key: string): Paired {
   const mean = rel.reduce((x, y) => x + y, 0) / n
   const sd = Math.sqrt(rel.reduce((x, y) => x + (y - mean) ** 2, 0) / (n - 1))
   if (T975[n] === undefined) throw new Error(`no t quantile for n=${n}`)
-  return { mean, half: (T975[n] * sd) / Math.sqrt(n), n }
+  const p = sd === 0 ? (mean === 0 ? 1 : 0) : tTwoSidedP(mean / (sd / Math.sqrt(n)), n - 1)
+  return { mean, half: (T975[n] * sd) / Math.sqrt(n), n, p }
 }
 
 const fmtCi = (p: Paired) => {
@@ -269,19 +317,26 @@ function pairedTable(): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Seed-paired differences.} Mean per-seed relative difference in \\%, with a two-sided 95\\% Student-$t$ interval over the 5 seeds (4 degrees of freedom). Runs with the same seed share the task stream and initial charge, so differences are paired. Top: throughput of each cost model relative to Hungarian in every cell of \\cref{tab:main}. Bottom: the levers of \\cref{subsec:ablation} (throughput relative to the default of the same cost model on the warehouse, 32 robots, batch) and windowed CBS (makespan relative to PP on \\emph{small}).}',
+    '\\caption{\\textbf{Seed-paired differences.} Mean per-seed relative difference in \\%, with a two-sided 95\\% Student-$t$ interval over the 5 seeds (4 degrees of freedom). Runs with the same seed share the task stream and initial charge, so differences are paired. Top: throughput and service time of each cost model relative to Hungarian in every cell of \\cref{tab:main}; under $\\lambda{=}0.15$ with 16 or 32 robots the makespan is set by the last arrival, so the throughput columns of those rows are uninformative. Bottom: the levers of \\cref{subsec:ablation} (throughput relative to the default of the same cost model on the warehouse, 32 robots, batch) and windowed CBS (makespan relative to PP on \\emph{small}); $^{\\ast}$ marks the differences that survive Holm\'s procedure at 5\\% over these fourteen comparisons.}',
   )
   out.push('\\label{tab:paired}')
   out.push('\\footnotesize')
-  out.push('\\begin{tabular}{llrccc}')
+  out.push('\\setlength{\\tabcolsep}{2.5pt}')
+  out.push('\\begin{tabular}{llrcccccc}')
   out.push('\\toprule')
-  out.push('\\textbf{Layout} & \\textbf{Load} & $|\\mathcal{R}|$ & Greedy & Proxy & \\sname\\\\')
+  out.push(' & & & \\multicolumn{3}{c}{\\textbf{Throughput}} & \\multicolumn{3}{c}{\\textbf{Service time}}\\\\')
+  out.push('\\cmidrule(lr){4-6}\\cmidrule(lr){7-9}')
+  out.push('\\textbf{Layout} & \\textbf{Load} & $|\\mathcal{R}|$ & Greedy & Proxy & \\sname & Greedy & Proxy & \\sname\\\\')
   out.push('\\midrule')
   let nComp = 0
   let nZero = 0
   let worst = 0
   let worstCell = ''
   let worstPoisson = 0
+  let nSvc = 0
+  let nSvcZero = 0
+  let svcMinP = 1
+  let svcWorst = 0
   const excl: string[] = []
   for (const layout of ['warehouse', 'console']) {
     for (const rate of ['0.15', 'inf']) {
@@ -300,12 +355,19 @@ function pairedTable(): { tex: string; summary: string } {
             worstCell = `${layout}/${rate}/${fleet}`
           }
         }
-        out.push(`${layout} & ${rate === 'inf' ? 'batch' : `$\\lambda{=}${rate}$`} & ${fleet} & ${cells.map(fmtCi).join(' & ')}\\\\`)
+        const svc = ['greedy', 'pact-proxy', 'pact'].map((m) => paired(sel(m), base, 'meanServiceTime'))
+        for (const c of svc) {
+          nSvc += 1
+          if (c.mean - c.half <= 0 && c.mean + c.half >= 0) nSvcZero += 1
+          svcMinP = Math.min(svcMinP, c.p)
+          svcWorst = Math.max(svcWorst, Math.abs(c.mean - c.half), Math.abs(c.mean + c.half))
+        }
+        out.push(`${layout} & ${rate === 'inf' ? 'batch' : `$\\lambda{=}${rate}$`} & ${fleet} & ${cells.map(fmtCi).join(' & ')} & ${svc.map(fmtCi).join(' & ')}\\\\`)
       }
     }
   }
   out.push('\\midrule')
-  out.push('\\multicolumn{3}{l}{\\textbf{Lever} (warehouse, 32, batch)} & \\multicolumn{3}{c}{\\textbf{Throughput} vs.\\ default}\\\\')
+  out.push('\\multicolumn{3}{l}{\\textbf{Lever} (warehouse, 32, batch)} & \\multicolumn{6}{c}{\\textbf{Throughput} vs.\\ default}\\\\')
   const v = (name: string) => abl.filter((r) => r.variant === name)
   const hungMain = main.filter((r) => r.layout === 'warehouse' && rateKey(r) === 'inf' && r.fleetSize === 32 && r.alloc === 'hungarian')
   const levers: Array<[string, Paired]> = [
@@ -316,20 +378,29 @@ function pairedTable(): { tex: string; summary: string } {
     ['no event epochs (\\sname)', paired(v('pact-noEvent'), v('pact'), 'throughput')],
     ['no event epochs (Hungarian)', paired(v('hungarian-noEvent'), hungMain, 'throughput')],
     ['replan every tick (\\sname)', paired(v('pact-h1'), v('pact'), 'throughput')],
+    ['no battery term (\\sname)', paired(v('pact-noBattery'), v('pact'), 'throughput')],
+    ['no battery term (Hungarian)', paired(v('hungarian-noBattery'), hungMain, 'throughput')],
+    ['candidates $K{=}3$ (\\sname)', paired(v('pact-K3'), v('pact'), 'throughput')],
+    ['candidates $K{=}12$ (\\sname)', paired(v('pact-K12'), v('pact'), 'throughput')],
   ]
-  for (const [label, p] of levers) out.push(`\\multicolumn{3}{l}{${label}} & \\multicolumn{3}{c}{${fmtCi(p)}}\\\\`)
-  out.push('\\multicolumn{3}{l}{\\textbf{Planner} (small, batch)} & \\multicolumn{3}{c}{\\textbf{Makespan} of CBS vs.\\ PP}\\\\')
-  for (const fleet of [4, 6, 8]) {
+  const planner: Array<[string, Paired]> = [4, 6, 8].map((fleet) => {
     const sel = (m: string) => plan.filter((r) => r.fleetSize === fleet && r.mapf === m)
-    out.push(`\\multicolumn{3}{l}{${fleet} robots} & \\multicolumn{3}{c}{${fmtCi(paired(sel('cbs'), sel('pp'), 'makespan'))}}\\\\`)
-  }
+    return [`${fleet} robots`, paired(sel('cbs'), sel('pp'), 'makespan')]
+  })
+  const family = [...levers, ...planner]
+  const survives = holm(family.map(([, p]) => p.p))
+  const star = (i: number) => (survives[i] ? '$^{\\ast}$' : '')
+  levers.forEach(([label, p], i) => out.push(`\\multicolumn{3}{l}{${label}} & \\multicolumn{6}{c}{${fmtCi(p)}${star(i)}}\\\\`))
+  out.push('\\multicolumn{3}{l}{\\textbf{Planner} (small, batch)} & \\multicolumn{6}{c}{\\textbf{Makespan} of CBS vs.\\ PP}\\\\')
+  planner.forEach(([label, p], i) => out.push(`\\multicolumn{3}{l}{${label}} & \\multicolumn{6}{c}{${fmtCi(p)}${star(levers.length + i)}}\\\\`))
   out.push('\\bottomrule')
   out.push('\\end{tabular}')
   out.push('\\end{table}')
   const summary = [
     `cost-model comparisons: ${nComp}, intervals containing 0: ${nZero}; excluding 0: ${excl.join('; ')}`,
     `largest |interval bound| over cost models: ${worst.toFixed(2)}% (${worstCell}); under Poisson load: ${worstPoisson.toFixed(2)}%`,
-    ...levers.map(([l, p]) => `${l}: ${p.mean.toFixed(2)} +- ${p.half.toFixed(2)}`),
+    `service time against Hungarian: ${nSvc} comparisons, intervals containing 0: ${nSvcZero}, smallest p ${svcMinP.toFixed(3)}, largest |interval bound| ${svcWorst.toFixed(2)}%`,
+    ...family.map(([l, p], i) => `${l}: ${p.mean.toFixed(2)} +- ${p.half.toFixed(2)}, p ${p.p.toFixed(4)}${survives[i] ? ', survives Holm over the 14' : ''}`),
   ].join('\n')
   return { tex: out.join('\n') + '\n', summary }
 }
@@ -354,15 +425,15 @@ function stressTable(): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Safety and progress stress sweep.} 60 seeds per configuration, 100 tasks per run; every row aggregates both load regimes (Poisson and batch) and both battery regimes (normal; initial charge $\\mathcal{U}[0.2,0.4]$ with doubled drain), with the allocation method rotating over the four cost models with the seed. Conflicts and illegal moves are counted by the independent trajectory auditor on the executed cells; \\emph{stalled} runs tripped the 1000-tick no-progress detector. $W$: largest delay of a trip to a pickup, a dock or a charger slot (ticks beyond the free-space distance covered); $Q$: longest wait of a robot below $\\theta_{\\mathrm{lo}}$ for a charger slot; both are maxima over all runs of the row.}',
+    '\\caption{\\textbf{Safety and progress stress sweep.} 60 seeds per configuration, 100 tasks per run; every row aggregates both load regimes (Poisson with $\\lambda{=}0.15$, $0.3$ on \\emph{small}, and batch) and both battery regimes (normal; initial charge $\\mathcal{U}[0.2,0.4]$ with doubled drain), with the allocation method rotating over the four cost models with the seed. Conflicts and illegal moves are counted by the independent trajectory auditor on the executed cells; \\emph{stalled} runs tripped the 1000-tick no-progress detector. $W$: largest delay of a trip to a pickup, a dock or a charger slot (ticks beyond the free-space distance covered); $Q$: longest wait of a robot below $\\theta_{\\mathrm{lo}}$ for a charger slot; both are maxima over all runs of the row.}',
   )
   out.push('\\label{tab:stress}')
   out.push('\\scriptsize')
-  out.push('\\setlength{\\tabcolsep}{3.5pt}')
+  out.push('\\setlength{\\tabcolsep}{2.8pt}')
   out.push('\\begin{tabular}{lrlrrccccrrrc}')
   out.push('\\toprule')
   out.push(
-    '\\textbf{Layout} & $|\\mathcal{R}|$ & \\textbf{Planner} & \\textbf{Runs} & \\textbf{Robot-steps} & \\textbf{Vertex} & \\textbf{Swap} & \\textbf{Illegal} & \\textbf{Stalled} & \\textbf{Unfinished} & \\textbf{Depletions} & $W$ / $Q$ & \\textbf{Min SoC}\\\\',
+    '\\textbf{Layout} & $|\\mathcal{R}|$ & \\textbf{Planner} & \\textbf{Runs} & \\textbf{Robot-steps} & \\textbf{Vertex} & \\textbf{Swap} & \\textbf{Illegal} & \\textbf{Stalled} & \\textbf{Unfinished} & \\textbf{Depletions} & $W$ / $Q$ & \\textbf{Min charge}\\\\',
   )
   out.push('\\midrule')
   const layouts: Array<[string, number[]]> = [
@@ -414,7 +485,7 @@ function stressTable(): { tex: string; summary: string } {
 }
 
 /** Largest free-space distance from any free cell to any charger slot. */
-function farthestSlot(layout: string): number {
+export function farthestSlot(layout: string): number {
   const map = loadLayout(layout)
   const oracle = new DistanceOracle(map)
   let best = 0
@@ -426,7 +497,7 @@ function farthestSlot(layout: string): number {
 }
 
 /**
- * Proposition 3 check: the reserve and threshold that would make the measured
+ * Proposition 2 check: the reserve and threshold that would make the measured
  * delays (W, Q of the normal-battery stress runs) provably safe, against the
  * defaults. Also the paired CBS-vs-PP makespan from the stress sweep.
  */
@@ -452,7 +523,7 @@ function reserveTable(): { tex: string; summary: string } {
   out.push('\\footnotesize')
   out.push('\\begin{tabular}{lrrrcccc}')
   out.push('\\toprule')
-  out.push('\\textbf{Layout} & $D_\\sigma$ & $W$ & $Q$ & \\textbf{Req.\\ $\\rho$} & \\textbf{Req.\\ $\\rho$ ($W{=}Q{=}0$)} & \\textbf{Req.\\ $\\theta_{\\mathrm{lo}}$} & \\textbf{Min SoC seen}\\\\')
+  out.push('\\textbf{Layout} & $D_\\sigma$ & $W$ & $Q$ & \\textbf{Req.\\ $\\rho$} & \\textbf{Req.\\ $\\rho$ ($W{=}Q{=}0$)} & \\textbf{Req.\\ $\\theta_{\\mathrm{lo}}$} & \\textbf{Min charge seen}\\\\')
   out.push('\\midrule')
   const lines: string[] = []
   for (const layout of ['small', 'warehouse', 'console', 'narrow']) {
@@ -634,6 +705,125 @@ function baselinesTable(): { tex: string; summary: string } {
   return { tex: out.join('\n') + '\n', summary: lines.join('\n') }
 }
 
+const pct = (a: number, b: number) => (b === 0 ? '--' : f0((100 * a) / b))
+
+/**
+ * How often the coupled cost differs from the static one and how often it
+ * changes the matching: counters recorded by the simulator next to every
+ * allocation (cpl* fields), pooled over the seeds of a configuration.
+ */
+export function diagnosticTable(): { tex: string; summary: string } {
+  const mainRuns = readRuns('main.json')
+  const coup = readRuns('coupling.json')
+  const rateKey = (r: Run) => (r.arrivalRate === null ? 'inf' : String(r.arrivalRate))
+  const rows: Array<[string, (alloc: string) => Run[]]> = []
+  for (const layout of ['warehouse', 'console']) {
+    for (const rate of ['0.15', 'inf']) {
+      for (const fleet of [8, 16, 32]) {
+        rows.push([`${layout}, ${rate === 'inf' ? 'batch' : `$\\lambda{=}${rate}$`}, ${fleet}`, (alloc) => mainRuns.filter((r) => r.layout === layout && rateKey(r) === rate && r.fleetSize === fleet && r.alloc === alloc)])
+      }
+    }
+  }
+  const regimes: Array<[string, string]> = [
+    ['narrow-aisles', 'one-lane aisles'],
+    ['hotspot', 'hotspot demand'],
+    ['long-trips', 'long empty trips'],
+    ['saturated-chargers', 'saturated chargers'],
+  ]
+  for (const [reg, label] of regimes) rows.push([label, (alloc) => coup.filter((r) => r.variant === `${reg}/${alloc}`)])
+  const out: string[] = []
+  out.push('\\begin{table}[t]')
+  out.push('\\centering')
+  out.push(
+    '\\caption{\\textbf{How often the coupling changes anything.} Counters recorded next to every allocation, pooled over the seeds of a configuration (5 in the twelve cells of \\cref{tab:main}, 30 in the four regimes of \\cref{tab:coupling}). \\emph{Beyond $w$}: priced robot--task pairs whose pickup is farther than the window, for which the estimate is a free-space distance after the first $w$ ticks (\\cref{eq:arrival}). \\emph{$\\hat a\\neq d$}: priced pairs whose estimate differs from the free-space distance; \\emph{gap}: mean difference in ticks over those pairs, next to the mean distance $\\bar d$ of all priced pairs. \\emph{Matching}: allocations whose matching differs from the Hungarian matching on the static costs of the same robots and tasks.}',
+  )
+  out.push('\\label{tab:diagnostic}')
+  out.push('\\scriptsize')
+  out.push('\\setlength{\\tabcolsep}{3pt}')
+  out.push('\\begin{tabular}{lrrrrrrrr}')
+  out.push('\\toprule')
+  out.push(' & \\multicolumn{6}{c}{\\textbf{\\sname\\ (path-aware)}} & \\multicolumn{2}{c}{\\textbf{Proxy}}\\\\')
+  out.push('\\cmidrule(lr){2-7}\\cmidrule(lr){8-9}')
+  out.push('\\textbf{Setting} & \\textbf{Pairs/run} & \\textbf{Beyond $w$, \\%} & \\textbf{$\\hat a\\neq d$, \\%} & \\textbf{Gap} & $\\bar d$ & \\textbf{Matching, \\%} & \\textbf{$\\hat a\\neq d$, \\%} & \\textbf{Matching, \\%}\\\\')
+  out.push('\\midrule')
+  const lines: string[] = []
+  rows.forEach(([label, pick], i) => {
+    const a = pick('pact')
+    const b = pick('pact-proxy')
+    if (a.length === 0 || b.length === 0) throw new Error(`diagnostic: no runs for ${label}`)
+    const S = (rs: Run[], k: string) => sumBy(rs, k)
+    out.push(
+      `${label} & ${f0(S(a, 'cplPairs') / a.length)} & ${pct(S(a, 'cplPairsBeyond'), S(a, 'cplPairs'))} & ${pct(S(a, 'cplPairsDiffer'), S(a, 'cplPairs'))} & ${S(a, 'cplPairsDiffer') ? f1(S(a, 'cplGapSum') / S(a, 'cplPairsDiffer')) : '--'} & ${f0(S(a, 'cplDistSum') / S(a, 'cplPairs'))} & ${pct(S(a, 'cplAllocsMatchDiffer'), S(a, 'cplAllocs'))} & ${pct(S(b, 'cplPairsDiffer'), S(b, 'cplPairs'))} & ${pct(S(b, 'cplAllocsMatchDiffer'), S(b, 'cplAllocs'))}\\\\`,
+    )
+    if (i === 11) out.push('\\midrule')
+    lines.push(
+      `diagnostic ${label}: pact pairs ${S(a, 'cplPairs')}, beyond ${S(a, 'cplPairsBeyond')}, differ ${S(a, 'cplPairsDiffer')}, gap sum ${S(a, 'cplGapSum')}, dist sum ${S(a, 'cplDistSum')}, allocs ${S(a, 'cplAllocs')}, cost differs ${S(a, 'cplAllocsCostDiffer')}, matching differs ${S(a, 'cplAllocsMatchDiffer')}; proxy pairs ${S(b, 'cplPairs')}, differ ${S(b, 'cplPairsDiffer')}, allocs ${S(b, 'cplAllocs')}, matching differs ${S(b, 'cplAllocsMatchDiffer')}`,
+    )
+  })
+  out.push('\\bottomrule')
+  out.push('\\end{tabular}')
+  out.push('\\end{table}')
+  return { tex: out.join('\n') + '\n', summary: lines.join('\n') }
+}
+
+/**
+ * Token passing with the three rules for a robot without a task, against the
+ * rolling-horizon loop at one robot in flight per dock.
+ */
+export function tpfreeTable(): { tex: string; summary: string } {
+  const base = readRuns('baselines.json')
+  const free = readRuns('tpfree.json')
+  const settings: Array<[string, string]> = [
+    ['warehouse-16-batch', 'warehouse, 16, batch'],
+    ['warehouse-32-batch', 'warehouse, 32, batch'],
+    ['warehouse-16-poisson', 'warehouse, 16, $\\lambda{=}0.15$'],
+    ['console-16-batch', 'console, 16, batch'],
+    ['narrow-16-batch', 'narrow, 16, batch'],
+  ]
+  const variants: Array<[string, string, Run[] | null, string]> = [
+    ['tp', 'TP, home', base, 'tp'],
+    ['tp-interruptible', 'TP, home, interruptible', free, 'tp'],
+    ['tp-faithful', 'TP, as published', free, 'tp'],
+    ['tpts', 'TPTS, home', base, 'tpts'],
+    ['tpts-interruptible', 'TPTS, home, interruptible', free, 'tpts'],
+    ['tpts-faithful', 'TPTS, as published', free, 'tpts'],
+  ]
+  const out: string[] = []
+  out.push('\\begin{table}[t]')
+  out.push('\\centering')
+  out.push(
+    '\\caption{\\textbf{What a token-passing robot without a task does} (200 tasks, 30 seeds). \\emph{Home}: it drives to its own home bay and takes no task on the way, the variant of \\cref{tab:baselines}. \\emph{Home, interruptible}: it requests the token at every tick on that drive. \\emph{As published}: it rests where its path ended and moves, to the nearest free endpoint, only off the delivery cell of a pending task, requesting the token at every tick \\citep{ma2017lifelong}. Paired: seed-paired throughput difference in \\% with 95\\% $t$-intervals (29 degrees of freedom), to the \\emph{home} variant of the same algorithm and to the rolling-horizon loop with Hungarian costs at $\\kappa_{\\mathrm{d}}{=}1$. Stalled: runs (of 30) that tripped the stall detector; no run of any variant had an executed conflict.}',
+  )
+  out.push('\\label{tab:tpfree}')
+  out.push('\\scriptsize')
+  out.push('\\setlength{\\tabcolsep}{3pt}')
+  out.push('\\begin{tabular}{llccccc}')
+  out.push('\\toprule')
+  out.push('\\textbf{Setting} & \\textbf{Variant} & \\textbf{Throughput} $\\uparrow$ & \\textbf{vs.\\ home} & \\textbf{vs.\\ RH ($\\kappa_{\\mathrm{d}}{=}1$)} & \\textbf{Service time} $\\downarrow$ & \\textbf{Stalled}\\\\')
+  out.push('\\midrule')
+  const lines: string[] = []
+  for (const [setting, label] of settings) {
+    const rh1 = base.filter((r) => r.variant === `${setting}/hungarian-dock1`)
+    variants.forEach(([v, vl, src, home], i) => {
+      const rs = (src as Run[]).filter((r) => r.variant === `${setting}/${v}`)
+      if (rs.length !== rh1.length) throw new Error(`tpfree ${setting}/${v}: ${rs.length} runs`)
+      const homeRuns = base.filter((r) => r.variant === `${setting}/${home}`)
+      const pHome = v === home ? null : paired(rs, homeRuns, 'throughput')
+      const pRh = paired(rs, rh1, 'throughput')
+      const viol = rs.reduce((a, r) => a + violations(r) + Number(r.conflicts), 0)
+      out.push(`${i === 0 ? label : ''} & ${vl} & ${msRuns(rs, 'throughput')} & ${pHome ? fmtCi(pHome) : '--'} & ${fmtCi(pRh)} & ${msRuns(rs, 'meanServiceTime', f0)} & ${sumBy(rs, 'deadlocked')}\\\\`)
+      lines.push(
+        `tpfree ${setting}/${v}: throughput ${meanBy(rs, 'throughput').toFixed(2)}, vs home ${pHome ? `${pHome.mean.toFixed(2)} +- ${pHome.half.toFixed(2)} (p ${pHome.p.toFixed(4)})` : '-'}, vs RH dock1 ${pRh.mean.toFixed(2)} +- ${pRh.half.toFixed(2)}, violations ${viol}, stalled ${sumBy(rs, 'deadlocked')}, unfinished ${sumBy(rs, 'tasksUnfinished')}, depletions ${sumBy(rs, 'depletionEvents')}, swaps ${meanBy(rs, 'taskSwaps').toFixed(1)}, vetoes ${sumBy(rs, 'tpSwapVetoes')}, search-bound hits ${sumBy(rs, 'tpSearchLimitHits')}, astar ${meanBy(rs, 'astarCalls').toFixed(0)}`,
+      )
+    })
+    if (setting !== 'narrow-16-batch') out.push('\\midrule')
+  }
+  out.push('\\bottomrule')
+  out.push('\\end{tabular}')
+  out.push('\\end{table}')
+  return { tex: out.join('\n') + '\n', summary: lines.join('\n') }
+}
+
 function couplingTable(): { tex: string; summary: string } {
   const runs = readRuns('coupling.json')
   const regimes: Array<[string, string]> = [
@@ -700,44 +890,63 @@ function couplingTable(): { tex: string; summary: string } {
   return { tex: out.join('\n') + '\n', summary: lines.join('\n') }
 }
 
-function main() {
-  mkdirSync(join(PAPER, 'tables'), { recursive: true })
-  mkdirSync(join(PAPER, 'figures/data'), { recursive: true })
+export interface PaperData {
+  /** Path relative to paper/arxiv -> file content. */
+  files: Map<string, string>
+  /** The printed summary lines (numbers quoted in the text but not in a table). */
+  summary: string[]
+}
+
+export function buildPaperData(): PaperData {
+  const files = new Map<string, string>()
+  const summary: string[] = []
   const mainRows = readCsv('main_summary.csv')
   const plannerRows = readCsv('planner_summary.csv')
   const scalingRows = readCsv('scaling_summary.csv')
   const ablationRows = readCsv('ablation_summary.csv')
   const batteryRows = readCsv('battery_summary.csv')
-  writeFileSync(join(PAPER, 'tables/main.tex'), mainTable(mainRows))
-  writeFileSync(join(PAPER, 'tables/planner.tex'), plannerTable(plannerRows))
-  writeFileSync(join(PAPER, 'tables/ablation.tex'), ablationTable(ablationRows))
-  writeFileSync(join(PAPER, 'tables/battery.tex'), batteryTable(batteryRows))
-  writeFileSync(join(PAPER, 'tables/scaling.tex'), scalingTable(scalingRows))
+  files.set('tables/main.tex', mainTable(mainRows))
+  files.set('tables/planner.tex', plannerTable(plannerRows))
+  files.set('tables/ablation.tex', ablationTable(ablationRows))
+  files.set('tables/battery.tex', batteryTable(batteryRows))
+  files.set('tables/scaling.tex', scalingTable(scalingRows))
   const pairedOut = pairedTable()
-  writeFileSync(join(PAPER, 'tables/paired.tex'), pairedOut.tex)
-  console.log(pairedOut.summary)
+  files.set('tables/paired.tex', pairedOut.tex)
+  summary.push(...pairedOut.summary.split('\n'))
   for (const [name, fn] of [
     ['stress', stressTable],
     ['reserve', reserveTable],
     ['cascade', cascadeTable],
     ['baselines', baselinesTable],
     ['coupling', couplingTable],
+    // The next two need the regenerated records (cpl* counters, tpfree sweep).
+    ...(existsSync(join(RESULTS, 'tpfree.json')) ? ([['diagnostic', diagnosticTable], ['tpfree', tpfreeTable]] as Array<[string, () => { tex: string; summary: string }]>) : []),
   ] as Array<[string, () => { tex: string; summary: string }]>) {
     const r = fn()
-    writeFileSync(join(PAPER, `tables/${name}.tex`), r.tex)
-    console.log(r.summary)
+    files.set(`tables/${name}.tex`, r.tex)
+    summary.push(...r.summary.split('\n'))
   }
   const cols = ['throughput', 'meanServiceTime', 'plannerMsPerTick', 'waitActions', 'astarCalls', 'utilization', 'makespan']
-  writeFileSync(join(PAPER, 'figures/data/scaling_hungarian.csv'), seriesCsv(scalingRows, (r) => r.variant === 'hungarian', 'fleetSize', cols))
-  writeFileSync(join(PAPER, 'figures/data/scaling_pact.csv'), seriesCsv(scalingRows, (r) => r.variant === 'pact', 'fleetSize', cols))
-  writeFileSync(join(PAPER, 'figures/data/planner_pp.csv'), seriesCsv(plannerRows, (r) => r.variant === 'pp', 'fleetSize', ['makespan', 'meanServiceTime', 'waitActions', 'plannerMsPerTick']))
-  writeFileSync(join(PAPER, 'figures/data/planner_cbs.csv'), seriesCsv(plannerRows, (r) => r.variant === 'cbs', 'fleetSize', ['makespan', 'meanServiceTime', 'waitActions', 'plannerMsPerTick']))
+  files.set('figures/data/scaling_hungarian.csv', seriesCsv(scalingRows, (r) => r.variant === 'hungarian', 'fleetSize', cols))
+  files.set('figures/data/scaling_pact.csv', seriesCsv(scalingRows, (r) => r.variant === 'pact', 'fleetSize', cols))
+  files.set('figures/data/planner_pp.csv', seriesCsv(plannerRows, (r) => r.variant === 'pp', 'fleetSize', ['makespan', 'meanServiceTime', 'waitActions', 'plannerMsPerTick']))
+  files.set('figures/data/planner_cbs.csv', seriesCsv(plannerRows, (r) => r.variant === 'cbs', 'fleetSize', ['makespan', 'meanServiceTime', 'waitActions', 'plannerMsPerTick']))
   // Window ablation as a small series (w = 10, 20, 30).
   const win = ablationRows
     .filter((r) => ['pact-w10', 'pact', 'pact-w30'].includes(r.variant))
     .map((r) => ({ ...r, window: r.variant === 'pact-w10' ? '10' : r.variant === 'pact-w30' ? '30' : '20' }))
-  writeFileSync(join(PAPER, 'figures/data/window.csv'), seriesCsv(win, () => true, 'window', ['throughput', 'meanServiceTime', 'plannerMsPerTick', 'waitActions']))
+  files.set('figures/data/window.csv', seriesCsv(win, () => true, 'window', ['throughput', 'meanServiceTime', 'plannerMsPerTick', 'waitActions']))
+  return { files, summary }
+}
+
+function main() {
+  const { files, summary } = buildPaperData()
+  for (const [rel, content] of files) {
+    mkdirSync(dirname(join(PAPER, rel)), { recursive: true })
+    writeFileSync(join(PAPER, rel), content)
+  }
+  for (const line of summary) console.log(line)
   console.log('paper tables and figure data written')
 }
 
-main()
+if (process.argv[1] && resolve(process.argv[1]) === resolve(new URL(import.meta.url).pathname)) main()

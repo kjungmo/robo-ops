@@ -1,0 +1,214 @@
+{
+  "what": "Repeat of the benchmark compared with the committed records by scripts/check-results.ts; timing* is the per-configuration mean plannerMsPerTick of the repeat divided by the committed mean.",
+  "commit": "63a2db7",
+  "node": "v22.22.2",
+  "cpu": "AMD Ryzen 5 5500GT with Radeon Graphics",
+  "dates": [
+    "2026-10-14T00:16:31.052Z"
+  ],
+  "excludedFields": [
+    "wallMs",
+    "plannerMs",
+    "allocMs",
+    "plannerMsPerTick"
+  ],
+  "allowNewFields": true,
+  "sweepsWithoutCommittedFile": [
+    "tpfree"
+  ],
+  "records": 6600,
+  "differingFields": 0,
+  "sweeps": [
+    {
+      "sweep": "main",
+      "records": 240,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "audit_maxWorkTripDelay",
+        "cbsBudgetExceeded",
+        "cplAllocs",
+        "cplAllocsCostDiffer",
+        "cplAllocsMatchDiffer",
+        "cplDistSum",
+        "cplGapSum",
+        "cplPairs",
+        "cplPairsBeyond",
+        "cplPairsDiffer",
+        "tpSearchLimitHits",
+        "tpSwapVetoes"
+      ],
+      "workers": 8,
+      "timingMin": 1.599,
+      "timingMedian": 1.8433,
+      "timingMax": 2.4839
+    },
+    {
+      "sweep": "planner",
+      "records": 30,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "audit_maxWorkTripDelay",
+        "cbsBudgetExceeded",
+        "cplAllocs",
+        "cplAllocsCostDiffer",
+        "cplAllocsMatchDiffer",
+        "cplDistSum",
+        "cplGapSum",
+        "cplPairs",
+        "cplPairsBeyond",
+        "cplPairsDiffer",
+        "tpSearchLimitHits",
+        "tpSwapVetoes"
+      ],
+      "workers": 8,
+      "timingMin": 1.9916,
+      "timingMedian": 2.3179,
+      "timingMax": 3.1861
+    },
+    {
+      "sweep": "scaling",
+      "records": 70,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "audit_maxWorkTripDelay",
+        "cbsBudgetExceeded",
+        "cplAllocs",
+        "cplAllocsCostDiffer",
+        "cplAllocsMatchDiffer",
+        "cplDistSum",
+        "cplGapSum",
+        "cplPairs",
+        "cplPairsBeyond",
+        "cplPairsDiffer",
+        "tpSearchLimitHits",
+        "tpSwapVetoes"
+      ],
+      "workers": 8,
+      "timingMin": 1.6521,
+      "timingMedian": 2.1738,
+      "timingMax": 4.0939
+    },
+    {
+      "sweep": "ablation",
+      "records": 60,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "audit_maxWorkTripDelay",
+        "cbsBudgetExceeded",
+        "cplAllocs",
+        "cplAllocsCostDiffer",
+        "cplAllocsMatchDiffer",
+        "cplDistSum",
+        "cplGapSum",
+        "cplPairs",
+        "cplPairsBeyond",
+        "cplPairsDiffer",
+        "tpSearchLimitHits",
+        "tpSwapVetoes"
+      ],
+      "workers": 8,
+      "timingMin": 1.557,
+      "timingMedian": 2.0709,
+      "timingMax": 2.5013
+    },
+    {
+      "sweep": "battery",
+      "records": 20,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "audit_maxWorkTripDelay",
+        "cbsBudgetExceeded",
+        "cplAllocs",
+        "cplAllocsCostDiffer",
+        "cplAllocsMatchDiffer",
+        "cplDistSum",
+        "cplGapSum",
+        "cplPairs",
+        "cplPairsBeyond",
+        "cplPairsDiffer",
+        "tpSearchLimitHits",
+        "tpSwapVetoes"
+      ],
+      "workers": 8,
+      "timingMin": 1.88,
+      "timingMedian": 2.5367,
+      "timingMax": 2.6274
+    },
+    {
+      "sweep": "stress",
+      "records": 4320,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "cplAllocs",
+        "cplAllocsCostDiffer",
+        "cplAllocsMatchDiffer",
+        "cplDistSum",
+        "cplGapSum",
+        "cplPairs",
+        "cplPairsBeyond",
+        "cplPairsDiffer"
+      ],
+      "workers": 8,
+      "timingMin": 0.6549,
+      "timingMedian": 0.8918,
+      "timingMax": 1.0288
+    },
+    {
+      "sweep": "cascade",
+      "records": 480,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "cplAllocs",
+        "cplAllocsCostDiffer",
+        "cplAllocsMatchDiffer",
+        "cplDistSum",
+        "cplGapSum",
+        "cplPairs",
+        "cplPairsBeyond",
+        "cplPairsDiffer"
+      ],
+      "workers": 8,
+      "timingMin": 0.4968,
+      "timingMedian": 0.6516,
+      "timingMax": 0.8187
+    },
+    {
+      "sweep": "baselines",
+      "records": 900,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "cplAllocs",
+        "cplAllocsCostDiffer",
+        "cplAllocsMatchDiffer",
+        "cplDistSum",
+        "cplGapSum",
+        "cplPairs",
+        "cplPairsBeyond",
+        "cplPairsDiffer"
+      ],
+      "workers": 8,
+      "timingMin": 0.4237,
+      "timingMedian": 0.7671,
+      "timingMax": 0.8442
+    },
+    {
+      "sweep": "coupling",
+      "records": 480,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "cplAllocs",
+        "cplAllocsCostDiffer",
+        "cplAllocsMatchDiffer",
+        "cplDistSum",
+        "cplGapSum",
+        "cplPairs",
+        "cplPairsBeyond",
+        "cplPairsDiffer"
+      ],
+      "workers": 8,
+      "timingMin": 0.7713,
+      "timingMedian": 0.8027,
+      "timingMax": 0.8516
+    }
+  ]
+}
