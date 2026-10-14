@@ -1,16 +1,22 @@
 {
-  "date": "2026-09-28T09:24:00.146Z",
+  "date": "2026-10-14T00:16:31.052Z",
   "node": "v22.22.2",
   "cpu": "AMD Ryzen 5 5500GT with Radeon Graphics",
   "cores": 12,
   "memoryGB": 11.7,
-  "commit": "2d4342a",
-  "workers": 10,
+  "commit": "63a2db7",
+  "workers": 8,
   "sweeps": [
+    "main",
+    "planner",
+    "scaling",
+    "ablation",
+    "battery",
     "stress",
     "cascade",
     "baselines",
-    "coupling"
+    "coupling",
+    "tpfree"
   ],
   "seeds": {
     "main": [
@@ -48,10 +54,36 @@
     "coupling": [
       1,
       30
+    ],
+    "tpfree": [
+      1,
+      30
     ]
   },
-  "runs": 6180,
-  "robotTicks": 107203244,
+  "runs": 7200,
+  "runsPerSweep": {
+    "main": 240,
+    "planner": 30,
+    "scaling": 70,
+    "ablation": 60,
+    "battery": 20,
+    "stress": 4320,
+    "cascade": 480,
+    "baselines": 900,
+    "coupling": 480,
+    "tpfree": 600
+  },
+  "loadAverageBefore": [
+    1.23,
+    0.58,
+    0.21
+  ],
+  "loadAverageAfter": [
+    8.46,
+    8.47,
+    6.57
+  ],
+  "robotTicks": 138025414,
   "totalConflicts": 1419,
   "auditVertexConflicts": 1419,
   "auditSwapConflicts": 0,
@@ -60,5 +92,5 @@
   "totalUnfinished": 18879,
   "totalDepletions": 12315,
   "auditDepletions": 12315,
-  "wallSeconds": 966.8
+  "wallSeconds": 1219.9
 }
