@@ -69,12 +69,17 @@ must stay free for the loading dwell, the dwell, and a loaded leg ending in a
 rest at the dock; a robot without an eligible task drives to its home bay
 (or rests where it is if no path exists) and takes no task on the way
 (\texttt{tpFree: 'home'}; \texttt{'home-interruptible'} lets it request the
-token at every tick of that drive, and \texttt{'faithful'} is the rule of
-\citet{ma2017lifelong}, with the home bays and docks as rest cells because
-our pickups lie on the aisles); a robot below
+token at every tick of that drive, and \texttt{'faithful'} is the published rule of
+\citet{ma2017lifelong}, adapted: the robot rests where its path ended and
+requests the token at every tick; it moves only off the delivery cell of a
+pending task, as in that paper, or, as two added triggers, off the pickup cell
+of a pending task or off a charger slot, to the nearest home bay or dock in
+which no other path ends and to which no pending task delivers; pickups are
+not endpoints of this move because they lie on the aisles); a robot below
 $\theta_{\mathrm{lo}}$ takes the nearest free charger slot that is not the
 end of another path; and the task-swap step of TPTS only commits a swap if
-the displaced robot still has a path to its home bay, which keeps every step
+the displaced robot still has a path to its home bay (under
+\texttt{'faithful'}: to a Path2 endpoint), which keeps every step
 conflict-free.
 The operator console shows the
 simulator at \texttt{/fms} (\texttt{npm run dev}).

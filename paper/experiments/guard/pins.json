@@ -101,6 +101,7 @@
   "stalls and no robot depletes. Two of our additions could handic",
   "me for the displaced robot. A third one is active: our robot with",
   " same settings and seeds with two more variants: the drive home",
+  "task, as in Ma et al., or, as two added triggers, off the picku",
   "} explains the null result by two conjectures: the empty trip i",
   "ates at the docks. We defined four regimes that attack those rea",
   "ef{tab:coupling} compares the four cost models on 30 paired seed",
@@ -138,6 +139,7 @@
  "sections/appendix.tex#words": [
   "mn every plotted curve reads. Three kinds of numbers are not reco",
   " not list as a claim, and the two facts taken from the git hist",
+  "ask, as in that paper, or, as two added triggers, off the picku",
   "e, and \\cref{tab:layouts} the four layouts. \\begin{table}[h] \\ce",
   " with 3, 3, 2, 4 shelf lines; two named shipping docks, each a ",
   "shipping docks, each a bay of three delivery cells).} \\label{tab:"

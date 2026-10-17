@@ -126,11 +126,13 @@ export interface SimConfig {
    *   'home'     - drive to its own home bay; the drive is not interrupted
    *   'home-interruptible' - drive to its own home bay, but request the token
    *                every tick on the way and take a task if there is one
-   *   'faithful' - as in Ma et al. (2017): rest where the path ended unless a
-   *                pending task delivers to that cell (or the cell is a charger
-   *                slot), then move to the nearest endpoint no other path ends
-   *                in; a free robot requests the token every tick, also while
-   *                it is on such a move
+   *   'faithful' - the rule of Ma et al. (2017), adapted: rest where the path
+   *                ended unless a pending task delivers to that cell (Ma et
+   *                al.) or picks up at it or the cell is a charger slot (added
+   *                here), then move to the nearest home bay or dock in which
+   *                no other path ends and to which no pending task delivers
+   *                (pickups are not endpoints); a free robot requests the
+   *                token every tick, also while it is on such a move
    */
   tpFree: TpFree
 }

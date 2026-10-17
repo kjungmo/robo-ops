@@ -419,7 +419,16 @@ const intRh = tfVsRh1('tpts-interruptible')
 const faiHome = tfVsHome('tpts-faithful', 'tpts')
 const faiRh = tfVsRh1('tpts-faithful')
 const tptsAllRh = [...tfVsRh1('tpts'), ...intRh, ...faiRh].map((x) => x.mean)
-const tptsRange = R`$-${f1(Math.abs(Math.min(...tptsAllRh)))}$ to $+${f1(Math.max(...tptsAllRh))}\%$`
+// Wording shared by the abstract, introduction and conclusion: the best variant against the loop, and the adapted published rule.
+const intMore = rng1(intRh.map((x) => x.mean))
+const faiBelow = f1(Math.abs(Math.min(...faiRh.map((x) => x.mean))))
+const faiAbove = f1(Math.max(...faiRh.map((x) => x.mean)))
+// Holm over the ten intervals of TPTS (home and interruptible variants) against the loop at one robot per dock.
+const tptsFamily = [...tfVsRh1('tpts'), ...intRh]
+const tptsHolm = holm(tptsFamily.map((x) => x.p))
+const tptsFamily15 = [...tptsFamily, ...faiRh]
+const tptsHolm15 = holm(tptsFamily15.map((x) => x.p))
+const f3 = (x: number) => x.toFixed(3)
 const tptsBehind3 = Math.min(...['tpts', 'tpts-interruptible', 'tpts-faithful'].flatMap((v) => tfVsRh3(v).map((x) => Math.abs(x.mean + (x.mean < 0 ? x.half : -x.half)))))
 const tfRuns = R_('tpfree')
 
@@ -470,7 +479,8 @@ function specs(): FileSpec[] {
       R`with doubled drain the charging policy strands robots in two thirds of runs`,
       R`within ${f1(maxSpread)}\% of each other`,
       R`changes the matching in only ${cellMatch}\% of the allocations, since`,
-      R`is within ${tptsRange} of our loop`,
+      R`beats our loop by ${intMore}\% in every setting`,
+      R`ranges from ${faiBelow}\% below to ${faiAbove}\% above`,
     ],
     structural: [],
   })
@@ -490,7 +500,9 @@ function specs(): FileSpec[] {
       R`baselines under ${word(3)} rules for idle robots`,
       R`in only ${cellMatch}\% of the allocations, because ${cellBeyond}\% of the priced pickups lie beyond`,
       R`the matching changes in ${rng0(regMatch)}\% of the allocations`,
-      R`is within ${tptsRange} of our loop`,
+      R`delivers ${intMore}\% more than our loop in every setting`,
+      R`ranges from ${faiBelow}\% below to ${faiAbove}\% above`,
+      R`our loop is slightly behind the best token-passing variant`,
       R`differ by at most ${f1(maxSpread)}\% in`,
       R`${mainPaired.length - mainExcl.length} of ${mainPaired.length} seed-paired 95\% intervals`,
       R`reach about ${f0(worstBatch)}\% in the noisiest cell and about ${f0(worstPoisson)}\% under the Poisson`,
@@ -570,8 +582,10 @@ function specs(): FileSpec[] {
       R`across ${word(new Set(firstAndStress.map((r) => r.layout)).size)} layouts`,
       R`neither in the ${word(CELLS.length)} cells of the main study`,
       R`delivered ${lessRange}\% less`,
-      R`was within ${tptsRange} of our loop`,
-      R`in only ${cellMatch}\% of the allocations of the main study, and often only under hotspot demand (${f0(diagReg('hotspot').match)}\%)`,
+      R`delivered ${intMore}\%
+more than our loop in every setting`,
+      R`it ranged from ${faiBelow}\% below to ${faiAbove}\% above`,
+      R`in only ${cellMatch}\% of the allocations of the main study; only under hotspot demand did it reach ${f0(diagReg('hotspot').match)}\%`,
     ],
     structural: [],
   })
@@ -726,7 +740,7 @@ function experiments(): FileSpec {
     R`a fleet of 16 or 32 robots keeps up`,
     R`at most ${up1(arrivalGap)}\% between 16 and 32 robots`,
     R`The ${word(3 * arrivalBound.length)} throughput intervals of those cells`,
-    R`all ${svcPaired.length} service-time intervals against Hungarian contain zero (smallest $p=${Math.min(...svcPaired.map((x) => x.p)).toFixed(2)}$); they are wide, up to $\pm${up1(Math.max(...svcPaired.map(bound)))}\%$`,
+    R`all ${svcPaired.length} service-time intervals against Hungarian contain zero (smallest $p=${Math.min(...svcPaired.map((x) => x.p)).toFixed(2)}$); their bounds reach $${up1(Math.max(...svcPaired.map(bound)))}\%$ (half-widths up to $\pm${f1(Math.max(...svcPaired.map((x) => x.half)))}\%$)`,
     R`In none of the ${word(CELLS.length)} layout/fleet/load cells`,
     R`For ${cellBeyond}\% of the priced pairs the pickup lies`,
     R`for ${cellDiffer}\% of the pairs, by ${cellGap} ticks on average against a mean distance of ${rng0(diagCells.map((x) => x.dbar))}, and it changes the matching in ${cellMatch}\% of the allocations`,
@@ -832,6 +846,18 @@ function experiments(): FileSpec {
   assert(tpRuns.length === 300 && tpRuns.every((r) => violations(r) === 0 && Number(r.deadlocked) === 0 && Number(r.depletionEvents) === 0), '300 TP/TPTS runs without conflict, stall or depletion')
   assert(sum(tpRuns, 'tpSearchLimitHits') === 0 && sum(tpRuns, 'tpSwapVetoes') === 0, 'TP additions inactive')
   assert(tfRuns.length === 600 && tfRuns.every((r) => violations(r) === 0 && Number(r.conflicts) === 0 && Number(r.deadlocked) === 0 && Number(r.depletionEvents) === 0 && Number(r.tasksUnfinished) === 0), 'token-passing variants: no conflict, stall, depletion or unfinished task')
+  // The adapted published rule (section 4.3, Table 8, appendix A): read off the simulator source.
+  const simSrc = readFileSync(join(ROOT, 'src/fms/sim/simulator.ts'), 'utf8').replace(/\s+/g, ' ')
+  assert(
+    simSrc.includes('const mustMove = this.pending.some((t) => t.delivery === r.cell || t.pickup === r.cell) || chargerSlots(this.map).includes(r.cell)'),
+    "'faithful' moves off a delivery cell (Ma et al.) and, as the two added triggers, off a pickup cell and a charger slot",
+  )
+  assert(simSrc.includes('const cands = [...this.map.homes, ...this.map.deliveries] .filter((c) => c !== r.cell && !ends.has(c) && !wanted.has(c))'), "Path2 targets: home bays and docks, no other path's end, no pending delivery; pickups are not endpoints")
+  assert(simSrc.includes("const escape = this.cfg.tpFree === 'faithful' ? this.tpPath2(owner) : this.tpPlanTo(owner, owner.home)"), "task swap under 'faithful': the displaced robot escapes to a Path2 endpoint, otherwise to its home bay")
+  assert(BASE[1] === 'warehouse-32-batch' && BASE[4] === 'narrow-16-batch', 'the two settings named in the Holm sentence')
+  assert(tptsFamily.length === 10 && tptsHolm.slice(5).join() === 'true,false,true,true,false' && tptsHolm15.slice(5, 10).join() === tptsHolm.slice(5).join(), 'Holm over the ten (and the fifteen) TPTS-versus-loop intervals keeps interruptible TPTS in three settings and drops the two with p of 0.033 and 0.032')
+  assert(intRh.every((x) => x.mean > 0) && Math.max(...intRh.map((x) => x.mean)) === Math.max(...tptsAllRh), 'interruptible TPTS is ahead of the loop in every setting and is the best variant')
+  assert(regMatch.filter((_, i) => REGIMES[i] !== 'hotspot').every((m) => m < diagReg('hotspot').match), 'hotspot has the highest matching-change share of the four regimes')
   assert(intHome.every((x) => x.mean - x.half > 0) && intRh.every((x) => x.mean - x.half > 0), 'interruptible TPTS: resolved gain over home and over the loop at capacity 1 in every setting')
   assert(diagReg('hotspot').match >= 1.8 * Math.max(...diagCells.map((x) => x.match)), 'hotspot changes the matching about twice as often as any main cell')
   assert(pactSafe.filter((x) => x.reg === 'hotspot').every((x) => !excludesZero(x.p)), 'hotspot: every interval of the path-aware cost contains zero')
@@ -855,7 +881,14 @@ function experiments(): FileSpec {
     R`TPTS gains ${rng1(intHome.map((x) => x.mean))}\% in every setting (all ${word(intHome.length)} intervals exclude zero) and then delivers ${rng1(intRh.map((x) => x.mean))}\% more`,
     R`again with all ${word(intRh.length)} intervals above zero`,
     R`between ${f1(Math.abs(Math.min(...faiHome.map((x) => x.mean))))}\% below and ${f1(Math.max(...faiHome.map((x) => x.mean)))}\% above our home variant and between ${f1(Math.abs(Math.min(...faiRh.map((x) => x.mean))))}\% below and ${f1(Math.max(...faiRh.map((x) => x.mean)))}\% above`,
-    R`from ${f1(Math.abs(Math.min(...tptsAllRh)))}\% behind to ${f1(Math.max(...tptsAllRh))}\% ahead`,
+    R`ahead of our loop in every setting, so at equal
+capacity our loop is slightly behind the best token-passing variant`,
+    R`Two of
+the five intervals (warehouse with 32 robots, $p=${f3(intRh[1].p)}$, and narrow, $p=${f3(intRh[4].p)}$)
+do not survive a Holm correction over the ${word(tptsFamily.length)} intervals of the home and
+interruptible variants against the loop`,
+    R`it is
+from ${faiBelow}\% behind to ${faiAbove}\% ahead`,
     R`(TPTS at least ${Math.floor(tptsBehind3)}\% behind)`,
     R`at the default capacity all ${word(pactVsH.length)} intervals contain zero`,
     R`with triple drain every method strands robots`,
@@ -935,7 +968,7 @@ function appendix(): FileSpec {
       lay('narrow', LN, '1'),
       R`the ${metricKeys.length} fields of \texttt{SimMetrics} (${CONFIG_KEYS.length} that identify the configuration and ${metricKeys.length - CONFIG_KEYS.length} measured quantities) and ${auditKeys.length} auditor fields`,
     ],
-    structural: ['4-connected grid graph', R`A^{\mathcal{B}}(p,g,t_0)`],
+    structural: ['4-connected grid graph', R`A^{\mathcal{B}}(p,g,t_0)`, 'Path2 endpoint'],
     always: [R`pool size & $\max(${POOL_FACTOR}m,${POOL_MIN})$ &`],
   }
 }

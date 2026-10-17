@@ -19,15 +19,16 @@ over static Hungarian or even greedy assignment, neither in the twelve cells
 of the main study nor in the regimes in which we expected it to matter that stay inside
 the safe envelope. The test is weak: recorded counters show that the
 coupled cost changed the matching in only 1--14\% of the allocations of the
-main study, and often only under hotspot demand (27\%). The study detects no large effect, is not an
+main study; only under hotspot demand did it reach 27\%. The study detects no large effect, is not an
 equivalence test, and leaves full-trip and dock-aware costs untested.
 Dock capacity and the planning window changed throughput
 by 7--29\%, and on the small layout a windowed CBS backend shortened the makespan
 by 4--12\%. Token passing and token passing with task swaps delivered 16--66\%
 less at our default dock capacity, but at
 the one robot in flight per dock that their endpoint rule allows, token
-passing with task swaps was within $-10.7$ to $+3.7\%$ of our loop, depending
-on its rule for idle robots.
+passing with task swaps and an interruptible drive home delivered 0.9--3.7\%
+more than our loop in every setting, and with the published idle rule,
+adapted, it ranged from 10.7\% below to 2.9\% above.
 The implementation, the benchmark and every number in this paper are
 available in the operator console repository so that the study can be
 repeated on layouts where the balance may differ.

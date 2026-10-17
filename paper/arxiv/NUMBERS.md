@@ -125,7 +125,7 @@ Computed by `scripts/paper-data.ts : pairedTable()` from the per-run records (`m
 
 ## §1 / §6 headline sentences
 
-The abstract quotes 4,740 runs, 60.4 million robot-steps, 2.9 %, 1–14 % and −10.7 to +3.7 % (sources above and below).
+The abstract quotes 4,740 runs, 60.4 million robot-steps, 2.9 %, 1–14 %, 0.9–3.7 % and 10.7 % below to 2.9 % above (sources above and below).
 
 | Claim | Source |
 |---|---|
@@ -187,7 +187,7 @@ are printed by the same run.
 
 | Claim | Source |
 |---|---|
-| service-time intervals against Hungarian: all 36 contain zero, smallest p = 0.07, up to ±10.8 % (§4.2; `tables/paired.tex`) | `main.json`, seed-paired `meanServiceTime`; p-values from `scripts/stats.ts` |
+| service-time intervals against Hungarian: all 36 contain zero, smallest p = 0.07, bounds up to 10.8 % (|mean| + half-width at proxy, warehouse, λ = 0.15, 16 robots), half-widths up to ±6.6 % (6.61) (§4.2; `tables/paired.tex`) | `main.json`, seed-paired `meanServiceTime`; p-values from `scripts/stats.ts` |
 | makespan differs by at most 4.3 % between 16 and 32 robots under λ = 0.15 (§4.2) | `main.json : makespan`, same seed and cost model, both layouts |
 | Holm's procedure over the 14 lever and planner comparisons keeps dock capacity (both cost models), window 10 and CBS at 6 robots (§4.2, §4.3, `tables/paired.tex`) | paired t-tests on `ablation.json`, `main.json`, `planner.json`; `holm()` in `scripts/stats.ts` |
 | Holm over the 8 fallback comparisons keeps no-repair at capacity 4 (+2.0 ± 1.2 %); restarts +1.7 ± 1.3 % and +1.0 ± 1.0 % nominal (§4.4) | `cascade.json`, throughput of `none` / `restart` against `cascade`, seed-paired |
@@ -210,6 +210,9 @@ are printed by the same run.
 | `tables/tpfree.tex` | `tpfree.json` (variants `*-interruptible`, `*-faithful`) and `baselines.json` (`tp`, `tpts`, `hungarian-dock1`), seed-paired throughput; script lines "tpfree ..." |
 | TP changes by at most 1.0 % under either variant | largest absolute mean of the ten paired differences to `tp` (0.96) |
 | TPTS, interruptible: +1.3 to +3.7 % over home, +0.9 to +3.7 % over the loop at capacity 1, all ten intervals exclude zero | paired differences to `tpts` and to `hungarian-dock1` |
-| TPTS, as published: −9.7 to +2.9 % against home, −10.7 to +2.9 % against the loop at capacity 1 | same |
-| "−10.7 to +3.7 %" (abstract, §1, §4.5, §6) | minimum and maximum of the fifteen paired means of the three TPTS variants against `hungarian-dock1` |
+| TPTS, published rule adapted (`tpFree: 'faithful'`): −9.7 to +2.9 % against home, −10.7 to +2.9 % against the loop at capacity 1 | same |
+| "0.9–3.7 % more than our loop in every setting" (abstract, §1, §4.5, §6) | the five paired means of interruptible TPTS against `hungarian-dock1`; all five intervals above zero |
+| "10.7 % below to 2.9 % above" for the adapted published rule (abstract, §1, §4.5, §6) | minimum and maximum of the five paired means of `tpts-faithful` against `hungarian-dock1` |
+| Holm status (§4.5): warehouse/32 batch (p = 0.033) and narrow/16 batch (p = 0.032) do not survive Holm over the ten intervals of `tpts` and `tpts-interruptible` against `hungarian-dock1`; the other three do. The same three survive over all fifteen intervals | `holm` in `scripts/stats.ts`; guard assertion in `scripts/check-paper.ts` |
+| the adapted rule has two added triggers (pickup cell of a pending task, charger slot), excludes pickups from the Path2 endpoints, and uses Path2 as the escape of a swapped robot | read off `src/fms/sim/simulator.ts` (`tpFreeFaithful`, `tpPath2`, `tpTakeTask`) by three source assertions in the guard |
 | TPTS at least 12 % behind at the default capacity | smallest interval bound of the fifteen paired differences of the three TPTS variants against `hungarian` |

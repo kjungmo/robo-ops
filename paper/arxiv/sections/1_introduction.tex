@@ -132,11 +132,12 @@ strands robots, and there its higher throughput mostly reflects fewer stalled ru
 Token passing and token passing with task swaps \citep{ma2017lifelong}
 deliver 16--66\% less throughput than our loop at its default dock
 capacity, but their endpoint rule allows one robot in flight
-per dock; at that capacity token passing with task swaps is within $-10.7$
-to $+3.7\%$ of our loop, depending on what its robots do when they have no
-task (\cref{subsec:baselines}), so the
-gap to token passing with task swaps measures dock capacity, not our
-allocation or planner.
+per dock; at that capacity token passing with task swaps and an interruptible
+drive home delivers 0.9--3.7\% more than our loop in every setting, and with
+the published idle rule, adapted, it ranges from 10.7\% below to 2.9\% above
+(\cref{subsec:baselines}). The gap to token passing with task swaps thus
+measures dock capacity, not our allocation or planner, and at equal capacity
+our loop is slightly behind the best token-passing variant.
 Throughout, the executed plans of 60.4 million audited robot-steps contain no
 vertex or swap conflict, as the construction guarantees. Progress and charge
 are not guaranteed: with normal batteries no robot depletes and every run

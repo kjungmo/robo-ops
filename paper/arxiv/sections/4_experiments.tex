@@ -183,7 +183,7 @@ at most 4.3\% between 16 and 32 robots) and throughput, which is tasks over
 makespan, with it. The twelve throughput intervals of those cells are
 therefore uninformative, and service time is the metric to read there.
 Paired by seed, all 36 service-time intervals against Hungarian contain zero
-(smallest $p=0.07$); they are wide, up to $\pm10.8\%$. Read cell by cell, the intervals exclude effects larger than
+(smallest $p=0.07$); their bounds reach $10.8\%$ (half-widths up to $\pm6.6\%$). Read cell by cell, the intervals exclude effects larger than
 these bounds; they do not show that an effect is absent. The study was not
 designed or powered as an equivalence test and fixes no equivalence margin
 in advance, so we claim only that no large effect of the cost model was
@@ -356,12 +356,15 @@ baselines and are not active in these runs: no search hits the
 of a path home for the displaced robot. A third one is active: our robot
 without a task drives to its own home bay and takes no task on the way,
 whereas in Ma et al.\ a free agent rests where its path ended, moves only
-off the delivery location of a pending task, and may request the token at
-every step. \Cref{tab:tpfree} measures this difference on the same settings
+off the delivery location of a pending task, and may, as an option they
+describe, request the token at every step. \Cref{tab:tpfree} measures this difference on the same settings
 and seeds with two more variants: the drive home made interruptible, and the
-rule as published (the robot rests where its path ended and moves, to the
-nearest home bay or dock in which no other path ends, only off the delivery
-or pickup cell of a pending task or off a charger slot). No run of either
+published rule, adapted (the robot rests where its path ended and requests the
+token at every tick; it moves only off the delivery cell of a pending task, as
+in Ma et al., or, as two added triggers, off the pickup cell of a pending task
+or off a charger slot, to the nearest home bay or dock in which no other path
+ends and to which no pending task delivers; pickups are not endpoints of this
+move because they lie on the aisles). No run of either
 variant has an executed conflict, stalls or depletes a robot.
 
 TP delivers 29--66\% less throughput than the rolling-horizon loop with
@@ -384,14 +387,19 @@ The rule for idle robots matters for TPTS and not for TP
 an interruptible drive home, TPTS gains 1.3--3.7\% in every setting (all
 five intervals exclude zero) and then delivers 0.9--3.7\% more than the
 rolling-horizon loop at $\kappa_{\mathrm{d}}=1$, again with all five
-intervals above zero. With the rule as published, TPTS lies between 9.7\%
+intervals above zero. With the published rule, adapted, TPTS lies between 9.7\%
 below and 2.9\% above our home variant and between 10.7\% below and 2.9\%
 above the loop at $\kappa_{\mathrm{d}}=1$: a robot that rests in a dock keeps
 that dock out of reach of the endpoint rule until a task for it arrives. At
-one robot in flight per dock, token passing with task swaps is thus about
-as good as our loop, from 10.7\% behind to 3.7\% ahead depending on a detail
-of its idle rule; the gap at the default capacity remains under every
-variant (TPTS at least 12\% behind).
+one robot in flight per dock, token passing with task swaps and an
+interruptible drive home is thus ahead of our loop in every setting, so at equal
+capacity our loop is slightly behind the best token-passing variant. Two of
+the five intervals (warehouse with 32 robots, $p=0.033$, and narrow, $p=0.032$)
+do not survive a Holm correction over the ten intervals of the home and
+interruptible variants against the loop. With the published rule, adapted, it is
+from 10.7\% behind to 2.9\% ahead, depending on a detail of its idle rule; the
+gap at the default capacity remains under every variant (TPTS at least 12\%
+behind).
 
 Against Hungarian, \sname's path-aware costs show no resolved difference
 except one marginal one: at the default capacity all five intervals contain
@@ -404,7 +412,7 @@ one of five excludes it by a hair ($+0.9\pm0.9\%$ under Poisson load).
 \Cref{sec:disc} explains the null result by two conjectures: the empty trip
 is short and well predicted by the free-space distance, and congestion
 concentrates at the docks. We defined four regimes that attack
-those reasons, committed before their results (\cref{subsec:setup}): one-lane aisles, where a robot loading at
+those reasons, defined before their results were committed (\cref{subsec:setup}): one-lane aisles, where a robot loading at
 a pickup blocks the aisle and arrival times depend on traffic; hotspot
 demand, which concentrates traffic in a few aisles; long empty trips from
 the docks to far pickups under a light Poisson load, where robots are idle

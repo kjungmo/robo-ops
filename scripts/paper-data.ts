@@ -783,16 +783,16 @@ export function tpfreeTable(): { tex: string; summary: string } {
   const variants: Array<[string, string, Run[] | null, string]> = [
     ['tp', 'TP, home', base, 'tp'],
     ['tp-interruptible', 'TP, home, interruptible', free, 'tp'],
-    ['tp-faithful', 'TP, as published', free, 'tp'],
+    ['tp-faithful', 'TP, published, adapted', free, 'tp'],
     ['tpts', 'TPTS, home', base, 'tpts'],
     ['tpts-interruptible', 'TPTS, home, interruptible', free, 'tpts'],
-    ['tpts-faithful', 'TPTS, as published', free, 'tpts'],
+    ['tpts-faithful', 'TPTS, published, adapted', free, 'tpts'],
   ]
   const out: string[] = []
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{What a token-passing robot without a task does} (200 tasks, 30 seeds). \\emph{Home}: it drives to its own home bay and takes no task on the way, the variant of \\cref{tab:baselines}. \\emph{Home, interruptible}: it requests the token at every tick on that drive. \\emph{As published}: it rests where its path ended and moves, to the nearest free endpoint, only off the delivery cell of a pending task, requesting the token at every tick \\citep{ma2017lifelong}. Paired: seed-paired throughput difference in \\% with 95\\% $t$-intervals (29 degrees of freedom), to the \\emph{home} variant of the same algorithm and to the rolling-horizon loop with Hungarian costs at $\\kappa_{\\mathrm{d}}{=}1$. Stalled: runs (of 30) that tripped the stall detector; no run of any variant had an executed conflict.}',
+    '\\caption{\\textbf{What a token-passing robot without a task does} (200 tasks, 30 seeds). \\emph{Home}: it drives to its own home bay and takes no task on the way, the variant of \\cref{tab:baselines}. \\emph{Home, interruptible}: it requests the token at every tick on that drive. \\emph{Published, adapted}: it rests where its path ended and requests the token at every tick; it moves only off the delivery cell of a pending task, as in \\citet{ma2017lifelong}, or, as two added triggers, off the pickup cell of a pending task or off a charger slot, to the nearest home bay or dock in which no other path ends and to which no pending task delivers; pickups are not endpoints of this move because they lie on the aisles. Paired: seed-paired throughput difference in \\% with 95\\% $t$-intervals (29 degrees of freedom), to the \\emph{home} variant of the same algorithm and to the rolling-horizon loop with Hungarian costs at $\\kappa_{\\mathrm{d}}{=}1$. Stalled: runs (of 30) that tripped the stall detector; no run of any variant had an executed conflict.}',
   )
   out.push('\\label{tab:tpfree}')
   out.push('\\scriptsize')
@@ -836,7 +836,7 @@ function couplingTable(): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Coupling regimes}, committed before their results as the settings where path-aware costs could plausibly matter (200 tasks, 30 seeds). \\emph{One-lane aisles}: narrow layout, 16 robots, batch. \\emph{Hotspot} (warehouse, 32, batch): 80\\% of pickups at the 10\\% of pickup points nearest the floor centre. \\emph{Long empty trips} (warehouse, 24, $\\lambda{=}0.1$): pickups only at the 25\\% of pickup points farthest from any dock. \\emph{Saturated chargers} (warehouse, batch): 32 robots on 8 slots, initial charge $\\mathcal{U}[0.2,0.4]$, triple drain. Throughput in tasks per 100 ticks and service time in ticks, mean\\stdv{std}; paired: seed-paired relative differences in \\% with 95\\% $t$-intervals (29 degrees of freedom), negative service-time differences are improvements; stalled: runs (of 30) that tripped the stall detector.}',
+    '\\caption{\\textbf{Coupling regimes}, defined before their results were committed, as the settings where path-aware costs could plausibly matter (200 tasks, 30 seeds). \\emph{One-lane aisles}: narrow layout, 16 robots, batch. \\emph{Hotspot} (warehouse, 32, batch): 80\\% of pickups at the 10\\% of pickup points nearest the floor centre. \\emph{Long empty trips} (warehouse, 24, $\\lambda{=}0.1$): pickups only at the 25\\% of pickup points farthest from any dock. \\emph{Saturated chargers} (warehouse, batch): 32 robots on 8 slots, initial charge $\\mathcal{U}[0.2,0.4]$, triple drain. Throughput in tasks per 100 ticks and service time in ticks, mean\\stdv{std}; paired: seed-paired relative differences in \\% with 95\\% $t$-intervals (29 degrees of freedom), negative service-time differences are improvements; stalled: runs (of 30) that tripped the stall detector.}',
   )
   out.push('\\label{tab:coupling}')
   out.push('\\scriptsize')
