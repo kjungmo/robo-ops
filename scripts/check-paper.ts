@@ -480,7 +480,7 @@ function specs(): FileSpec[] {
       R`within ${f1(maxSpread)}\% of each other`,
       R`changes the matching in only ${cellMatch}\% of the allocations, since`,
       R`beats our loop by ${intMore}\% in every setting`,
-      R`ranges from ${faiBelow}\% below to ${faiAbove}\% above`,
+      R`ranges from ${faiBelow}\% below to ${faiAbove}\% above by setting`,
     ],
     structural: [],
   })
@@ -501,7 +501,7 @@ function specs(): FileSpec[] {
       R`in only ${cellMatch}\% of the allocations, because ${cellBeyond}\% of the priced pickups lie beyond`,
       R`the matching changes in ${rng0(regMatch)}\% of the allocations`,
       R`delivers ${intMore}\% more than our loop in every setting`,
-      R`ranges from ${faiBelow}\% below to ${faiAbove}\% above`,
+      R`ranges from ${faiBelow}\% below to ${faiAbove}\% above across the ${word(faiRh.length)} settings`,
       R`our loop is slightly behind the best token-passing variant`,
       R`differ by at most ${f1(maxSpread)}\% in`,
       R`${mainPaired.length - mainExcl.length} of ${mainPaired.length} seed-paired 95\% intervals`,
@@ -584,7 +584,7 @@ function specs(): FileSpec[] {
       R`delivered ${lessRange}\% less`,
       R`delivered ${intMore}\%
 more than our loop in every setting`,
-      R`it ranged from ${faiBelow}\% below to ${faiAbove}\% above`,
+      R`it ranged from ${faiBelow}\% below to ${faiAbove}\% above across the ${word(faiRh.length)} settings`,
       R`in only ${cellMatch}\% of the allocations of the main study; only under hotspot demand did it reach ${f0(diagReg('hotspot').match)}\%`,
     ],
     structural: [],
@@ -887,9 +887,9 @@ capacity our loop is slightly behind the best token-passing variant`,
 the five intervals (warehouse with 32 robots, $p=${f3(intRh[1].p)}$, and narrow, $p=${f3(intRh[4].p)}$)
 do not survive a Holm correction over the ${word(tptsFamily.length)} intervals of the home and
 interruptible variants against the loop`,
-    R`it is
-from ${faiBelow}\% behind to ${faiAbove}\% ahead`,
-    R`(TPTS at least ${Math.floor(tptsBehind3)}\% behind)`,
+    R`TPTS lies, across the ${word(faiRh.length)} settings, between`,
+    R`Under every idle rule the gap at the default
+capacity remains (TPTS at least ${Math.floor(tptsBehind3)}\% behind)`,
     R`at the default capacity all ${word(pactVsH.length)} intervals contain zero`,
     R`with triple drain every method strands robots`,
     R`none of \sname's ${word(pactSafe.length)} intervals excludes zero`,
