@@ -4,9 +4,9 @@
  * Every tick: (1) new tasks arrive from a seeded Poisson stream; (2) at the
  * start of each replanning epoch (every `period` ticks, or immediately when a
  * robot became idle while tasks are pending, or after a depletion) the fleet
- * is re-planned over a rolling window of `window` ticks: busy robots first,
- * then charger assignment, then task allocation, then the newly assigned and
- * parking robots; (3) every robot executes one action of its current plan and
+ * is re-planned over a rolling window of `window` ticks: charger assignment
+ * first, then the busy robots, then task allocation, then the newly assigned
+ * and parking robots; (3) every robot executes one action of its current plan and
  * the executed step is checked for vertex and swap conflicts; (4) robots that
  * reached a goal transition (pickup -> delivery, delivery -> idle, charger ->
  * charging, home -> idle) and get an immediate single-agent re-plan against
@@ -121,7 +121,26 @@ export interface SimConfig {
   demand: DemandModel
   /** Expansion bound of the unwindowed A* used by token passing. */
   tpMaxExpansions: number
+  /**
+   * What a token-passing robot without a task does.
+   *   'home'     - drive to its own home bay; the drive is not interrupted
+   *   'home-interruptible' - drive to its own home bay, but request the token
+   *                every tick on the way and take a task if there is one
+   *   'faithful' - the rule of Ma et al. (2017), adapted: rest where the path
+   *                ended unless a pending task delivers to that cell (Ma et
+   *                al.) or picks up at it or the cell is a charger slot (added
+   *                here), then move to the nearest home bay or dock in which
+   *                no other path ends and to which no pending task delivers
+   *                (pickups are not endpoints); a free robot requests the
+   *                token every tick, also while it is on such a move
+   */
+  tpFree: TpFree
 }
+
+export type TpFree = 'home' | 'home-interruptible' | 'faithful'
+/** The task pool of one allocation holds the oldest max(POOL_FACTOR * m, POOL_MIN) admissible tasks for m eligible robots. */
+export const POOL_FACTOR = 2
+export const POOL_MIN = 8
 
 export const DEFAULT_CONFIG: SimConfig = {
   layout: 'warehouse',
@@ -152,6 +171,7 @@ export const DEFAULT_CONFIG: SimConfig = {
   coordinator: 'rhcr',
   demand: 'uniform',
   tpMaxExpansions: 20000,
+  tpFree: 'home',
 }
 
 export interface Task {
@@ -277,6 +297,14 @@ export class FleetSimulator {
     busyTicks: 0,
     taskSwaps: 0,
     tpSwapVetoes: 0,
+    cplPairs: 0,
+    cplPairsDiffer: 0,
+    cplGapSum: 0,
+    cplPairsBeyond: 0,
+    cplDistSum: 0,
+    cplAllocs: 0,
+    cplAllocsCostDiffer: 0,
+    cplAllocsMatchDiffer: 0,
   }
   private readonly tpSearch = { limitHits: 0 }
 
@@ -407,6 +435,9 @@ export class FleetSimulator {
   }
 
   private generateTasks(n: number): void {
+    // The stall clock runs only while tasks are outstanding: an idle fleet that
+    // waits for the next arrival makes no progress but is not stalled.
+    if (n > 0 && this.tasksGenerated === this.completedCount) this.lastProgressTick = this.tick
     for (let i = 0; i < n; i += 1) {
       const id = this.tasks.length
       const task: Task = {
@@ -637,7 +668,7 @@ export class FleetSimulator {
       inflight.set(r.task.delivery, (inflight.get(r.task.delivery) ?? 0) + 1)
       if (r.status === 'to_pickup') inflight.set(r.task.pickup, (inflight.get(r.task.pickup) ?? 0) + 1)
     }
-    const poolSize = Math.min(this.pending.length, Math.max(2 * eligible.length, 8))
+    const poolSize = Math.min(this.pending.length, Math.max(POOL_FACTOR * eligible.length, POOL_MIN))
     const pool: Task[] = []
     for (const task of this.pending) {
       if (pool.length >= poolSize) break
@@ -651,8 +682,12 @@ export class FleetSimulator {
     if (pool.length === 0) return
     const K = this.cfg.candidateK
     const cost: number[][] = []
+    // Diagnostics only: the static cost matrix next to a coupled one.
+    const coupled = this.cfg.alloc === 'pact' || this.cfg.alloc === 'pact-proxy'
+    const staticRows: number[][] = []
     for (const r of eligible) {
       const row = new Array<number>(pool.length).fill(Number.POSITIVE_INFINITY)
+      const staticRow = new Array<number>(pool.length).fill(Number.POSITIVE_INFINITY)
       // Candidate pruning: K nearest tasks by static distance.
       const order = pool
         .map((task, j) => ({ j, d: this.oracle.dist(r.cell, task.pickup) }))
@@ -670,7 +705,9 @@ export class FleetSimulator {
             const sp = this.oracle.shortestPath(r.cell, task.pickup)
             const congestion = sp ? table.congestionAlong(sp, this.tick, this.cfg.holdPenalty) : Number.POSITIVE_INFINITY
             const d = this.oracle.dist(r.cell, task.pickup)
-            row[j] = estimatedCost(this.costCtx, r.cell, r.soc, task, d + this.cfg.congestionWeight * congestion)
+            const estimate = d + this.cfg.congestionWeight * congestion
+            row[j] = estimatedCost(this.costCtx, r.cell, r.soc, task, estimate)
+            this.notePricedPair(d, estimate)
             break
           }
           case 'pact': {
@@ -678,13 +715,22 @@ export class FleetSimulator {
             const res = spaceTimeAStar(this.map, this.oracle, r.cell, task.pickup, table, this.tick)
             if (res) this.acc.expansions += res.expansions
             row[j] = estimatedCost(this.costCtx, r.cell, r.soc, task, res ? res.cost : Number.POSITIVE_INFINITY)
+            this.notePricedPair(this.oracle.dist(r.cell, task.pickup), res ? res.cost : Number.POSITIVE_INFINITY)
             break
           }
         }
+        if (coupled) staticRow[j] = staticCost(this.costCtx, r.cell, r.soc, task)
       }
       cost.push(row)
+      staticRows.push(staticRow)
     }
     const assignment = this.cfg.alloc === 'greedy' ? greedyAssign(cost) : hungarian(cost)
+    if (coupled) {
+      this.acc.cplAllocs += 1
+      if (cost.some((row, i) => row.some((c, j) => c !== staticRows[i][j]))) this.acc.cplAllocsCostDiffer += 1
+      const staticAssignment = hungarian(staticRows)
+      if (assignment.some((j, i) => j !== staticAssignment[i])) this.acc.cplAllocsMatchDiffer += 1
+    }
     const taken = new Set<number>()
     eligible.forEach((r, i) => {
       const j = assignment[i]
@@ -703,6 +749,18 @@ export class FleetSimulator {
         if (!taken.has(this.pending[i].id)) this.pending[w++] = this.pending[i]
       }
       this.pending.length = w
+    }
+  }
+
+  /** Coupling diagnostics for one priced pair; read-only with respect to the allocation. */
+  private notePricedPair(dist: number, estimate: number): void {
+    if (!Number.isFinite(estimate)) return
+    this.acc.cplPairs += 1
+    this.acc.cplDistSum += dist
+    if (dist > this.cfg.window) this.acc.cplPairsBeyond += 1
+    if (estimate !== dist) {
+      this.acc.cplPairsDiffer += 1
+      this.acc.cplGapSum += estimate - dist
     }
   }
 
@@ -881,7 +939,12 @@ export class FleetSimulator {
     const t0 = now()
     for (const r of this.robots) {
       if (r.status === 'depleted') continue
-      if (this.tick - r.pathStart < r.path.length - 1) continue
+      if (this.tick - r.pathStart < r.path.length - 1) {
+        // Interruptible variants: a free robot requests the token every tick,
+        // also while it moves to an endpoint; `fallback` is the rest of its path.
+        if (this.cfg.tpFree !== 'home' && r.status === 'parking') this.tpGetTask(r, 0, r.path.slice(this.tick - r.pathStart))
+        continue
+      }
       if (r.status === 'charging') {
         if (!chargingDone(r.soc, this.cfg.battery)) continue
         if (r.slot !== null) this.slotReserved.delete(r.slot)
@@ -952,6 +1015,10 @@ export class FleetSimulator {
     } else if (this.tpTakeTask(r, depth)) {
       return
     }
+    if (this.cfg.tpFree === 'faithful') {
+      this.tpFreeFaithful(r, fallback)
+      return
+    }
     // No task: return to the home bay, or rest where the path ended.
     if (r.cell !== r.home) {
       const path = this.tpPlanTo(r, r.home) ?? fallback
@@ -971,6 +1038,55 @@ export class FleetSimulator {
     } else {
       this.tpAssignPath(r, fallback ?? [r.cell])
     }
+  }
+
+  /**
+   * A robot without a task under tpFree = 'faithful' (Ma et al., 2017, Alg. 1
+   * lines 13-16 and Alg. 2 lines 34-42). On a path (`fallback`) it keeps the
+   * path. At the end of a path it rests there, unless a pending task delivers
+   * to or picks up at that cell or the cell is a charger slot; then it moves
+   * with Path2. If Path2 finds nothing it rests.
+   */
+  private tpFreeFaithful(r: Robot, fallback: Cell[] | null): void {
+    if (fallback !== null && fallback.length > 1) {
+      r.status = 'parking'
+      r.goal = fallback[fallback.length - 1]
+      this.tpAssignPath(r, fallback)
+      return
+    }
+    const mustMove =
+      this.pending.some((t) => t.delivery === r.cell || t.pickup === r.cell) || chargerSlots(this.map).includes(r.cell)
+    const path = mustMove ? this.tpPath2(r) : null
+    if (path) {
+      r.status = 'parking'
+      r.goal = path[path.length - 1]
+      this.tpAssignPath(r, path)
+      return
+    }
+    r.status = 'idle'
+    r.goal = r.cell
+    this.tpAssignPath(r, [r.cell])
+  }
+
+  /**
+   * Path2 of Ma et al. (2017): a path to the nearest endpoint that is not the
+   * delivery cell of a pending task and in which no other path ends. Endpoints
+   * are the home bays and the docks; pickups are left out because they lie on
+   * the aisles in these layouts. The robot's own path must be released.
+   */
+  private tpPath2(r: Robot): Cell[] | null {
+    const table = this.token as TokenTable
+    const ends = new Set<Cell>()
+    for (const o of this.robots) if (o.id !== r.id) ends.add(table.endOf(o.id))
+    const wanted = new Set(this.pending.map((t) => t.delivery))
+    const cands = [...this.map.homes, ...this.map.deliveries]
+      .filter((c) => c !== r.cell && !ends.has(c) && !wanted.has(c))
+      .sort((a, b) => this.oracle.dist(r.cell, a) - this.oracle.dist(r.cell, b) || a - b)
+    for (const c of cands) {
+      const path = this.tpPlanTo(r, c)
+      if (path) return path
+    }
+    return null
   }
 
   private tpTakeTask(r: Robot, depth: number): boolean {
@@ -1011,7 +1127,7 @@ export class FleetSimulator {
       if (plan && plan.pickupAt < owner.pickupAt) {
         table.reservePath(r.id, plan.path, this.tick)
         // The owner must be able to leave: it needs a path home from where it is now.
-        const escape = this.tpPlanTo(owner, owner.home)
+        const escape = this.cfg.tpFree === 'faithful' ? this.tpPath2(owner) : this.tpPlanTo(owner, owner.home)
         if (escape) {
           const task = c.task
           owner.task = null
@@ -1038,6 +1154,17 @@ export class FleetSimulator {
     r.goal = task.pickup
     r.pickupAt = plan.pickupAt
     this.tpAssignPath(r, plan.path)
+    // A robot that takes a task while standing on its pickup (possible only
+    // when it is interrupted on a move) starts loading now; arrival processing
+    // would look for the pickup tick one tick too late.
+    if (plan.pickupAt === this.tick) {
+      if (this.cfg.dwell > 0) {
+        r.status = 'loading'
+        r.dwellUntil = this.tick + this.cfg.dwell
+      } else {
+        this.startDelivery(r)
+      }
+    }
   }
 
   private tpCharge(r: Robot): boolean {
@@ -1148,6 +1275,14 @@ export class FleetSimulator {
       taskSwaps: this.acc.taskSwaps,
       tpSearchLimitHits: this.tpSearch.limitHits,
       tpSwapVetoes: this.acc.tpSwapVetoes,
+      cplPairs: this.acc.cplPairs,
+      cplPairsDiffer: this.acc.cplPairsDiffer,
+      cplGapSum: this.acc.cplGapSum,
+      cplPairsBeyond: this.acc.cplPairsBeyond,
+      cplDistSum: this.acc.cplDistSum,
+      cplAllocs: this.acc.cplAllocs,
+      cplAllocsCostDiffer: this.acc.cplAllocsCostDiffer,
+      cplAllocsMatchDiffer: this.acc.cplAllocsMatchDiffer,
       epochs: this.acc.epochs,
       astarCalls: this.acc.astarCalls,
       expansions: this.acc.expansions,

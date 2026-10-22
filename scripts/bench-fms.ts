@@ -4,21 +4,27 @@
  *   npm run bench:fms                          # all sweeps, single process
  *   npm run bench:fms -- main                  # selected sweeps
  *   npm run bench:fms -- stress --jobs 10      # run on 10 worker processes
+ *   npm run bench:fms -- main --out /tmp/rerun # write somewhere else (for check:results)
+ *   npm run bench:fms -- --seeds 1 --out /tmp/smoke  # first seed of every sweep (smoke test; needs --out)
  *
- * Sweeps: main | planner | scaling | ablation | battery (seeds 1-5, the
- * original study) and stress | cascade | baselines | coupling (seeds 1-60 or
- * 1-30, added for the review round). Every run is observed tick by tick by the
+ * Sweeps: main | planner | scaling | ablation | battery (seeds 1-5) and
+ * stress (seeds 1-60) | cascade | baselines | coupling | tpfree (seeds 1-30).
+ * Every run is observed tick by tick by the
  * independent TrajectoryAuditor (src/fms/sim/audit.ts), whose results are
  * stored as audit_* fields next to the simulator's own metrics.
  *
  * Writes paper/experiments/results/<sweep>.json (one record per run),
  * <sweep>.csv (same, flat) and <sweep>_summary.csv (mean/std/max per
  * configuration), plus bench-meta[-<sweeps>].json with machine and version
- * information. Results do not depend on --jobs except for wall-clock fields.
+ * information. Results do not depend on --jobs except for the wall-clock fields
+ * (wallMs, plannerMs, allocMs, plannerMsPerTick). Those fields are written to
+ * every record but the paper does not quote them from here: the wall-clock
+ * numbers it reports come from scripts/measure-timing.sh, which runs on a
+ * quiet host and writes paper/experiments/timing/.
  */
 import { mkdirSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
-import { cpus, totalmem } from 'node:os'
+import { join, resolve } from 'node:path'
+import { cpus, loadavg, totalmem } from 'node:os'
 import { execSync, fork } from 'node:child_process'
 import { FleetSimulator, type SimConfig } from '../src/fms/index'
 import { TrajectoryAuditor, type AuditReport } from '../src/fms/sim/audit'
@@ -26,7 +32,7 @@ import type { SimMetrics } from '../src/fms/sim/metrics'
 
 const SEEDS = [1, 2, 3, 4, 5]
 const range = (a: number, b: number) => Array.from({ length: b - a + 1 }, (_, i) => a + i)
-const OUT = join(process.cwd(), 'paper/experiments/results')
+const DEFAULT_OUT = join(process.cwd(), 'paper/experiments/results')
 
 type AuditFields = { [K in keyof AuditReport as `audit_${K}`]: number }
 type Run = SimMetrics & AuditFields & { sweep: string; variant: string; wallMs: number }
@@ -226,6 +232,30 @@ function sweeps(): Sweep[] {
     }
     out.push({ name: 'coupling', seeds: range(1, 30), strict: false, configs })
   }
+  // Token passing with an interruptible return to the home bay, and with the
+  // rule of Ma et al. (2017) for a robot without a task (rest in place, move
+  // only off the delivery cell of a pending task). Same settings and seeds as
+  // the baselines sweep, so the runs pair with it by seed.
+  {
+    const settings: Array<[string, Partial<SimConfig>]> = [
+      ['warehouse-16-batch', { layout: 'warehouse', fleetSize: 16, numTasks: 200, arrivalRate: Number.POSITIVE_INFINITY }],
+      ['warehouse-32-batch', { layout: 'warehouse', fleetSize: 32, numTasks: 200, arrivalRate: Number.POSITIVE_INFINITY }],
+      ['warehouse-16-poisson', { layout: 'warehouse', fleetSize: 16, numTasks: 200, arrivalRate: 0.15 }],
+      ['console-16-batch', { layout: 'console', fleetSize: 16, numTasks: 200, arrivalRate: Number.POSITIVE_INFINITY }],
+      ['narrow-16-batch', { layout: 'narrow', fleetSize: 16, numTasks: 200, arrivalRate: Number.POSITIVE_INFINITY }],
+    ]
+    const variants: Array<[string, Partial<SimConfig>]> = [
+      ['tp-interruptible', { coordinator: 'tp', tpFree: 'home-interruptible' }],
+      ['tpts-interruptible', { coordinator: 'tpts', tpFree: 'home-interruptible' }],
+      ['tp-faithful', { coordinator: 'tp', tpFree: 'faithful' }],
+      ['tpts-faithful', { coordinator: 'tpts', tpFree: 'faithful' }],
+    ]
+    const configs: Sweep['configs'] = []
+    for (const [setting, cfg] of settings) {
+      for (const [v, vc] of variants) configs.push({ variant: `${setting}/${v}`, cfg: { ...cfg, ...vc } })
+    }
+    out.push({ name: 'tpfree', seeds: range(1, 30), strict: false, configs })
+  }
   return out
 }
 
@@ -250,6 +280,14 @@ const NUMERIC = [
   'taskSwaps',
   'tpSearchLimitHits',
   'tpSwapVetoes',
+  'cplPairs',
+  'cplPairsDiffer',
+  'cplGapSum',
+  'cplPairsBeyond',
+  'cplDistSum',
+  'cplAllocs',
+  'cplAllocsCostDiffer',
+  'cplAllocsMatchDiffer',
   'epochs',
   'astarCalls',
   'expansions',
@@ -378,17 +416,28 @@ async function runAll(jobs: Job[], workers: number): Promise<Run[]> {
 async function main() {
   const args = process.argv.slice(2)
   const ji = args.indexOf('--jobs')
+  const oi = args.indexOf('--out')
+  const si = args.indexOf('--seeds')
+  const seedCap = si >= 0 ? Number(args[si + 1]) : Number.POSITIVE_INFINITY
+  if (si >= 0 && (!Number.isInteger(seedCap) || seedCap < 1)) throw new Error('--seeds needs a positive integer')
+  if (si >= 0 && oi < 0) throw new Error('--seeds is a smoke test and needs --out <dir>; the committed results use all seeds')
   const workers = ji >= 0 ? Number(args[ji + 1]) : 1
-  const only = args.filter((a, i) => !a.startsWith('--') && (ji < 0 || i !== ji + 1))
+  if (!Number.isInteger(workers) || workers < 1) throw new Error('--jobs needs a positive integer')
+  if (oi >= 0 && args[oi + 1] === undefined) throw new Error('--out needs a directory')
+  const OUT = oi >= 0 ? resolve(args[oi + 1]) : DEFAULT_OUT
+  const only = args.filter((a, i) => !a.startsWith('--') && (ji < 0 || i !== ji + 1) && (oi < 0 || i !== oi + 1) && (si < 0 || i !== si + 1))
+  const known = sweeps().map((s) => s.name)
+  for (const name of only) if (!known.includes(name)) throw new Error(`unknown sweep '${name}' (known: ${known.join(', ')})`)
   mkdirSync(OUT, { recursive: true })
   const started = Date.now()
+  const loadBefore = loadavg()
   const all: Run[] = []
   for (const sweep of sweeps()) {
     if (only.length > 0 && !only.includes(sweep.name)) continue
     const t0 = Date.now()
     const jobs: Job[] = []
     for (const { variant, cfg, seedCfg } of sweep.configs) {
-      for (const seed of sweep.seeds) {
+      for (const seed of sweep.seeds.slice(0, seedCap)) {
         jobs.push({ idx: jobs.length, sweep: sweep.name, variant, strict: sweep.strict, cfg: { ...cfg, ...(seedCfg ? seedCfg(seed) : {}) }, seed })
       }
     }
@@ -419,8 +468,13 @@ async function main() {
     commit,
     workers,
     sweeps: only.length > 0 ? only : sweeps().map((s) => s.name),
-    seeds: Object.fromEntries(sweeps().map((s) => [s.name, [s.seeds[0], s.seeds[s.seeds.length - 1]]])),
+    seeds: Object.fromEntries(sweeps().map((s) => [s.name, [s.seeds[0], Math.min(seedCap, s.seeds[s.seeds.length - 1])]])),
     runs: all.length,
+    runsPerSweep: Object.fromEntries(sweeps().map((s) => [s.name, all.filter((r) => r.sweep === s.name).length]).filter(([, n]) => Number(n) > 0)),
+    // 1-, 5- and 15-minute load averages of the host before and after the run.
+    // The wall-clock fields of these records are not the ones the paper reports.
+    loadAverageBefore: loadBefore.map((x) => Number(x.toFixed(2))),
+    loadAverageAfter: loadavg().map((x) => Number(x.toFixed(2))),
     robotTicks: sum('audit_robotTicks'),
     totalConflicts: sum('conflicts'),
     auditVertexConflicts: sum('audit_vertexConflicts'),

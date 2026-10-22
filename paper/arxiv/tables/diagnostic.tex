@@ -1,0 +1,32 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{How often the coupling changes anything.} Counters recorded next to every allocation, pooled over the seeds of a configuration (5 in the twelve cells of \cref{tab:main}, 30 in the four regimes of \cref{tab:coupling}). \emph{Beyond $w$}: priced robot--task pairs whose pickup is farther than the window, for which the estimate is a free-space distance after the first $w$ ticks (\cref{eq:arrival}). \emph{$\hat a\neq d$}: priced pairs whose estimate differs from the free-space distance; \emph{gap}: mean difference in ticks over those pairs, next to the mean distance $\bar d$ of all priced pairs. \emph{Matching}: allocations whose matching differs from the Hungarian matching on the static costs of the same robots and tasks.}
+\label{tab:diagnostic}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrrrrrrrr}
+\toprule
+ & \multicolumn{6}{c}{\textbf{\sname\ (path-aware)}} & \multicolumn{2}{c}{\textbf{Proxy}}\\
+\cmidrule(lr){2-7}\cmidrule(lr){8-9}
+\textbf{Setting} & \textbf{Pairs/run} & \textbf{Beyond $w$, \%} & \textbf{$\hat a\neq d$, \%} & \textbf{Gap} & $\bar d$ & \textbf{Matching, \%} & \textbf{$\hat a\neq d$, \%} & \textbf{Matching, \%}\\
+\midrule
+warehouse, $\lambda{=}0.15$, 8 & 1090 & 86 & 6 & 2.1 & 40 & 1 & 33 & 5\\
+warehouse, $\lambda{=}0.15$, 16 & 1302 & 69 & 7 & 2.4 & 28 & 4 & 24 & 9\\
+warehouse, $\lambda{=}0.15$, 32 & 4491 & 66 & 6 & 2.5 & 27 & 7 & 20 & 9\\
+warehouse, batch, 8 & 1175 & 84 & 7 & 2.0 & 39 & 2 & 36 & 7\\
+warehouse, batch, 16 & 1176 & 79 & 13 & 2.2 & 38 & 4 & 55 & 10\\
+warehouse, batch, 32 & 1349 & 60 & 20 & 3.0 & 27 & 13 & 52 & 30\\
+console, $\lambda{=}0.15$, 8 & 914 & 84 & 9 & 2.0 & 30 & 2 & 42 & 8\\
+console, $\lambda{=}0.15$, 16 & 1377 & 69 & 14 & 2.3 & 25 & 8 & 29 & 13\\
+console, $\lambda{=}0.15$, 32 & 4768 & 68 & 8 & 2.2 & 24 & 7 & 20 & 10\\
+console, batch, 8 & 1143 & 84 & 8 & 1.9 & 30 & 2 & 43 & 10\\
+console, batch, 16 & 886 & 77 & 17 & 2.4 & 30 & 4 & 58 & 15\\
+console, batch, 32 & 2830 & 60 & 26 & 2.9 & 23 & 14 & 49 & 21\\
+\midrule
+one-lane aisles & 971 & 72 & 29 & 3.6 & 34 & 6 & 54 & 10\\
+hotspot demand & 1658 & 68 & 24 & 2.9 & 24 & 27 & 58 & 52\\
+long empty trips & 2727 & 92 & 3 & 1.9 & 38 & 3 & 30 & 13\\
+saturated chargers & 7684 & 45 & 8 & 3.0 & 23 & 2 & 32 & 6\\
+\bottomrule
+\end{tabular}
+\end{table}

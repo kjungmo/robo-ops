@@ -12,6 +12,8 @@
  * number of feasible matches.
  */
 const INFEASIBLE = Number.POSITIVE_INFINITY
+/** An infeasible pair is priced at (sum of all finite costs) + this offset. */
+export const INFEASIBLE_OFFSET = 1e6
 
 export function hungarian(cost: number[][]): number[] {
   const n = cost.length
@@ -33,7 +35,7 @@ export function hungarian(cost: number[][]): number[] {
   }
   let finiteSum = 0
   for (const row of cost) for (const c of row) if (Number.isFinite(c)) finiteSum += Math.abs(c)
-  const BIG = finiteSum + 1e6
+  const BIG = finiteSum + INFEASIBLE_OFFSET
   const a = (i: number, j: number) => {
     const c = cost[i - 1][j - 1]
     return Number.isFinite(c) ? c : BIG

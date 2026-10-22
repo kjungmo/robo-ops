@@ -41,6 +41,27 @@ export interface SimMetrics {
   tpSearchLimitHits: number
   /** Token passing with task swaps: earlier-arriving swaps dropped because the displaced robot had no path home. */
   tpSwapVetoes: number
+  /**
+   * Coupling diagnostics (pact and pact-proxy only, 0 otherwise). They are
+   * computed next to the allocation and never feed back into it.
+   *
+   * cplPairs: priced robot-task pairs with a finite path-aware or proxy estimate.
+   */
+  cplPairs: number
+  /** Priced pairs whose estimate differs from the free-space distance. */
+  cplPairsDiffer: number
+  /** Sum over those pairs of (estimate - free-space distance). */
+  cplGapSum: number
+  /** Priced pairs whose free-space distance exceeds the planning window. */
+  cplPairsBeyond: number
+  /** Sum of the free-space distance over the priced pairs. */
+  cplDistSum: number
+  /** Allocation calls with at least one eligible robot and one pooled task. */
+  cplAllocs: number
+  /** Allocation calls in which at least one entry of the cost matrix differs from the static matrix. */
+  cplAllocsCostDiffer: number
+  /** Allocation calls whose matching differs from the Hungarian matching on the static matrix. */
+  cplAllocsMatchDiffer: number
   epochs: number
   astarCalls: number
   expansions: number

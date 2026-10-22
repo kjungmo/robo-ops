@@ -26,6 +26,8 @@
 \pgfplotsset{compat=1.18}
 \RequirePackage[colorlinks=true,allcolors=blue]{hyperref}
 \RequirePackage{cleveref}
+\crefname{appendix}{appendix}{appendices}
+\Crefname{appendix}{Appendix}{Appendices}
 \setlength{\parskip}{0.5\baselineskip}
 \setlength{\parindent}{0pt}
 \setlist{itemsep=2pt,topsep=2pt}
@@ -51,6 +53,7 @@
 % metadata
 \newtoks\correspondingauthor
 \newtoks\paperurl
+\newtoks\paperdate \paperdate={\today}
 \def\@keywords{}
 \newcommand{\keywords}[1]{\def\@keywords{#1}}
 % running head/foot
@@ -65,7 +68,7 @@
 \fancypagestyle{firststyle}{%
   \fancyhf{}%
   \fancyhead[R]{\if\relax\the\paperurl\relax\else\href{\the\paperurl}{\footerfont\itshape\the\paperurl}\\\fi
-    {\footerfont\itshape Preprint, \today}}%
+    {\footerfont\itshape Preprint, \the\paperdate}}%
   \fancyfoot[L]{\if\relax\the\correspondingauthor\relax\else
     \footerfont\itshape Corresponding author: \the\correspondingauthor\fi}%
   \fancyfoot[R]{\footerfont\thepage}}

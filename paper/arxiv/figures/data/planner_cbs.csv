@@ -1,4 +1,4 @@
-fleetSize,makespan_mean,makespan_std,meanServiceTime_mean,meanServiceTime_std,waitActions_mean,waitActions_std,plannerMsPerTick_mean,plannerMsPerTick_std
-4,766.6,39.3103,300.29,11.4651,48.2,6.3797,0.0902,0.0104
-6,515,27.1017,238.826,10.3187,102.4,9.6073,0.3114,0.068
-8,470.8,28.1816,218.044,12.6657,148,15.6045,0.3366,0.0362
+fleetSize,makespan_mean,makespan_std,meanServiceTime_mean,meanServiceTime_std,waitActions_mean,waitActions_std,plannerMsPerTick_mean,plannerMsPerTick_std,expansionsPerTick,plannerMs_median,plannerMs_min,plannerMs_max
+4,766.6,39.3103,300.29,11.4651,48.2,6.3797,0.2874,0.0524,113.50,0.09088,0.09028,0.09126
+6,515,27.1017,238.826,10.3187,102.4,9.6073,0.7218,0.146,386.10,0.29951,0.29931,0.3021
+8,470.8,28.1816,218.044,12.6657,148,15.6045,0.6726,0.0268,438.05,0.29765,0.29653,0.30134
