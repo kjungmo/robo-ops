@@ -64,7 +64,16 @@ export type Coordinator = 'rhcr' | 'tp' | 'tpts'
  *   far     - pickups drawn from the 25% of pickups farthest from any dock
  */
 export type DemandModel = 'uniform' | 'hotspot' | 'far'
-export type PriorityScheme = 'dynamic' | 'static'
+/**
+ * Planning order within a group (and admission to planning group 1).
+ *   dynamic  - blocking-first, then held-first, then status rank and id; held parking robots join group 1
+ *   static   - status rank and id only
+ *   held     - held-first only (with the admission of held parking robots to group 1); no blocking-first
+ *   blocking - blocking-first only; no held-first and no admission of held robots to group 1
+ * 'held' and 'blocking' split the three mechanisms that 'static' switches off together
+ * (paper/experiments/PREREG_v2.md, E4); the defaults and the other two values are unchanged.
+ */
+export type PriorityScheme = 'dynamic' | 'static' | 'held' | 'blocking'
 export type RobotStatus =
   | 'idle'
   | 'to_pickup'
@@ -115,7 +124,9 @@ export interface SimConfig {
   /**
    * 'dynamic': robots standing on another robot's goal and robots held last
    * epoch are planned first (and held parking robots join group 1);
-   * 'static': status rank, then id.
+   * 'static': status rank, then id;
+   * 'held' and 'blocking': only the held-first or only the blocking-first
+   * mechanism of 'dynamic' (see PriorityScheme).
    */
   priority: PriorityScheme
   coordinator: Coordinator
@@ -513,8 +524,8 @@ export class FleetSimulator {
     // so that a robot boxed in on a dock's access cell can be evacuated).
     const busy = this.robots.filter((r) => r.status === 'to_pickup' || r.status === 'to_delivery' || r.status === 'to_charger')
     const busyGoals = new Set(busy.map((r) => r.goal))
-    const dynamic = this.cfg.priority === 'dynamic'
-    const blockers = this.robots.filter((r) => r.status === 'parking' && (busyGoals.has(r.cell) || (dynamic && r.heldLast)))
+    const heldFirst = this.cfg.priority === 'dynamic' || this.cfg.priority === 'held'
+    const blockers = this.robots.filter((r) => r.status === 'parking' && (busyGoals.has(r.cell) || (heldFirst && r.heldLast)))
     const group1 = this.sortByPriority([...busy, ...blockers])
     this.planGroup(group1, table, t, [])
     // (e) Task allocation for eligible robots.
@@ -556,14 +567,18 @@ export class FleetSimulator {
     const goals = new Map<Cell, number>()
     for (const r of list) goals.set(r.goal, (goals.get(r.goal) ?? 0) + 1)
     const blocking = (r: Robot) => (r.goal !== r.cell && goals.has(r.cell) ? 1 : 0)
-    if (this.cfg.priority === 'static') {
+    const useBlocking = this.cfg.priority === 'dynamic' || this.cfg.priority === 'blocking'
+    const useHeld = this.cfg.priority === 'dynamic' || this.cfg.priority === 'held'
+    if (!useBlocking && !useHeld) {
       return [...list].sort((a, b) => STATUS_RANK[a.status] - STATUS_RANK[b.status] || a.id - b.id)
     }
     return [...list].sort((a, b) => {
-      const ba = blocking(a)
-      const bb = blocking(b)
-      if (ba !== bb) return bb - ba
-      if (a.heldLast !== b.heldLast) return a.heldLast ? -1 : 1
+      if (useBlocking) {
+        const ba = blocking(a)
+        const bb = blocking(b)
+        if (ba !== bb) return bb - ba
+      }
+      if (useHeld && a.heldLast !== b.heldLast) return a.heldLast ? -1 : 1
       const ra = STATUS_RANK[a.status]
       const rb = STATUS_RANK[b.status]
       if (ra !== rb) return ra - rb

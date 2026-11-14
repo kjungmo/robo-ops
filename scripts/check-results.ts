@@ -31,7 +31,7 @@ import { SCHEMA_ADDED, SCHEMA_VERSION } from './schema'
 
 export const TIMING = ['wallMs', 'plannerMs', 'allocMs', 'diagMs', 'plannerMsPerTick'] as const
 const COMMITTED = join(process.cwd(), 'paper/experiments/results')
-export const SWEEPS = ['main', 'planner', 'scaling', 'ablation', 'battery', 'stress', 'cascade', 'baselines', 'coupling', 'tpfree']
+export const SWEEPS = ['main', 'planner', 'scaling', 'ablation', 'battery', 'stress', 'cascade', 'baselines', 'coupling', 'tpfree', 'nondegenerate', 'kablation', 'prioritysplit']
 
 type Rec = Record<string, unknown>
 

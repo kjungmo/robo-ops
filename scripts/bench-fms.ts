@@ -13,7 +13,8 @@
  * only when named, never in a default run.
  *
  * Sweeps: main | planner | scaling | ablation | battery (seeds 1-5) and
- * stress (seeds 1-60) | cascade | baselines | coupling | tpfree (seeds 1-30).
+ * stress (seeds 1-60) | cascade | baselines | coupling | tpfree (seeds 1-30) and the
+ * v2 sweeps nondegenerate | kablation | prioritysplit (seeds 1-30, paper/experiments/PREREG_v2.md).
  * Every run is observed tick by tick by the
  * independent TrajectoryAuditor (src/fms/sim/audit.ts), whose results are
  * stored as audit_* fields next to the simulator's own metrics.
@@ -60,6 +61,14 @@ const BATTERY_STRESS: Partial<SimConfig> = {
   initialSoc: [0.2, 0.4],
   battery: { drainMove: 0.002, drainWait: 0.0004, chargeRate: 0.005, socLow: 0.2, socHigh: 0.9, reserve: 0.05 },
 }
+
+/** The four settings of the cascade sweep; the priority-split sweep reuses them unchanged. */
+const CASCADE_SETTINGS: Array<[string, Partial<SimConfig>]> = [
+  ['warehouse-32', { layout: 'warehouse', fleetSize: 32, numTasks: 200 }],
+  ['warehouse-32-dock4', { layout: 'warehouse', fleetSize: 32, numTasks: 200, dockCapacity: 4 }],
+  ['small-8', { layout: 'small', fleetSize: 8, numTasks: 100 }],
+  ['narrow-16', { layout: 'narrow', fleetSize: 16, numTasks: 200 }],
+]
 
 function grid<T>(...axes: T[][]): T[][] {
   return axes.reduce<T[][]>((acc, axis) => acc.flatMap((prefix) => axis.map((v) => [...prefix, v])), [[]])
@@ -170,12 +179,7 @@ function sweeps(includeTimingOnly = false): Sweep[] {
   // priority restarts, vs. static priorities, on settings that exercise holds
   // (dock capacity 4 gridlocked under an earlier priority scheme).
   {
-    const settings: Array<[string, Partial<SimConfig>]> = [
-      ['warehouse-32', { layout: 'warehouse', fleetSize: 32, numTasks: 200 }],
-      ['warehouse-32-dock4', { layout: 'warehouse', fleetSize: 32, numTasks: 200, dockCapacity: 4 }],
-      ['small-8', { layout: 'small', fleetSize: 8, numTasks: 100 }],
-      ['narrow-16', { layout: 'narrow', fleetSize: 16, numTasks: 200 }],
-    ]
+    const settings = CASCADE_SETTINGS
     const variants: Array<[string, Partial<SimConfig>]> = [
       ['cascade', {}],
       ['none', { fallback: 'none' }],
@@ -265,6 +269,55 @@ function sweeps(includeTimingOnly = false): Sweep[] {
       for (const [v, vc] of variants) configs.push({ variant: `${setting}/${v}`, cfg: { ...cfg, ...vc } })
     }
     out.push({ name: 'tpfree', seeds: range(1, 30), strict: false, configs })
+  }
+  // v2 re-runs of the deep-review ruling (4.2). Fixed in paper/experiments/PREREG_v2.md,
+  // committed before any of these results existed (commit f35437f).
+  //
+  // E2: allocation without event-triggered epochs, where the share of real assignment
+  // problems is larger. Chosen after the v1 ablation hint (PACT vs Hungarian without
+  // event epochs, +3.3 +/- 3.0 %, 5 seeds): confirmatory of a post-hoc observation, not
+  // blind. Arms: noevent (primary), event (reference), noevent-dock4 (optional).
+  {
+    const cells: Array<[string, Partial<SimConfig>]> = [
+      ['warehouse-32-batch', { layout: 'warehouse', fleetSize: 32, numTasks: 200, arrivalRate: Number.POSITIVE_INFINITY }],
+      ['console-32-batch', { layout: 'console', fleetSize: 32, numTasks: 200, arrivalRate: Number.POSITIVE_INFINITY }],
+    ]
+    const arms: Array<[string, Partial<SimConfig>]> = [
+      ['noevent', { eventReplan: false }],
+      ['event', {}],
+      ['noevent-dock4', { eventReplan: false, dockCapacity: 4 }],
+    ]
+    const configs: Sweep['configs'] = []
+    for (const [cell, cc] of cells) {
+      for (const [arm, ac] of arms) {
+        for (const alloc of ALLOCS) configs.push({ variant: `${cell}/${arm}/${alloc}`, cfg: { ...cc, ...ac, alloc } })
+      }
+    }
+    out.push({ name: 'nondegenerate', seeds: range(1, 30), strict: false, configs })
+  }
+  // E3: candidate count K of PACT in cells where the task pool exceeds K in most calls.
+  {
+    const cells: Array<[string, Partial<SimConfig>]> = [
+      ['warehouse-8-batch', { layout: 'warehouse', fleetSize: 8, numTasks: 200, arrivalRate: Number.POSITIVE_INFINITY }],
+      ['narrow-16-batch', { layout: 'narrow', fleetSize: 16, numTasks: 200, arrivalRate: Number.POSITIVE_INFINITY }],
+    ]
+    const configs: Sweep['configs'] = []
+    for (const [cell, cc] of cells) {
+      for (const K of [3, 6, 12]) configs.push({ variant: `${cell}/pact-K${K}`, cfg: { ...cc, alloc: 'pact', candidateK: K } })
+    }
+    out.push({ name: 'kablation', seeds: range(1, 30), strict: false, configs })
+  }
+  // E4: the three mechanisms that priority 'static' switches off, split in two arms:
+  // held-first only ('held') and blocking-first only ('blocking'). The reference arms
+  // 'cascade' (both) and 'static' (neither) are the records of the cascade sweep.
+  {
+    const configs: Sweep['configs'] = []
+    for (const [setting, cfg] of CASCADE_SETTINGS) {
+      for (const priority of ['held', 'blocking'] as const) {
+        configs.push({ variant: `${setting}/${priority}`, cfg: { ...cfg, priority, arrivalRate: Number.POSITIVE_INFINITY, alloc: 'hungarian', mapf: 'pp' } })
+      }
+    }
+    out.push({ name: 'prioritysplit', seeds: range(1, 30), strict: false, configs })
   }
   // Per-epoch wall time of the planners on the larger layouts (scripts/measure-timing.sh,
   // with the epoch times of the planner, scaling and ablation sweeps). Not part of the
