@@ -6,7 +6,7 @@ dependencies); the benchmark, tests and paper tables are produced by
 \begin{verbatim}
 npm ci
 npm test                        # unit and property tests (vitest)
-bash scripts/regenerate.sh 11    # all ten sweeps, 7,200 runs
+bash scripts/regenerate.sh 11    # all thirteen sweeps, 8,340 runs
 bash scripts/measure-timing.sh  # planner times: three repeats on an idle host
 npm run paper:data              # tables/*.tex and figures/data/*.csv
 npm run check:paper             # every number in the text and tables
@@ -14,7 +14,7 @@ npm run check:paper             # every number in the text and tables
 \endgroup
 \begin{sloppypar}
 All records in \path{paper/experiments/results/} were written by one run
-of the regeneration script at commit \texttt{22431e9} of the repository, on 11
+of the regeneration script at commit \texttt{acbfe97} of the repository, on 11
 worker processes (\texttt{bench-meta.json}); the code under
 \texttt{src/fms/} and the benchmark driver have not changed since. Every run
 is deterministic given its seed. Before the script replaces the committed
@@ -25,10 +25,14 @@ For the 6{,}600 runs that existed before, which had been written at earlier
 commits on 1 and 10 worker processes, no field differed
 (\path{paper/experiments/repro/regeneration.json}); the new records add
 the counters of \cref{tab:diagnostic}, and the 600 runs of
-\cref{tab:tpfree} are new. A second regeneration at the commit above, after
-the allocation-shape counters had been added to the records, left all
+\cref{tab:tpfree} are new. A second regeneration, at commit \texttt{22431e9}
+after the allocation-shape counters had been added to the records, left all
 7{,}200 runs identical in every earlier field
-(\path{paper/experiments/repro/regeneration-schema2.json}).
+(\path{paper/experiments/repro/regeneration-schema2.json}). A third, at the
+commit above, which added the three sweeps of the re-runs pre-registered in
+\path{paper/experiments/PREREG_v2.md} (1{,}140 runs), left all 8{,}340 runs
+identical in every earlier field
+(\path{paper/experiments/repro/regeneration-v2.json}).
 \texttt{npm run check:results -{}- <dir>} makes the
 same comparison for a re-run written with
 \texttt{npm run bench:fms -{}- -{}-out <dir>}, and the continuous-integration

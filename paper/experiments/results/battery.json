@@ -47,10 +47,10 @@
   "epochs": 397,
   "astarCalls": 5335,
   "expansions": 288926,
-  "plannerMs": 1035.4870659999997,
-  "allocMs": 72.78479199999913,
-  "diagMs": 2.544253999999796,
-  "plannerMsPerTick": 0.8418594032520322,
+  "plannerMs": 1666.6058530000007,
+  "allocMs": 174.31231399999092,
+  "diagMs": 30.300583000004508,
+  "plannerMsPerTick": 1.3549641081300818,
   "utilization": 0.6970528455284553,
   "finalMeanSoc": 0.3773093224287285,
   "audit_ticks": 1230,
@@ -68,7 +68,7 @@
   "audit_minSoc": 0.05015766348466219,
   "sweep": "battery",
   "variant": "hungarian",
-  "wallMs": 1209.3065740000002
+  "wallMs": 1847.487411
  },
  {
   "layout": "warehouse",
@@ -118,10 +118,10 @@
   "epochs": 393,
   "astarCalls": 5286,
   "expansions": 283622,
-  "plannerMs": 959.0283599999989,
-  "allocMs": 59.65165500000012,
-  "diagMs": 3.9594270000005736,
-  "plannerMsPerTick": 0.7765411821862339,
+  "plannerMs": 1844.937001999998,
+  "allocMs": 109.51447499999449,
+  "diagMs": 1.819751000002725,
+  "plannerMsPerTick": 1.4938761149797555,
   "utilization": 0.6969129554655871,
   "finalMeanSoc": 0.32884564126320387,
   "audit_ticks": 1235,
@@ -139,7 +139,7 @@
   "audit_minSoc": 0.007464081886038227,
   "sweep": "battery",
   "variant": "hungarian",
-  "wallMs": 1093.1142260000001
+  "wallMs": 2057.281345
  },
  {
   "layout": "warehouse",
@@ -189,10 +189,10 @@
   "epochs": 409,
   "astarCalls": 5356,
   "expansions": 273887,
-  "plannerMs": 1084.0547630000028,
-  "allocMs": 72.55011400000035,
-  "diagMs": 2.9707720000002382,
-  "plannerMsPerTick": 0.8455965390015623,
+  "plannerMs": 2018.9404300000015,
+  "allocMs": 137.0905739999979,
+  "diagMs": 2.318931999999677,
+  "plannerMsPerTick": 1.5748365288611557,
   "utilization": 0.6625877535101404,
   "finalMeanSoc": 0.48743898170588246,
   "audit_ticks": 1282,
@@ -210,7 +210,7 @@
   "audit_minSoc": 0.05614560772590271,
   "sweep": "battery",
   "variant": "hungarian",
-  "wallMs": 1212.597722
+  "wallMs": 2248.498817
  },
  {
   "layout": "warehouse",
@@ -260,10 +260,10 @@
   "epochs": 384,
   "astarCalls": 5170,
   "expansions": 262695,
-  "plannerMs": 964.3827250000058,
-  "allocMs": 67.66201200000091,
-  "diagMs": 2.175833999997735,
-  "plannerMsPerTick": 0.8242587393162443,
+  "plannerMs": 1761.2099009999997,
+  "allocMs": 89.44406499999945,
+  "diagMs": 14.20543199999895,
+  "plannerMsPerTick": 1.5053076076923075,
   "utilization": 0.6618589743589743,
   "finalMeanSoc": 0.32215713891797,
   "audit_ticks": 1170,
@@ -281,7 +281,7 @@
   "audit_minSoc": 0.05002922046333569,
   "sweep": "battery",
   "variant": "hungarian",
-  "wallMs": 1062.43929
+  "wallMs": 1994.8509350000002
  },
  {
   "layout": "warehouse",
@@ -331,10 +331,10 @@
   "epochs": 380,
   "astarCalls": 5107,
   "expansions": 219121,
-  "plannerMs": 923.6163200000015,
-  "allocMs": 69.5507880000007,
-  "diagMs": 1.9926660000001561,
-  "plannerMsPerTick": 0.7658510116086248,
+  "plannerMs": 1735.6527439999952,
+  "allocMs": 127.48131100000114,
+  "diagMs": 1.82545699999946,
+  "plannerMsPerTick": 1.4391813797678235,
   "utilization": 0.6594112769485904,
   "finalMeanSoc": 0.3577591658678853,
   "audit_ticks": 1206,
@@ -352,7 +352,7 @@
   "audit_minSoc": 0.06591201070807781,
   "sweep": "battery",
   "variant": "hungarian",
-  "wallMs": 1040.756093
+  "wallMs": 1889.376232
  },
  {
   "layout": "warehouse",
@@ -402,10 +402,10 @@
   "epochs": 377,
   "astarCalls": 5146,
   "expansions": 254066,
-  "plannerMs": 961.1487210000025,
-  "allocMs": 100.28895100000136,
-  "diagMs": 2.5483919999987847,
-  "plannerMsPerTick": 0.8110959670886098,
+  "plannerMs": 1581.9249719999993,
+  "allocMs": 108.74467200000129,
+  "diagMs": 6.092515999999023,
+  "plannerMsPerTick": 1.3349577822784804,
   "utilization": 0.7253691983122363,
   "finalMeanSoc": 0.26963432242872803,
   "audit_ticks": 1185,
@@ -423,7 +423,7 @@
   "audit_minSoc": 0.059567772120237006,
   "sweep": "battery",
   "variant": "hungarian-noBattery",
-  "wallMs": 1102.3635519999998
+  "wallMs": 1830.907913
  },
  {
   "layout": "warehouse",
@@ -473,10 +473,10 @@
   "epochs": 372,
   "astarCalls": 5047,
   "expansions": 247297,
-  "plannerMs": 912.4107490000005,
-  "allocMs": 77.12356099999613,
-  "diagMs": 2.486908000000085,
-  "plannerMsPerTick": 0.7811735864726032,
+  "plannerMs": 1686.0611300000005,
+  "allocMs": 154.2911280000004,
+  "diagMs": 18.42732299999875,
+  "plannerMsPerTick": 1.443545488013699,
   "utilization": 0.7194991438356164,
   "finalMeanSoc": 0.2961456412632033,
   "audit_ticks": 1168,
@@ -494,7 +494,7 @@
   "audit_minSoc": 0.057173397904261875,
   "sweep": "battery",
   "variant": "hungarian-noBattery",
-  "wallMs": 1023.3697470000001
+  "wallMs": 1841.9122169999998
  },
  {
   "layout": "warehouse",
@@ -544,10 +544,10 @@
   "epochs": 404,
   "astarCalls": 5287,
   "expansions": 256049,
-  "plannerMs": 920.7978160000051,
-  "allocMs": 56.53764700000181,
-  "diagMs": 2.575536999998235,
-  "plannerMsPerTick": 0.7188117220921195,
+  "plannerMs": 1800.1713580000023,
+  "allocMs": 118.03580099999795,
+  "diagMs": 2.1398230000013427,
+  "plannerMsPerTick": 1.4052859937548807,
   "utilization": 0.6606654957064794,
   "finalMeanSoc": 0.5112639817058826,
   "audit_ticks": 1281,
@@ -565,7 +565,7 @@
   "audit_minSoc": 0.06603608356341872,
   "sweep": "battery",
   "variant": "hungarian-noBattery",
-  "wallMs": 1040.376066
+  "wallMs": 2067.980887
  },
  {
   "layout": "warehouse",
@@ -615,10 +615,10 @@
   "epochs": 384,
   "astarCalls": 5125,
   "expansions": 283872,
-  "plannerMs": 884.2636139999992,
-  "allocMs": 81.71413499999778,
-  "diagMs": 14.911718000000405,
-  "plannerMsPerTick": 0.7622962189655165,
+  "plannerMs": 1656.2723309999985,
+  "allocMs": 81.09243000000112,
+  "diagMs": 2.2011780000003682,
+  "plannerMsPerTick": 1.4278209749999988,
   "utilization": 0.6715517241379311,
   "finalMeanSoc": 0.3955321389179701,
   "audit_ticks": 1160,
@@ -636,7 +636,7 @@
   "audit_minSoc": 0.03746923121735385,
   "sweep": "battery",
   "variant": "hungarian-noBattery",
-  "wallMs": 1042.966705
+  "wallMs": 1835.475206
  },
  {
   "layout": "warehouse",
@@ -686,10 +686,10 @@
   "epochs": 390,
   "astarCalls": 5190,
   "expansions": 257243,
-  "plannerMs": 1086.5396740000008,
-  "allocMs": 83.61347100000046,
-  "diagMs": 2.3873770000005834,
-  "plannerMsPerTick": 0.8783667534357322,
+  "plannerMs": 1235.1754259999962,
+  "allocMs": 124.90753900000186,
+  "diagMs": 1.727925999998888,
+  "plannerMsPerTick": 0.9985250008084043,
   "utilization": 0.6464227970897333,
   "finalMeanSoc": 0.41740916586788596,
   "audit_ticks": 1237,
@@ -707,7 +707,7 @@
   "audit_minSoc": 0.04122084250710839,
   "sweep": "battery",
   "variant": "hungarian-noBattery",
-  "wallMs": 1252.402247
+  "wallMs": 1383.3891790000002
  },
  {
   "layout": "warehouse",
@@ -757,10 +757,10 @@
   "epochs": 370,
   "astarCalls": 6092,
   "expansions": 277593,
-  "plannerMs": 1322.8551499999994,
-  "allocMs": 275.54890100000046,
-  "diagMs": 15.498683999999571,
-  "plannerMsPerTick": 1.1191667935702194,
+  "plannerMs": 2036.6374729999945,
+  "allocMs": 312.26913999999715,
+  "diagMs": 49.42832700000122,
+  "plannerMsPerTick": 1.723043547377322,
   "utilization": 0.7218168358714044,
   "finalMeanSoc": 0.26268432242872797,
   "audit_ticks": 1182,
@@ -778,7 +778,7 @@
   "audit_minSoc": 0.06155766348466221,
   "sweep": "battery",
   "variant": "pact",
-  "wallMs": 1481.812564
+  "wallMs": 2348.7339110000003
  },
  {
   "layout": "warehouse",
@@ -828,10 +828,10 @@
   "epochs": 385,
   "astarCalls": 6304,
   "expansions": 294057,
-  "plannerMs": 884.2748109999973,
-  "allocMs": 143.91357999999718,
-  "diagMs": 7.338120000000117,
-  "plannerMsPerTick": 0.7320155720198653,
+  "plannerMs": 1547.097729999999,
+  "allocMs": 254.87473999999565,
+  "diagMs": 11.897315000001527,
+  "plannerMsPerTick": 1.2807100413907277,
   "utilization": 0.7071605960264901,
   "finalMeanSoc": 0.29332064126320356,
   "audit_ticks": 1208,
@@ -849,7 +849,7 @@
   "audit_minSoc": 0.011264081886038203,
   "sweep": "battery",
   "variant": "pact",
-  "wallMs": 986.0544550000002
+  "wallMs": 1643.451533
  },
  {
   "layout": "warehouse",
@@ -899,10 +899,10 @@
   "epochs": 410,
   "astarCalls": 6470,
   "expansions": 272689,
-  "plannerMs": 612.1732460000012,
-  "allocMs": 126.8950729999965,
-  "diagMs": 7.31339500000081,
-  "plannerMsPerTick": 0.4665954618902448,
+  "plannerMs": 1603.6216339999987,
+  "allocMs": 212.64348200000086,
+  "diagMs": 25.142467999998644,
+  "plannerMsPerTick": 1.2222725868902429,
   "utilization": 0.6419588414634146,
   "finalMeanSoc": 0.527463981705883,
   "audit_ticks": 1312,
@@ -920,7 +920,7 @@
   "audit_minSoc": 0.0577456077259027,
   "sweep": "battery",
   "variant": "pact",
-  "wallMs": 679.2508490000002
+  "wallMs": 1730.924169
  },
  {
   "layout": "warehouse",
@@ -970,10 +970,10 @@
   "epochs": 370,
   "astarCalls": 6185,
   "expansions": 276957,
-  "plannerMs": 582.5242559999995,
-  "allocMs": 143.7063910000013,
-  "diagMs": 6.3332750000004125,
-  "plannerMsPerTick": 0.5132372299559467,
+  "plannerMs": 1600.2713189999981,
+  "allocMs": 156.57294699999875,
+  "diagMs": 27.04334500000141,
+  "plannerMsPerTick": 1.409930677533038,
   "utilization": 0.6749449339207049,
   "finalMeanSoc": 0.3147821389179697,
   "audit_ticks": 1135,
@@ -991,7 +991,7 @@
   "audit_minSoc": 0.062498982002958225,
   "sweep": "battery",
   "variant": "pact",
-  "wallMs": 637.0822360000002
+  "wallMs": 1740.9586459999996
  },
  {
   "layout": "warehouse",
@@ -1041,10 +1041,10 @@
   "epochs": 411,
   "astarCalls": 6607,
   "expansions": 264921,
-  "plannerMs": 751.8906329999973,
-  "allocMs": 135.0871030000069,
-  "diagMs": 7.616585000000896,
-  "plannerMsPerTick": 0.5855846051401847,
+  "plannerMs": 1561.803581000001,
+  "allocMs": 394.37105199999587,
+  "diagMs": 64.5745619999966,
+  "plannerMsPerTick": 1.2163579291277267,
   "utilization": 0.6150214174454829,
   "finalMeanSoc": 0.47413416586788654,
   "audit_ticks": 1284,
@@ -1062,7 +1062,7 @@
   "audit_minSoc": 0.06591201070807781,
   "sweep": "battery",
   "variant": "pact",
-  "wallMs": 849.9021519999999
+  "wallMs": 1683.591688
  },
  {
   "layout": "warehouse",
@@ -1112,10 +1112,10 @@
   "epochs": 389,
   "astarCalls": 6373,
   "expansions": 284443,
-  "plannerMs": 896.6307429999933,
-  "allocMs": 196.47691900000086,
-  "diagMs": 5.0157050000025265,
-  "plannerMsPerTick": 0.7283759082047062,
+  "plannerMs": 1645.1959280000078,
+  "allocMs": 283.306683000003,
+  "diagMs": 25.844080999999278,
+  "plannerMsPerTick": 1.3364711031681624,
   "utilization": 0.6889216084484159,
   "finalMeanSoc": 0.31868432242872824,
   "audit_ticks": 1231,
@@ -1133,7 +1133,7 @@
   "audit_minSoc": 0.047986716679112085,
   "sweep": "battery",
   "variant": "pact-noBattery",
-  "wallMs": 965.0608260000001
+  "wallMs": 1784.6144089999998
  },
  {
   "layout": "warehouse",
@@ -1183,10 +1183,10 @@
   "epochs": 374,
   "astarCalls": 6256,
   "expansions": 289111,
-  "plannerMs": 870.8332860000023,
-  "allocMs": 181.799826999998,
-  "diagMs": 4.611934999998994,
-  "plannerMsPerTick": 0.7336421954507181,
+  "plannerMs": 1296.4610670000015,
+  "allocMs": 236.59916100000146,
+  "diagMs": 50.284618999998656,
+  "plannerMsPerTick": 1.0922165686604899,
   "utilization": 0.7135636057287279,
   "finalMeanSoc": 0.2582206412632034,
   "audit_ticks": 1187,
@@ -1204,7 +1204,7 @@
   "audit_minSoc": 0.055599489488079606,
   "sweep": "battery",
   "variant": "pact-noBattery",
-  "wallMs": 937.1829580000001
+  "wallMs": 1438.553386
  },
  {
   "layout": "warehouse",
@@ -1254,10 +1254,10 @@
   "epochs": 413,
   "astarCalls": 6483,
   "expansions": 295479,
-  "plannerMs": 698.2316430000062,
-  "allocMs": 127.73376000000576,
-  "diagMs": 5.522771999999122,
-  "plannerMsPerTick": 0.5416847501939536,
+  "plannerMs": 1422.3955639999963,
+  "allocMs": 263.1872829999943,
+  "diagMs": 20.339336000004096,
+  "plannerMsPerTick": 1.1034876369278481,
   "utilization": 0.6594743987587277,
   "finalMeanSoc": 0.5083389817058825,
   "audit_ticks": 1289,
@@ -1275,7 +1275,7 @@
   "audit_minSoc": 0.062051253668592765,
   "sweep": "battery",
   "variant": "pact-noBattery",
-  "wallMs": 768.5110370000002
+  "wallMs": 1534.510898
  },
  {
   "layout": "warehouse",
@@ -1325,10 +1325,10 @@
   "epochs": 379,
   "astarCalls": 6334,
   "expansions": 293725,
-  "plannerMs": 885.385827999995,
-  "allocMs": 217.18900599999574,
-  "diagMs": 6.200957999998991,
-  "plannerMsPerTick": 0.7780191810193278,
+  "plannerMs": 1368.6800270000008,
+  "allocMs": 214.8152509999959,
+  "diagMs": 9.764933000001747,
+  "plannerMsPerTick": 1.2027065263620393,
   "utilization": 0.679701230228471,
   "finalMeanSoc": 0.31215713891797,
   "audit_ticks": 1138,
@@ -1346,7 +1346,7 @@
   "audit_minSoc": 0.049607495697960136,
   "sweep": "battery",
   "variant": "pact-noBattery",
-  "wallMs": 944.8836100000001
+  "wallMs": 1491.9572379999995
  },
  {
   "layout": "warehouse",
@@ -1396,10 +1396,10 @@
   "epochs": 375,
   "astarCalls": 6191,
   "expansions": 272339,
-  "plannerMs": 798.5738350000063,
-  "allocMs": 173.9605339999996,
-  "diagMs": 8.818820999998252,
-  "plannerMsPerTick": 0.6654781958333386,
+  "plannerMs": 1200.7602620000152,
+  "allocMs": 197.2613990000059,
+  "diagMs": 38.115568999999596,
+  "plannerMsPerTick": 1.0006335516666793,
   "utilization": 0.6672916666666666,
   "finalMeanSoc": 0.3234341658678857,
   "audit_ticks": 1200,
@@ -1417,6 +1417,6 @@
   "audit_minSoc": 0.04122084250710839,
   "sweep": "battery",
   "variant": "pact-noBattery",
-  "wallMs": 851.2763300000001
+  "wallMs": 1349.1948450000004
  }
 ]

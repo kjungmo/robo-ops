@@ -31,6 +31,7 @@ import { holm, tQuantileTwoSided, tTwoSidedP } from './stats'
 import { TIMING } from './check-results'
 import { SCHEMA_VERSION } from './schema'
 import { type Paired, type Row, type Run, buildPaperData, paired, readCsv, readRuns, timingOf } from './paper-data'
+import { analyseV2 } from './analyze-v2'
 
 const ROOT = process.cwd()
 const PAPER = join(ROOT, 'paper/arxiv')
@@ -396,6 +397,8 @@ type Regen = {
 const regen = JSON.parse(readFileSync(join(ROOT, 'paper/experiments/repro/regeneration.json'), 'utf8')) as Regen
 // The same comparison for the regeneration that added the schema-2 fields (the allocation-shape counters).
 const regen2 = JSON.parse(readFileSync(join(ROOT, `paper/experiments/repro/regeneration-schema${SCHEMA_VERSION}.json`), 'utf8')) as Regen
+// The third regeneration, at the commit that added the v2 sweeps: every record identical, nothing absent.
+const regen3 = JSON.parse(readFileSync(join(ROOT, 'paper/experiments/repro/regeneration-v2.json'), 'utf8')) as Regen
 const secondRuns = SWEEPS.filter((x) => !FIRST.includes(x) && !V2.includes(x)).reduce((a, x) => a + meta.runsPerSweep[x], 0)
 const v2Runs = V2.reduce((a, x) => a + meta.runsPerSweep[x], 0)
 
@@ -678,9 +681,14 @@ function experiments(): FileSpec {
   assert(meta.runs === SWEEPS.reduce((a, x) => a + R_(x).length, 0) && meta.runs === first.length + secondRuns + v2Runs, 'meta run count equals the records')
   assert(regen.commit === '63a2db7' && regen.differingFields === 0 && regen.records === meta.runs - tfRuns.length - v2Runs && regen.sweepsWithoutCommittedFile.join() === 'tpfree', 'regeneration at schema 1: all earlier records identical, tpfree new')
   assert(
-    regen2.commit === meta.commit && regen2.schemaVersion === SCHEMA_VERSION && regen2.differingFields === 0 && regen2.records === meta.runs && regen2.sweepsWithoutCommittedFile.length === 0 && regen2.sweeps.every((s) => s.fieldsAbsentFromCommitted.length === (V2.includes(s.sweep) ? 0 : 6)),
-    'regeneration at schema 2: all records identical in every earlier field; the 7,200 records of the ten earlier sweeps gained six fields, the v2 sweeps were committed at schema 2',
+    regen2.commit === '22431e9' && regen2.schemaVersion === SCHEMA_VERSION && regen2.differingFields === 0 && regen2.records === meta.runs - v2Runs && regen2.sweepsWithoutCommittedFile.length === 0 && regen2.sweeps.length === SWEEPS.length - V2.length && regen2.sweeps.every((s) => s.fieldsAbsentFromCommitted.length === 6),
+    'regeneration at schema 2: all 7,200 earlier records identical in every earlier field, six fields added',
   )
+  assert(
+    regen3.commit === meta.commit && regen3.schemaVersion === SCHEMA_VERSION && regen3.differingFields === 0 && regen3.records === meta.runs && regen3.sweepsWithoutCommittedFile.length === 0 && regen3.sweeps.length === SWEEPS.length && regen3.sweeps.every((s) => s.fieldsAbsentFromCommitted.length === 0),
+    'regeneration with the v2 sweeps: every record of all sweeps identical in every field, nothing added',
+  )
+  assert(readFileSync(join(ROOT, 'paper/experiments/analysis/v2.json'), 'utf8') === `${JSON.stringify(analyseV2(), null, 1)}\n`, 'paper/experiments/analysis/v2.json is what the committed v2 records produce')
   assert(meta.schemaVersion === SCHEMA_VERSION, 'bench-meta schema version')
   // Allocation-shape counters (schema 2): identities that must hold in every record of every sweep.
   const shapeBad = SWEEPS.flatMap((x) => R_(x)).filter((r) => {
@@ -979,8 +987,9 @@ function appendix(): FileSpec {
       R`for the ${first.length} first-round runs on other hardware under Node.js 20, 22 and 24`,
       R`${word(timing.validRepeats.length)} single-process repeats of the planner, scaling and ablation sweeps, each started only at a one-minute load average of at most ${timing.loadMax}`,
       R`were written under ${meta.workers} workers and are not used`,
-      R`A second regeneration at the commit above, after the allocation-shape counters had been added to the records, left all ${ic(regen2.records)} runs identical in every earlier field`,
-      R`(\path{paper/experiments/repro/regeneration-schema${SCHEMA_VERSION}.json})`,
+      R`A second regeneration, at commit \texttt{${regen2.commit}} after the allocation-shape counters had been added to the records, left all ${ic(regen2.records)} runs identical in every earlier field`,
+      R`(\path{paper/experiments/repro/regeneration-schema${SCHEMA_VERSION}.json}). A third, at the commit above, which added the three sweeps of the re-runs pre-registered in \path{paper/experiments/PREREG_v2.md} (${ic(v2Runs)} runs), left all ${ic(regen3.records)} runs identical in every earlier field`,
+      R`(\path{paper/experiments/repro/regeneration-v2.json})`,
       R`leaving out the ${word(TIMING.length)} wall-clock fields`,
       R`bounded by ${ic(C.tpMaxExpansions)} expansions`,
       R`window $w$ / period $h$ & ${C.window} / ${C.period} ticks`,

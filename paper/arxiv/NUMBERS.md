@@ -16,9 +16,10 @@ if any digit in the abstract, the sections, the appendix or a figure caption is 
 by a claim. CI runs it on pull requests and on pushes to `main`. `npm run check:results -- <dir>` compares a re-run of
 the benchmark (`npm run bench:fms -- <sweeps> --out <dir>`) with the committed records.
 
-All ten sweeps (7,200 runs) were written by one run of `scripts/regenerate.sh 11` at commit
-`22431e9` (`bench-meta.json : commit, workers, runs, runsPerSweep, schemaVersion`). This is the second
-regeneration. The first one (schema 1) ran at `63a2db7` on 8 workers: it compared the 6,600 runs that already
+All thirteen sweeps (8,340 runs: the 7,200 of v1 and the 1,140 of the three v2 sweeps, see the last section) were written by one
+run of `scripts/regenerate.sh 11` at commit `acbfe97` (`bench-meta.json : commit, workers, runs, runsPerSweep,
+schemaVersion`; comparison in `paper/experiments/repro/regeneration-v2.json`: 8,340 records, 0 differing fields, nothing
+added). This is the third regeneration; the second one (schema 2) ran at `22431e9` over the 7,200 runs of v1 and is described below. The first one (schema 1) ran at `63a2db7` on 8 workers: it compared the 6,600 runs that already
 existed (written at `27080ab` and `2d4342a`, on 1 and 10 workers) with the new ones, 0 differing fields
 outside the wall-clock fields (`paper/experiments/repro/regeneration.json`, kept unchanged). The `tpfree` sweep
 (600 runs) was new then.
@@ -63,12 +64,12 @@ defined in `4a72ff1` (2026-09-28 17:06:16 +0900), which precedes the first commi
 | 420 first-round runs; 0 conflicts (simulator and auditor); 0 stalls; 0 depletions | sums of `conflicts`, `audit_vertexConflicts`, `audit_swapConflicts`, `audit_illegalMoves`, `deadlocked`, `depletionEvents` over the five first-round `*.json` |
 | 6,600 earlier runs: no field differed when the records were regenerated (§4.1, appendix A) | `paper/experiments/repro/regeneration.json : records 6600, differingFields 0, sweepsWithoutCommittedFile ["tpfree"]` |
 | three timing repeats, all valid, admitted at load ≤ 0.5; largest spread 4 % (§4.1) | `timing/summary.json : validRepeats [1,2,3], invalidRepeats [], load[].before 0.43 / 0.47 / 0.50, loadMax 0.5`; max over configurations of max(perRepeat) / min(perRepeat) = 1.040 |
-| 53 `SimMetrics` fields (10 configuration, 43 measured), 13 auditor fields (appendix C) | keys of any record: 69 = 53 + 13 `audit_*` + `sweep`, `variant`, `wallMs`; the same in all ten sweeps |
+| 53 `SimMetrics` fields (10 configuration, 43 measured), 13 auditor fields (appendix C) | keys of any record: 69 = 53 + 13 `audit_*` + `sweep`, `variant`, `wallMs`; the same in all thirteen sweeps |
 | every run delivers all of its tasks | sum of `tasksUnfinished` over all 420 records = 0 (longest run: `makespan` 4189, scaling sweep) |
 | 8,833,050 robot-steps | script: `original sweeps (seeds 1-5): runs 420, robot-steps 8833050` (sum of `audit_robotTicks` = `makespan * fleetSize`) |
 | 5,317,603 move actions | sum of `moveActions` over the same records |
 | 81,000 delivered tasks | sum of `tasksCompleted` over the same records (390 runs × 200 + 30 runs × 100) |
-| commit of the benchmarked code `22431e9`, 11 worker processes, 7,200 runs | `bench-meta.json : commit, workers, runs` |
+| commit of the benchmarked code `acbfe97`, 11 worker processes, 8,340 runs | `bench-meta.json : commit, workers, runs` |
 | CPU "AMD Ryzen 5 5500GT", Node 22 | `bench-meta.json : cpu, node`; `timing/summary.json : cpu, node` |
 | seeds 1–5 / 1–60 / 1–30 | meta files `: seeds` |
 | 6,780 second-round runs (§1) | `bench-meta.json : runsPerSweep` stress 4320 + cascade 480 + baselines 900 + coupling 480 + tpfree 600 |
@@ -237,3 +238,34 @@ are printed by the same run.
 | Holm status (§4.5): warehouse/32 batch (p = 0.033) and narrow/16 batch (p = 0.032) do not survive Holm over the ten intervals of `tpts` and `tpts-interruptible` against `hungarian-dock1`; the other three do. The same three survive over all fifteen intervals | `holm` in `scripts/stats.ts`; guard assertion in `scripts/check-paper.ts` |
 | the adapted rule has two added triggers (pickup cell of a pending task, charger slot), excludes pickups from the Path2 endpoints, and uses Path2 as the escape of a swapped robot | read off `src/fms/sim/simulator.ts` (`tpFreeFaithful`, `tpPath2`, `tpTakeTask`) by three source assertions in the guard |
 | TPTS at least 12 % behind at the default capacity | smallest interval bound of the fifteen paired differences of the three TPTS variants against `hungarian` |
+
+## v2 re-runs (deep-review ruling 4.2; `paper/experiments/PREREG_v2.md`, `paper/experiments/analysis/v2.json`)
+
+Pre-registered in commit `f35437f` (that commit adds `PREREG_v2.md` and nothing else, before any result existed). The three sweeps `nondegenerate`, `kablation` and `prioritysplit` (1,140 runs, seeds 1–30, `strict: false`) were added in `e66bf50`; their records were first written at that commit (`analysis/v2-first-run-meta.json`) and reproduced bit for bit by the regeneration at `acbfe97` (`repro/regeneration-v2.json`: 8,340 records, 0 differing fields). `npm run analyze:v2` writes `analysis/v2.json`; `check:paper` recomputes it and compares byte for byte. Effect: mean per-seed relative difference in %, two-sided 95 % Student-t interval (29 degrees of freedom), paired t test; Holm at 0.05 within the family named in the pre-registration.
+
+| Claim | Source |
+|---|---|
+| the three v2 sweeps: 1,140 runs, 23,125,120 robot-steps, 0 executed conflicts, 0 illegal moves; 16 stalled runs (all in `prioritysplit`, arm `blocking`), 187 unfinished tasks, 33 depletions | sums over `nondegenerate.json`, `kablation.json`, `prioritysplit.json` of `audit_robotTicks`, `audit_vertexConflicts`, `audit_swapConflicts`, `audit_illegalMoves`, `deadlocked`, `tasksUnfinished`, `depletionEvents` |
+| all 13 sweeps: 8,340 runs, 161,150,534 robot-steps (v1: 7,200 runs, 138,025,414) | `bench-meta.json : runs, robotTicks` |
+| E2: the `noevent` arm of seeds 1–5 in warehouse-32-batch equals the `pact-noEvent` and `hungarian-noEvent` records of the `ablation` sweep | `v2.json : e2.ablationConsistency` (both `identical: true`) |
+| E2 primary warehouse-32-batch, PACT vs Hungarian, no event epochs, throughput: +0.43 ± 1.10 % ([-0.67, +1.53], p = 0.431); Holm: not rejected | `v2.json : e2.contrasts` id `P2a` |
+| E2 primary console-32-batch, PACT vs Hungarian, no event epochs, throughput: +0.59 ± 1.48 % ([-0.89, +2.07], p = 0.421); Holm: not rejected | `v2.json : e2.contrasts` id `P2b` |
+| E2 warehouse-32-batch: share of allocation calls with min(m, pool) ≥ 2: 57.3–58.9 % without event epochs, 16.3–16.6 % with them (all four cost models) | `v2.json : e2.cells[].nondegenerateShare` |
+| E2 console-32-batch: share of allocation calls with min(m, pool) ≥ 2: 56.1–56.8 % without event epochs, 14.0–14.6 % with them (all four cost models) | `v2.json : e2.cells[].nondegenerateShare` |
+| E2 interaction warehouse-32-batch: effect of PACT vs Hungarian without event epochs +0.43 %, with +1.12 %, difference -0.69 ± 1.54 % (p = 0.365) | `v2.json : e2.interaction` |
+| E2 interaction console-32-batch: effect of PACT vs Hungarian without event epochs +0.59 %, with +0.07 %, difference +0.52 ± 1.65 % (p = 0.524) | `v2.json : e2.interaction` |
+| E3 warehouse-8-batch, K = 3 vs K = 6, throughput: -0.18 ± 0.48 % ([-0.66, +0.29], p = 0.442); Holm over the four: not rejected | `v2.json : e3.contrasts` id `P3 warehouse-8-batch K3-K6` |
+| E3 warehouse-8-batch, K = 12 vs K = 6, throughput: -0.08 ± 0.36 % ([-0.43, +0.28], p = 0.666); Holm over the four: not rejected | `v2.json : e3.contrasts` id `P3 warehouse-8-batch K12-K6` |
+| E3 narrow-16-batch, K = 3 vs K = 6, throughput: +0.63 ± 1.26 % ([-0.63, +1.89], p = 0.313); Holm over the four: not rejected | `v2.json : e3.contrasts` id `P3 narrow-16-batch K3-K6` |
+| E3 narrow-16-batch, K = 12 vs K = 6, throughput: +0.79 ± 1.33 % ([-0.53, +2.12], p = 0.231); Holm over the four: not rejected | `v2.json : e3.contrasts` id `P3 narrow-16-batch K12-K6` |
+| E3 warehouse-8-batch/pact-K3: priced pairs per allocation call 3.39, throughput 9.5725 ± 0.2668 | `v2.json : e3.cells` |
+| E3 warehouse-8-batch/pact-K6: priced pairs per allocation call 6.592, throughput 9.591 ± 0.2763 | `v2.json : e3.cells` |
+| E3 warehouse-8-batch/pact-K12: priced pairs per allocation call 8.8805, throughput 9.5831 ± 0.2696 | `v2.json : e3.cells` |
+| E3 narrow-16-batch/pact-K3: priced pairs per allocation call 4.0876, throughput 16.6448 ± 0.7458 | `v2.json : e3.cells` |
+| E3 narrow-16-batch/pact-K6: priced pairs per allocation call 6.0482, throughput 16.5541 ± 0.8422 | `v2.json : e3.cells` |
+| E3 narrow-16-batch/pact-K12: priced pairs per allocation call 7.0883, throughput 16.6738 ± 0.8083 | `v2.json : e3.cells` |
+| E3: K = 3 and K = 12 change the run of every seed against K = 6 (0 of 30 seeds identical in each of the four comparisons) | `v2.json : e3.identicalToK6` |
+| E4 warehouse-32: dynamic vs static +2144.1 % ([+1940.5, +2347.6]); pre-registered rule: the advantage needs the combination | `v2.json : e4.rules` |
+| E4 warehouse-32-dock4: dynamic vs static +2427.3 % ([+2237.4, +2617.2]); pre-registered rule: the advantage needs the combination | `v2.json : e4.rules` |
+| E4 small-8: dynamic vs static +1039.5 % ([+358.3, +1720.8]); pre-registered rule: blocking-first accounts for the advantage | `v2.json : e4.rules` |
+| E4 narrow-16: dynamic vs static +1850.1 % ([+1645.0, +2055.2]); pre-registered rule: either mechanism suffices | `v2.json : e4.rules` |

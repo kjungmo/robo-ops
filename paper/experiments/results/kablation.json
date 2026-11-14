@@ -47,10 +47,10 @@
   "epochs": 584,
   "astarCalls": 4608,
   "expansions": 144166,
-  "plannerMs": 1266.1117970000032,
-  "allocMs": 315.01610499999765,
-  "diagMs": 15.761858999999504,
-  "plannerMsPerTick": 0.5850793886321641,
+  "plannerMs": 441.19282600000224,
+  "allocMs": 107.1944559999996,
+  "diagMs": 11.905207999999561,
+  "plannerMsPerTick": 0.20387838539741324,
   "utilization": 0.7668669131238447,
   "finalMeanSoc": 0.6528356920069809,
   "audit_ticks": 2164,
@@ -68,7 +68,7 @@
   "audit_minSoc": 0.06952548373583761,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1430.8810460000002
+  "wallMs": 566.023435
  },
  {
   "layout": "warehouse",
@@ -118,10 +118,10 @@
   "epochs": 584,
   "astarCalls": 4630,
   "expansions": 135138,
-  "plannerMs": 1301.1388540000028,
-  "allocMs": 290.4970149999998,
-  "diagMs": 29.090136000001053,
-  "plannerMsPerTick": 0.6046184265799269,
+  "plannerMs": 468.32513600000266,
+  "allocMs": 108.79400200000094,
+  "diagMs": 9.085313999998846,
+  "plannerMsPerTick": 0.21762320446096778,
   "utilization": 0.7640566914498141,
   "finalMeanSoc": 0.6437667567332302,
   "audit_ticks": 2152,
@@ -139,7 +139,7 @@
   "audit_minSoc": 0.06144397350605632,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1537.3907090000002
+  "wallMs": 565.139537
  },
  {
   "layout": "warehouse",
@@ -189,10 +189,10 @@
   "epochs": 585,
   "astarCalls": 4628,
   "expansions": 137966,
-  "plannerMs": 1238.8952880000043,
-  "allocMs": 319.75180800000203,
-  "diagMs": 5.976378999996427,
-  "plannerMsPerTick": 0.5730320481036097,
+  "plannerMs": 438.79087100000055,
+  "allocMs": 112.37732900000213,
+  "diagMs": 7.026421999999911,
+  "plannerMsPerTick": 0.20295599953746557,
   "utilization": 0.7528330249768732,
   "finalMeanSoc": 0.5985703184639372,
   "audit_ticks": 2162,
@@ -210,7 +210,7 @@
   "audit_minSoc": 0.05813108025696184,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1428.1696359999996
+  "wallMs": 556.902291
  },
  {
   "layout": "warehouse",
@@ -260,10 +260,10 @@
   "epochs": 549,
   "astarCalls": 4362,
   "expansions": 141420,
-  "plannerMs": 831.5855549999977,
-  "allocMs": 197.58803900000203,
-  "diagMs": 36.80319100000031,
-  "plannerMsPerTick": 0.41809228506787216,
+  "plannerMs": 444.0697160000004,
+  "allocMs": 96.10310300000106,
+  "diagMs": 11.010894999999437,
+  "plannerMsPerTick": 0.22326280341880364,
   "utilization": 0.7654600301659125,
   "finalMeanSoc": 0.6149211564639843,
   "audit_ticks": 1989,
@@ -281,7 +281,7 @@
   "audit_minSoc": 0.06609574423879472,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 984.0287490000001
+  "wallMs": 547.984691
  },
  {
   "layout": "warehouse",
@@ -331,10 +331,10 @@
   "epochs": 564,
   "astarCalls": 4479,
   "expansions": 151838,
-  "plannerMs": 1424.1176799999957,
-  "allocMs": 289.43262400000344,
-  "diagMs": 22.722853999999188,
-  "plannerMsPerTick": 0.684014255523533,
+  "plannerMs": 456.70007600000173,
+  "allocMs": 105.20685800000052,
+  "diagMs": 18.791603000000066,
+  "plannerMsPerTick": 0.21935642459173954,
   "utilization": 0.7640489913544669,
   "finalMeanSoc": 0.7331105385232513,
   "audit_ticks": 2082,
@@ -352,7 +352,7 @@
   "audit_minSoc": 0.05197163664680113,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1687.3310119999999
+  "wallMs": 569.7415129999999
  },
  {
   "layout": "warehouse",
@@ -402,10 +402,10 @@
   "epochs": 566,
   "astarCalls": 4497,
   "expansions": 129407,
-  "plannerMs": 865.8352400000015,
-  "allocMs": 204.52812400000198,
-  "diagMs": 20.332728000000998,
-  "plannerMsPerTick": 0.41666758421559263,
+  "plannerMs": 480.50440900000297,
+  "allocMs": 103.16456900000207,
+  "diagMs": 11.771569999999542,
+  "plannerMsPerTick": 0.23123407555341818,
   "utilization": 0.7547521655437921,
   "finalMeanSoc": 0.630885748918381,
   "audit_ticks": 2078,
@@ -423,7 +423,7 @@
   "audit_minSoc": 0.06347330558989306,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1060.5986679999999
+  "wallMs": 609.328786
  },
  {
   "layout": "warehouse",
@@ -473,10 +473,10 @@
   "epochs": 556,
   "astarCalls": 4394,
   "expansions": 146366,
-  "plannerMs": 1280.0816940000004,
-  "allocMs": 263.8969049999944,
-  "diagMs": 7.043836000000738,
-  "plannerMsPerTick": 0.6442283311524915,
+  "plannerMs": 539.563732000003,
+  "allocMs": 134.3878299999995,
+  "diagMs": 14.95056699999975,
+  "plannerMsPerTick": 0.2715469209864132,
   "utilization": 0.7543407146451938,
   "finalMeanSoc": 0.6529702577649883,
   "audit_ticks": 1987,
@@ -494,7 +494,7 @@
   "audit_minSoc": 0.056762592958474356,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1460.4935790000002
+  "wallMs": 659.0971930000001
  },
  {
   "layout": "warehouse",
@@ -544,10 +544,10 @@
   "epochs": 572,
   "astarCalls": 4554,
   "expansions": 141537,
-  "plannerMs": 791.9177179999987,
-  "allocMs": 109.05826600000364,
-  "diagMs": 21.673050999999987,
-  "plannerMsPerTick": 0.372842616760828,
+  "plannerMs": 439.21795200000327,
+  "allocMs": 115.68305299999997,
+  "diagMs": 10.170432999999264,
+  "plannerMsPerTick": 0.20678811299435182,
   "utilization": 0.7604755178907722,
   "finalMeanSoc": 0.669430532092185,
   "audit_ticks": 2124,
@@ -565,7 +565,7 @@
   "audit_minSoc": 0.06339613053407528,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 968.868771
+  "wallMs": 553.182855
  },
  {
   "layout": "warehouse",
@@ -615,10 +615,10 @@
   "epochs": 551,
   "astarCalls": 4358,
   "expansions": 140883,
-  "plannerMs": 1410.441339000006,
-  "allocMs": 336.99931399999696,
-  "diagMs": 9.085590999997976,
-  "plannerMsPerTick": 0.6817019521508004,
+  "plannerMs": 439.2862460000016,
+  "allocMs": 101.66637300000002,
+  "diagMs": 10.172584999999799,
+  "plannerMsPerTick": 0.21231814693088527,
   "utilization": 0.7659497341710971,
   "finalMeanSoc": 0.7537635147279392,
   "audit_ticks": 2069,
@@ -636,7 +636,7 @@
   "audit_minSoc": 0.05515921675711913,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1555.6059059999998
+  "wallMs": 555.8024250000001
  },
  {
   "layout": "warehouse",
@@ -686,10 +686,10 @@
   "epochs": 566,
   "astarCalls": 4477,
   "expansions": 130622,
-  "plannerMs": 1210.7034160000076,
-  "allocMs": 294.93847200000005,
-  "diagMs": 29.375646000000415,
-  "plannerMsPerTick": 0.5820689500000036,
+  "plannerMs": 480.1402960000026,
+  "allocMs": 95.44044999999949,
+  "diagMs": 13.376476000000707,
+  "plannerMsPerTick": 0.23083668076923203,
   "utilization": 0.7673677884615384,
   "finalMeanSoc": 0.699031992446983,
   "audit_ticks": 2080,
@@ -707,7 +707,7 @@
   "audit_minSoc": 0.09137309717275358,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1436.833277
+  "wallMs": 596.382835
  },
  {
   "layout": "warehouse",
@@ -757,10 +757,10 @@
   "epochs": 570,
   "astarCalls": 4494,
   "expansions": 151732,
-  "plannerMs": 750.6499109999938,
-  "allocMs": 94.73121200000332,
-  "diagMs": 4.3158610000004956,
-  "plannerMsPerTick": 0.35575825165876485,
+  "plannerMs": 478.7929869999989,
+  "allocMs": 101.57507600000042,
+  "diagMs": 11.344356999999718,
+  "plannerMsPerTick": 0.22691610758293787,
   "utilization": 0.7626184834123223,
   "finalMeanSoc": 0.7245462702247575,
   "audit_ticks": 2110,
@@ -778,7 +778,7 @@
   "audit_minSoc": 0.04561308069564557,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 870.7698249999999
+  "wallMs": 605.750943
  },
  {
   "layout": "warehouse",
@@ -828,10 +828,10 @@
   "epochs": 576,
   "astarCalls": 4552,
   "expansions": 145993,
-  "plannerMs": 810.5116250000065,
-  "allocMs": 158.67253300000266,
-  "diagMs": 30.41587000000004,
-  "plannerMsPerTick": 0.3837649739583364,
+  "plannerMs": 414.8134489999985,
+  "allocMs": 69.52095899999665,
+  "diagMs": 19.5228210000015,
+  "plannerMsPerTick": 0.19640788304924173,
   "utilization": 0.7705374053030303,
   "finalMeanSoc": 0.6271958395950988,
   "audit_ticks": 2112,
@@ -849,7 +849,7 @@
   "audit_minSoc": 0.05567545677386315,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 930.1847849999999
+  "wallMs": 515.2698839999999
  },
  {
   "layout": "warehouse",
@@ -899,10 +899,10 @@
   "epochs": 546,
   "astarCalls": 4331,
   "expansions": 127749,
-  "plannerMs": 576.8308449999959,
-  "allocMs": 139.11269800000218,
-  "diagMs": 7.834152000003087,
-  "plannerMsPerTick": 0.2889934093186352,
+  "plannerMs": 376.6025310000018,
+  "allocMs": 75.92794699999808,
+  "diagMs": 6.177078000000506,
+  "plannerMsPerTick": 0.18867862274549188,
   "utilization": 0.748622244488978,
   "finalMeanSoc": 0.6504827139111262,
   "audit_ticks": 1996,
@@ -920,7 +920,7 @@
   "audit_minSoc": 0.04840372547712307,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 674.4293230000003
+  "wallMs": 455.62696200000005
  },
  {
   "layout": "warehouse",
@@ -970,10 +970,10 @@
   "epochs": 563,
   "astarCalls": 4489,
   "expansions": 144179,
-  "plannerMs": 937.0358869999886,
-  "allocMs": 194.27099099999896,
-  "diagMs": 34.125317000002724,
-  "plannerMsPerTick": 0.44663292993326437,
+  "plannerMs": 443.11596399999974,
+  "allocMs": 82.01424700000143,
+  "diagMs": 11.49385499999812,
+  "plannerMsPerTick": 0.21120875309818862,
   "utilization": 0.755719733079123,
   "finalMeanSoc": 0.6497164030836228,
   "audit_ticks": 2098,
@@ -991,7 +991,7 @@
   "audit_minSoc": 0.057948986649699885,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1048.255522
+  "wallMs": 506.7678330000001
  },
  {
   "layout": "warehouse",
@@ -1041,10 +1041,10 @@
   "epochs": 593,
   "astarCalls": 4688,
   "expansions": 152139,
-  "plannerMs": 1011.882300000007,
-  "allocMs": 212.57623199999534,
-  "diagMs": 23.580782999998974,
-  "plannerMsPerTick": 0.4652332413793136,
+  "plannerMs": 520.9085350000022,
+  "allocMs": 68.28452699999934,
+  "diagMs": 14.263771000000702,
+  "plannerMsPerTick": 0.23949817701149526,
   "utilization": 0.7552873563218391,
   "finalMeanSoc": 0.6072839616281713,
   "audit_ticks": 2175,
@@ -1062,7 +1062,7 @@
   "audit_minSoc": 0.06808404522482486,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1152.531114
+  "wallMs": 591.648592
  },
  {
   "layout": "warehouse",
@@ -1112,10 +1112,10 @@
   "epochs": 541,
   "astarCalls": 4305,
   "expansions": 144795,
-  "plannerMs": 1224.8158810000104,
-  "allocMs": 233.0172150000044,
-  "diagMs": 4.553737999997793,
-  "plannerMsPerTick": 0.6195325649974762,
+  "plannerMs": 417.3633959999971,
+  "allocMs": 60.740827999995304,
+  "diagMs": 10.457794000001968,
+  "plannerMsPerTick": 0.21110945675265408,
   "utilization": 0.7596105209914011,
   "finalMeanSoc": 0.7105878399736045,
   "audit_ticks": 1977,
@@ -1133,7 +1133,7 @@
   "audit_minSoc": 0.05264235390555139,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1361.942764
+  "wallMs": 478.21584300000006
  },
  {
   "layout": "warehouse",
@@ -1183,10 +1183,10 @@
   "epochs": 559,
   "astarCalls": 4427,
   "expansions": 122984,
-  "plannerMs": 884.6839299999933,
-  "allocMs": 153.60398899999518,
-  "diagMs": 11.20986600000333,
-  "plannerMsPerTick": 0.4234963762565789,
+  "plannerMs": 407.49151199999665,
+  "allocMs": 81.21527800000297,
+  "diagMs": 9.046920999999656,
+  "plannerMsPerTick": 0.19506534801340195,
   "utilization": 0.7532910483484921,
   "finalMeanSoc": 0.6608902294770609,
   "audit_ticks": 2089,
@@ -1204,7 +1204,7 @@
   "audit_minSoc": 0.06729258893206719,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1077.3115660000003
+  "wallMs": 461.34423200000015
  },
  {
   "layout": "warehouse",
@@ -1254,10 +1254,10 @@
   "epochs": 584,
   "astarCalls": 4615,
   "expansions": 129974,
-  "plannerMs": 1011.0498809999972,
-  "allocMs": 180.79329499999267,
-  "diagMs": 5.14938000000393,
-  "plannerMsPerTick": 0.4805370156844093,
+  "plannerMs": 381.78119599999866,
+  "allocMs": 65.86674999999775,
+  "diagMs": 11.00330299999996,
+  "plannerMsPerTick": 0.18145494106463814,
   "utilization": 0.7643179657794676,
   "finalMeanSoc": 0.6783502454649919,
   "audit_ticks": 2104,
@@ -1275,7 +1275,7 @@
   "audit_minSoc": 0.06488099411986814,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1171.691166
+  "wallMs": 456.286562
  },
  {
   "layout": "warehouse",
@@ -1325,10 +1325,10 @@
   "epochs": 567,
   "astarCalls": 4485,
   "expansions": 141804,
-  "plannerMs": 905.1324720000039,
-  "allocMs": 130.7510180000013,
-  "diagMs": 32.261233000000175,
-  "plannerMsPerTick": 0.4376849477756305,
+  "plannerMs": 369.7500969999927,
+  "allocMs": 79.36324400000012,
+  "diagMs": 9.353227000002562,
+  "plannerMsPerTick": 0.17879598500966765,
   "utilization": 0.7613636363636364,
   "finalMeanSoc": 0.6792015448329999,
   "audit_ticks": 2068,
@@ -1346,7 +1346,7 @@
   "audit_minSoc": 0.05103853770494626,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1056.2145019999998
+  "wallMs": 432.486947
  },
  {
   "layout": "warehouse",
@@ -1396,10 +1396,10 @@
   "epochs": 592,
   "astarCalls": 4675,
   "expansions": 125941,
-  "plannerMs": 672.5348249999952,
-  "allocMs": 134.07699499999808,
-  "diagMs": 27.502815000000282,
-  "plannerMsPerTick": 0.30321678313795997,
+  "plannerMs": 471.4421510000009,
+  "allocMs": 77.42119199999729,
+  "diagMs": 6.092821000001095,
+  "plannerMsPerTick": 0.21255281830477948,
   "utilization": 0.7476893597835889,
   "finalMeanSoc": 0.6158206752619971,
   "audit_ticks": 2218,
@@ -1417,7 +1417,7 @@
   "audit_minSoc": 0.044901670215278855,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 759.8659499999999
+  "wallMs": 541.8070299999999
  },
  {
   "layout": "warehouse",
@@ -1467,10 +1467,10 @@
   "epochs": 553,
   "astarCalls": 4423,
   "expansions": 141823,
-  "plannerMs": 661.4466570000045,
-  "allocMs": 76.88623300001018,
-  "diagMs": 11.125634999995327,
-  "plannerMsPerTick": 0.31923101206563925,
+  "plannerMs": 469.7370030000043,
+  "allocMs": 79.35052099999939,
+  "diagMs": 6.0253569999988486,
+  "plannerMsPerTick": 0.22670704777992484,
   "utilization": 0.7628499034749034,
   "finalMeanSoc": 0.7173482739455094,
   "audit_ticks": 2072,
@@ -1488,7 +1488,7 @@
   "audit_minSoc": 0.08199307585060628,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 755.844173
+  "wallMs": 544.9361839999999
  },
  {
   "layout": "warehouse",
@@ -1538,10 +1538,10 @@
   "epochs": 573,
   "astarCalls": 4551,
   "expansions": 161342,
-  "plannerMs": 1040.893065999991,
-  "allocMs": 148.4301900000005,
-  "diagMs": 8.602766999999858,
-  "plannerMsPerTick": 0.5018770810028886,
+  "plannerMs": 472.81879900000195,
+  "allocMs": 72.91964800000187,
+  "diagMs": 13.59034900000006,
+  "plannerMsPerTick": 0.2279743486017367,
   "utilization": 0.7377049180327869,
   "finalMeanSoc": 0.7184888638063373,
   "audit_ticks": 2074,
@@ -1559,7 +1559,7 @@
   "audit_minSoc": 0.05548609010111716,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1180.0175480000003
+  "wallMs": 544.3929759999999
  },
  {
   "layout": "warehouse",
@@ -1609,10 +1609,10 @@
   "epochs": 564,
   "astarCalls": 4460,
   "expansions": 136379,
-  "plannerMs": 815.8472869999941,
-  "allocMs": 121.24752100000433,
-  "diagMs": 27.306918000000223,
-  "plannerMsPerTick": 0.39035755358851393,
+  "plannerMs": 396.75324199999955,
+  "allocMs": 82.18508399999973,
+  "diagMs": 5.351633999997375,
+  "plannerMsPerTick": 0.1898340870813395,
   "utilization": 0.7543062200956938,
   "finalMeanSoc": 0.6488972423377012,
   "audit_ticks": 2090,
@@ -1630,7 +1630,7 @@
   "audit_minSoc": 0.06825602032505118,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 931.015797
+  "wallMs": 441.9124320000001
  },
  {
   "layout": "warehouse",
@@ -1680,10 +1680,10 @@
   "epochs": 569,
   "astarCalls": 4536,
   "expansions": 126008,
-  "plannerMs": 945.6975309999866,
-  "allocMs": 151.8220729999989,
-  "diagMs": 30.646381000007295,
-  "plannerMsPerTick": 0.44587342338518937,
+  "plannerMs": 411.8187530000016,
+  "allocMs": 82.47056800000018,
+  "diagMs": 7.532202000003053,
+  "plannerMsPerTick": 0.19416254266855332,
   "utilization": 0.7610796793965111,
   "finalMeanSoc": 0.6012614823359559,
   "audit_ticks": 2121,
@@ -1701,7 +1701,7 @@
   "audit_minSoc": 0.0699552948838103,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1038.9588410000006
+  "wallMs": 456.9847380000001
  },
  {
   "layout": "warehouse",
@@ -1751,10 +1751,10 @@
   "epochs": 563,
   "astarCalls": 4478,
   "expansions": 125267,
-  "plannerMs": 895.8581399999994,
-  "allocMs": 109.95770200000106,
-  "diagMs": 16.3388039999968,
-  "plannerMsPerTick": 0.4233734120982984,
+  "plannerMs": 329.21994200000063,
+  "allocMs": 60.21415900000329,
+  "diagMs": 11.760901000000104,
+  "plannerMsPerTick": 0.15558598393194736,
   "utilization": 0.7585066162570888,
   "finalMeanSoc": 0.6824850374439759,
   "audit_ticks": 2116,
@@ -1772,7 +1772,7 @@
   "audit_minSoc": 0.051957603497246485,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 980.7290770000004
+  "wallMs": 382.32727
  },
  {
   "layout": "warehouse",
@@ -1822,10 +1822,10 @@
   "epochs": 581,
   "astarCalls": 4609,
   "expansions": 150248,
-  "plannerMs": 934.4133609999963,
-  "allocMs": 144.8430440000052,
-  "diagMs": 3.984436000005644,
-  "plannerMsPerTick": 0.4376643377049163,
+  "plannerMs": 397.9837209999989,
+  "allocMs": 75.6612790000031,
+  "diagMs": 12.533419999997705,
+  "plannerMsPerTick": 0.1864092370023414,
   "utilization": 0.7583723653395784,
   "finalMeanSoc": 0.6977154163924078,
   "audit_ticks": 2135,
@@ -1843,7 +1843,7 @@
   "audit_minSoc": 0.05725642627328836,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1027.0824719999996
+  "wallMs": 449.828088
  },
  {
   "layout": "warehouse",
@@ -1893,10 +1893,10 @@
   "epochs": 547,
   "astarCalls": 4340,
   "expansions": 152627,
-  "plannerMs": 892.0161690000059,
-  "allocMs": 106.99623300000485,
-  "diagMs": 12.216985000002751,
-  "plannerMsPerTick": 0.43855268879056336,
+  "plannerMs": 344.53443999999877,
+  "allocMs": 50.729957000003196,
+  "diagMs": 13.813439999997854,
+  "plannerMsPerTick": 0.1693876302851518,
   "utilization": 0.7585422812192724,
   "finalMeanSoc": 0.6416704211091417,
   "audit_ticks": 2034,
@@ -1914,7 +1914,7 @@
   "audit_minSoc": 0.07176079429015747,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 994.1200440000002
+  "wallMs": 390.60448599999995
  },
  {
   "layout": "warehouse",
@@ -1964,10 +1964,10 @@
   "epochs": 545,
   "astarCalls": 4329,
   "expansions": 151149,
-  "plannerMs": 1028.8978420000049,
-  "allocMs": 164.52666300000965,
-  "diagMs": 16.093936999996004,
-  "plannerMsPerTick": 0.5070960285855125,
+  "plannerMs": 397.465741,
+  "allocMs": 64.55788200000052,
+  "diagMs": 6.303173000000697,
+  "plannerMsPerTick": 0.19589243026121242,
   "utilization": 0.7633686545096107,
   "finalMeanSoc": 0.740129389351283,
   "audit_ticks": 2029,
@@ -1985,7 +1985,7 @@
   "audit_minSoc": 0.0729916096108047,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 1153.5057040000006
+  "wallMs": 458.465201
  },
  {
   "layout": "warehouse",
@@ -2035,10 +2035,10 @@
   "epochs": 575,
   "astarCalls": 4606,
   "expansions": 158121,
-  "plannerMs": 834.2682359999935,
-  "allocMs": 132.89465199998995,
-  "diagMs": 14.797333000002709,
-  "plannerMsPerTick": 0.3909410665417027,
+  "plannerMs": 483.43268699999703,
+  "allocMs": 59.791862999999466,
+  "diagMs": 6.483690000001616,
+  "plannerMsPerTick": 0.22653827881911764,
   "utilization": 0.7580834114339269,
   "finalMeanSoc": 0.55450856688286,
   "audit_ticks": 2134,
@@ -2056,7 +2056,7 @@
   "audit_minSoc": 0.054018229362555126,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 938.7632409999997
+  "wallMs": 535.759685
  },
  {
   "layout": "warehouse",
@@ -2106,10 +2106,10 @@
   "epochs": 566,
   "astarCalls": 4478,
   "expansions": 138315,
-  "plannerMs": 673.6712969999935,
-  "allocMs": 96.92169700000886,
-  "diagMs": 43.785604999995485,
-  "plannerMsPerTick": 0.32279410493531074,
+  "plannerMs": 413.5097239999975,
+  "allocMs": 81.29257200000188,
+  "diagMs": 5.856725999999298,
+  "plannerMsPerTick": 0.19813594825107692,
   "utilization": 0.7589242932438908,
   "finalMeanSoc": 0.723306070039215,
   "audit_ticks": 2087,
@@ -2127,7 +2127,7 @@
   "audit_minSoc": 0.06666874895729252,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K3",
-  "wallMs": 820.6927850000006
+  "wallMs": 465.8899369999999
  },
  {
   "layout": "warehouse",
@@ -2177,10 +2177,10 @@
   "epochs": 570,
   "astarCalls": 5098,
   "expansions": 156194,
-  "plannerMs": 1150.195461000007,
-  "allocMs": 281.70750500000804,
-  "diagMs": 7.610501999999997,
-  "plannerMsPerTick": 0.535223574220571,
+  "plannerMs": 440.7463999999975,
+  "allocMs": 120.5679519999967,
+  "diagMs": 8.719291000001022,
+  "plannerMsPerTick": 0.2050937180083748,
   "utilization": 0.769253140995812,
   "finalMeanSoc": 0.681535692006981,
   "audit_ticks": 2149,
@@ -2198,7 +2198,7 @@
   "audit_minSoc": 0.08737157056853273,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1235.2194519999998
+  "wallMs": 488.34661200000005
  },
  {
   "layout": "warehouse",
@@ -2248,10 +2248,10 @@
   "epochs": 592,
   "astarCalls": 5252,
   "expansions": 163847,
-  "plannerMs": 1159.874780999986,
-  "allocMs": 380.01341600001115,
-  "diagMs": 25.59751099999994,
-  "plannerMsPerTick": 0.5379753158627022,
+  "plannerMs": 402.19649600000275,
+  "allocMs": 101.33024499999647,
+  "diagMs": 8.56452700000159,
+  "plannerMsPerTick": 0.18654753988868403,
   "utilization": 0.7601461038961039,
   "finalMeanSoc": 0.6787167567332307,
   "audit_ticks": 2156,
@@ -2269,7 +2269,7 @@
   "audit_minSoc": 0.06324397350605643,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1284.8343519999999
+  "wallMs": 451.276666
  },
  {
   "layout": "warehouse",
@@ -2319,10 +2319,10 @@
   "epochs": 575,
   "astarCalls": 5077,
   "expansions": 143756,
-  "plannerMs": 1073.040661999993,
-  "allocMs": 298.18505899998945,
-  "diagMs": 63.092429000001175,
-  "plannerMsPerTick": 0.5035385556076927,
+  "plannerMs": 355.3208190000032,
+  "allocMs": 89.65308500000538,
+  "diagMs": 7.586831999999731,
+  "plannerMsPerTick": 0.16673900469263409,
   "utilization": 0.7547512904739558,
   "finalMeanSoc": 0.6143703184639365,
   "audit_ticks": 2131,
@@ -2340,7 +2340,7 @@
   "audit_minSoc": 0.05116478731129509,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1225.1279270000005
+  "wallMs": 402.75402800000006
  },
  {
   "layout": "warehouse",
@@ -2390,10 +2390,10 @@
   "epochs": 562,
   "astarCalls": 5019,
   "expansions": 158981,
-  "plannerMs": 873.5619350000106,
-  "allocMs": 163.89258199999858,
-  "diagMs": 33.44560999999612,
-  "plannerMsPerTick": 0.4311756836130359,
+  "plannerMs": 467.0747430000006,
+  "allocMs": 92.5421529999926,
+  "diagMs": 9.281009000003678,
+  "plannerMsPerTick": 0.23054034698914144,
   "utilization": 0.7554911154985192,
   "finalMeanSoc": 0.6375211564639844,
   "audit_ticks": 2026,
@@ -2411,7 +2411,7 @@
   "audit_minSoc": 0.07309574423879578,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 949.2117150000004
+  "wallMs": 517.5071090000001
  },
  {
   "layout": "warehouse",
@@ -2461,10 +2461,10 @@
   "epochs": 580,
   "astarCalls": 5144,
   "expansions": 140843,
-  "plannerMs": 907.5185619999993,
-  "allocMs": 203.4101069999988,
-  "diagMs": 27.32864700000573,
-  "plannerMsPerTick": 0.4382030719459195,
+  "plannerMs": 374.0362239999945,
+  "allocMs": 96.22955400000455,
+  "diagMs": 6.610787000001665,
+  "plannerMsPerTick": 0.18060657846450723,
   "utilization": 0.7563375181071946,
   "finalMeanSoc": 0.7402605385232515,
   "audit_ticks": 2071,
@@ -2482,7 +2482,7 @@
   "audit_minSoc": 0.07605210626777295,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1021.6877709999999
+  "wallMs": 416.73183300000005
  },
  {
   "layout": "warehouse",
@@ -2532,10 +2532,10 @@
   "epochs": 564,
   "astarCalls": 5034,
   "expansions": 137019,
-  "plannerMs": 884.2284530000125,
-  "allocMs": 213.19347200000357,
-  "diagMs": 12.291942999997445,
-  "plannerMsPerTick": 0.42307581483254186,
+  "plannerMs": 408.9319980000016,
+  "allocMs": 122.05194000000165,
+  "diagMs": 12.86946299999886,
+  "plannerMsPerTick": 0.19566124306220173,
   "utilization": 0.747188995215311,
   "finalMeanSoc": 0.648685748918381,
   "audit_ticks": 2090,
@@ -2553,7 +2553,7 @@
   "audit_minSoc": 0.06678571075182549,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 959.6115420000006
+  "wallMs": 455.28956900000003
  },
  {
   "layout": "warehouse",
@@ -2603,10 +2603,10 @@
   "epochs": 545,
   "astarCalls": 4904,
   "expansions": 156116,
-  "plannerMs": 825.1833779999924,
-  "allocMs": 189.8122609999955,
-  "diagMs": 18.778699999999844,
-  "plannerMsPerTick": 0.41424868373493595,
+  "plannerMs": 425.31283100000223,
+  "allocMs": 135.9961629999989,
+  "diagMs": 12.576489999997648,
+  "plannerMsPerTick": 0.2135104573293184,
   "utilization": 0.7494979919678715,
   "finalMeanSoc": 0.687120257764988,
   "audit_ticks": 1992,
@@ -2624,7 +2624,7 @@
   "audit_minSoc": 0.06676259295847434,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 912.8462599999993
+  "wallMs": 465.75659300000007
  },
  {
   "layout": "warehouse",
@@ -2674,10 +2674,10 @@
   "epochs": 571,
   "astarCalls": 5078,
   "expansions": 135025,
-  "plannerMs": 866.2889699999996,
-  "allocMs": 270.26882599998316,
-  "diagMs": 78.55867700000454,
-  "plannerMsPerTick": 0.4113432905982904,
+  "plannerMs": 373.1692259999993,
+  "allocMs": 96.604818999994,
+  "diagMs": 7.464884999999867,
+  "plannerMsPerTick": 0.17719336467236435,
   "utilization": 0.7609211775878443,
   "finalMeanSoc": 0.7029805320921849,
   "audit_ticks": 2106,
@@ -2695,7 +2695,7 @@
   "audit_minSoc": 0.05459613053407536,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1004.0195370000001
+  "wallMs": 411.01215100000013
  },
  {
   "layout": "warehouse",
@@ -2745,10 +2745,10 @@
   "epochs": 559,
   "astarCalls": 5045,
   "expansions": 159368,
-  "plannerMs": 1039.814542000011,
-  "allocMs": 239.9310669999768,
-  "diagMs": 32.80988299999626,
-  "plannerMsPerTick": 0.5052548794946603,
+  "plannerMs": 437.03363600000125,
+  "allocMs": 109.97795200000587,
+  "diagMs": 10.503938999998354,
+  "plannerMsPerTick": 0.21235842371234268,
   "utilization": 0.7709548104956269,
   "finalMeanSoc": 0.711663514727939,
   "audit_ticks": 2058,
@@ -2766,7 +2766,7 @@
   "audit_minSoc": 0.062102200267652286,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1174.8200640000005
+  "wallMs": 491.86732200000006
  },
  {
   "layout": "warehouse",
@@ -2816,10 +2816,10 @@
   "epochs": 564,
   "astarCalls": 5062,
   "expansions": 144774,
-  "plannerMs": 905.7005839999983,
-  "allocMs": 309.5430239999978,
-  "diagMs": 28.57153799999378,
-  "plannerMsPerTick": 0.428835503787878,
+  "plannerMs": 518.9481390000062,
+  "allocMs": 125.31235800000445,
+  "diagMs": 6.587685999995756,
+  "plannerMsPerTick": 0.24571408096591205,
   "utilization": 0.7577533143939394,
   "finalMeanSoc": 0.6840819924469833,
   "audit_ticks": 2112,
@@ -2837,7 +2837,7 @@
   "audit_minSoc": 0.0843434025015693,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1044.0396799999999
+  "wallMs": 587.112408
  },
  {
   "layout": "warehouse",
@@ -2887,10 +2887,10 @@
   "epochs": 580,
   "astarCalls": 5201,
   "expansions": 161761,
-  "plannerMs": 1230.0576249999995,
-  "allocMs": 214.15645699998004,
-  "diagMs": 38.30604700000276,
-  "plannerMsPerTick": 0.5910896804420949,
+  "plannerMs": 323.43688600000064,
+  "allocMs": 85.38726699999779,
+  "diagMs": 12.11208200000192,
+  "plannerMsPerTick": 0.15542377991350342,
   "utilization": 0.7653772224891879,
   "finalMeanSoc": 0.6935962702247573,
   "audit_ticks": 2081,
@@ -2908,7 +2908,7 @@
   "audit_minSoc": 0.08645275583844875,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1355.6625959999992
+  "wallMs": 367.17932599999995
  },
  {
   "layout": "warehouse",
@@ -2958,10 +2958,10 @@
   "epochs": 588,
   "astarCalls": 5185,
   "expansions": 161062,
-  "plannerMs": 1315.471018000022,
-  "allocMs": 302.35628899999483,
-  "diagMs": 14.003204999997251,
-  "plannerMsPerTick": 0.6132732018648122,
+  "plannerMs": 504.00212200000146,
+  "allocMs": 126.39244099999405,
+  "diagMs": 18.25256900000386,
+  "plannerMsPerTick": 0.23496602424242494,
   "utilization": 0.7702214452214452,
   "finalMeanSoc": 0.6242958395950992,
   "audit_ticks": 2145,
@@ -2979,7 +2979,7 @@
   "audit_minSoc": 0.06924390403330491,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1438.9651439999998
+  "wallMs": 562.6588240000001
  },
  {
   "layout": "warehouse",
@@ -3029,10 +3029,10 @@
   "epochs": 559,
   "astarCalls": 4979,
   "expansions": 168397,
-  "plannerMs": 948.2446389999895,
-  "allocMs": 252.47950400000627,
-  "diagMs": 33.081927000002,
-  "plannerMsPerTick": 0.46596788157247643,
+  "plannerMs": 550.2881650000022,
+  "allocMs": 142.7928769999969,
+  "diagMs": 8.684072999998307,
+  "plannerMsPerTick": 0.27041187469287575,
   "utilization": 0.746990171990172,
   "finalMeanSoc": 0.6150327139111265,
   "audit_ticks": 2035,
@@ -3050,7 +3050,7 @@
   "audit_minSoc": 0.06449542265459904,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1043.4608239999998
+  "wallMs": 594.199625
  },
  {
   "layout": "warehouse",
@@ -3100,10 +3100,10 @@
   "epochs": 571,
   "astarCalls": 5105,
   "expansions": 139487,
-  "plannerMs": 932.7079869999934,
-  "allocMs": 203.22127799999362,
-  "diagMs": 21.31387299999824,
-  "plannerMsPerTick": 0.44541928701050304,
+  "plannerMs": 472.9442160000017,
+  "allocMs": 135.93693699999994,
+  "diagMs": 8.51398700000209,
+  "plannerMsPerTick": 0.22585683667621856,
   "utilization": 0.7410458452722063,
   "finalMeanSoc": 0.6589664030836229,
   "audit_ticks": 2094,
@@ -3121,7 +3121,7 @@
   "audit_minSoc": 0.07215000162199275,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1011.8339970000006
+  "wallMs": 519.572107
  },
  {
   "layout": "warehouse",
@@ -3171,10 +3171,10 @@
   "epochs": 575,
   "astarCalls": 5126,
   "expansions": 143076,
-  "plannerMs": 632.5245869999935,
-  "allocMs": 129.48509600001307,
-  "diagMs": 4.224272999995264,
-  "plannerMsPerTick": 0.29392406459107506,
+  "plannerMs": 411.3080060000075,
+  "allocMs": 95.77200400000629,
+  "diagMs": 6.574464999995598,
+  "plannerMsPerTick": 0.19112825557621166,
   "utilization": 0.7522653345724907,
   "finalMeanSoc": 0.620483961628171,
   "audit_ticks": 2152,
@@ -3192,7 +3192,7 @@
   "audit_minSoc": 0.0727302611552198,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 707.2254640000001
+  "wallMs": 469.0119749999999
  },
  {
   "layout": "warehouse",
@@ -3242,10 +3242,10 @@
   "epochs": 542,
   "astarCalls": 4904,
   "expansions": 147128,
-  "plannerMs": 808.3513740000035,
-  "allocMs": 203.25505100000464,
-  "diagMs": 22.69999700000244,
-  "plannerMsPerTick": 0.4109564687341146,
+  "plannerMs": 349.78004499998906,
+  "allocMs": 96.02147900000455,
+  "diagMs": 9.93438500000184,
+  "plannerMsPerTick": 0.1778241204880473,
   "utilization": 0.7540671072699543,
   "finalMeanSoc": 0.7006878399736047,
   "audit_ticks": 1967,
@@ -3263,7 +3263,7 @@
   "audit_minSoc": 0.07164235390555374,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 909.0794190000006
+  "wallMs": 387.7320530000002
  },
  {
   "layout": "warehouse",
@@ -3313,10 +3313,10 @@
   "epochs": 567,
   "astarCalls": 5063,
   "expansions": 160312,
-  "plannerMs": 945.7912189999988,
-  "allocMs": 208.14055599997482,
-  "diagMs": 31.865862000009656,
-  "plannerMsPerTick": 0.45536409195955646,
+  "plannerMs": 430.72287299999607,
+  "allocMs": 124.6486260000006,
+  "diagMs": 6.968355000004522,
+  "plannerMsPerTick": 0.2073774063553183,
   "utilization": 0.7667308618199326,
   "finalMeanSoc": 0.6515402294770609,
   "audit_ticks": 2077,
@@ -3334,7 +3334,7 @@
   "audit_minSoc": 0.07382545321658296,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1025.3887489999997
+  "wallMs": 479.0947620000002
  },
  {
   "layout": "warehouse",
@@ -3384,10 +3384,10 @@
   "epochs": 569,
   "astarCalls": 5111,
   "expansions": 155945,
-  "plannerMs": 837.6067580000017,
-  "allocMs": 265.4888450000053,
-  "diagMs": 3.8823880000009012,
-  "plannerMsPerTick": 0.39603156406619466,
+  "plannerMs": 448.48228099999005,
+  "allocMs": 131.65807599999425,
+  "diagMs": 7.211359000003085,
+  "plannerMsPerTick": 0.21204835981087,
   "utilization": 0.7676713947990543,
   "finalMeanSoc": 0.6814502454649918,
   "audit_ticks": 2115,
@@ -3405,7 +3405,7 @@
   "audit_minSoc": 0.050680994119868095,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 928.1335900000004
+  "wallMs": 496.0129500000003
  },
  {
   "layout": "warehouse",
@@ -3455,10 +3455,10 @@
   "epochs": 562,
   "astarCalls": 5024,
   "expansions": 155954,
-  "plannerMs": 1192.6905449999858,
-  "allocMs": 220.21152299999903,
-  "diagMs": 4.319943000004059,
-  "plannerMsPerTick": 0.5832227603911911,
+  "plannerMs": 429.3941359999958,
+  "allocMs": 96.81268799999862,
+  "diagMs": 6.433379000002333,
+  "plannerMsPerTick": 0.20997268264058475,
   "utilization": 0.7680317848410758,
   "finalMeanSoc": 0.7218015448329997,
   "audit_ticks": 2045,
@@ -3476,7 +3476,7 @@
   "audit_minSoc": 0.07617914039231882,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1259.9457080000002
+  "wallMs": 484.0671430000002
  },
  {
   "layout": "warehouse",
@@ -3526,10 +3526,10 @@
   "epochs": 607,
   "astarCalls": 5386,
   "expansions": 178185,
-  "plannerMs": 596.3157929999807,
-  "allocMs": 104.98867000000246,
-  "diagMs": 3.5785240000077465,
-  "plannerMsPerTick": 0.2657378756684406,
+  "plannerMs": 503.6331650000011,
+  "allocMs": 103.23207900000807,
+  "diagMs": 11.942968000001656,
+  "plannerMsPerTick": 0.22443545677361904,
   "utilization": 0.7446524064171123,
   "finalMeanSoc": 0.6376706752619979,
   "audit_ticks": 2244,
@@ -3547,7 +3547,7 @@
   "audit_minSoc": 0.05930167021528027,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 640.3395440000004
+  "wallMs": 550.4108470000001
  },
  {
   "layout": "warehouse",
@@ -3597,10 +3597,10 @@
   "epochs": 564,
   "astarCalls": 5047,
   "expansions": 176248,
-  "plannerMs": 636.1286769999942,
-  "allocMs": 127.03804699997363,
-  "diagMs": 9.219745000002149,
-  "plannerMsPerTick": 0.3086504983017925,
+  "plannerMs": 442.45507100000214,
+  "allocMs": 97.26554999999689,
+  "diagMs": 12.69642999999678,
+  "plannerMsPerTick": 0.21467980155264538,
   "utilization": 0.7658903444929646,
   "finalMeanSoc": 0.7290982739455095,
   "audit_ticks": 2061,
@@ -3618,7 +3618,7 @@
   "audit_minSoc": 0.0657456107860448,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 730.6859320000003
+  "wallMs": 484.13574000000017
  },
  {
   "layout": "warehouse",
@@ -3668,10 +3668,10 @@
   "epochs": 546,
   "astarCalls": 4876,
   "expansions": 147507,
-  "plannerMs": 923.9054700000142,
-  "allocMs": 196.09642500000336,
-  "diagMs": 4.282899999998335,
-  "plannerMsPerTick": 0.46520919939577754,
+  "plannerMs": 367.5384750000071,
+  "allocMs": 85.88376200000403,
+  "diagMs": 12.296239999995123,
+  "plannerMsPerTick": 0.18506469033232986,
   "utilization": 0.7657980866062437,
   "finalMeanSoc": 0.669038863806336,
   "audit_ticks": 1986,
@@ -3689,7 +3689,7 @@
   "audit_minSoc": 0.053685877699405415,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1004.574071
+  "wallMs": 428.30541300000004
  },
  {
   "layout": "warehouse",
@@ -3739,10 +3739,10 @@
   "epochs": 570,
   "astarCalls": 5046,
   "expansions": 145250,
-  "plannerMs": 728.9587049999909,
-  "allocMs": 167.86258899999302,
-  "diagMs": 8.332836999996289,
-  "plannerMsPerTick": 0.35524303362572657,
+  "plannerMs": 388.8822050000126,
+  "allocMs": 100.6017369999995,
+  "diagMs": 6.033334000000195,
+  "plannerMsPerTick": 0.1895137451267118,
   "utilization": 0.761817738791423,
   "finalMeanSoc": 0.5882472423377004,
   "audit_ticks": 2052,
@@ -3760,7 +3760,7 @@
   "audit_minSoc": 0.0567348423842349,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 772.470926
+  "wallMs": 435.91237
  },
  {
   "layout": "warehouse",
@@ -3810,10 +3810,10 @@
   "epochs": 581,
   "astarCalls": 5139,
   "expansions": 154312,
-  "plannerMs": 911.6882310000019,
-  "allocMs": 236.54375899999013,
-  "diagMs": 4.422397999999703,
-  "plannerMsPerTick": 0.4254261460569304,
+  "plannerMs": 433.5136360000006,
+  "allocMs": 90.95013100000278,
+  "diagMs": 6.345059000002948,
+  "plannerMsPerTick": 0.20229287727484863,
   "utilization": 0.760790947270182,
   "finalMeanSoc": 0.6262614823359565,
   "audit_ticks": 2143,
@@ -3831,7 +3831,7 @@
   "audit_minSoc": 0.05115529488381104,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1012.6061220000001
+  "wallMs": 474.1460790000001
  },
  {
   "layout": "warehouse",
@@ -3881,10 +3881,10 @@
   "epochs": 574,
   "astarCalls": 5146,
   "expansions": 155968,
-  "plannerMs": 812.1055820000029,
-  "allocMs": 161.64351100000567,
-  "diagMs": 31.22073900000123,
-  "plannerMsPerTick": 0.3821673327058837,
+  "plannerMs": 421.6823650000056,
+  "allocMs": 104.59244200000194,
+  "diagMs": 6.458631000002697,
+  "plannerMsPerTick": 0.19843876000000263,
   "utilization": 0.763235294117647,
   "finalMeanSoc": 0.688735037443976,
   "audit_ticks": 2125,
@@ -3902,7 +3902,7 @@
   "audit_minSoc": 0.07195760349724559,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 944.9002440000004
+  "wallMs": 460.4518579999999
  },
  {
   "layout": "warehouse",
@@ -3952,10 +3952,10 @@
   "epochs": 581,
   "astarCalls": 5170,
   "expansions": 161272,
-  "plannerMs": 839.1449260000081,
-  "allocMs": 211.4420190000037,
-  "diagMs": 16.61725899999783,
-  "plannerMsPerTick": 0.3904815849232239,
+  "plannerMs": 476.72310699999025,
+  "allocMs": 101.99747699998397,
+  "diagMs": 7.8066700000044875,
+  "plannerMsPerTick": 0.2218348566775199,
   "utilization": 0.761924150767799,
   "finalMeanSoc": 0.7432154163924081,
   "audit_ticks": 2149,
@@ -3973,7 +3973,7 @@
   "audit_minSoc": 0.05653930703103616,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 891.3802070000002
+  "wallMs": 522.684941
  },
  {
   "layout": "warehouse",
@@ -4023,10 +4023,10 @@
   "epochs": 550,
   "astarCalls": 4917,
   "expansions": 156847,
-  "plannerMs": 704.8863110000002,
-  "allocMs": 199.5657309999906,
-  "diagMs": 24.15325300000586,
-  "plannerMsPerTick": 0.3482639876482214,
+  "plannerMs": 387.9915459999961,
+  "allocMs": 106.74039400000356,
+  "diagMs": 5.92493199999808,
+  "plannerMsPerTick": 0.19169542786561072,
   "utilization": 0.771677371541502,
   "finalMeanSoc": 0.6410204211091419,
   "audit_ticks": 2024,
@@ -4044,7 +4044,7 @@
   "audit_minSoc": 0.07561668127272475,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 796.0940229999997
+  "wallMs": 434.03954299999987
  },
  {
   "layout": "warehouse",
@@ -4094,10 +4094,10 @@
   "epochs": 556,
   "astarCalls": 4954,
   "expansions": 154401,
-  "plannerMs": 892.1862420000207,
-  "allocMs": 180.9993570000015,
-  "diagMs": 2.4970590000011725,
-  "plannerMsPerTick": 0.4388520619773835,
+  "plannerMs": 442.41453899999897,
+  "allocMs": 116.52648899999667,
+  "diagMs": 16.417338000002474,
+  "plannerMsPerTick": 0.21761659567142103,
   "utilization": 0.7571323167732416,
   "finalMeanSoc": 0.7116793893512834,
   "audit_ticks": 2033,
@@ -4115,7 +4115,7 @@
   "audit_minSoc": 0.06572079421300503,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 969.5314290000006
+  "wallMs": 518.5017849999999
  },
  {
   "layout": "warehouse",
@@ -4165,10 +4165,10 @@
   "epochs": 572,
   "astarCalls": 5155,
   "expansions": 134379,
-  "plannerMs": 929.4022980000072,
-  "allocMs": 253.488508000004,
-  "diagMs": 4.242169999991347,
-  "plannerMsPerTick": 0.4413116324786359,
+  "plannerMs": 367.17723600001773,
+  "allocMs": 99.23075299999618,
+  "diagMs": 17.63713099999677,
+  "plannerMsPerTick": 0.17434816524217367,
   "utilization": 0.7633547008547008,
   "finalMeanSoc": 0.5716585668828598,
   "audit_ticks": 2106,
@@ -4186,7 +4186,7 @@
   "audit_minSoc": 0.061777763926610774,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 1076.1595509999997
+  "wallMs": 420.8624380000001
  },
  {
   "layout": "warehouse",
@@ -4236,10 +4236,10 @@
   "epochs": 565,
   "astarCalls": 5042,
   "expansions": 161930,
-  "plannerMs": 592.3597609999888,
-  "allocMs": 152.72603699998672,
-  "diagMs": 2.6450540000059846,
-  "plannerMsPerTick": 0.284241727927058,
+  "plannerMs": 420.4936519999942,
+  "allocMs": 105.34904499998993,
+  "diagMs": 6.924750000003769,
+  "plannerMsPerTick": 0.20177238579654233,
   "utilization": 0.7594169865642995,
   "finalMeanSoc": 0.6805060700392149,
   "audit_ticks": 2084,
@@ -4257,7 +4257,7 @@
   "audit_minSoc": 0.07586874895729162,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K6",
-  "wallMs": 623.9453629999998
+  "wallMs": 459.88355200000024
  },
  {
   "layout": "warehouse",
@@ -4307,10 +4307,10 @@
   "epochs": 570,
   "astarCalls": 5510,
   "expansions": 165144,
-  "plannerMs": 602.6907740000224,
-  "allocMs": 195.10432300000502,
-  "diagMs": 3.568112999996629,
-  "plannerMsPerTick": 0.28045173289903325,
+  "plannerMs": 390.0108199999986,
+  "allocMs": 122.01985499999728,
+  "diagMs": 6.754129999998895,
+  "plannerMsPerTick": 0.1814847929269421,
   "utilization": 0.769253140995812,
   "finalMeanSoc": 0.681535692006981,
   "audit_ticks": 2149,
@@ -4328,7 +4328,7 @@
   "audit_minSoc": 0.08737157056853273,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 674.0474349999995
+  "wallMs": 428.4144860000001
  },
  {
   "layout": "warehouse",
@@ -4378,10 +4378,10 @@
   "epochs": 583,
   "astarCalls": 5608,
   "expansions": 173154,
-  "plannerMs": 713.5423420000034,
-  "allocMs": 238.61726900001577,
-  "diagMs": 14.045099999994818,
-  "plannerMsPerTick": 0.3286698949792738,
+  "plannerMs": 412.4378749999987,
+  "allocMs": 130.55083399999603,
+  "diagMs": 6.515616000001046,
+  "plannerMsPerTick": 0.18997599032703763,
   "utilization": 0.7512666973744818,
   "finalMeanSoc": 0.6376667567332307,
   "audit_ticks": 2171,
@@ -4399,7 +4399,7 @@
   "audit_minSoc": 0.06417757872939284,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 769.4797720000006
+  "wallMs": 455.4539850000001
  },
  {
   "layout": "warehouse",
@@ -4449,10 +4449,10 @@
   "epochs": 579,
   "astarCalls": 5544,
   "expansions": 168549,
-  "plannerMs": 1179.908638000029,
-  "allocMs": 297.46127499999784,
-  "diagMs": 15.46965999999793,
-  "plannerMsPerTick": 0.5460012207311564,
+  "plannerMs": 377.1611660000026,
+  "allocMs": 104.27446799999643,
+  "diagMs": 11.736976000001505,
+  "plannerMsPerTick": 0.1745308496066648,
   "utilization": 0.7565363257751041,
   "finalMeanSoc": 0.6042203184639369,
   "audit_ticks": 2161,
@@ -4470,7 +4470,7 @@
   "audit_minSoc": 0.07636478731129337,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 1267.6788019999995
+  "wallMs": 420.032553
  },
  {
   "layout": "warehouse",
@@ -4520,10 +4520,10 @@
   "epochs": 562,
   "astarCalls": 5430,
   "expansions": 167926,
-  "plannerMs": 591.3830499999676,
-  "allocMs": 136.25377799999842,
-  "diagMs": 7.305575000003046,
-  "plannerMsPerTick": 0.291896865745295,
+  "plannerMs": 363.07346700000653,
+  "allocMs": 109.81859000000577,
+  "diagMs": 15.526231999995161,
+  "plannerMsPerTick": 0.17920704195459355,
   "utilization": 0.7554911154985192,
   "finalMeanSoc": 0.6375211564639844,
   "audit_ticks": 2026,
@@ -4541,7 +4541,7 @@
   "audit_minSoc": 0.07309574423879578,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 638.3608669999994
+  "wallMs": 409.4037209999997
  },
  {
   "layout": "warehouse",
@@ -4591,10 +4591,10 @@
   "epochs": 562,
   "astarCalls": 5398,
   "expansions": 157434,
-  "plannerMs": 914.3717209999904,
-  "allocMs": 244.82754299999033,
-  "diagMs": 29.486706000005142,
-  "plannerMsPerTick": 0.44108621369994716,
+  "plannerMs": 547.4799700000058,
+  "allocMs": 200.88521299999684,
+  "diagMs": 20.884303999996973,
+  "plannerMsPerTick": 0.2641003232030901,
   "utilization": 0.7668837433671009,
   "finalMeanSoc": 0.7306605385232512,
   "audit_ticks": 2073,
@@ -4612,7 +4612,7 @@
   "audit_minSoc": 0.05248745545968497,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 1020.7623439999998
+  "wallMs": 603.813263
  },
  {
   "layout": "warehouse",
@@ -4662,10 +4662,10 @@
   "epochs": 564,
   "astarCalls": 5433,
   "expansions": 145523,
-  "plannerMs": 698.6618510000108,
-  "allocMs": 180.5531320000082,
-  "diagMs": 11.254811999993763,
-  "plannerMsPerTick": 0.33428796698565105,
+  "plannerMs": 507.94857800000364,
+  "allocMs": 168.27457899999763,
+  "diagMs": 6.518047000002753,
+  "plannerMsPerTick": 0.24303759712918835,
   "utilization": 0.747188995215311,
   "finalMeanSoc": 0.648685748918381,
   "audit_ticks": 2090,
@@ -4683,7 +4683,7 @@
   "audit_minSoc": 0.06678571075182549,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 762.2071770000002
+  "wallMs": 559.3547869999998
  },
  {
   "layout": "warehouse",
@@ -4733,10 +4733,10 @@
   "epochs": 549,
   "astarCalls": 5315,
   "expansions": 167958,
-  "plannerMs": 398.2992239999985,
-  "allocMs": 117.79165999999987,
-  "diagMs": 3.651511000002756,
-  "plannerMsPerTick": 0.20085689561270725,
+  "plannerMs": 424.071357000008,
+  "allocMs": 111.46134100000381,
+  "diagMs": 10.277266999994936,
+  "plannerMsPerTick": 0.213853432677765,
   "utilization": 0.7581946545637922,
   "finalMeanSoc": 0.7180702577649879,
   "audit_ticks": 1983,
@@ -4754,7 +4754,7 @@
   "audit_minSoc": 0.06376259295847436,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 432.6371739999995
+  "wallMs": 477.56099200000017
  },
  {
   "layout": "warehouse",
@@ -4804,10 +4804,10 @@
   "epochs": 580,
   "astarCalls": 5568,
   "expansions": 157176,
-  "plannerMs": 995.6895460000133,
-  "allocMs": 310.9988419999918,
-  "diagMs": 15.652325000000928,
-  "plannerMsPerTick": 0.46833939134525554,
+  "plannerMs": 434.6053749999901,
+  "allocMs": 122.5921099999955,
+  "diagMs": 4.590089000003445,
+  "plannerMsPerTick": 0.20442397695201792,
   "utilization": 0.7512935089369709,
   "finalMeanSoc": 0.6630805320921854,
   "audit_ticks": 2126,
@@ -4825,7 +4825,7 @@
   "audit_minSoc": 0.06770455053988958,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 1053.7017880000003
+  "wallMs": 474.2205180000001
  },
  {
   "layout": "warehouse",
@@ -4875,10 +4875,10 @@
   "epochs": 559,
   "astarCalls": 5462,
   "expansions": 168360,
-  "plannerMs": 763.777650999983,
-  "allocMs": 214.03852099998585,
-  "diagMs": 4.124772000009216,
-  "plannerMsPerTick": 0.37112616666665843,
+  "plannerMs": 375.38960000000725,
+  "allocMs": 116.66630700001133,
+  "diagMs": 4.492009999996299,
+  "plannerMsPerTick": 0.18240505344995492,
   "utilization": 0.7709548104956269,
   "finalMeanSoc": 0.711663514727939,
   "audit_ticks": 2058,
@@ -4896,7 +4896,7 @@
   "audit_minSoc": 0.062102200267652286,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 872.4444130000002
+  "wallMs": 410.80554699999993
  },
  {
   "layout": "warehouse",
@@ -4946,10 +4946,10 @@
   "epochs": 563,
   "astarCalls": 5438,
   "expansions": 147471,
-  "plannerMs": 973.1437359999945,
-  "allocMs": 291.9368820000127,
-  "diagMs": 48.595946000005824,
-  "plannerMsPerTick": 0.4708000657958367,
+  "plannerMs": 368.85862199999747,
+  "allocMs": 121.05693800000063,
+  "diagMs": 4.321475000001101,
+  "plannerMsPerTick": 0.17845119593613812,
   "utilization": 0.7735849056603774,
   "finalMeanSoc": 0.694231992446983,
   "audit_ticks": 2067,
@@ -4967,7 +4967,7 @@
   "audit_minSoc": 0.06105915388520833,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 1066.812508
+  "wallMs": 408.9060199999999
  },
  {
   "layout": "warehouse",
@@ -5017,10 +5017,10 @@
   "epochs": 580,
   "astarCalls": 5573,
   "expansions": 171634,
-  "plannerMs": 349.8205329999828,
-  "allocMs": 104.76564999999482,
-  "diagMs": 12.298867000003156,
-  "plannerMsPerTick": 0.16532161294895217,
+  "plannerMs": 389.2738560000025,
+  "allocMs": 105.29045600000109,
+  "diagMs": 14.140098999995644,
+  "plannerMsPerTick": 0.1839668506616269,
   "utilization": 0.7631734404536862,
   "finalMeanSoc": 0.6872962702247577,
   "audit_ticks": 2116,
@@ -5038,7 +5038,7 @@
   "audit_minSoc": 0.03965275583844827,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 393.1238349999994
+  "wallMs": 440.237177
  },
  {
   "layout": "warehouse",
@@ -5088,10 +5088,10 @@
   "epochs": 588,
   "astarCalls": 5618,
   "expansions": 177902,
-  "plannerMs": 319.19943599998624,
-  "allocMs": 84.21414499997809,
-  "diagMs": 3.0437570000085543,
-  "plannerMsPerTick": 0.14764081221090944,
+  "plannerMs": 364.7688440000029,
+  "allocMs": 98.40906399999585,
+  "diagMs": 5.303358999998181,
+  "plannerMsPerTick": 0.16871824421831771,
   "utilization": 0.7614477335800185,
   "finalMeanSoc": 0.5943458395950991,
   "audit_ticks": 2162,
@@ -5109,7 +5109,7 @@
   "audit_minSoc": 0.09246515690591389,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 353.64238699999987
+  "wallMs": 400.2656430000002
  },
  {
   "layout": "warehouse",
@@ -5159,10 +5159,10 @@
   "epochs": 559,
   "astarCalls": 5383,
   "expansions": 177261,
-  "plannerMs": 911.7903979999701,
-  "allocMs": 238.79456599997047,
-  "diagMs": 3.8890380000084406,
-  "plannerMsPerTick": 0.4480542496314349,
+  "plannerMs": 398.2317930000095,
+  "allocMs": 109.27903900000092,
+  "diagMs": 4.956290999995872,
+  "plannerMsPerTick": 0.19569129877150343,
   "utilization": 0.746990171990172,
   "finalMeanSoc": 0.6150327139111265,
   "audit_ticks": 2035,
@@ -5180,7 +5180,7 @@
   "audit_minSoc": 0.06449542265459904,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 1021.8316539999996
+  "wallMs": 435.7071780000001
  },
  {
   "layout": "warehouse",
@@ -5230,10 +5230,10 @@
   "epochs": 553,
   "astarCalls": 5392,
   "expansions": 155222,
-  "plannerMs": 926.6225099999956,
-  "allocMs": 270.13627199998064,
-  "diagMs": 3.621712999994088,
-  "plannerMsPerTick": 0.45113072541382454,
+  "plannerMs": 363.6636360000052,
+  "allocMs": 89.65070900000273,
+  "diagMs": 5.172753000001194,
+  "plannerMsPerTick": 0.17705142940603955,
   "utilization": 0.7554771178188899,
   "finalMeanSoc": 0.6545664030836225,
   "audit_ticks": 2054,
@@ -5251,7 +5251,7 @@
   "audit_minSoc": 0.08457907171398504,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 996.5554980000006
+  "wallMs": 394.9412639999996
  },
  {
   "layout": "warehouse",
@@ -5301,10 +5301,10 @@
   "epochs": 575,
   "astarCalls": 5531,
   "expansions": 151810,
-  "plannerMs": 821.8638609999934,
-  "allocMs": 169.8288969999876,
-  "diagMs": 18.372187999990274,
-  "plannerMsPerTick": 0.3819069986059449,
+  "plannerMs": 350.48553600000287,
+  "allocMs": 114.19934300000432,
+  "diagMs": 11.795176999997693,
+  "plannerMsPerTick": 0.16286502602230615,
   "utilization": 0.7522653345724907,
   "finalMeanSoc": 0.620483961628171,
   "audit_ticks": 2152,
@@ -5322,7 +5322,7 @@
   "audit_minSoc": 0.0727302611552198,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 935.0366609999992
+  "wallMs": 403.737983
  },
  {
   "layout": "warehouse",
@@ -5372,10 +5372,10 @@
   "epochs": 541,
   "astarCalls": 5279,
   "expansions": 173144,
-  "plannerMs": 933.3826490000147,
-  "allocMs": 173.36295200001496,
-  "diagMs": 19.81371300000319,
-  "plannerMsPerTick": 0.46809561133400934,
+  "plannerMs": 356.688810999995,
+  "allocMs": 105.07401000000073,
+  "diagMs": 6.579138999998122,
+  "plannerMsPerTick": 0.1788810486459353,
   "utilization": 0.754012036108325,
   "finalMeanSoc": 0.7048378399736046,
   "audit_ticks": 1994,
@@ -5393,7 +5393,7 @@
   "audit_minSoc": 0.06313668953347978,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 1033.8505300000006
+  "wallMs": 395.74079900000015
  },
  {
   "layout": "warehouse",
@@ -5443,10 +5443,10 @@
   "epochs": 567,
   "astarCalls": 5476,
   "expansions": 169170,
-  "plannerMs": 838.6130080000003,
-  "allocMs": 235.00589200003014,
-  "diagMs": 2.760763999995106,
-  "plannerMsPerTick": 0.40376167934520957,
+  "plannerMs": 373.08369699999776,
+  "allocMs": 98.28018999999176,
+  "diagMs": 5.007830000003196,
+  "plannerMsPerTick": 0.17962623832450542,
   "utilization": 0.7667308618199326,
   "finalMeanSoc": 0.6515402294770609,
   "audit_ticks": 2077,
@@ -5464,7 +5464,7 @@
   "audit_minSoc": 0.07382545321658296,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 922.1851569999999
+  "wallMs": 408.6859260000001
  },
  {
   "layout": "warehouse",
@@ -5514,10 +5514,10 @@
   "epochs": 583,
   "astarCalls": 5580,
   "expansions": 157107,
-  "plannerMs": 1003.1640489999863,
-  "allocMs": 313.39942600000177,
-  "diagMs": 3.8718580000131624,
-  "plannerMsPerTick": 0.4734138975931979,
+  "plannerMs": 341.20056200000863,
+  "allocMs": 97.94292400000313,
+  "diagMs": 8.27683999999772,
+  "plannerMsPerTick": 0.1610196139688573,
   "utilization": 0.7643935818782445,
   "finalMeanSoc": 0.679050245464992,
   "audit_ticks": 2119,
@@ -5535,7 +5535,7 @@
   "audit_minSoc": 0.07150438921488855,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 1092.0790159999997
+  "wallMs": 391.917813
  },
  {
   "layout": "warehouse",
@@ -5585,10 +5585,10 @@
   "epochs": 562,
   "astarCalls": 5434,
   "expansions": 164803,
-  "plannerMs": 819.7196640000075,
-  "allocMs": 181.0729810000139,
-  "diagMs": 3.3799830000116344,
-  "plannerMsPerTick": 0.4008409114914462,
+  "plannerMs": 375.23692800000254,
+  "allocMs": 126.80479699999523,
+  "diagMs": 5.284738999998808,
+  "plannerMsPerTick": 0.18348994034229954,
   "utilization": 0.7680317848410758,
   "finalMeanSoc": 0.7218015448329997,
   "audit_ticks": 2045,
@@ -5606,7 +5606,7 @@
   "audit_minSoc": 0.07617914039231882,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 886.9887940000008
+  "wallMs": 420.37384699999984
  },
  {
   "layout": "warehouse",
@@ -5656,10 +5656,10 @@
   "epochs": 591,
   "astarCalls": 5668,
   "expansions": 166959,
-  "plannerMs": 806.2933890000077,
-  "allocMs": 249.15329300002122,
-  "diagMs": 10.575084999985847,
-  "plannerMsPerTick": 0.3666636603001399,
+  "plannerMs": 422.98312300000407,
+  "allocMs": 93.04723300000069,
+  "diagMs": 6.632449999998698,
+  "plannerMsPerTick": 0.19235248885857392,
   "utilization": 0.761994088221919,
   "finalMeanSoc": 0.5930206752619969,
   "audit_ticks": 2199,
@@ -5677,7 +5677,7 @@
   "audit_minSoc": 0.051497722640075266,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 900.8809439999986
+  "wallMs": 473.44714900000054
  },
  {
   "layout": "warehouse",
@@ -5727,10 +5727,10 @@
   "epochs": 564,
   "astarCalls": 5458,
   "expansions": 185188,
-  "plannerMs": 997.5521530000024,
-  "allocMs": 293.8356139999887,
-  "diagMs": 16.127988000000187,
-  "plannerMsPerTick": 0.4840136598738488,
+  "plannerMs": 408.9362340000007,
+  "allocMs": 106.15010700000448,
+  "diagMs": 3.97011700000121,
+  "plannerMsPerTick": 0.198416416302766,
   "utilization": 0.7658903444929646,
   "finalMeanSoc": 0.7290982739455095,
   "audit_ticks": 2061,
@@ -5748,7 +5748,7 @@
   "audit_minSoc": 0.0657456107860448,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 1099.968363
+  "wallMs": 455.33427200000006
  },
  {
   "layout": "warehouse",
@@ -5798,10 +5798,10 @@
   "epochs": 546,
   "astarCalls": 5265,
   "expansions": 155997,
-  "plannerMs": 666.0760009999613,
-  "allocMs": 182.18958900001417,
-  "diagMs": 9.185188000004928,
-  "plannerMsPerTick": 0.33538570040280025,
+  "plannerMs": 345.7145829999977,
+  "allocMs": 97.06693599999699,
+  "diagMs": 5.000290999998924,
+  "plannerMsPerTick": 0.17407582225578935,
   "utilization": 0.7657980866062437,
   "finalMeanSoc": 0.669038863806336,
   "audit_ticks": 1986,
@@ -5819,7 +5819,7 @@
   "audit_minSoc": 0.053685877699405415,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 725.0444480000006
+  "wallMs": 387.19074400000045
  },
  {
   "layout": "warehouse",
@@ -5869,10 +5869,10 @@
   "epochs": 574,
   "astarCalls": 5490,
   "expansions": 156115,
-  "plannerMs": 892.3134420000024,
-  "allocMs": 262.36252599995896,
-  "diagMs": 3.7974190000077215,
-  "plannerMsPerTick": 0.427557950167706,
+  "plannerMs": 359.0999049999955,
+  "allocMs": 93.72692799999413,
+  "diagMs": 5.73684500000536,
+  "plannerMsPerTick": 0.17206511978916889,
   "utilization": 0.7570076665069477,
   "finalMeanSoc": 0.6405972423377009,
   "audit_ticks": 2087,
@@ -5890,7 +5890,7 @@
   "audit_minSoc": 0.0689613325264315,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 993.6684210000003
+  "wallMs": 398.60093199999983
  },
  {
   "layout": "warehouse",
@@ -5940,10 +5940,10 @@
   "epochs": 577,
   "astarCalls": 5527,
   "expansions": 151209,
-  "plannerMs": 730.2687530000148,
-  "allocMs": 228.59874500000842,
-  "diagMs": 7.488382999998066,
-  "plannerMsPerTick": 0.343010217472999,
+  "plannerMs": 327.6226260000003,
+  "allocMs": 89.22283199999492,
+  "diagMs": 4.959958000001734,
+  "plannerMsPerTick": 0.1538856862376704,
   "utilization": 0.763914983560357,
   "finalMeanSoc": 0.5771114823359558,
   "audit_ticks": 2129,
@@ -5961,7 +5961,7 @@
   "audit_minSoc": 0.0837777444336566,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 776.6766659999994
+  "wallMs": 366.7806690000002
  },
  {
   "layout": "warehouse",
@@ -6011,10 +6011,10 @@
   "epochs": 574,
   "astarCalls": 5557,
   "expansions": 164849,
-  "plannerMs": 701.7003110000078,
-  "allocMs": 178.43463500003782,
-  "diagMs": 11.334439999976894,
-  "plannerMsPerTick": 0.3302119110588272,
+  "plannerMs": 379.0598769999983,
+  "allocMs": 109.0344260000029,
+  "diagMs": 5.221411999994416,
+  "plannerMsPerTick": 0.1783811185882345,
   "utilization": 0.763235294117647,
   "finalMeanSoc": 0.688735037443976,
   "audit_ticks": 2125,
@@ -6032,7 +6032,7 @@
   "audit_minSoc": 0.07195760349724559,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 758.0729250000004
+  "wallMs": 422.09265000000005
  },
  {
   "layout": "warehouse",
@@ -6082,10 +6082,10 @@
   "epochs": 581,
   "astarCalls": 5573,
   "expansions": 170092,
-  "plannerMs": 930.1716170000091,
-  "allocMs": 212.5924550000109,
-  "diagMs": 3.0165739999883954,
-  "plannerMsPerTick": 0.43283928199162824,
+  "plannerMs": 361.91693500000065,
+  "allocMs": 105.29451599999766,
+  "diagMs": 8.559225999999853,
+  "plannerMsPerTick": 0.16841178920428138,
   "utilization": 0.761924150767799,
   "finalMeanSoc": 0.7432154163924081,
   "audit_ticks": 2149,
@@ -6103,7 +6103,7 @@
   "audit_minSoc": 0.05653930703103616,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 986.6963899999992
+  "wallMs": 402.7758590000003
  },
  {
   "layout": "warehouse",
@@ -6153,10 +6153,10 @@
   "epochs": 550,
   "astarCalls": 5336,
   "expansions": 165952,
-  "plannerMs": 728.2186789999505,
-  "allocMs": 206.9862119999998,
-  "diagMs": 2.7890130000141653,
-  "plannerMsPerTick": 0.3597918374505684,
+  "plannerMs": 403.9897330000085,
+  "allocMs": 110.31213699999944,
+  "diagMs": 5.102029999999104,
+  "plannerMsPerTick": 0.19959967045454965,
   "utilization": 0.771677371541502,
   "finalMeanSoc": 0.6410204211091419,
   "audit_ticks": 2024,
@@ -6174,7 +6174,7 @@
   "audit_minSoc": 0.07561668127272475,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 803.0260120000003
+  "wallMs": 443.1474430000003
  },
  {
   "layout": "warehouse",
@@ -6224,10 +6224,10 @@
   "epochs": 556,
   "astarCalls": 5368,
   "expansions": 163621,
-  "plannerMs": 852.6599840000072,
-  "allocMs": 277.04180100001213,
-  "diagMs": 2.964851999999155,
-  "plannerMsPerTick": 0.4194097314313857,
+  "plannerMs": 354.7289970000188,
+  "allocMs": 95.43616000000702,
+  "diagMs": 4.439983999989636,
+  "plannerMsPerTick": 0.17448548794885332,
   "utilization": 0.7571323167732416,
   "finalMeanSoc": 0.7116793893512834,
   "audit_ticks": 2033,
@@ -6245,7 +6245,7 @@
   "audit_minSoc": 0.06572079421300503,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 890.5731419999993
+  "wallMs": 390.5122199999996
  },
  {
   "layout": "warehouse",
@@ -6295,10 +6295,10 @@
   "epochs": 574,
   "astarCalls": 5542,
   "expansions": 163962,
-  "plannerMs": 889.7994969999709,
-  "allocMs": 254.71633099998326,
-  "diagMs": 39.111742000008235,
-  "plannerMsPerTick": 0.4171586952648715,
+  "plannerMs": 348.9692539999901,
+  "allocMs": 95.72568399999363,
+  "diagMs": 11.559862000000066,
+  "plannerMsPerTick": 0.16360490107828884,
   "utilization": 0.7613103609939053,
   "finalMeanSoc": 0.5613085668828598,
   "audit_ticks": 2133,
@@ -6316,7 +6316,7 @@
   "audit_minSoc": 0.043930476975814425,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 973.5271810000013
+  "wallMs": 394.36143100000027
  },
  {
   "layout": "warehouse",
@@ -6366,10 +6366,10 @@
   "epochs": 568,
   "astarCalls": 5469,
   "expansions": 164967,
-  "plannerMs": 935.8772829999634,
-  "allocMs": 271.84247000002506,
-  "diagMs": 27.57480700000633,
-  "plannerMsPerTick": 0.4512426629700884,
+  "plannerMs": 373.9343189999968,
+  "allocMs": 107.34811399999353,
+  "diagMs": 10.009014000002935,
+  "plannerMsPerTick": 0.18029620009643046,
   "utilization": 0.7660920925747348,
   "finalMeanSoc": 0.7388560700392144,
   "audit_ticks": 2074,
@@ -6387,7 +6387,7 @@
   "audit_minSoc": 0.05406874895729144,
   "sweep": "kablation",
   "variant": "warehouse-8-batch/pact-K12",
-  "wallMs": 1030.0586910000002
+  "wallMs": 412.6288499999996
  },
  {
   "layout": "narrow",
@@ -6437,10 +6437,10 @@
   "epochs": 390,
   "astarCalls": 6073,
   "expansions": 355988,
-  "plannerMs": 1638.4037299999818,
-  "allocMs": 142.47147699997186,
-  "diagMs": 14.49102699998366,
-  "plannerMsPerTick": 1.3596711452282007,
+  "plannerMs": 586.3698909999903,
+  "allocMs": 58.32129700000678,
+  "diagMs": 4.0996620000069015,
+  "plannerMsPerTick": 0.4866140174273778,
   "utilization": 0.7410269709543569,
   "finalMeanSoc": 0.6127858060718189,
   "audit_ticks": 1205,
@@ -6458,7 +6458,7 @@
   "audit_minSoc": 0.05439415871165729,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1723.6065780000008
+  "wallMs": 640.6801759999998
  },
  {
   "layout": "narrow",
@@ -6508,10 +6508,10 @@
   "epochs": 395,
   "astarCalls": 6229,
   "expansions": 304055,
-  "plannerMs": 1171.4625670000096,
-  "allocMs": 170.10515900000792,
-  "diagMs": 12.63544699999511,
-  "plannerMsPerTick": 0.9409337887550278,
+  "plannerMs": 524.0181149999971,
+  "allocMs": 72.74349600000642,
+  "diagMs": 3.1714539999975386,
+  "plannerMsPerTick": 0.4208980843373471,
   "utilization": 0.6608433734939759,
   "finalMeanSoc": 0.640801603158009,
   "audit_ticks": 1245,
@@ -6529,7 +6529,7 @@
   "audit_minSoc": 0.07652547217030128,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1257.632904
+  "wallMs": 565.4179939999995
  },
  {
   "layout": "narrow",
@@ -6579,10 +6579,10 @@
   "epochs": 363,
   "astarCalls": 5655,
   "expansions": 337043,
-  "plannerMs": 1279.3548579999715,
-  "allocMs": 204.21582300000955,
-  "diagMs": 10.050350000001345,
-  "plannerMsPerTick": 1.122241103508747,
+  "plannerMs": 609.4483419999979,
+  "allocMs": 74.26980300000287,
+  "diagMs": 3.2794549999989613,
+  "plannerMsPerTick": 0.5346038087719279,
   "utilization": 0.7291118421052631,
   "finalMeanSoc": 0.6412599542647041,
   "audit_ticks": 1140,
@@ -6600,7 +6600,7 @@
   "audit_minSoc": 0.06006400482486976,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1326.7043740000008
+  "wallMs": 647.8775599999999
  },
  {
   "layout": "narrow",
@@ -6650,10 +6650,10 @@
   "epochs": 403,
   "astarCalls": 6317,
   "expansions": 356885,
-  "plannerMs": 1357.3386240000073,
-  "allocMs": 154.7416239999784,
-  "diagMs": 2.1697360000125627,
-  "plannerMsPerTick": 1.077252876190482,
+  "plannerMs": 619.4383249999983,
+  "allocMs": 64.41628800001399,
+  "diagMs": 4.350900000002184,
+  "plannerMsPerTick": 0.4916177182539669,
   "utilization": 0.6691468253968254,
   "finalMeanSoc": 0.6482678472949237,
   "audit_ticks": 1260,
@@ -6671,7 +6671,7 @@
   "audit_minSoc": 0.06398438519835556,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1407.2285010000014
+  "wallMs": 668.9784090000003
  },
  {
   "layout": "narrow",
@@ -6721,10 +6721,10 @@
   "epochs": 413,
   "astarCalls": 6463,
   "expansions": 328238,
-  "plannerMs": 1296.2265119999738,
-  "allocMs": 106.49930200001654,
-  "diagMs": 14.734429000003729,
-  "plannerMsPerTick": 0.9849745531914694,
+  "plannerMs": 618.3115190000026,
+  "allocMs": 73.21127099999376,
+  "diagMs": 3.904008999996222,
+  "plannerMsPerTick": 0.469841579787236,
   "utilization": 0.6928191489361702,
   "finalMeanSoc": 0.5672729146697133,
   "audit_ticks": 1316,
@@ -6742,7 +6742,7 @@
   "audit_minSoc": 0.062306406286545685,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1376.9827029999997
+  "wallMs": 674.8558859999994
  },
  {
   "layout": "narrow",
@@ -6792,10 +6792,10 @@
   "epochs": 410,
   "astarCalls": 6453,
   "expansions": 366052,
-  "plannerMs": 1372.254358000022,
-  "allocMs": 82.29722399999446,
-  "diagMs": 2.066874000000098,
-  "plannerMsPerTick": 1.060474774343139,
+  "plannerMs": 666.0857230000074,
+  "allocMs": 76.11494300000413,
+  "diagMs": 3.381625000000895,
+  "plannerMsPerTick": 0.5147493995363273,
   "utilization": 0.6434022411128284,
   "finalMeanSoc": 0.5780574562555578,
   "audit_ticks": 1294,
@@ -6813,7 +6813,7 @@
   "audit_minSoc": 0.06946892076898362,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1500.6858929999999
+  "wallMs": 705.622633
  },
  {
   "layout": "narrow",
@@ -6863,10 +6863,10 @@
   "epochs": 385,
   "astarCalls": 5956,
   "expansions": 329937,
-  "plannerMs": 1472.2371450000064,
-  "allocMs": 179.0957969999963,
-  "diagMs": 7.7091440000094735,
-  "plannerMsPerTick": 1.221773564315358,
+  "plannerMs": 555.194319999975,
+  "allocMs": 63.54912599999716,
+  "diagMs": 4.3436590000101205,
+  "plannerMsPerTick": 0.46074217427383823,
   "utilization": 0.6971991701244813,
   "finalMeanSoc": 0.6077507509017395,
   "audit_ticks": 1205,
@@ -6884,7 +6884,7 @@
   "audit_minSoc": 0.05704494328238191,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1538.1956869999995
+  "wallMs": 591.1874879999996
  },
  {
   "layout": "narrow",
@@ -6934,10 +6934,10 @@
   "epochs": 375,
   "astarCalls": 5807,
   "expansions": 305664,
-  "plannerMs": 1134.7997909999722,
-  "allocMs": 102.40385600000809,
-  "diagMs": 2.1470230000031734,
-  "plannerMsPerTick": 0.9472452345575728,
+  "plannerMs": 498.18000599998686,
+  "allocMs": 61.26131699999405,
+  "diagMs": 4.235844000004363,
+  "plannerMsPerTick": 0.41584307679464677,
   "utilization": 0.7259494991652755,
   "finalMeanSoc": 0.5941212900738958,
   "audit_ticks": 1198,
@@ -6955,7 +6955,7 @@
   "audit_minSoc": 0.05397714359592726,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1206.8750169999985
+  "wallMs": 532.4538830000001
  },
  {
   "layout": "narrow",
@@ -7005,10 +7005,10 @@
   "epochs": 390,
   "astarCalls": 6127,
   "expansions": 347046,
-  "plannerMs": 1366.6947519999958,
-  "allocMs": 113.63366099999621,
-  "diagMs": 2.9763780000139377,
-  "plannerMsPerTick": 1.1039537576736638,
+  "plannerMs": 643.0027869999994,
+  "allocMs": 96.38984199999868,
+  "diagMs": 3.3267659999955868,
+  "plannerMsPerTick": 0.5193883578352176,
   "utilization": 0.6765448303715671,
   "finalMeanSoc": 0.6832753084832961,
   "audit_ticks": 1238,
@@ -7026,7 +7026,7 @@
   "audit_minSoc": 0.036430827089585616,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1462.8594030000004
+  "wallMs": 694.8479579999994
  },
  {
   "layout": "narrow",
@@ -7076,10 +7076,10 @@
   "epochs": 382,
   "astarCalls": 5884,
   "expansions": 335550,
-  "plannerMs": 1330.6024529999922,
-  "allocMs": 128.40365300002486,
-  "diagMs": 1.9475499999807653,
-  "plannerMsPerTick": 1.1372670538461471,
+  "plannerMs": 536.6055170000172,
+  "allocMs": 55.47204800000418,
+  "diagMs": 2.7612299999900642,
+  "plannerMsPerTick": 0.45863719401710873,
   "utilization": 0.7462606837606838,
   "finalMeanSoc": 0.6497249826095206,
   "audit_ticks": 1170,
@@ -7097,7 +7097,7 @@
   "audit_minSoc": 0.06695929996334093,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1411.550593
+  "wallMs": 573.1683619999994
  },
  {
   "layout": "narrow",
@@ -7147,10 +7147,10 @@
   "epochs": 384,
   "astarCalls": 5945,
   "expansions": 347983,
-  "plannerMs": 1437.4546309999787,
-  "allocMs": 170.03682899998603,
-  "diagMs": 2.701758000019254,
-  "plannerMsPerTick": 1.213041882700404,
+  "plannerMs": 618.7934399999895,
+  "allocMs": 60.10738799998853,
+  "diagMs": 4.507034999999632,
+  "plannerMsPerTick": 0.5221885569620164,
   "utilization": 0.6994725738396624,
   "finalMeanSoc": 0.6687903431739568,
   "audit_ticks": 1185,
@@ -7168,7 +7168,7 @@
   "audit_minSoc": 0.0645037945831198,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1546.6301639999983
+  "wallMs": 654.8956599999992
  },
  {
   "layout": "narrow",
@@ -7218,10 +7218,10 @@
   "epochs": 380,
   "astarCalls": 5842,
   "expansions": 350416,
-  "plannerMs": 1485.0369890000002,
-  "allocMs": 232.71746000000167,
-  "diagMs": 2.1408449999980803,
-  "plannerMsPerTick": 1.268178470538002,
+  "plannerMs": 583.1496930000039,
+  "allocMs": 67.49560599999404,
+  "diagMs": 11.529741000008471,
+  "plannerMsPerTick": 0.49799290606319724,
   "utilization": 0.7021242527754057,
   "finalMeanSoc": 0.6617259480707144,
   "audit_ticks": 1171,
@@ -7239,7 +7239,7 @@
   "audit_minSoc": 0.04626039218492875,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1541.4040809999988
+  "wallMs": 629.5194119999996
  },
  {
   "layout": "narrow",
@@ -7289,10 +7289,10 @@
   "epochs": 360,
   "astarCalls": 5534,
   "expansions": 303036,
-  "plannerMs": 1248.3103250000004,
-  "allocMs": 69.19599199999357,
-  "diagMs": 2.140945000010106,
-  "plannerMsPerTick": 1.1205658213644527,
+  "plannerMs": 476.0754500000003,
+  "allocMs": 54.82088000001477,
+  "diagMs": 3.9575579999991533,
+  "plannerMsPerTick": 0.42735677737881533,
   "utilization": 0.7417526929982047,
   "finalMeanSoc": 0.6120734507257373,
   "audit_ticks": 1114,
@@ -7310,7 +7310,7 @@
   "audit_minSoc": 0.06023425665255713,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1324.088882
+  "wallMs": 512.9481820000001
  },
  {
   "layout": "narrow",
@@ -7360,10 +7360,10 @@
   "epochs": 380,
   "astarCalls": 5852,
   "expansions": 341018,
-  "plannerMs": 1496.7934589999895,
-  "allocMs": 157.0068989999727,
-  "diagMs": 43.204198000010365,
-  "plannerMsPerTick": 1.2903391887930944,
+  "plannerMs": 595.9444150000027,
+  "allocMs": 71.69736699999885,
+  "diagMs": 4.105097000001479,
+  "plannerMsPerTick": 0.5137451853448299,
   "utilization": 0.7225215517241379,
   "finalMeanSoc": 0.6095188667992155,
   "audit_ticks": 1160,
@@ -7381,7 +7381,7 @@
   "audit_minSoc": 0.07154597714431649,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1579.0141779999994
+  "wallMs": 631.6463160000003
  },
  {
   "layout": "narrow",
@@ -7431,10 +7431,10 @@
   "epochs": 384,
   "astarCalls": 5983,
   "expansions": 356136,
-  "plannerMs": 1489.9177730000156,
-  "allocMs": 133.39161099999,
-  "diagMs": 2.403625999992073,
-  "plannerMsPerTick": 1.2626421805084878,
+  "plannerMs": 623.2142499999909,
+  "allocMs": 61.75251200001094,
+  "diagMs": 5.041936999995414,
+  "plannerMsPerTick": 0.5281476694915177,
   "utilization": 0.7354343220338984,
   "finalMeanSoc": 0.5714241536888316,
   "audit_ticks": 1180,
@@ -7452,7 +7452,7 @@
   "audit_minSoc": 0.0649657740516594,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1590.4864550000002
+  "wallMs": 660.1403419999997
  },
  {
   "layout": "narrow",
@@ -7502,10 +7502,10 @@
   "epochs": 364,
   "astarCalls": 5608,
   "expansions": 311501,
-  "plannerMs": 1352.5775630000062,
-  "allocMs": 191.30903099999523,
-  "diagMs": 2.915498000003936,
-  "plannerMsPerTick": 1.229615966363642,
+  "plannerMs": 545.6619310000224,
+  "allocMs": 76.12165400001413,
+  "diagMs": 3.936787999993612,
+  "plannerMsPerTick": 0.49605630090911124,
   "utilization": 0.7396022727272727,
   "finalMeanSoc": 0.6625632017642278,
   "audit_ticks": 1100,
@@ -7523,7 +7523,7 @@
   "audit_minSoc": 0.05804317064285275,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1404.3367589999998
+  "wallMs": 585.6006529999995
  },
  {
   "layout": "narrow",
@@ -7573,10 +7573,10 @@
   "epochs": 397,
   "astarCalls": 6179,
   "expansions": 342666,
-  "plannerMs": 1460.3066489999728,
-  "allocMs": 212.66717200001221,
-  "diagMs": 2.2774540000027628,
-  "plannerMsPerTick": 1.1979545931090836,
+  "plannerMs": 515.2682879999902,
+  "allocMs": 56.94276199998694,
+  "diagMs": 2.923372000006566,
+  "plannerMsPerTick": 0.4226975291222233,
   "utilization": 0.69298605414274,
   "finalMeanSoc": 0.6043978026482779,
   "audit_ticks": 1219,
@@ -7594,7 +7594,7 @@
   "audit_minSoc": 0.07750452868901264,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1500.9738259999995
+  "wallMs": 545.3884480000006
  },
  {
   "layout": "narrow",
@@ -7644,10 +7644,10 @@
   "epochs": 370,
   "astarCalls": 5754,
   "expansions": 293033,
-  "plannerMs": 1413.6614169999993,
-  "allocMs": 153.07765700003256,
-  "diagMs": 3.083258999984537,
-  "plannerMsPerTick": 1.2367991399825016,
+  "plannerMs": 558.1365290000022,
+  "allocMs": 61.691326999999546,
+  "diagMs": 4.299103999996987,
+  "plannerMsPerTick": 0.48830842432196164,
   "utilization": 0.7101924759405074,
   "finalMeanSoc": 0.6402451615281542,
   "audit_ticks": 1143,
@@ -7665,7 +7665,7 @@
   "audit_minSoc": 0.06489039660617757,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1472.8528079999996
+  "wallMs": 600.1034909999998
  },
  {
   "layout": "narrow",
@@ -7715,10 +7715,10 @@
   "epochs": 397,
   "astarCalls": 6259,
   "expansions": 338391,
-  "plannerMs": 1381.3325890000178,
-  "allocMs": 100.22680800003218,
-  "diagMs": 9.178586999982144,
-  "plannerMsPerTick": 1.144434622203826,
+  "plannerMs": 611.1662760000045,
+  "allocMs": 78.9985070000057,
+  "diagMs": 6.646371999994699,
+  "plannerMsPerTick": 0.5063515128417602,
   "utilization": 0.6752278376139188,
   "finalMeanSoc": 0.6252391637009138,
   "audit_ticks": 1207,
@@ -7736,7 +7736,7 @@
   "audit_minSoc": 0.09077914039231857,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1442.1755850000009
+  "wallMs": 651.7297499999995
  },
  {
   "layout": "narrow",
@@ -7786,10 +7786,10 @@
   "epochs": 393,
   "astarCalls": 6102,
   "expansions": 348154,
-  "plannerMs": 1521.2258100000126,
-  "allocMs": 168.3229319999973,
-  "diagMs": 32.06616500000018,
-  "plannerMsPerTick": 1.2624280580912968,
+  "plannerMs": 544.8096849999929,
+  "allocMs": 61.52192099998865,
+  "diagMs": 3.2427890000089974,
+  "plannerMsPerTick": 0.4521242199170066,
   "utilization": 0.7282676348547718,
   "finalMeanSoc": 0.5899120613740781,
   "audit_ticks": 1205,
@@ -7807,7 +7807,7 @@
   "audit_minSoc": 0.043817226607353044,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1600.5117520000003
+  "wallMs": 576.5699679999998
  },
  {
   "layout": "narrow",
@@ -7857,10 +7857,10 @@
   "epochs": 379,
   "astarCalls": 5848,
   "expansions": 305314,
-  "plannerMs": 1680.3542400000133,
-  "allocMs": 121.05315299999165,
-  "diagMs": 16.811602999996467,
-  "plannerMsPerTick": 1.4362002051282166,
+  "plannerMs": 514.7855469999986,
+  "allocMs": 58.0241670000114,
+  "diagMs": 14.044699999990371,
+  "plannerMsPerTick": 0.4399876470085458,
   "utilization": 0.7263354700854701,
   "finalMeanSoc": 0.6322795439095726,
   "audit_ticks": 1170,
@@ -7878,7 +7878,7 @@
   "audit_minSoc": 0.08251452975999593,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1760.729668
+  "wallMs": 561.4072809999998
  },
  {
   "layout": "narrow",
@@ -7928,10 +7928,10 @@
   "epochs": 385,
   "astarCalls": 5960,
   "expansions": 348786,
-  "plannerMs": 1741.2124819999917,
-  "allocMs": 232.08787000001576,
-  "diagMs": 2.4318359999924724,
-  "plannerMsPerTick": 1.4693776219409214,
+  "plannerMs": 544.0276960000101,
+  "allocMs": 63.07134700001734,
+  "diagMs": 4.155235999992328,
+  "plannerMsPerTick": 0.45909510210971316,
   "utilization": 0.7189345991561181,
   "finalMeanSoc": 0.577828920468423,
   "audit_ticks": 1185,
@@ -7949,7 +7949,7 @@
   "audit_minSoc": 0.0845652708681306,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1806.1595610000004
+  "wallMs": 579.4295499999998
  },
  {
   "layout": "narrow",
@@ -7999,10 +7999,10 @@
   "epochs": 393,
   "astarCalls": 6159,
   "expansions": 319862,
-  "plannerMs": 1482.554653999976,
-  "allocMs": 198.27305200000228,
-  "diagMs": 2.423372000006566,
-  "plannerMsPerTick": 1.2102486971428374,
+  "plannerMs": 657.3583960000069,
+  "allocMs": 85.02415800002018,
+  "diagMs": 4.07068399999207,
+  "plannerMsPerTick": 0.5366190987755158,
   "utilization": 0.6904081632653061,
   "finalMeanSoc": 0.5956421400786411,
   "audit_ticks": 1225,
@@ -8020,7 +8020,7 @@
   "audit_minSoc": 0.05126797383483542,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1602.8234410000005
+  "wallMs": 699.2098969999997
  },
  {
   "layout": "narrow",
@@ -8070,10 +8070,10 @@
   "epochs": 403,
   "astarCalls": 6392,
   "expansions": 340562,
-  "plannerMs": 633.7556069999973,
-  "allocMs": 77.83683400000518,
-  "diagMs": 2.2948299999970914,
-  "plannerMsPerTick": 0.4867554585253436,
+  "plannerMs": 596.6596060000074,
+  "allocMs": 75.63963099998637,
+  "diagMs": 9.98242100000698,
+  "plannerMsPerTick": 0.4582639062980088,
   "utilization": 0.6327764976958525,
   "finalMeanSoc": 0.5893246626110331,
   "audit_ticks": 1302,
@@ -8091,7 +8091,7 @@
   "audit_minSoc": 0.049324172840081726,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 669.2110499999999
+  "wallMs": 642.6710629999998
  },
  {
   "layout": "narrow",
@@ -8141,10 +8141,10 @@
   "epochs": 398,
   "astarCalls": 6255,
   "expansions": 294615,
-  "plannerMs": 1251.4327749999902,
-  "allocMs": 148.22284699999,
-  "diagMs": 21.171195000004445,
-  "plannerMsPerTick": 0.9853801377952679,
+  "plannerMs": 501.0528600000025,
+  "allocMs": 62.211559000001216,
+  "diagMs": 3.4558310000038546,
+  "plannerMsPerTick": 0.394529811023624,
   "utilization": 0.6577263779527559,
   "finalMeanSoc": 0.5856123275846868,
   "audit_ticks": 1270,
@@ -8162,7 +8162,7 @@
   "audit_minSoc": 0.06376889989599635,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1358.9172600000002
+  "wallMs": 537.5785450000003
  },
  {
   "layout": "narrow",
@@ -8212,10 +8212,10 @@
   "epochs": 362,
   "astarCalls": 5657,
   "expansions": 322634,
-  "plannerMs": 1549.2088829999666,
-  "allocMs": 164.18887100001484,
-  "diagMs": 3.2012440000016795,
-  "plannerMsPerTick": 1.3471381591304057,
+  "plannerMs": 612.5164449999984,
+  "allocMs": 73.44185399999333,
+  "diagMs": 5.274327000002813,
+  "plannerMsPerTick": 0.5326229956521725,
   "utilization": 0.7291847826086957,
   "finalMeanSoc": 0.7076279459543434,
   "audit_ticks": 1150,
@@ -8233,7 +8233,7 @@
   "audit_minSoc": 0.05262753051538055,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1687.4731769999999
+  "wallMs": 650.9267229999996
  },
  {
   "layout": "narrow",
@@ -8283,10 +8283,10 @@
   "epochs": 408,
   "astarCalls": 6380,
   "expansions": 317633,
-  "plannerMs": 1669.4270460000007,
-  "allocMs": 197.89242600000216,
-  "diagMs": 2.628793999994741,
-  "plannerMsPerTick": 1.3032217377049187,
+  "plannerMs": 581.6468639999903,
+  "allocMs": 67.10948399999324,
+  "diagMs": 8.079177000005075,
+  "plannerMsPerTick": 0.4540568805620533,
   "utilization": 0.6514929742388759,
   "finalMeanSoc": 0.5399553846971875,
   "audit_ticks": 1281,
@@ -8304,7 +8304,7 @@
   "audit_minSoc": 0.04742749996334339,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1806.3197560000008
+  "wallMs": 620.6657999999998
  },
  {
   "layout": "narrow",
@@ -8354,10 +8354,10 @@
   "epochs": 381,
   "astarCalls": 5923,
   "expansions": 360418,
-  "plannerMs": 1587.366653999994,
-  "allocMs": 192.10008000002017,
-  "diagMs": 15.78495399998792,
-  "plannerMsPerTick": 1.3567236358974308,
+  "plannerMs": 578.9551820000024,
+  "allocMs": 66.76380000000154,
+  "diagMs": 8.759149000000434,
+  "plannerMsPerTick": 0.49483348888889095,
   "utilization": 0.719017094017094,
   "finalMeanSoc": 0.6841704702639168,
   "audit_ticks": 1170,
@@ -8375,7 +8375,7 @@
   "audit_minSoc": 0.05997355010230382,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1680.127351000001
+  "wallMs": 617.0943550000002
  },
  {
   "layout": "narrow",
@@ -8425,10 +8425,10 @@
   "epochs": 393,
   "astarCalls": 6105,
   "expansions": 348487,
-  "plannerMs": 1670.2792770000196,
-  "allocMs": 125.75942699999905,
-  "diagMs": 2.368698999996923,
-  "plannerMsPerTick": 1.357950631707333,
+  "plannerMs": 548.6802570000109,
+  "allocMs": 60.091372000000774,
+  "diagMs": 4.201620999995612,
+  "plannerMsPerTick": 0.44608150975610644,
   "utilization": 0.6831808943089431,
   "finalMeanSoc": 0.5762183044564715,
   "audit_ticks": 1230,
@@ -8446,7 +8446,7 @@
   "audit_minSoc": 0.06527080401908611,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1728.0049470000013
+  "wallMs": 582.7814109999999
  },
  {
   "layout": "narrow",
@@ -8496,10 +8496,10 @@
   "epochs": 381,
   "astarCalls": 5878,
   "expansions": 312570,
-  "plannerMs": 985.4498730000087,
-  "allocMs": 91.41787099999965,
-  "diagMs": 2.147848000000522,
-  "plannerMsPerTick": 0.8351270110169565,
+  "plannerMs": 592.1818979999862,
+  "allocMs": 89.91919899999812,
+  "diagMs": 4.158430000001317,
+  "plannerMsPerTick": 0.5018490661016832,
   "utilization": 0.715572033898305,
   "finalMeanSoc": 0.72335674535977,
   "audit_ticks": 1180,
@@ -8517,7 +8517,7 @@
   "audit_minSoc": 0.05406874895729136,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K3",
-  "wallMs": 1052.1767600000003
+  "wallMs": 630.6022290000001
  },
  {
   "layout": "narrow",
@@ -8567,10 +8567,10 @@
   "epochs": 394,
   "astarCalls": 6443,
   "expansions": 357851,
-  "plannerMs": 1461.257988999987,
-  "allocMs": 236.01043000000027,
-  "diagMs": 3.136856999999509,
-  "plannerMsPerTick": 1.1880146252032415,
+  "plannerMs": 647.9596159999919,
+  "allocMs": 81.81915100000606,
+  "diagMs": 3.3167409999950905,
+  "plannerMsPerTick": 0.5267964357723511,
   "utilization": 0.7201219512195122,
   "finalMeanSoc": 0.6046608060718193,
   "audit_ticks": 1230,
@@ -8588,7 +8588,7 @@
   "audit_minSoc": 0.05059415871165768,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1554.1643480000002
+  "wallMs": 684.4811399999999
  },
  {
   "layout": "narrow",
@@ -8638,10 +8638,10 @@
   "epochs": 385,
   "astarCalls": 6349,
   "expansions": 322612,
-  "plannerMs": 1630.0122099999953,
-  "allocMs": 292.5101280000199,
-  "diagMs": 2.716640999997253,
-  "plannerMsPerTick": 1.3415738353909425,
+  "plannerMs": 499.9724609999939,
+  "allocMs": 93.62854700001026,
+  "diagMs": 5.528337999995529,
+  "plannerMsPerTick": 0.41149996790122956,
   "utilization": 0.674537037037037,
   "finalMeanSoc": 0.6496266031580085,
   "audit_ticks": 1215,
@@ -8659,7 +8659,7 @@
   "audit_minSoc": 0.05660078683216155,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1735.346196999999
+  "wallMs": 537.7179679999999
  },
  {
   "layout": "narrow",
@@ -8709,10 +8709,10 @@
   "epochs": 380,
   "astarCalls": 6297,
   "expansions": 346710,
-  "plannerMs": 1138.7315869999802,
-  "allocMs": 204.48528099999203,
-  "diagMs": 6.4761060000037105,
-  "plannerMsPerTick": 0.9529134619246696,
+  "plannerMs": 617.5578270000096,
+  "allocMs": 95.83810000001722,
+  "diagMs": 4.153906999992614,
+  "plannerMsPerTick": 0.5167847924686273,
   "utilization": 0.6950313807531381,
   "finalMeanSoc": 0.6037349542647051,
   "audit_ticks": 1195,
@@ -8730,7 +8730,7 @@
   "audit_minSoc": 0.06239644084069895,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1231.6312269999999
+  "wallMs": 652.5299620000005
  },
  {
   "layout": "narrow",
@@ -8780,10 +8780,10 @@
   "epochs": 402,
   "astarCalls": 6612,
   "expansions": 362654,
-  "plannerMs": 1605.4199479999916,
-  "allocMs": 203.71171699999286,
-  "diagMs": 2.448549999995521,
-  "plannerMsPerTick": 1.2761684801271793,
+  "plannerMs": 608.9280459999982,
+  "allocMs": 95.54857400000219,
+  "diagMs": 4.633295000000544,
+  "plannerMsPerTick": 0.4840445516693149,
   "utilization": 0.6751788553259142,
   "finalMeanSoc": 0.6399428472949237,
   "audit_ticks": 1258,
@@ -8801,7 +8801,7 @@
   "audit_minSoc": 0.08929574423879433,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1696.452870000001
+  "wallMs": 643.7986890000002
  },
  {
   "layout": "narrow",
@@ -8851,10 +8851,10 @@
   "epochs": 421,
   "astarCalls": 6916,
   "expansions": 333940,
-  "plannerMs": 1496.5189510000055,
-  "allocMs": 199.98761099998592,
-  "diagMs": 3.1139710000043124,
-  "plannerMsPerTick": 1.1093543002223911,
+  "plannerMs": 596.9956159999992,
+  "allocMs": 113.78663899998264,
+  "diagMs": 3.459950999999819,
+  "plannerMsPerTick": 0.4425467872498141,
   "utilization": 0.6549295774647887,
   "finalMeanSoc": 0.5843479146697145,
   "audit_ticks": 1349,
@@ -8872,7 +8872,7 @@
   "audit_minSoc": 0.05445210626777375,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1613.5672780000004
+  "wallMs": 640.7485150000002
  },
  {
   "layout": "narrow",
@@ -8922,10 +8922,10 @@
   "epochs": 400,
   "astarCalls": 6547,
   "expansions": 349396,
-  "plannerMs": 1341.92664899999,
-  "allocMs": 165.85130999997455,
-  "diagMs": 2.419558000003235,
-  "plannerMsPerTick": 1.0516666528213088,
+  "plannerMs": 594.9555799999953,
+  "allocMs": 82.50385500000812,
+  "diagMs": 3.176275999991958,
+  "plannerMsPerTick": 0.46626612852664207,
   "utilization": 0.658748040752351,
   "finalMeanSoc": 0.5866324562555572,
   "audit_ticks": 1276,
@@ -8943,7 +8943,7 @@
   "audit_minSoc": 0.059663200695814045,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1408.9198319999996
+  "wallMs": 631.6205399999999
  },
  {
   "layout": "narrow",
@@ -8993,10 +8993,10 @@
   "epochs": 380,
   "astarCalls": 6246,
   "expansions": 355474,
-  "plannerMs": 1380.2427480000097,
-  "allocMs": 249.13788399999066,
-  "diagMs": 2.536452999995163,
-  "plannerMsPerTick": 1.1569511718357164,
+  "plannerMs": 601.0555649999869,
+  "allocMs": 83.44656599998416,
+  "diagMs": 3.087420000005295,
+  "plannerMsPerTick": 0.5038185792120594,
   "utilization": 0.7086127409891031,
   "finalMeanSoc": 0.5882257509017388,
   "audit_ticks": 1193,
@@ -9014,7 +9014,7 @@
   "audit_minSoc": 0.07052263426613109,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1457.8683299999993
+  "wallMs": 635.0463889999992
  },
  {
   "layout": "narrow",
@@ -9064,10 +9064,10 @@
   "epochs": 375,
   "astarCalls": 6094,
   "expansions": 345409,
-  "plannerMs": 1481.603996999991,
-  "allocMs": 182.7318509999459,
-  "diagMs": 3.1411580000149115,
-  "plannerMsPerTick": 1.2652467950469608,
+  "plannerMs": 578.3477100000036,
+  "allocMs": 87.56308999999146,
+  "diagMs": 4.1317439999966155,
+  "plannerMsPerTick": 0.4938921520068349,
   "utilization": 0.7582728437233134,
   "finalMeanSoc": 0.5969962900738951,
   "audit_ticks": 1171,
@@ -9085,7 +9085,7 @@
   "audit_minSoc": 0.062499500948191206,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1608.5211659999986
+  "wallMs": 614.6869269999997
  },
  {
   "layout": "narrow",
@@ -9135,10 +9135,10 @@
   "epochs": 403,
   "astarCalls": 6589,
   "expansions": 391953,
-  "plannerMs": 1516.2400660000367,
-  "allocMs": 239.25058099998205,
-  "diagMs": 2.4200350000010076,
-  "plannerMsPerTick": 1.2005067822644788,
+  "plannerMs": 653.7943169999871,
+  "allocMs": 88.12710699999661,
+  "diagMs": 3.6369499999973414,
+  "plannerMsPerTick": 0.5176518741092535,
   "utilization": 0.66305423594616,
   "finalMeanSoc": 0.6609753084832963,
   "audit_ticks": 1263,
@@ -9156,7 +9156,7 @@
   "audit_minSoc": 0.05823082708958549,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1633.4668690000017
+  "wallMs": 698.5628539999998
  },
  {
   "layout": "narrow",
@@ -9206,10 +9206,10 @@
   "epochs": 380,
   "astarCalls": 6183,
   "expansions": 320457,
-  "plannerMs": 1509.845510999994,
-  "allocMs": 226.41544099998828,
-  "diagMs": 2.453168000001824,
-  "plannerMsPerTick": 1.297118136597933,
+  "plannerMs": 511.61433099999704,
+  "allocMs": 73.00614200000291,
+  "diagMs": 3.7351679999974294,
+  "plannerMsPerTick": 0.4395312121993102,
   "utilization": 0.7522551546391752,
   "finalMeanSoc": 0.6445999826095203,
   "audit_ticks": 1164,
@@ -9227,7 +9227,7 @@
   "audit_minSoc": 0.07646372613795119,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1600.7940659999986
+  "wallMs": 548.8723919999993
  },
  {
   "layout": "narrow",
@@ -9277,10 +9277,10 @@
   "epochs": 394,
   "astarCalls": 6263,
   "expansions": 364865,
-  "plannerMs": 1270.3454019999972,
-  "allocMs": 158.36050300002898,
-  "diagMs": 2.3363919999828795,
-  "plannerMsPerTick": 1.0568597354409295,
+  "plannerMs": 582.5910580000191,
+  "allocMs": 75.70577300000332,
+  "diagMs": 3.545844999995097,
+  "plannerMsPerTick": 0.48468474043262816,
   "utilization": 0.6877079866888519,
   "finalMeanSoc": 0.6649653431739572,
   "audit_ticks": 1202,
@@ -9298,7 +9298,7 @@
   "audit_minSoc": 0.06201114871725458,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1322.751833000002
+  "wallMs": 616.84836
  },
  {
   "layout": "narrow",
@@ -9348,10 +9348,10 @@
   "epochs": 366,
   "astarCalls": 5958,
   "expansions": 334702,
-  "plannerMs": 1337.2918989999707,
-  "allocMs": 215.32662500003062,
-  "diagMs": 2.666637999998784,
-  "plannerMsPerTick": 1.2058538313795948,
+  "plannerMs": 517.763942000005,
+  "allocMs": 82.52738799999588,
+  "diagMs": 3.63502800000515,
+  "plannerMsPerTick": 0.46687460955816507,
   "utilization": 0.7333746618575293,
   "finalMeanSoc": 0.6890009480707137,
   "audit_ticks": 1109,
@@ -9369,7 +9369,7 @@
   "audit_minSoc": 0.07118579467311498,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1384.9229550000018
+  "wallMs": 551.4810739999994
  },
  {
   "layout": "narrow",
@@ -9419,10 +9419,10 @@
   "epochs": 373,
   "astarCalls": 6054,
   "expansions": 359663,
-  "plannerMs": 1666.677653000006,
-  "allocMs": 208.8472060000404,
-  "diagMs": 3.301272999988214,
-  "plannerMsPerTick": 1.4530755475152626,
+  "plannerMs": 575.830547000005,
+  "allocMs": 73.95845600000484,
+  "diagMs": 3.1467649999995047,
+  "plannerMsPerTick": 0.5020318631211901,
   "utilization": 0.7342523975588492,
   "finalMeanSoc": 0.5935484507257374,
   "audit_ticks": 1147,
@@ -9440,7 +9440,7 @@
   "audit_minSoc": 0.054034256652557566,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1732.972127000001
+  "wallMs": 607.262796
  },
  {
   "layout": "narrow",
@@ -9490,10 +9490,10 @@
   "epochs": 375,
   "astarCalls": 6133,
   "expansions": 341056,
-  "plannerMs": 1309.4154069999931,
-  "allocMs": 181.16718999998557,
-  "diagMs": 10.407026000006226,
-  "plannerMsPerTick": 1.1003490815125994,
+  "plannerMs": 535.3677140000182,
+  "allocMs": 85.09625599999981,
+  "diagMs": 4.530753999997614,
+  "plannerMsPerTick": 0.4498888352941329,
   "utilization": 0.6952205882352941,
   "finalMeanSoc": 0.6029688667992161,
   "audit_ticks": 1190,
@@ -9511,7 +9511,7 @@
   "audit_minSoc": 0.06334597714431633,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1371.2320430000018
+  "wallMs": 570.0496989999992
  },
  {
   "layout": "narrow",
@@ -9561,10 +9561,10 @@
   "epochs": 403,
   "astarCalls": 6547,
   "expansions": 359000,
-  "plannerMs": 1618.549022999965,
-  "allocMs": 308.21362999996927,
-  "diagMs": 2.6209400000225287,
-  "plannerMsPerTick": 1.294839218399972,
+  "plannerMs": 605.066429000005,
+  "allocMs": 106.119073999992,
+  "diagMs": 3.9373180000011416,
+  "plannerMsPerTick": 0.484053143200004,
   "utilization": 0.68675,
   "finalMeanSoc": 0.5626491536888326,
   "audit_ticks": 1250,
@@ -9582,7 +9582,7 @@
   "audit_minSoc": 0.05506761689819431,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1667.3199459999978
+  "wallMs": 637.7177010000005
  },
  {
   "layout": "narrow",
@@ -9632,10 +9632,10 @@
   "epochs": 370,
   "astarCalls": 6077,
   "expansions": 350169,
-  "plannerMs": 1248.4379020000106,
-  "allocMs": 193.04562799998712,
-  "diagMs": 16.31731499999296,
-  "plannerMsPerTick": 1.1166707531305997,
+  "plannerMs": 567.2838750000101,
+  "allocMs": 87.73749600000883,
+  "diagMs": 3.6909839999952965,
+  "plannerMsPerTick": 0.5074095483005457,
   "utilization": 0.7370863148479427,
   "finalMeanSoc": 0.6615382017642281,
   "audit_ticks": 1118,
@@ -9653,7 +9653,7 @@
   "audit_minSoc": 0.062008130414970386,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1311.942477999999
+  "wallMs": 601.3349359999993
  },
  {
   "layout": "narrow",
@@ -9703,10 +9703,10 @@
   "epochs": 379,
   "astarCalls": 6310,
   "expansions": 363005,
-  "plannerMs": 1544.611519999995,
-  "allocMs": 159.57084900001428,
-  "diagMs": 50.76780599997619,
-  "plannerMsPerTick": 1.2969030394626322,
+  "plannerMs": 577.9102280000061,
+  "allocMs": 84.61180099999547,
+  "diagMs": 3.6507399999945847,
+  "plannerMsPerTick": 0.4852310898404753,
   "utilization": 0.7027183039462637,
   "finalMeanSoc": 0.6079978026482773,
   "audit_ticks": 1191,
@@ -9724,7 +9724,7 @@
   "audit_minSoc": 0.07362545321658359,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1663.7922200000012
+  "wallMs": 612.130784
  },
  {
   "layout": "narrow",
@@ -9774,10 +9774,10 @@
   "epochs": 373,
   "astarCalls": 6167,
   "expansions": 340291,
-  "plannerMs": 1490.9307960000406,
-  "allocMs": 232.45004599999447,
-  "diagMs": 2.2849809999897843,
-  "plannerMsPerTick": 1.2688772731915239,
+  "plannerMs": 520.0299999999961,
+  "allocMs": 82.59362399999463,
+  "diagMs": 5.037682000001041,
+  "plannerMsPerTick": 0.44257872340425203,
   "utilization": 0.6880851063829787,
   "finalMeanSoc": 0.6302451615281554,
   "audit_ticks": 1175,
@@ -9795,7 +9795,7 @@
   "audit_minSoc": 0.07886032684780717,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1618.5798289999984
+  "wallMs": 555.0378879999998
  },
  {
   "layout": "narrow",
@@ -9845,10 +9845,10 @@
   "epochs": 411,
   "astarCalls": 6738,
   "expansions": 346186,
-  "plannerMs": 1522.1471729999903,
-  "allocMs": 322.73051800001485,
-  "diagMs": 20.711351999980252,
-  "plannerMsPerTick": 1.203278397628451,
+  "plannerMs": 558.0074710000044,
+  "allocMs": 82.4482820000012,
+  "diagMs": 3.5594720000053712,
+  "plannerMsPerTick": 0.4411126252964462,
   "utilization": 0.6446640316205534,
   "finalMeanSoc": 0.6067891637009146,
   "audit_ticks": 1265,
@@ -9866,7 +9866,7 @@
   "audit_minSoc": 0.05364411415047943,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1609.8916119999994
+  "wallMs": 591.6850270000004
  },
  {
   "layout": "narrow",
@@ -9916,10 +9916,10 @@
   "epochs": 388,
   "astarCalls": 6262,
   "expansions": 354838,
-  "plannerMs": 1215.833690000054,
-  "allocMs": 176.99007199997504,
-  "diagMs": 10.354292999985773,
-  "plannerMsPerTick": 1.0338721853741957,
+  "plannerMs": 579.8829840000017,
+  "allocMs": 89.81395599999996,
+  "diagMs": 2.99318000000585,
+  "plannerMsPerTick": 0.4930977755102055,
   "utilization": 0.7436224489795918,
   "finalMeanSoc": 0.6066620613740777,
   "audit_ticks": 1176,
@@ -9937,7 +9937,7 @@
   "audit_minSoc": 0.016648305694758794,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1270.1304429999982
+  "wallMs": 613.9735840000003
  },
  {
   "layout": "narrow",
@@ -9987,10 +9987,10 @@
   "epochs": 378,
   "astarCalls": 6128,
   "expansions": 338727,
-  "plannerMs": 1471.682377000001,
-  "allocMs": 176.19365899997865,
-  "diagMs": 2.511938999999984,
-  "plannerMsPerTick": 1.2471884550847465,
+  "plannerMs": 520.2294689999944,
+  "allocMs": 76.09154999999737,
+  "diagMs": 3.399194999999054,
+  "plannerMsPerTick": 0.44087243135592746,
   "utilization": 0.7269597457627118,
   "finalMeanSoc": 0.6493295439095724,
   "audit_ticks": 1180,
@@ -10008,7 +10008,7 @@
   "audit_minSoc": 0.03229994773455048,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1609.718019
+  "wallMs": 555.0245380000006
  },
  {
   "layout": "narrow",
@@ -10058,10 +10058,10 @@
   "epochs": 378,
   "astarCalls": 6188,
   "expansions": 325621,
-  "plannerMs": 1287.5602510000826,
-  "allocMs": 98.04943799994726,
-  "diagMs": 2.313721999991685,
-  "plannerMsPerTick": 1.1061514183849508,
+  "plannerMs": 562.3024570000161,
+  "allocMs": 83.06096500001422,
+  "diagMs": 3.377599999997983,
+  "plannerMsPerTick": 0.4830777121993266,
   "utilization": 0.7246026632302406,
   "finalMeanSoc": 0.5782289204684227,
   "audit_ticks": 1164,
@@ -10079,7 +10079,7 @@
   "audit_minSoc": 0.04959346542377119,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1350.4814389999992
+  "wallMs": 595.0328339999996
  },
  {
   "layout": "narrow",
@@ -10129,10 +10129,10 @@
   "epochs": 414,
   "astarCalls": 6787,
   "expansions": 329787,
-  "plannerMs": 1306.5958869999777,
-  "allocMs": 162.41835600002742,
-  "diagMs": 6.589400000004389,
-  "plannerMsPerTick": 0.9890960537471444,
+  "plannerMs": 551.4503399999912,
+  "allocMs": 74.94251699998858,
+  "diagMs": 3.7457950000089113,
+  "plannerMsPerTick": 0.41744915972747254,
   "utilization": 0.6373012869038607,
   "finalMeanSoc": 0.5863671400786431,
   "audit_ticks": 1321,
@@ -10150,7 +10150,7 @@
   "audit_minSoc": 0.06495594564285159,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1426.3418060000004
+  "wallMs": 591.1645410000001
  },
  {
   "layout": "narrow",
@@ -10200,10 +10200,10 @@
   "epochs": 404,
   "astarCalls": 6687,
   "expansions": 361799,
-  "plannerMs": 1366.1283330000115,
-  "allocMs": 269.7152530000094,
-  "diagMs": 2.683864000005997,
-  "plannerMsPerTick": 1.0468416344827673,
+  "plannerMs": 590.2741800000067,
+  "allocMs": 85.78521100000034,
+  "diagMs": 3.467643000002681,
+  "plannerMsPerTick": 0.45231737931035,
   "utilization": 0.6315613026819923,
   "finalMeanSoc": 0.6060246626110337,
   "audit_ticks": 1305,
@@ -10221,7 +10221,7 @@
   "audit_minSoc": 0.062155294883810386,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1480.3911960000005
+  "wallMs": 629.962826
  },
  {
   "layout": "narrow",
@@ -10271,10 +10271,10 @@
   "epochs": 390,
   "astarCalls": 6427,
   "expansions": 329048,
-  "plannerMs": 1320.76654899996,
-  "allocMs": 189.02307899994412,
-  "diagMs": 14.664912000036566,
-  "plannerMsPerTick": 1.0583065296474037,
+  "plannerMs": 523.852243999997,
+  "allocMs": 80.5568210000074,
+  "diagMs": 4.529059999997116,
+  "plannerMsPerTick": 0.41975340064102323,
   "utilization": 0.6763822115384616,
   "finalMeanSoc": 0.5864873275846867,
   "audit_ticks": 1248,
@@ -10292,7 +10292,7 @@
   "audit_minSoc": 0.06513549488317344,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1409.6018600000025
+  "wallMs": 556.880682
  },
  {
   "layout": "narrow",
@@ -10342,10 +10342,10 @@
   "epochs": 382,
   "astarCalls": 6221,
   "expansions": 365771,
-  "plannerMs": 1462.9744809999393,
-  "allocMs": 145.29555400000027,
-  "diagMs": 28.024890000022424,
-  "plannerMsPerTick": 1.2579316259672737,
+  "plannerMs": 599.4539259999938,
+  "allocMs": 88.2877700000081,
+  "diagMs": 4.623909999994794,
+  "plannerMsPerTick": 0.515437597592428,
   "utilization": 0.7271603611349957,
   "finalMeanSoc": 0.6963779459543434,
   "audit_ticks": 1163,
@@ -10363,7 +10363,7 @@
   "audit_minSoc": 0.05753930703103541,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1593.673322999999
+  "wallMs": 644.2802379999994
  },
  {
   "layout": "narrow",
@@ -10413,10 +10413,10 @@
   "epochs": 418,
   "astarCalls": 6818,
   "expansions": 320747,
-  "plannerMs": 1511.179952999948,
-  "allocMs": 219.69443699993644,
-  "diagMs": 2.489037000010285,
-  "plannerMsPerTick": 1.156220315990779,
+  "plannerMs": 521.8456120000019,
+  "allocMs": 74.83874200000992,
+  "diagMs": 3.381466999996519,
+  "plannerMsPerTick": 0.39926978729915985,
   "utilization": 0.6310730680948737,
   "finalMeanSoc": 0.529430384697188,
   "audit_ticks": 1307,
@@ -10434,7 +10434,7 @@
   "audit_minSoc": 0.04370533857066208,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1583.8055510000013
+  "wallMs": 555.9582270000001
  },
  {
   "layout": "narrow",
@@ -10484,10 +10484,10 @@
   "epochs": 369,
   "astarCalls": 6019,
   "expansions": 350526,
-  "plannerMs": 1296.1588529999826,
-  "allocMs": 166.45258300002388,
-  "diagMs": 14.385760999986815,
-  "plannerMsPerTick": 1.1521412026666513,
+  "plannerMs": 537.2376349999804,
+  "allocMs": 82.22938199999044,
+  "diagMs": 3.686568000002808,
+  "plannerMsPerTick": 0.477544564444427,
   "utilization": 0.7396111111111111,
   "finalMeanSoc": 0.692845470263916,
   "audit_ticks": 1125,
@@ -10505,7 +10505,7 @@
   "audit_minSoc": 0.060373550102303,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1395.1879279999994
+  "wallMs": 569.7752820000005
  },
  {
   "layout": "narrow",
@@ -10555,10 +10555,10 @@
   "epochs": 375,
   "astarCalls": 6133,
   "expansions": 352014,
-  "plannerMs": 1784.428134999991,
-  "allocMs": 273.4734959999696,
-  "diagMs": 2.31848799999716,
-  "plannerMsPerTick": 1.5584525196506471,
+  "plannerMs": 548.0484889999934,
+  "allocMs": 90.76753500000541,
+  "diagMs": 5.898586999996951,
+  "plannerMsPerTick": 0.4786449685589462,
   "utilization": 0.7222161572052401,
   "finalMeanSoc": 0.5832433044564701,
   "audit_ticks": 1145,
@@ -10576,7 +10576,7 @@
   "audit_minSoc": 0.06671149732601081,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1903.740015000003
+  "wallMs": 586.8576710000007
  },
  {
   "layout": "narrow",
@@ -10626,10 +10626,10 @@
   "epochs": 391,
   "astarCalls": 6323,
   "expansions": 348855,
-  "plannerMs": 1413.0298340001136,
-  "allocMs": 98.45218000007662,
-  "diagMs": 2.225235999962024,
-  "plannerMsPerTick": 1.1377051803543587,
+  "plannerMs": 588.4977140000028,
+  "allocMs": 81.51991000000362,
+  "diagMs": 3.740936999997757,
+  "plannerMsPerTick": 0.4738306876006464,
   "utilization": 0.6795994363929146,
   "finalMeanSoc": 0.7121317453597714,
   "audit_ticks": 1242,
@@ -10647,7 +10647,7 @@
   "audit_minSoc": 0.05275011247173017,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K6",
-  "wallMs": 1469.4716970000009
+  "wallMs": 624.5500670000001
  },
  {
   "layout": "narrow",
@@ -10697,10 +10697,10 @@
   "epochs": 399,
   "astarCalls": 6716,
   "expansions": 347668,
-  "plannerMs": 1715.008633999998,
-  "allocMs": 223.5808740000466,
-  "diagMs": 2.885422999985167,
-  "plannerMsPerTick": 1.3797334143201914,
+  "plannerMs": 567.9016360000169,
+  "allocMs": 84.2869950000113,
+  "diagMs": 3.27615799999694,
+  "plannerMsPerTick": 0.4568798358809468,
   "utilization": 0.7129424778761062,
   "finalMeanSoc": 0.6018608060718195,
   "audit_ticks": 1243,
@@ -10718,7 +10718,7 @@
   "audit_minSoc": 0.058035563584046296,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1783.546274999997
+  "wallMs": 610.1426659999997
  },
  {
   "layout": "narrow",
@@ -10768,10 +10768,10 @@
   "epochs": 398,
   "astarCalls": 6688,
   "expansions": 335433,
-  "plannerMs": 1235.2140909999725,
-  "allocMs": 230.54917300001034,
-  "diagMs": 26.26908100000219,
-  "plannerMsPerTick": 1.0083380334693652,
+  "plannerMs": 551.9284020000032,
+  "allocMs": 96.86699699999826,
+  "diagMs": 3.9910750000008193,
+  "plannerMsPerTick": 0.45055379755102304,
   "utilization": 0.6663265306122449,
   "finalMeanSoc": 0.6572516031580087,
   "audit_ticks": 1225,
@@ -10789,7 +10789,7 @@
   "audit_minSoc": 0.07290334941595822,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1351.4244560000006
+  "wallMs": 589.0064499999999
  },
  {
   "layout": "narrow",
@@ -10839,10 +10839,10 @@
   "epochs": 376,
   "astarCalls": 6357,
   "expansions": 337682,
-  "plannerMs": 1559.9981950000001,
-  "allocMs": 256.47449000003326,
-  "diagMs": 2.568325999982335,
-  "plannerMsPerTick": 1.3390542446351932,
+  "plannerMs": 532.6643410000015,
+  "allocMs": 95.83251199999904,
+  "diagMs": 3.3198270000038974,
+  "plannerMsPerTick": 0.4572226103004305,
   "utilization": 0.7125,
   "finalMeanSoc": 0.6303099542647046,
   "audit_ticks": 1165,
@@ -10860,7 +10860,7 @@
   "audit_minSoc": 0.07233108025696114,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1682.0282000000007
+  "wallMs": 566.8379970000005
  },
  {
   "layout": "narrow",
@@ -10910,10 +10910,10 @@
   "epochs": 416,
   "astarCalls": 6973,
   "expansions": 381926,
-  "plannerMs": 1718.7870409999596,
-  "allocMs": 290.0618059999433,
-  "diagMs": 2.4845180000374967,
-  "plannerMsPerTick": 1.337577463813198,
+  "plannerMs": 640.8633089999994,
+  "allocMs": 105.48582299999907,
+  "diagMs": 8.441254999997,
+  "plannerMsPerTick": 0.4987263105058361,
   "utilization": 0.6589007782101167,
   "finalMeanSoc": 0.6333678472949239,
   "audit_ticks": 1285,
@@ -10931,7 +10931,7 @@
   "audit_minSoc": 0.0765229396894575,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1851.3119320000005
+  "wallMs": 707.6884369999998
  },
  {
   "layout": "narrow",
@@ -10981,10 +10981,10 @@
   "epochs": 373,
   "astarCalls": 6335,
   "expansions": 322469,
-  "plannerMs": 784.662254000028,
-  "allocMs": 108.03300599998693,
-  "diagMs": 2.093157000006613,
-  "plannerMsPerTick": 0.65388521166669,
+  "plannerMs": 525.7420790000097,
+  "allocMs": 90.4959889999991,
+  "diagMs": 3.6800929999981236,
+  "plannerMsPerTick": 0.4381183991666747,
   "utilization": 0.7427604166666667,
   "finalMeanSoc": 0.6221229146697115,
   "audit_ticks": 1200,
@@ -11002,7 +11002,7 @@
   "audit_minSoc": 0.04891448617521721,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 827.0454739999986
+  "wallMs": 571.0001030000003
  },
  {
   "layout": "narrow",
@@ -11052,10 +11052,10 @@
   "epochs": 391,
   "astarCalls": 6547,
   "expansions": 377647,
-  "plannerMs": 1234.8856949999317,
-  "allocMs": 176.5012949999982,
-  "diagMs": 9.61945399997785,
-  "plannerMsPerTick": 0.9761942252963888,
+  "plannerMs": 617.5958690000052,
+  "allocMs": 94.05418199999167,
+  "diagMs": 3.7340980000053605,
+  "plannerMsPerTick": 0.4882180782608737,
   "utilization": 0.6654644268774703,
   "finalMeanSoc": 0.5748824562555571,
   "audit_ticks": 1265,
@@ -11073,7 +11073,7 @@
   "audit_minSoc": 0.04346320069581344,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1292.9151549999988
+  "wallMs": 662.697509999999
  },
  {
   "layout": "narrow",
@@ -11123,10 +11123,10 @@
   "epochs": 385,
   "astarCalls": 6447,
   "expansions": 357217,
-  "plannerMs": 1129.9335720000709,
-  "allocMs": 186.29600800000117,
-  "diagMs": 10.389537999981258,
-  "plannerMsPerTick": 0.9261750590164515,
+  "plannerMs": 596.50971200001,
+  "allocMs": 87.1423719999957,
+  "diagMs": 3.2490429999961634,
+  "plannerMsPerTick": 0.48894238688525415,
   "utilization": 0.684733606557377,
   "finalMeanSoc": 0.6086757509017396,
   "audit_ticks": 1220,
@@ -11144,7 +11144,7 @@
   "audit_minSoc": 0.05250778051223634,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1267.4721680000002
+  "wallMs": 633.1569490000002
  },
  {
   "layout": "narrow",
@@ -11194,10 +11194,10 @@
   "epochs": 372,
   "astarCalls": 6296,
   "expansions": 338544,
-  "plannerMs": 1254.9727209999764,
-  "allocMs": 182.64868899999783,
-  "diagMs": 14.360250000001543,
-  "plannerMsPerTick": 1.0635362042372682,
+  "plannerMs": 541.6102090000095,
+  "allocMs": 89.05474199998662,
+  "diagMs": 3.476928000008229,
+  "plannerMsPerTick": 0.4589917025423809,
   "utilization": 0.7459216101694915,
   "finalMeanSoc": 0.5820462900738953,
   "audit_ticks": 1180,
@@ -11215,7 +11215,7 @@
   "audit_minSoc": 0.06430883299466261,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1392.7837779999973
+  "wallMs": 574.7593639999996
  },
  {
   "layout": "narrow",
@@ -11265,10 +11265,10 @@
   "epochs": 395,
   "astarCalls": 6508,
   "expansions": 336665,
-  "plannerMs": 1504.1446320000032,
-  "allocMs": 176.02119400000447,
-  "diagMs": 18.457848000009108,
-  "plannerMsPerTick": 1.2033157056000026,
+  "plannerMs": 559.7230280000113,
+  "allocMs": 85.58831199998622,
+  "diagMs": 3.338238999994246,
+  "plannerMsPerTick": 0.447778422400009,
   "utilization": 0.65895,
   "finalMeanSoc": 0.6701003084832962,
   "audit_ticks": 1250,
@@ -11286,7 +11286,7 @@
   "audit_minSoc": 0.045207886601612124,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1634.3154439999998
+  "wallMs": 597.8790199999994
  },
  {
   "layout": "narrow",
@@ -11336,10 +11336,10 @@
   "epochs": 385,
   "astarCalls": 6330,
   "expansions": 373718,
-  "plannerMs": 1423.2528869999624,
-  "allocMs": 228.8445269999902,
-  "diagMs": 10.417157000010775,
-  "plannerMsPerTick": 1.2333213925476276,
+  "plannerMs": 631.2231440000032,
+  "allocMs": 81.65942800000357,
+  "diagMs": 3.845696999995198,
+  "plannerMsPerTick": 0.5469871265164673,
   "utilization": 0.7619692374350087,
   "finalMeanSoc": 0.6451499826095204,
   "audit_ticks": 1154,
@@ -11357,7 +11357,7 @@
   "audit_minSoc": 0.05103557417336951,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1481.2937869999987
+  "wallMs": 668.8640070000001
  },
  {
   "layout": "narrow",
@@ -11407,10 +11407,10 @@
   "epochs": 390,
   "astarCalls": 6429,
   "expansions": 367709,
-  "plannerMs": 832.7385000000104,
-  "allocMs": 79.69719700001224,
-  "diagMs": 2.926034999985859,
-  "plannerMsPerTick": 0.6737366504854453,
+  "plannerMs": 619.5223749999968,
+  "allocMs": 82.38567400000557,
+  "diagMs": 3.5462849999967148,
+  "plannerMsPerTick": 0.5012316949838163,
   "utilization": 0.6754146440129449,
   "finalMeanSoc": 0.6531653431739576,
   "audit_ticks": 1236,
@@ -11428,7 +11428,7 @@
   "audit_minSoc": 0.04667881798781476,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 882.6449329999996
+  "wallMs": 658.9998619999997
  },
  {
   "layout": "narrow",
@@ -11478,10 +11478,10 @@
   "epochs": 367,
   "astarCalls": 6238,
   "expansions": 339200,
-  "plannerMs": 1419.2191770000063,
-  "allocMs": 273.2455139999656,
-  "diagMs": 30.56175000001167,
-  "plannerMsPerTick": 1.2245204288179519,
+  "plannerMs": 631.1242989999882,
+  "allocMs": 98.85782600000493,
+  "diagMs": 12.904383000006419,
+  "plannerMsPerTick": 0.544542104400335,
   "utilization": 0.7034081104400345,
   "finalMeanSoc": 0.6625509480707147,
   "audit_ticks": 1159,
@@ -11499,7 +11499,7 @@
   "audit_minSoc": 0.07603135868925673,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1568.9450240000006
+  "wallMs": 677.5072370000007
  },
  {
   "layout": "narrow",
@@ -11549,10 +11549,10 @@
   "epochs": 366,
   "astarCalls": 6170,
   "expansions": 322133,
-  "plannerMs": 1342.9624649999423,
-  "allocMs": 206.9170090000116,
-  "diagMs": 8.618599000004906,
-  "plannerMsPerTick": 1.2098760945945426,
+  "plannerMs": 527.8200090000219,
+  "allocMs": 92.26547700000447,
+  "diagMs": 4.073970999997073,
+  "plannerMsPerTick": 0.4755135216216413,
   "utilization": 0.7415540540540541,
   "finalMeanSoc": 0.600023450725737,
   "audit_ticks": 1110,
@@ -11570,7 +11570,7 @@
   "audit_minSoc": 0.07358686280883847,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1412.981995000002
+  "wallMs": 563.3081439999996
  },
  {
   "layout": "narrow",
@@ -11620,10 +11620,10 @@
   "epochs": 388,
   "astarCalls": 6560,
   "expansions": 331755,
-  "plannerMs": 1049.5857080000314,
-  "allocMs": 210.14754799997172,
-  "diagMs": 9.132186999999249,
-  "plannerMsPerTick": 0.8568046595918624,
+  "plannerMs": 552.1924569999828,
+  "allocMs": 99.70947800001159,
+  "diagMs": 3.730405000005703,
+  "plannerMsPerTick": 0.4507693526530472,
   "utilization": 0.6719387755102041,
   "finalMeanSoc": 0.5829188667992166,
   "audit_ticks": 1225,
@@ -11641,7 +11641,7 @@
   "audit_minSoc": 0.058077628848329205,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1103.1728490000023
+  "wallMs": 588.0798889999996
  },
  {
   "layout": "narrow",
@@ -11691,10 +11691,10 @@
   "epochs": 400,
   "astarCalls": 6643,
   "expansions": 339602,
-  "plannerMs": 771.0205180000121,
-  "allocMs": 141.25145899996642,
-  "diagMs": 2.196820999997726,
-  "plannerMsPerTick": 0.6037748770556085,
+  "plannerMs": 560.708425999991,
+  "allocMs": 78.40039299993987,
+  "diagMs": 3.650232000010874,
+  "plannerMsPerTick": 0.4390825575567667,
   "utilization": 0.6691464369616288,
   "finalMeanSoc": 0.5568991536888334,
   "audit_ticks": 1277,
@@ -11712,7 +11712,7 @@
   "audit_minSoc": 0.02934439752846965,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 805.9905900000012
+  "wallMs": 610.599741
  },
  {
   "layout": "narrow",
@@ -11762,10 +11762,10 @@
   "epochs": 357,
   "astarCalls": 6063,
   "expansions": 315122,
-  "plannerMs": 1189.8006879999957,
-  "allocMs": 206.08459499999663,
-  "diagMs": 2.464741999981925,
-  "plannerMsPerTick": 1.0945728500459941,
+  "plannerMs": 584.9153190000097,
+  "allocMs": 130.94851799999924,
+  "diagMs": 3.735565999996652,
+  "plannerMsPerTick": 0.5381005694572306,
   "utilization": 0.7400528978840847,
   "finalMeanSoc": 0.6710882017642278,
   "audit_ticks": 1087,
@@ -11783,7 +11783,7 @@
   "audit_minSoc": 0.09273668953347958,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1248.876644
+  "wallMs": 621.9855769999995
  },
  {
   "layout": "narrow",
@@ -11833,10 +11833,10 @@
   "epochs": 373,
   "astarCalls": 6347,
   "expansions": 338323,
-  "plannerMs": 1360.2202580000194,
-  "allocMs": 177.19923699996798,
-  "diagMs": 9.24302199999147,
-  "plannerMsPerTick": 1.1695788976784345,
+  "plannerMs": 583.1299519999993,
+  "allocMs": 88.77807500001109,
+  "diagMs": 3.3872079999928246,
+  "plannerMsPerTick": 0.5014015064488386,
   "utilization": 0.7108770421324162,
   "finalMeanSoc": 0.6305978026482769,
   "audit_ticks": 1163,
@@ -11854,7 +11854,7 @@
   "audit_minSoc": 0.0692925889320675,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1425.8276820000028
+  "wallMs": 627.7808910000003
  },
  {
   "layout": "narrow",
@@ -11904,10 +11904,10 @@
   "epochs": 384,
   "astarCalls": 6450,
   "expansions": 341592,
-  "plannerMs": 1076.5659359999918,
-  "allocMs": 177.93887900002665,
-  "diagMs": 2.50572400000965,
-  "plannerMsPerTick": 0.9162263285106313,
+  "plannerMs": 570.9742539999897,
+  "allocMs": 95.47150100000545,
+  "diagMs": 3.5021769999912067,
+  "plannerMsPerTick": 0.4859355353191402,
   "utilization": 0.6925531914893617,
   "finalMeanSoc": 0.6321951615281548,
   "audit_ticks": 1175,
@@ -11925,7 +11925,7 @@
   "audit_minSoc": 0.05130438921488839,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1198.1457999999984
+  "wallMs": 608.0421470000001
  },
  {
   "layout": "narrow",
@@ -11975,10 +11975,10 @@
   "epochs": 386,
   "astarCalls": 6438,
   "expansions": 361935,
-  "plannerMs": 676.4047950000786,
-  "allocMs": 120.19318800001565,
-  "diagMs": 1.8964359999808948,
-  "plannerMsPerTick": 0.5641407798165793,
+  "plannerMs": 715.8057299999928,
+  "allocMs": 108.27135599999019,
+  "diagMs": 3.70788000000357,
+  "plannerMsPerTick": 0.5970022768974085,
   "utilization": 0.6892201834862385,
   "finalMeanSoc": 0.6329641637009136,
   "audit_ticks": 1199,
@@ -11996,7 +11996,7 @@
   "audit_minSoc": 0.06217914039231909,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 733.1154500000011
+  "wallMs": 758.6671339999994
  },
  {
   "layout": "narrow",
@@ -12046,10 +12046,10 @@
   "epochs": 391,
   "astarCalls": 6428,
   "expansions": 332251,
-  "plannerMs": 1302.3768320000308,
-  "allocMs": 167.8612310000135,
-  "diagMs": 2.78854400000273,
-  "plannerMsPerTick": 1.114094809238692,
+  "plannerMs": 544.6571049999948,
+  "allocMs": 101.09884100001545,
+  "diagMs": 3.50134099999741,
+  "plannerMsPerTick": 0.46591711291701865,
   "utilization": 0.7344418306244653,
   "finalMeanSoc": 0.6289870613740778,
   "audit_ticks": 1169,
@@ -12067,7 +12067,7 @@
   "audit_minSoc": 0.060120177048073264,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1408.2906269999985
+  "wallMs": 584.8029189999997
  },
  {
   "layout": "narrow",
@@ -12117,10 +12117,10 @@
   "epochs": 377,
   "astarCalls": 6305,
   "expansions": 356687,
-  "plannerMs": 1138.0388920000041,
-  "allocMs": 171.45094400004018,
-  "diagMs": 6.773867999971117,
-  "plannerMsPerTick": 0.9611814966216251,
+  "plannerMs": 622.8066519999866,
+  "allocMs": 106.9435819999726,
+  "diagMs": 3.4327240000056918,
+  "plannerMsPerTick": 0.5260191317567454,
   "utilization": 0.731471706081081,
   "finalMeanSoc": 0.6236795439095726,
   "audit_ticks": 1184,
@@ -12138,7 +12138,7 @@
   "audit_minSoc": 0.04183947566263441,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1213.1982400000015
+  "wallMs": 666.9139379999997
  },
  {
   "layout": "narrow",
@@ -12188,10 +12188,10 @@
   "epochs": 388,
   "astarCalls": 6487,
   "expansions": 378693,
-  "plannerMs": 1216.386935999959,
-  "allocMs": 125.85933200004729,
-  "diagMs": 2.299875999986398,
-  "plannerMsPerTick": 1.0273538310810464,
+  "plannerMs": 639.4267000000036,
+  "allocMs": 84.78044899998167,
+  "diagMs": 3.639995000017734,
+  "plannerMsPerTick": 0.5400563344594626,
   "utilization": 0.7130489864864865,
   "finalMeanSoc": 0.583228920468423,
   "audit_ticks": 1184,
@@ -12209,7 +12209,7 @@
   "audit_minSoc": 0.06548609010111525,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1279.2096459999993
+  "wallMs": 682.7599969999992
  },
  {
   "layout": "narrow",
@@ -12259,10 +12259,10 @@
   "epochs": 390,
   "astarCalls": 6529,
   "expansions": 321132,
-  "plannerMs": 1046.989710999922,
-  "allocMs": 159.7612939999708,
-  "diagMs": 7.405583000007027,
-  "plannerMsPerTick": 0.8652807528924975,
+  "plannerMs": 534.0385209999858,
+  "allocMs": 91.46998099999837,
+  "diagMs": 3.6852820000021893,
+  "plannerMsPerTick": 0.44135414958676517,
   "utilization": 0.6913223140495868,
   "finalMeanSoc": 0.6133171400786409,
   "audit_ticks": 1210,
@@ -12280,7 +12280,7 @@
   "audit_minSoc": 0.058123262352310745,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1133.7285139999985
+  "wallMs": 566.1916400000009
  },
  {
   "layout": "narrow",
@@ -12330,10 +12330,10 @@
   "epochs": 416,
   "astarCalls": 7000,
   "expansions": 390335,
-  "plannerMs": 727.6780940000426,
-  "allocMs": 118.63377100003345,
-  "diagMs": 10.726884000028804,
-  "plannerMsPerTick": 0.5426383997017469,
+  "plannerMs": 605.2929270000222,
+  "allocMs": 94.74079099998562,
+  "diagMs": 3.858921000006376,
+  "plannerMsPerTick": 0.4513742930648936,
   "utilization": 0.6294742729306487,
   "finalMeanSoc": 0.5864746626110341,
   "audit_ticks": 1341,
@@ -12351,7 +12351,7 @@
   "audit_minSoc": 0.04852445259802049,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 801.7492689999999
+  "wallMs": 639.8860809999987
  },
  {
   "layout": "narrow",
@@ -12401,10 +12401,10 @@
   "epochs": 389,
   "astarCalls": 6601,
   "expansions": 340724,
-  "plannerMs": 646.8864159999976,
-  "allocMs": 104.51783100001194,
-  "diagMs": 6.207923999994819,
-  "plannerMsPerTick": 0.5302347672131128,
+  "plannerMs": 532.284951999969,
+  "allocMs": 79.6155099999869,
+  "diagMs": 3.125035000004573,
+  "plannerMsPerTick": 0.4362991409835812,
   "utilization": 0.6935450819672131,
   "finalMeanSoc": 0.596987327584686,
   "audit_ticks": 1220,
@@ -12422,7 +12422,7 @@
   "audit_minSoc": 0.061768899895996154,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 697.0022740000022
+  "wallMs": 577.514674
  },
  {
   "layout": "narrow",
@@ -12472,10 +12472,10 @@
   "epochs": 363,
   "astarCalls": 6103,
   "expansions": 351672,
-  "plannerMs": 574.587209000063,
-  "allocMs": 95.15035799996258,
-  "diagMs": 2.516910000002099,
-  "plannerMsPerTick": 0.5053537458223949,
+  "plannerMs": 537.1573060000155,
+  "allocMs": 87.35374400002911,
+  "diagMs": 3.187536999996155,
+  "plannerMsPerTick": 0.4724338663148773,
   "utilization": 0.74301890941073,
   "finalMeanSoc": 0.7119779459543429,
   "audit_ticks": 1137,
@@ -12493,7 +12493,7 @@
   "audit_minSoc": 0.0823812277339408,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 627.170936999999
+  "wallMs": 566.8407539999989
  },
  {
   "layout": "narrow",
@@ -12543,10 +12543,10 @@
   "epochs": 411,
   "astarCalls": 6993,
   "expansions": 394742,
-  "plannerMs": 1305.06214800007,
-  "allocMs": 186.83319900002607,
-  "diagMs": 29.809207999991486,
-  "plannerMsPerTick": 0.9962306473282977,
+  "plannerMs": 542.5461809999924,
+  "allocMs": 74.93129000000226,
+  "diagMs": 5.151810999997906,
+  "plannerMsPerTick": 0.4141573900763301,
   "utilization": 0.6486641221374045,
   "finalMeanSoc": 0.5030803846971882,
   "audit_ticks": 1310,
@@ -12564,7 +12564,7 @@
   "audit_minSoc": 0.07142749996334338,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1395.0842139999986
+  "wallMs": 581.2626049999999
  },
  {
   "layout": "narrow",
@@ -12614,10 +12614,10 @@
   "epochs": 375,
   "astarCalls": 6249,
   "expansions": 342560,
-  "plannerMs": 1064.547393000019,
-  "allocMs": 176.61986600002638,
-  "diagMs": 2.2814929999876767,
-  "plannerMsPerTick": 0.9590517054054225,
+  "plannerMs": 455.24244300001556,
+  "allocMs": 70.84474299998692,
+  "diagMs": 3.0520099999939703,
+  "plannerMsPerTick": 0.41012832702704105,
   "utilization": 0.7536036036036036,
   "finalMeanSoc": 0.6848704702639158,
   "audit_ticks": 1110,
@@ -12635,7 +12635,7 @@
   "audit_minSoc": 0.04640058740973502,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 1105.6652749999994
+  "wallMs": 482.7954860000009
  },
  {
   "layout": "narrow",
@@ -12685,10 +12685,10 @@
   "epochs": 393,
   "astarCalls": 6571,
   "expansions": 321819,
-  "plannerMs": 698.8496099999902,
-  "allocMs": 66.34124500003236,
-  "diagMs": 12.911324999997305,
-  "plannerMsPerTick": 0.5973073589743506,
+  "plannerMs": 383.64275999997517,
+  "allocMs": 65.7475669999967,
+  "diagMs": 2.5132939999875816,
+  "plannerMsPerTick": 0.3278997948717737,
   "utilization": 0.6997863247863247,
   "finalMeanSoc": 0.6007183044564706,
   "audit_ticks": 1170,
@@ -12706,7 +12706,7 @@
   "audit_minSoc": 0.06013047697581353,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 751.530480999998
+  "wallMs": 406.92512499999975
  },
  {
   "layout": "narrow",
@@ -12756,10 +12756,10 @@
   "epochs": 383,
   "astarCalls": 6302,
   "expansions": 320299,
-  "plannerMs": 420.08424700001706,
-  "allocMs": 59.995810999967944,
-  "diagMs": 6.334777000010945,
-  "plannerMsPerTick": 0.34603315238881144,
+  "plannerMs": 362.6326160000408,
+  "allocMs": 55.174319999992804,
+  "diagMs": 2.240859999998065,
+  "plannerMsPerTick": 0.2987089093904784,
   "utilization": 0.6887355848434926,
   "finalMeanSoc": 0.720806745359771,
   "audit_ticks": 1214,
@@ -12777,6 +12777,6 @@
   "audit_minSoc": 0.052225632947311196,
   "sweep": "kablation",
   "variant": "narrow-16-batch/pact-K12",
-  "wallMs": 450.6272260000005
+  "wallMs": 385.20374900000024
  }
 ]

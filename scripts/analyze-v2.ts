@@ -43,7 +43,7 @@ export interface Contrast {
   holmReject: boolean | null
 }
 
-interface Pending extends Omit<Contrast, 'holmReject'> {}
+type Pending = Omit<Contrast, 'holmReject'>
 
 function contrast(id: string, label: string, metric: string, a: string, b: string, ra: Run[], rb: Run[], family: string): Pending {
   const p: Paired = paired(ra, rb, metric)
@@ -244,6 +244,8 @@ export function analyseV2() {
   return {
     what: 'Statistics of the sweeps nondegenerate, kablation and prioritysplit as fixed in paper/experiments/PREREG_v2.md. Mean and interval: mean per-seed relative difference in percent with a two-sided 95 % Student-t interval (29 degrees of freedom); p: two-sided paired t test; Holm at 0.05 within the named family.',
     preregistration: 'paper/experiments/PREREG_v2.md',
+    /** The commit that added PREREG_v2.md and nothing else, before any of these results existed. */
+    preregistrationCommit: 'f35437f',
     e2: analyseE2(abl),
     e3: analyseE3(),
     e4: analyseE4(),

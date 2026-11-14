@@ -1,6 +1,7 @@
 {
  "what": "Statistics of the sweeps nondegenerate, kablation and prioritysplit as fixed in paper/experiments/PREREG_v2.md. Mean and interval: mean per-seed relative difference in percent with a two-sided 95 % Student-t interval (29 degrees of freedom); p: two-sided paired t test; Holm at 0.05 within the named family.",
  "preregistration": "paper/experiments/PREREG_v2.md",
+ "preregistrationCommit": "f35437f",
  "e2": {
   "cells": [
    {

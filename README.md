@@ -151,10 +151,10 @@ npm run check:results -- /tmp/pact-rerun   # field-by-field comparison with the 
 npm run check:paper                        # tables, figure data and every number in the text
 ```
 
-- All ten sweeps: `npm run bench:fms -- --jobs 8 --out /tmp/pact-rerun` (7,200 runs, about 20 minutes with 8 worker processes), then `check:results` as above.
+- All thirteen sweeps (the ten of v1 and the three v2 sweeps of `paper/experiments/PREREG_v2.md`): `npm run bench:fms -- --jobs 8 --out /tmp/pact-rerun` (8,340 runs, about 30 minutes with 8 worker processes), then `check:results` as above. `npm run analyze:v2` recomputes the statistics of the three v2 sweeps (`paper/experiments/analysis/v2.json`).
 - Without `--out`, `bench:fms` overwrites `paper/experiments/results/`.
 - Every field of a run is deterministic given its seed except the four wall-clock fields (`wallMs`, `plannerMs`, `allocMs`, `plannerMsPerTick`), which `check:results` leaves out. CI repeats the 420-run comparison on GitHub's runners under Node.js 20, 22 and 24.
-- The committed records were written by `bash scripts/regenerate.sh 8` at commit `63a2db7`. The script re-runs all ten sweeps at the current commit, refuses to replace the committed records if any field that existed before differs, and then replaces them (`paper/experiments/repro/regeneration.json` holds the comparison).
+- The committed records were written by `bash scripts/regenerate.sh 11` at commit `acbfe97`. The script re-runs all thirteen sweeps at the current commit, refuses to replace the committed records if any field that existed before differs, and then replaces them (`paper/experiments/repro/regeneration-v2.json` holds the comparison of the latest regeneration; `regeneration.json` and `regeneration-schema2.json` hold the two earlier ones).
 - Planner times in the paper do not come from those records. `bash scripts/measure-timing.sh` measures them (planner, scaling and ablation sweeps, one process, three repeats, about 5 minutes). It starts a repeat only when the 1-minute load average is at most 0.50, records the load and the top CPU consumers before and after each repeat in `paper/experiments/timing/`, and marks a repeat invalid when the host was busy.
 - `npm run check:paper -- --update-pins` rewrites `paper/experiments/guard/pins.json` after a reviewed change to a formula or to a number written as a word.
 - `npm run paper:data` rewrites `paper/arxiv/tables/*.tex` and `figures/data/*.csv` from `paper/experiments/results/`. `paper/arxiv/NUMBERS.md` maps each number in the paper to its source field.
