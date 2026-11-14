@@ -63,7 +63,7 @@ defined in `4a72ff1` (2026-09-28 17:06:16 +0900), which precedes the first commi
 |---|---|
 | 420 first-round runs; 0 conflicts (simulator and auditor); 0 stalls; 0 depletions | sums of `conflicts`, `audit_vertexConflicts`, `audit_swapConflicts`, `audit_illegalMoves`, `deadlocked`, `depletionEvents` over the five first-round `*.json` |
 | 6,600 earlier runs: no field differed when the records were regenerated (§4.1, appendix A) | `paper/experiments/repro/regeneration.json : records 6600, differingFields 0, sweepsWithoutCommittedFile ["tpfree"]` |
-| three timing repeats, all valid, admitted at load ≤ 0.5; largest spread 4 % (§4.1) | `timing/summary.json : validRepeats [1,2,3], invalidRepeats [], load[].before 0.43 / 0.47 / 0.50, loadMax 0.5`; max over configurations of max(perRepeat) / min(perRepeat) = 1.040 |
+| four timing attempts, the first invalid (load 1.73 after it, above 0.5 + 1.2) and kept, three valid repeats admitted at load ≤ 0.5; largest spread between the valid repeats 6 % (§4.1) | `timing/summary.json : attempts 4, validRepeats [2,3,4], invalidRepeats [1], load[].before 0.41 / 0.50 / 0.49 / 0.48, loadMax 0.5`; max over configurations of max(perRepeat of valid repeats) / min(...) = 1.056 |
 | 53 `SimMetrics` fields (10 configuration, 43 measured), 13 auditor fields (appendix C) | keys of any record: 69 = 53 + 13 `audit_*` + `sweep`, `variant`, `wallMs`; the same in all thirteen sweeps |
 | every run delivers all of its tasks | sum of `tasksUnfinished` over all 420 records = 0 (longest run: `makespan` 4189, scaling sweep) |
 | 8,833,050 robot-steps | script: `original sweeps (seeds 1-5): runs 420, robot-steps 8833050` (sum of `audit_robotTicks` = `makespan * fleetSize`) |
@@ -269,3 +269,16 @@ Pre-registered in commit `f35437f` (that commit adds `PREREG_v2.md` and nothing 
 | E4 warehouse-32-dock4: dynamic vs static +2427.3 % ([+2237.4, +2617.2]); pre-registered rule: the advantage needs the combination | `v2.json : e4.rules` |
 | E4 small-8: dynamic vs static +1039.5 % ([+358.3, +1720.8]); pre-registered rule: blocking-first accounts for the advantage | `v2.json : e4.rules` |
 | E4 narrow-16: dynamic vs static +1850.1 % ([+1645.0, +2055.2]); pre-registered rule: either mechanism suffices | `v2.json : e4.rules` |
+
+## v2 timing with epoch latency (ruling 4.2-5; `paper/experiments/timing/summary.json : epochConfigs`)
+
+Measured by `scripts/measure-timing.sh` (unchanged; `WAIT_S=1800` instead of the default 600, see `PREREG_v2.md`, Deviations) at commit `6b64f93`. `src/fms`, `scripts/bench-fms.ts` and `scripts/schema.ts` are identical at `acbfe97` (results) and `6b64f93` (timing): `git diff --stat acbfe97 6b64f93 -- src/fms scripts/bench-fms.ts scripts/schema.ts` is empty. Four attempts: the first was invalid (1-minute load average 1.73 right after it, limit 0.5 + 1.2 = 1.7; kept in `host-1.txt`, `repeat-1.csv`), the other three were admitted at 0.50, 0.49 and 0.48 and valid (0.96 to 1.13 right after). Epoch wall time in ms, median over the three valid repeats of the p50, the p99 and the longest epoch of all seeds pooled; the epoch time excludes the diagnostic counters (`diagMs`). Mean planner ms per tick is the seed mean of the same runs.
+
+| Configuration | Epochs (all seeds) | p50 | p99 | Longest | ms per tick |
+|---|---|---|---|---|---|
+| PP, PACT, warehouse 48, batch (`scaling`) | 1279 | 2.27 | 5.3 | 6.8 (largest repeat 6.9) | 0.98 |
+| PP, Hungarian, warehouse 32, batch, 100 tasks (`epochtime`) | 663 | 1.35 | 3.1 | 4.3 (largest repeat 7.0) | 0.56 |
+| PP, PACT, warehouse 32, batch, 100 tasks | 655 | 1.41 | 3.8 | 4.8 (largest repeat 7.9) | 0.60 |
+| CBS, Hungarian, warehouse 32, batch, 100 tasks | 650 | 2.38 | 221.3 | 476.2 (largest repeat 486.8) | 4.92 |
+| PP, Hungarian, narrow 16, batch, 100 tasks | 907 | 0.61 | 1.8 | 2.1 (largest repeat 2.3) | 0.22 |
+| CBS, Hungarian, narrow 16, batch, 100 tasks | 887 | 1.23 | 153.8 | 191.0 (largest repeat 193.3) | 5.00 |

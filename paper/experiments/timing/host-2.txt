@@ -1,24 +1,23 @@
 == before repeat 2
-date: 2026-10-14T09:20:57+09:00
-loadavg: 0.47 3.64 4.99 1/1030 31162
+date: 2026-11-14T21:35:46+09:00
+loadavg: 0.50 1.14 2.03 1/3536 851929
 cores: 12
 top CPU consumers (%cpu command):
- 6.3 dev-tool
- 3.9 dev-tool
- 2.0 dev-tool
- 2.0 dev-tool
- 0.9 dev-tool
- 0.8 dev-tool
+ 5.1 claude
+ 4.8 chrome
+ 2.9 2.1.325
+ 2.7 2.1.325
+ 2.4 2.1.325
+ 2.1 2.1.325
 == after repeat 2
-date: 2026-10-14T09:21:50+09:00
-loadavg: 0.81 3.25 4.78 1/1011 31492
+date: 2026-11-14T21:37:05+09:00
+loadavg: 1.13 1.18 1.97 1/3519 853804
 cores: 12
 top CPU consumers (%cpu command):
- 6.1 dev-tool
- 3.8 dev-tool
- 2.0 dev-tool
- 1.9 dev-tool
- 0.9 dev-tool
- 0.7 dev-tool
+ 5.1 claude
+ 4.8 chrome
+ 2.9 2.1.325
+ 2.7 2.1.325
+ 2.4 2.1.325
+ 2.1 2.1.325
 verdict: valid
-note: the command names of interactive development tools in the lists above (12 lines) were replaced by 'dev-tool' after the run; the CPU shares are unchanged

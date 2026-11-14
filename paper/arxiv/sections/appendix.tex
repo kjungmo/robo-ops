@@ -45,7 +45,7 @@ Each kind of number has one source. Simulated quantities come from
 \path{paper/experiments/results/<sweep>.json} (one record per run) and
 its \path{_summary.csv}. Planner times come only from
 \path{paper/experiments/timing/summary.json}, written by the timing
-script: three single-process repeats of the planner, scaling and ablation
+script: three valid single-process repeats (and one invalid attempt, kept) of the planner, scaling and ablation
 sweeps, each started only at a one-minute load average of at most 0.5, with
 the load average, the core count and the largest CPU consumers before and
 after each repeat in \texttt{host-<n>.txt} and the per-run times in

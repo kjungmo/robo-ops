@@ -667,15 +667,15 @@ function experiments(): FileSpec {
     R`two-sided 95\% Student-$t$ intervals ($n-1$ degrees of freedom`,
     R`Node.js~${String(meta.node).replace(/^v(\d+)\..*$/, '$1')} on an AMD Ryzen~5 5500GT`,
     R`All ${ic(meta.runs)} runs of this paper were produced at one commit of the repository (\texttt{${meta.commit}}), on ${meta.workers} worker processes`,
-    R`run in one process ${word(timing.validRepeats.length)} times, a repeat was started only at a one-minute load average of at most ${timing.loadMax}, and`,
-    R`the median over the ${word(timing.validRepeats.length)} repeats of the mean over seeds`,
-    R`All ${word(timing.validRepeats.length)} repeats were valid, and the largest spread between them is ${Math.ceil(100 * (Math.max(...timing.configs.map((x) => Math.max(...x.perRepeat) / Math.min(...x.perRepeat))) - 1) - 1e-9)}\% of the smallest value`,
+    R`run in one process, a repeat was started only at a one-minute load average of at most ${timing.loadMax}, and a repeat counted only if that load average was at most ${(timing.loadMax + 1.2).toFixed(1)} right after it. We made ${word(timing.attempts)} attempts and used the ${word(timing.validRepeats.length)} valid ones (the first was invalid, with a load average of ${timing.load[0].after} after it, and is kept in the repository). For every configuration we report`,
+    R`the median over the ${word(timing.validRepeats.length)} valid repeats of the mean over seeds`,
+    R`The largest spread between the valid repeats is ${Math.ceil(100 * (Math.max(...timing.configs.map((x) => Math.max(...timing.validRepeats.map((i) => x.perRepeat[i - 1])) / Math.min(...timing.validRepeats.map((i) => x.perRepeat[i - 1])))) - 1) - 1e-9)}\% of the smallest value`,
     R`the first round (${first.length} runs)`,
     R`\texttt{4a72ff1}`,
     R`(\texttt{dccf403}) by 36 minutes on the same day`,
     R`a gap of 36 minutes`,
   )
-  assert(timing.invalidRepeats.length === 0 && timing.attempts === 3 && timing.validRepeats.length === 3 && timing.workers === 1, 'timing: three attempts, three valid repeats, one process')
+  assert(timing.invalidRepeats.join() === '1' && timing.attempts === 4 && timing.validRepeats.join() === '2,3,4' && timing.workers === 1 && timing.load[0].valid === false, 'timing: four attempts, the first invalid, three valid repeats, one process')
   assert(timing.load.every((l) => l.before <= timing.loadMax), 'every timing repeat was admitted at or below the load threshold')
   assert(timing.cpu === meta.cpu && timing.node === meta.node, 'timing and results on the same host and Node version')
   assert(meta.runs === SWEEPS.reduce((a, x) => a + R_(x).length, 0) && meta.runs === first.length + secondRuns + v2Runs, 'meta run count equals the records')
@@ -985,7 +985,7 @@ function appendix(): FileSpec {
       R`For the ${ic(regen.records)} runs that existed before, which had been written at earlier commits on 1 and 10 worker processes, no field differed`,
       R`the ${tfRuns.length} runs of \cref{tab:tpfree} are new`,
       R`for the ${first.length} first-round runs on other hardware under Node.js 20, 22 and 24`,
-      R`${word(timing.validRepeats.length)} single-process repeats of the planner, scaling and ablation sweeps, each started only at a one-minute load average of at most ${timing.loadMax}`,
+      R`${word(timing.validRepeats.length)} valid single-process repeats (and one invalid attempt, kept) of the planner, scaling and ablation sweeps, each started only at a one-minute load average of at most ${timing.loadMax}`,
       R`were written under ${meta.workers} workers and are not used`,
       R`A second regeneration, at commit \texttt{${regen2.commit}} after the allocation-shape counters had been added to the records, left all ${ic(regen2.records)} runs identical in every earlier field`,
       R`(\path{paper/experiments/repro/regeneration-schema${SCHEMA_VERSION}.json}). A third, at the commit above, which added the three sweeps of the re-runs pre-registered in \path{paper/experiments/PREREG_v2.md} (${ic(v2Runs)} runs), left all ${ic(regen3.records)} runs identical in every earlier field`,

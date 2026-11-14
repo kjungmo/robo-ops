@@ -1,24 +1,23 @@
 == before repeat 1
-date: 2026-10-14T09:19:32+09:00
-loadavg: 0.43 4.65 5.41 1/1053 30546
+date: 2026-11-14T21:06:54+09:00
+loadavg: 0.41 1.30 5.34 1/3517 808943
 cores: 12
 top CPU consumers (%cpu command):
- 6.5 dev-tool
- 4.0 dev-tool
- 2.1 dev-tool
- 2.0 dev-tool
- 1.0 dev-tool
- 0.8 dev-tool
+ 5.2 claude
+ 4.9 chrome
+ 3.0 2.1.325
+ 2.9 2.1.325
+ 2.6 2.1.325
+ 2.2 2.1.325
 == after repeat 1
-date: 2026-10-14T09:20:26+09:00
-loadavg: 0.77 4.03 5.16 1/1035 30868
+date: 2026-11-14T21:08:15+09:00
+loadavg: 1.73 1.53 5.06 3/3497 811190
 cores: 12
 top CPU consumers (%cpu command):
- 6.4 dev-tool
- 3.9 dev-tool
- 2.0 dev-tool
- 2.0 dev-tool
- 0.9 dev-tool
- 0.8 dev-tool
-verdict: valid
-note: the command names of interactive development tools in the lists above (12 lines) were replaced by 'dev-tool' after the run; the CPU shares are unchanged
+ 147 python
+ 5.2 claude
+ 4.9 chrome
+ 3.0 2.1.325
+ 2.9 2.1.325
+ 2.6 2.1.325
+verdict: INVALID (1-minute load average after the repeat above 0.50 + 1.20)

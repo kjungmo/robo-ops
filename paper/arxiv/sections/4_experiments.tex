@@ -102,12 +102,14 @@ worker processes; no simulated quantity depends on the number of workers
 (\cref{app:repro}). The records also hold wall-clock fields, which depend on
 the host and its load, and we do not report those. The planner times in this
 paper were measured separately, on the same host while it was otherwise
-idle: the planner, scaling and ablation sweeps were run in one process three
-times, a repeat was started only at a one-minute load average of at most
-0.5, and we report, for every configuration, the median over the three
-repeats of the mean over seeds, with the range in the tables. All three
-repeats were valid, and the largest spread between them is 4\% of the
-smallest value. We call the main, planner, scaling, ablation and battery
+idle: the planner, scaling and ablation sweeps were run in one process, a
+repeat was started only at a one-minute load average of at most 0.5, and a
+repeat counted only if that load average was at most 1.7 right after it.
+We made four attempts and used the three valid ones (the first was
+invalid, with a load average of 1.73 after it, and is kept in the
+repository). For every configuration we report the median over the three
+valid repeats of the mean over seeds, with the range in the tables. The
+largest spread between the valid repeats is 6\% of the smallest value. We call the main, planner, scaling, ablation and battery
 sweeps the first round (420 runs) and the others the second round. The
 stress, cascade, baseline and coupling sweeps, including the coupling
 regimes, are defined in commit \texttt{4a72ff1} of the repository, which
@@ -253,7 +255,7 @@ tasks in flight; service time falls from 1909 to 252 ticks. Planner cost
 grows faster than the fleet and then flattens with the throughput: with
 Hungarian costs the A* expansions per tick grow 56-fold for 12 times as many
 robots, from 18 at 4 robots to 752 at 32 and 1{,}021 at 48 (planner time from
-0.02 to 0.76 ms per simulated tick, and to 0.98 for \sname); the path-aware
+0.02 to 0.77 ms per simulated tick, and to 0.98 for \sname); the path-aware
 pricing costs 35\% more A* calls at
 48 robots (16{,}229 vs.\ 12{,}021 per run) and 25\% more expansions per
 tick, and buys nothing measurable.

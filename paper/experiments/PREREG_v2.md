@@ -184,4 +184,21 @@ No decision rule: the numbers are descriptive.
 
 ## Deviations
 
-None yet.
+Written after the results; each entry names what differs from the text above.
+
+1. **E5, waiting time.** `measure-timing.sh` was run with `WAIT_S=1800` (the script's default is
+   600) because the shared host rarely stayed below the admission load for ten minutes. The
+   admission load stayed at the script's default `LOAD_MAX=0.50`; the fallback to 1.0 was not
+   needed. Four attempts were made: attempt 1 was invalid (load average 1.73 right after it,
+   above 0.50 + 1.20) and is kept in `paper/experiments/timing/`; attempts 2 to 4 were admitted
+   at 0.50, 0.49 and 0.48 and are valid. The summary uses the three valid ones.
+2. **E2, E3, E4: nothing differs.** Configurations, seeds, metrics, tests, families and decision
+   rules are as written. The statistics are computed by `scripts/analyze-v2.ts`; the secondary
+   families of E3 (Holm over 4) and E4 (Holm over 12) are the ones that the text above calls "the
+   secondary family of its experiment".
+3. **E4, reading of the decision rule.** The rule is applied mechanically by `analyze-v2.ts`
+   (`e4.rules`). Its "recovers" test requires an interval against `dynamic` that contains zero.
+   In warehouse-32 and warehouse-32-dock4 the interval of `held` vs `dynamic` excludes zero
+   (about 2 to 3 % lower), so the rule returns "needs the combination" although `held` alone
+   avoids the stalls that `static` has in every run. Both facts are reported; the rule's output
+   is not changed.
