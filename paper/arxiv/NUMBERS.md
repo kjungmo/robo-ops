@@ -16,17 +16,33 @@ if any digit in the abstract, the sections, the appendix or a figure caption is 
 by a claim. CI runs it on pull requests and on pushes to `main`. `npm run check:results -- <dir>` compares a re-run of
 the benchmark (`npm run bench:fms -- <sweeps> --out <dir>`) with the committed records.
 
-All ten sweeps (7,200 runs) were written by one run of `scripts/regenerate.sh 8` at commit
-`63a2db7` (`bench-meta.json : commit, workers, runs, runsPerSweep`). Before it replaced the earlier
-records, the script compared the 6,600 runs that already existed (written at `27080ab` and `2d4342a`,
-on 1 and 10 workers) with the new ones: 0 differing fields outside the four wall-clock fields
-(`paper/experiments/repro/regeneration.json`). The `tpfree` sweep (600 runs) is new.
+All ten sweeps (7,200 runs) were written by one run of `scripts/regenerate.sh 11` at commit
+`22431e9` (`bench-meta.json : commit, workers, runs, runsPerSweep, schemaVersion`). This is the second
+regeneration. The first one (schema 1) ran at `63a2db7` on 8 workers: it compared the 6,600 runs that already
+existed (written at `27080ab` and `2d4342a`, on 1 and 10 workers) with the new ones, 0 differing fields
+outside the wall-clock fields (`paper/experiments/repro/regeneration.json`, kept unchanged). The `tpfree` sweep
+(600 runs) was new then.
+
+**Schema 2** (`scripts/schema.ts`, `SCHEMA_VERSION = 2`, deep-review code stage, section 4.1 of the
+adjudication). It adds seven fields to every record: `allocCalls`, `allocM1`, `allocPool1`,
+`allocNondegenerate`, `allocGreedyEqHungarian`, `cplAllocsMatchDifferNondegenerate`, and the wall-clock
+field `diagMs`. The counters only read state: they draw nothing from the random stream and decide
+nothing. `scripts/check-results.ts --allow-new-fields` (used by `regenerate.sh`) accepts a field that
+the committed records lack only if `schema.ts` lists it for the current version. The regeneration at
+`22431e9` compared all 7,200 records with the committed schema-1 records: 417,600 fields outside the five
+wall-clock fields, 0 differing (`paper/experiments/repro/regeneration-schema2.json`; an independent
+comparison of the serialised JSON text of every field gave the same result). `plannerMs` and `allocMs`
+no longer contain the time of the counters and of the static diagnostic matching, which `diagMs` holds;
+this changes wall-clock fields only. The worker count of the second regeneration is 11 (a deliberate
+choice for speed; the records do not depend on it). A call is counted when it reaches the cost matrix (at
+least one eligible robot and one pooled task): `m` is the number of eligible robots, `pool` the candidate
+tasks after the dock and pickup gate. For `pact` and `pact-proxy`, `allocCalls` equals `cplAllocs`.
 
 Wall-clock numbers have their own source. Every planner time in the paper comes from
 `paper/experiments/timing/summary.json` (`scripts/measure-timing.sh`: three single-process repeats of
 the planner, scaling and ablation sweeps, each admitted at a 1-minute load average of at most 0.50;
 `host-<n>.txt` records load, cores and top CPU consumers before and after; `repeat-<n>.csv` the
-per-run times). The wall-clock fields inside `results/*.json` were written under 8 workers and are
+per-run times). The wall-clock fields inside `results/*.json` were written under 11 workers and are
 not quoted anywhere.
 
 "First round" means the main, planner, scaling, ablation and battery sweeps (seeds 1–5, 420 runs);
@@ -42,12 +58,12 @@ defined in `4a72ff1` (2026-09-28 17:06:16 +0900), which precedes the first commi
 | 420 first-round runs; 0 conflicts (simulator and auditor); 0 stalls; 0 depletions | sums of `conflicts`, `audit_vertexConflicts`, `audit_swapConflicts`, `audit_illegalMoves`, `deadlocked`, `depletionEvents` over the five first-round `*.json` |
 | 6,600 earlier runs: no field differed when the records were regenerated (§4.1, appendix A) | `paper/experiments/repro/regeneration.json : records 6600, differingFields 0, sweepsWithoutCommittedFile ["tpfree"]` |
 | three timing repeats, all valid, admitted at load ≤ 0.5; largest spread 4 % (§4.1) | `timing/summary.json : validRepeats [1,2,3], invalidRepeats [], load[].before 0.43 / 0.47 / 0.50, loadMax 0.5`; max over configurations of max(perRepeat) / min(perRepeat) = 1.040 |
-| 46 `SimMetrics` fields (10 configuration, 36 measured), 13 auditor fields (appendix C) | keys of any record: 62 = 46 + 13 `audit_*` + `sweep`, `variant`, `wallMs`; the same in all ten sweeps |
+| 53 `SimMetrics` fields (10 configuration, 43 measured), 13 auditor fields (appendix C) | keys of any record: 69 = 53 + 13 `audit_*` + `sweep`, `variant`, `wallMs`; the same in all ten sweeps |
 | every run delivers all of its tasks | sum of `tasksUnfinished` over all 420 records = 0 (longest run: `makespan` 4189, scaling sweep) |
 | 8,833,050 robot-steps | script: `original sweeps (seeds 1-5): runs 420, robot-steps 8833050` (sum of `audit_robotTicks` = `makespan * fleetSize`) |
 | 5,317,603 move actions | sum of `moveActions` over the same records |
 | 81,000 delivered tasks | sum of `tasksCompleted` over the same records (390 runs × 200 + 30 runs × 100) |
-| commit of the benchmarked code `63a2db7`, 8 worker processes, 7,200 runs | `bench-meta.json : commit, workers, runs` |
+| commit of the benchmarked code `22431e9`, 11 worker processes, 7,200 runs | `bench-meta.json : commit, workers, runs` |
 | CPU "AMD Ryzen 5 5500GT", Node 22 | `bench-meta.json : cpu, node`; `timing/summary.json : cpu, node` |
 | seeds 1–5 / 1–60 / 1–30 | meta files `: seeds` |
 | 6,780 second-round runs (§1) | `bench-meta.json : runsPerSweep` stress 4320 + cascade 480 + baselines 900 + coupling 480 + tpfree 600 |

@@ -1,0 +1,201 @@
+{
+  "what": "Repeat of the benchmark compared with the committed records by scripts/check-results.ts; timing* is the per-configuration mean plannerMsPerTick of the repeat divided by the committed mean.",
+  "commit": "22431e9",
+  "node": "v22.22.2",
+  "cpu": "AMD Ryzen 5 5500GT with Radeon Graphics",
+  "dates": [
+    "2026-11-14T09:43:04.742Z"
+  ],
+  "excludedFields": [
+    "wallMs",
+    "plannerMs",
+    "allocMs",
+    "diagMs",
+    "plannerMsPerTick"
+  ],
+  "allowNewFields": true,
+  "schemaVersion": 2,
+  "schemaAddedFields": [
+    "allocCalls",
+    "allocM1",
+    "allocPool1",
+    "allocNondegenerate",
+    "allocGreedyEqHungarian",
+    "cplAllocsMatchDifferNondegenerate"
+  ],
+  "sweepsWithoutCommittedFile": [],
+  "records": 7200,
+  "differingFields": 0,
+  "sweeps": [
+    {
+      "sweep": "main",
+      "records": 240,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "allocCalls",
+        "allocGreedyEqHungarian",
+        "allocM1",
+        "allocNondegenerate",
+        "allocPool1",
+        "cplAllocsMatchDifferNondegenerate"
+      ],
+      "workers": 11,
+      "timingMin": 1.3259,
+      "timingMedian": 1.855,
+      "timingMax": 2.5539
+    },
+    {
+      "sweep": "planner",
+      "records": 30,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "allocCalls",
+        "allocGreedyEqHungarian",
+        "allocM1",
+        "allocNondegenerate",
+        "allocPool1",
+        "cplAllocsMatchDifferNondegenerate"
+      ],
+      "workers": 11,
+      "timingMin": 1.3215,
+      "timingMedian": 1.6998,
+      "timingMax": 1.9093
+    },
+    {
+      "sweep": "scaling",
+      "records": 70,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "allocCalls",
+        "allocGreedyEqHungarian",
+        "allocM1",
+        "allocNondegenerate",
+        "allocPool1",
+        "cplAllocsMatchDifferNondegenerate"
+      ],
+      "workers": 11,
+      "timingMin": 1.4921,
+      "timingMedian": 1.6986,
+      "timingMax": 2.1963
+    },
+    {
+      "sweep": "ablation",
+      "records": 60,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "allocCalls",
+        "allocGreedyEqHungarian",
+        "allocM1",
+        "allocNondegenerate",
+        "allocPool1",
+        "cplAllocsMatchDifferNondegenerate"
+      ],
+      "workers": 11,
+      "timingMin": 1.2613,
+      "timingMedian": 1.7032,
+      "timingMax": 2.1769
+    },
+    {
+      "sweep": "battery",
+      "records": 20,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "allocCalls",
+        "allocGreedyEqHungarian",
+        "allocM1",
+        "allocNondegenerate",
+        "allocPool1",
+        "cplAllocsMatchDifferNondegenerate"
+      ],
+      "workers": 11,
+      "timingMin": 1.6083,
+      "timingMedian": 1.9009,
+      "timingMax": 2.0227
+    },
+    {
+      "sweep": "stress",
+      "records": 4320,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "allocCalls",
+        "allocGreedyEqHungarian",
+        "allocM1",
+        "allocNondegenerate",
+        "allocPool1",
+        "cplAllocsMatchDifferNondegenerate"
+      ],
+      "workers": 11,
+      "timingMin": 1.4657,
+      "timingMedian": 1.8194,
+      "timingMax": 5.4232
+    },
+    {
+      "sweep": "cascade",
+      "records": 480,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "allocCalls",
+        "allocGreedyEqHungarian",
+        "allocM1",
+        "allocNondegenerate",
+        "allocPool1",
+        "cplAllocsMatchDifferNondegenerate"
+      ],
+      "workers": 11,
+      "timingMin": 3.8127,
+      "timingMedian": 4.2525,
+      "timingMax": 4.498
+    },
+    {
+      "sweep": "baselines",
+      "records": 900,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "allocCalls",
+        "allocGreedyEqHungarian",
+        "allocM1",
+        "allocNondegenerate",
+        "allocPool1",
+        "cplAllocsMatchDifferNondegenerate"
+      ],
+      "workers": 11,
+      "timingMin": 3.3059,
+      "timingMedian": 4.4073,
+      "timingMax": 5.6481
+    },
+    {
+      "sweep": "coupling",
+      "records": 480,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "allocCalls",
+        "allocGreedyEqHungarian",
+        "allocM1",
+        "allocNondegenerate",
+        "allocPool1",
+        "cplAllocsMatchDifferNondegenerate"
+      ],
+      "workers": 11,
+      "timingMin": 4.1931,
+      "timingMedian": 5.015,
+      "timingMax": 5.517
+    },
+    {
+      "sweep": "tpfree",
+      "records": 600,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [
+        "allocCalls",
+        "allocGreedyEqHungarian",
+        "allocM1",
+        "allocNondegenerate",
+        "allocPool1",
+        "cplAllocsMatchDifferNondegenerate"
+      ],
+      "workers": 11,
+      "timingMin": 3.8343,
+      "timingMedian": 4.4368,
+      "timingMax": 6.17
+    }
+  ]
+}

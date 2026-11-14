@@ -28,6 +28,8 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { join, resolve } from 'node:path'
 import { DEFAULT_BATTERY, DEFAULT_CONFIG, INFEASIBLE_OFFSET, POOL_FACTOR, POOL_MIN, chargerSlots, freeCellCount, loadLayout } from '../src/fms/index'
 import { holm, tQuantileTwoSided, tTwoSidedP } from './stats'
+import { TIMING } from './check-results'
+import { SCHEMA_VERSION } from './schema'
 import { type Paired, type Row, type Run, buildPaperData, paired, readCsv, readRuns, timingOf } from './paper-data'
 
 const ROOT = process.cwd()
@@ -108,6 +110,7 @@ const meta = JSON.parse(readFileSync(join(RESULTS, 'bench-meta.json'), 'utf8')) 
   commit: string
   workers: number
   runs: number
+  schemaVersion: number
   runsPerSweep: Record<string, number>
   seeds: Record<string, [number, number]>
 }
@@ -378,14 +381,19 @@ const auditKeys = recordKeys.filter((k) => k.startsWith('audit_'))
 const extraKeys = ['sweep', 'variant', 'wallMs']
 const metricKeys = recordKeys.filter((k) => !k.startsWith('audit_') && !extraKeys.includes(k))
 const CONFIG_KEYS = ['layout', 'fleetSize', 'numTasks', 'arrivalRate', 'seed', 'alloc', 'mapf', 'window', 'period', 'wBattery']
-// Comparison made by scripts/regenerate.sh before it replaced the records.
-const regen = JSON.parse(readFileSync(join(ROOT, 'paper/experiments/repro/regeneration.json'), 'utf8')) as {
+// Comparison made by scripts/regenerate.sh before it replaced the records (schema 1: commit 63a2db7, tpfree new).
+type Regen = {
   commit: string
   records: number
   differingFields: number
   sweepsWithoutCommittedFile: string[]
-  sweeps: Array<{ sweep: string; records: number; differingFields: number }>
+  sweeps: Array<{ sweep: string; records: number; differingFields: number; fieldsAbsentFromCommitted: string[] }>
+  schemaVersion?: number
+  schemaAddedFields?: string[]
 }
+const regen = JSON.parse(readFileSync(join(ROOT, 'paper/experiments/repro/regeneration.json'), 'utf8')) as Regen
+// The same comparison for the regeneration that added the schema-2 fields (the allocation-shape counters).
+const regen2 = JSON.parse(readFileSync(join(ROOT, `paper/experiments/repro/regeneration-schema${SCHEMA_VERSION}.json`), 'utf8')) as Regen
 const secondRuns = SWEEPS.filter((x) => !FIRST.includes(x)).reduce((a, x) => a + meta.runsPerSweep[x], 0)
 
 // Coupling diagnostics (cpl* counters), pooled over the runs of a configuration.
@@ -665,7 +673,29 @@ function experiments(): FileSpec {
   assert(timing.load.every((l) => l.before <= timing.loadMax), 'every timing repeat was admitted at or below the load threshold')
   assert(timing.cpu === meta.cpu && timing.node === meta.node, 'timing and results on the same host and Node version')
   assert(meta.runs === SWEEPS.reduce((a, x) => a + R_(x).length, 0) && meta.runs === first.length + secondRuns, 'meta run count equals the records')
-  assert(regen.commit === meta.commit && regen.differingFields === 0 && regen.records === meta.runs - tfRuns.length && regen.sweepsWithoutCommittedFile.join() === 'tpfree', 'regeneration: all earlier records identical, tpfree new')
+  assert(regen.commit === '63a2db7' && regen.differingFields === 0 && regen.records === meta.runs - tfRuns.length && regen.sweepsWithoutCommittedFile.join() === 'tpfree', 'regeneration at schema 1: all earlier records identical, tpfree new')
+  assert(
+    regen2.commit === meta.commit && regen2.schemaVersion === SCHEMA_VERSION && regen2.differingFields === 0 && regen2.records === meta.runs && regen2.sweepsWithoutCommittedFile.length === 0 && regen2.sweeps.every((s) => s.fieldsAbsentFromCommitted.length === 6),
+    'regeneration at schema 2: all 7,200 earlier records identical in every earlier field, six fields added',
+  )
+  assert(meta.schemaVersion === SCHEMA_VERSION, 'bench-meta schema version')
+  // Allocation-shape counters (schema 2): identities that must hold in every record of every sweep.
+  const shapeBad = SWEEPS.flatMap((x) => R_(x)).filter((r) => {
+    const calls = Number(r.allocCalls)
+    const nd = Number(r.allocNondegenerate)
+    const degenerate = calls - nd
+    const coupled = r.alloc === 'pact' || r.alloc === 'pact-proxy'
+    const tokenPassing = /\/tp(ts)?(-(interruptible|faithful))?$/.test(String(r.variant))
+    return !(
+      nd <= calls &&
+      degenerate <= Number(r.allocM1) + Number(r.allocPool1) &&
+      degenerate >= Math.max(Number(r.allocM1), Number(r.allocPool1)) &&
+      Number(r.allocGreedyEqHungarian) <= calls &&
+      (coupled ? calls === Number(r.cplAllocs) && Number(r.cplAllocsMatchDifferNondegenerate) <= Math.min(Number(r.cplAllocsMatchDiffer), nd) : Number(r.cplAllocs) + Number(r.cplAllocsMatchDifferNondegenerate) === 0) &&
+      (tokenPassing ? calls === 0 : true)
+    )
+  })
+  assert(shapeBad.length === 0, `allocation-shape counters: ${shapeBad.length} records break an identity (calls, m=1, pool=1, min(m,pool)>=2, greedy=Hungarian, cpl counters)`)
   assert(/node: \[20, 22, 24\]/.test(readFileSync(join(ROOT, '.github/workflows/ci.yml'), 'utf8')), 'CI matrix: Node 20, 22, 24')
   assert(String(meta.cpu).includes('Ryzen 5 5500GT'), 'CPU model in the meta file')
   assert(B.drainMove === 0.001 && B.drainWait === 0.0002, 'default drain')
@@ -933,7 +963,7 @@ function appendix(): FileSpec {
   const B = DEFAULT_BATTERY
   const lay = (name: string, L: ReturnType<typeof layoutRow>, aisle: string) => R`${name} & ${L.size} & ${L.free} & ${L.pickups} & ${L.docks} & ${L.slots} (${L.stations}) & ${L.homes} & ${aisle}\\`
   assert(siteDocks === 2 && LC.docks === 3 * siteDocks, 'console: two named docks, three delivery cells each')
-  assert(metricKeys.length - CONFIG_KEYS.length === 36 && CONFIG_KEYS.every((k) => metricKeys.includes(k)) && SWEEPS.every((x) => Object.keys(R_(x)[0]).length === recordKeys.length), 'SimMetrics: 10 configuration fields and 36 measured ones, the same schema in every sweep')
+  assert(metricKeys.length - CONFIG_KEYS.length === 43 && CONFIG_KEYS.every((k) => metricKeys.includes(k)) && SWEEPS.every((x) => Object.keys(R_(x)[0]).length === recordKeys.length), 'SimMetrics: 10 configuration fields and 43 measured ones, the same schema in every sweep')
   return {
     file: 'sections/appendix.tex',
     mode: 'all',
@@ -946,7 +976,9 @@ function appendix(): FileSpec {
       R`for the ${first.length} first-round runs on other hardware under Node.js 20, 22 and 24`,
       R`${word(timing.validRepeats.length)} single-process repeats of the planner, scaling and ablation sweeps, each started only at a one-minute load average of at most ${timing.loadMax}`,
       R`were written under ${meta.workers} workers and are not used`,
-      R`leaving out the ${word(4)} wall-clock fields`,
+      R`A second regeneration at the commit above, after the allocation-shape counters had been added to the records, left all ${ic(regen2.records)} runs identical in every earlier field`,
+      R`(\path{paper/experiments/repro/regeneration-schema${SCHEMA_VERSION}.json})`,
+      R`leaving out the ${word(TIMING.length)} wall-clock fields`,
       R`bounded by ${ic(C.tpMaxExpansions)} expansions`,
       R`window $w$ / period $h$ & ${C.window} / ${C.period} ticks`,
       R`candidates $K$ & ${C.candidateK} &`,

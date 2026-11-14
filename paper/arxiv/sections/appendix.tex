@@ -6,7 +6,7 @@ dependencies); the benchmark, tests and paper tables are produced by
 \begin{verbatim}
 npm ci
 npm test                        # unit and property tests (vitest)
-bash scripts/regenerate.sh 8    # all ten sweeps, 7,200 runs
+bash scripts/regenerate.sh 11    # all ten sweeps, 7,200 runs
 bash scripts/measure-timing.sh  # planner times: three repeats on an idle host
 npm run paper:data              # tables/*.tex and figures/data/*.csv
 npm run check:paper             # every number in the text and tables
@@ -14,18 +14,22 @@ npm run check:paper             # every number in the text and tables
 \endgroup
 \begin{sloppypar}
 All records in \path{paper/experiments/results/} were written by one run
-of the regeneration script at commit \texttt{63a2db7} of the repository, on 8
+of the regeneration script at commit \texttt{22431e9} of the repository, on 11
 worker processes (\texttt{bench-meta.json}); the code under
 \texttt{src/fms/} and the benchmark driver have not changed since. Every run
 is deterministic given its seed. Before the script replaces the committed
 records it compares the new ones with them field by field, leaving out the
-four wall-clock fields (\texttt{wallMs}, \texttt{plannerMs},
-\texttt{allocMs}, \texttt{plannerMsPerTick}), and stops at any difference.
+five wall-clock fields (\texttt{wallMs}, \texttt{plannerMs},
+\texttt{allocMs}, \texttt{diagMs}, \texttt{plannerMsPerTick}), and stops at any difference.
 For the 6{,}600 runs that existed before, which had been written at earlier
 commits on 1 and 10 worker processes, no field differed
 (\path{paper/experiments/repro/regeneration.json}); the new records add
 the counters of \cref{tab:diagnostic}, and the 600 runs of
-\cref{tab:tpfree} are new. \texttt{npm run check:results -{}- <dir>} makes the
+\cref{tab:tpfree} are new. A second regeneration at the commit above, after
+the allocation-shape counters had been added to the records, left all
+7{,}200 runs identical in every earlier field
+(\path{paper/experiments/repro/regeneration-schema2.json}).
+\texttt{npm run check:results -{}- <dir>} makes the
 same comparison for a re-run written with
 \texttt{npm run bench:fms -{}- -{}-out <dir>}, and the continuous-integration
 workflow of the repository does so for the 420 first-round runs on other
@@ -42,7 +46,7 @@ sweeps, each started only at a one-minute load average of at most 0.5, with
 the load average, the core count and the largest CPU consumers before and
 after each repeat in \texttt{host-<n>.txt} and the per-run times in
 \texttt{repeat-<n>.csv}. The wall-clock fields inside the result records
-were written under 8 workers and are not used. The last command is a guard.
+were written under 11 workers and are not used. The last command is a guard.
 It regenerates every table and figure data file and compares them byte for
 byte; it recomputes every summary file from the per-run records; it
 recomputes every numeral written in digits in the abstract, the sections,
@@ -171,8 +175,8 @@ narrow & $52\times15$ & 496 & 80 & 6 & 8 (4) & 32 & 1\\
 \cref{subsec:main,subsec:ablation}; \cref{tab:scaling} lists the data behind
 \cref{fig:scaling}; \cref{tab:battery} the battery stress of
 \cref{subsec:main}; \cref{tab:reserve} the delay bounds of
-\cref{prop:charge}. The per-run records hold the 46 fields of
-\texttt{SimMetrics} (10 that identify the configuration and 36 measured quantities) and 13 auditor fields, with the sweep name, the variant label and
+\cref{prop:charge}. The per-run records hold the 53 fields of
+\texttt{SimMetrics} (10 that identify the configuration and 43 measured quantities) and 13 auditor fields, with the sweep name, the variant label and
 the wall-clock time of the run.
 The records are in the directory
 \texttt{paper/experiments/results/} as one JSON file per sweep, and the
