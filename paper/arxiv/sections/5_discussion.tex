@@ -13,7 +13,7 @@ because few tasks are pending). Third, event-triggered epochs, which hand the
 allocation one idle robot and, through the gate, one newly eligible task at a time. Together they leave only 9--26\% of the
 calls as real assignment problems with at least two robots and two tasks in the
 twelve cells of the main study, and in 91--99\% of the calls greedy and Hungarian
-assignment return the same matching. In the twelve cells the arrival-time estimate
+assignment return the same matching on \sname's cost matrix. In the twelve cells the arrival-time estimate
 differs from the free-space distance for 6--26\% of the priced pairs, by 1.9--3.0
 ticks on average, and changes the matching in 1--14\% of the allocations. The
 cost still acts in degenerate calls, where it decides which robot takes a single
@@ -44,7 +44,8 @@ as to minimise station idle time.
 We expected one-lane
 aisles, hotspot demand, long empty trips or saturated chargers to change the
 balance and tested them (\cref{subsec:coupling}); the three inside the safe
-envelope did not, within service-time half-widths of 0.4 to 0.7\% for \sname\ against
+envelope did not, within service-time half-widths of 0.4 to 0.7\% and, outside the
+long-trips regime, throughput half-widths of 1.0 to 1.6\% for \sname\ against
 Hungarian or greedy assignment, and the fourth is
 confounded by stalled runs. Only one of them, hotspot demand, changed the
 matching often (27\% of the allocations), and there too every interval of
@@ -73,8 +74,9 @@ dock queue, or that plans the assigned robots jointly as CBS-TA does for
 one-shot instances \citep{honig2018cbsta}, is not ruled out.
 
 \noindent\textbf{Cost analysis.}
-For prioritized planning the whole stack runs at 0.02--0.98 ms of planner time per simulated tick for 4
-to 48 robots on one core (\cref{fig:scaling}); a tick of one second of robot
+For prioritized planning at the default window and period the whole stack runs at 0.02--0.98 ms of planner time per simulated tick for 4
+to 48 robots on one core (\cref{fig:scaling}); with a window of 30 ticks it takes 2.0 ms and with a period of one tick
+1.4 ms on the warehouse with 32 robots (\cref{tab:ablation}). A tick of one second of robot
 motion is long by comparison, and the
 coupling's extra A* calls ($+35\%$ at 48 robots) are affordable even though
 they are not useful here. ``Affordable'' is scoped to these means of
@@ -84,7 +86,8 @@ every epoch of the rows of that table (with a window of 30 ticks the longest epo
 15.4 ms, 16.6 ms in the slowest repeat, and with $K=12$ it is 10.1 ms),
 but one windowed CBS epoch on the large layouts took up to
 476 ms in the median repeat, about half of a one-second tick, and CBS averages
-4.9--5.0 ms per tick there, against 0.09--0.30 ms on the small layout.
+4.9--5.0 ms per tick in the two configurations of that table (batch load, 100 tasks), against 0.09--0.30 ms
+on the small layout; we did not time CBS in other configurations, and these means are not a bound for them.
 These are wall-clock times on one idle host
 (medians of three repeats, \cref{subsec:setup}); under load they are longer. The
 static diagnostic matching and the allocation counters of the coupled methods are
@@ -112,7 +115,8 @@ across planning groups, is what keeps every run live (\cref{tab:split}): a robot
 corner dock parks on the dock's single access cell, is boxed in by the robots
 queuing for that dock, fails to plan, and---because parking robots are
 planned last---never gets the priority it needs to leave. Held-first ordering
-alone is 0.7--3.0\% short of the full ordering in throughput, and blocking-first
+alone is up to 3.0\% short of the full ordering in throughput (resolved in three of the
+four settings), and blocking-first
 ordering alone does not prevent stalls. Without the
 cascade, executed conflicts appear in most runs; with static instead of
 dynamic priorities, the fleet gridlocks in 113 of 120 runs

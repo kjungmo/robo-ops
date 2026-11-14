@@ -437,12 +437,19 @@ const FLEET_BIG = Math.max(...CELLS.map((c) => c[2]))
 const FLEET_SMALL = Math.min(...CELLS.map((c) => c[2]))
 const ndRange = rng0(shapeCells.map((x) => x.nd))
 const geqRange = rng0(shapeCells.map((x) => x.geq))
+const geqHungRange = rng0(CELLS.map((c) => shapeOf(mainSel(c[0], c[1], c[2], 'hungarian')).geq))
 const m1Small = rng0(shapeCells.filter((_, i) => CELLS[i][2] === FLEET_SMALL).map((x) => x.m1))
 // Pool of one task in the 32-robot cells, split by load: the dock gate acts under batch load; under the Poisson load a fleet that keeps up leaves few tasks pending.
 const pool1Batch = rng0(shapeCells.filter((_, i) => CELLS[i][2] === FLEET_BIG && CELLS[i][1] === 'inf').map((x) => x.pool1))
 const pool1Poisson = rng0(shapeCells.filter((_, i) => CELLS[i][2] === FLEET_BIG && CELLS[i][1] !== 'inf').map((x) => x.pool1))
 const poissonKeepUp = [...new Set(CELLS.filter((c) => c[1] !== 'inf' && c[2] > FLEET_SMALL).map((c) => c[2]))].sort((a, b) => a - b)
 const w32pact = mainSel('warehouse', 'inf', 32, 'pact')
+// Queueing time before assignment (PACT, 32 robots): Poisson load vs batch load (mean over the seeds of each cell, rounded as in the text).
+const waitOf = (rate: string) => FLEETWAIT.map((l) => mean(mainSel(l, rate, FLEET_BIG, 'pact'), 'meanWaitTime'))
+const FLEETWAIT = ['warehouse', 'console']
+const waitPoisson = rng0(waitOf('0.15'))
+const waitBatch = rng0(waitOf('inf'))
+const littleL = waitOf('0.15').map((w) => 0.15 * w)
 const w32chg = sum(w32pact, 'cplAllocsMatchDiffer')
 const w32chgNd = sum(w32pact, 'cplAllocsMatchDifferNondegenerate')
 const ablPool1 = (100 * sum(ablRuns('pact'), 'allocPool1')) / sum(ablRuns('pact'), 'allocCalls')
@@ -615,7 +622,7 @@ function specs(): FileSpec[] {
       R`a third round of ${ic(v2Runs)} runs, pre-registered in the`,
       R`under batch load the dock gate leaves a single task in the candidate pool in most calls with ${FLEET_BIG} robots; under the Poisson load, which fleets of ${poissonKeepUp.join(' and ')} robots keep up with, the pool is small largely because few tasks are pending. Fleets of ${FLEET_SMALL} rarely have two idle robots`,
       R`In two cells where the candidate count $K$ binds, varying it from 3 to 12 changes throughput by at most ${f1(kMax)}\%, and none of the four comparisons is rejected`,
-      R`Only ${ndRange}\% of the calls have at least two robots and two tasks, and in ${geqRange}\% of the calls greedy and Hungarian assignment return the same matching`,
+      R`Only ${ndRange}\% of the calls have at least two robots and two tasks, and in ${geqRange}\% of the calls greedy and Hungarian assignment return the same matching on \sname's cost matrix`,
       R`in the warehouse with ${FLEET_BIG} robots under batch load, ${w32chg - w32chgNd} of its ${w32chg} matching changes fall in calls with a single robot or task`,
       R`in which ${e2ndNoEv}\% of the calls in two ${V2FLEET}-robot cells are real`,
       R`($${ci(hintP)}\%$ for the reservation-aware cost, ${word(meta.seeds.ablation[1])} seeds, nominal)`,
@@ -669,6 +676,7 @@ function specs(): FileSpec[] {
   const w32queue = w32.map((r) => n(r, 'meanWaitTime_mean'))
   const w32exec = w32.map((r) => n(r, 'meanExecTime_mean'))
   const pactHalf = pactSafe.filter((x) => x.k === 'meanServiceTime').map((x) => x.p.half)
+  const pactHalfThr = pactSafe.filter((x) => x.k === 'throughput' && x.reg !== 'long-trips').map((x) => x.p.half)
   out.push({
     file: 'sections/5_discussion.tex',
     mode: 'all',
@@ -677,20 +685,25 @@ function specs(): FileSpec[] {
       R`the remaining ${f0(Math.min(...w32exec))} ticks or so`,
       R`a run of ${DEFAULT_CONFIG.numTasks} tasks executes ${f0(n(W32('pact'), 'waitActions_mean'))} wait actions against ${f1(n(W32('pact'), 'moveActions_mean') / 1000)} thousand moves, about ${f1(n(W32('pact'), 'waitActions_mean') / DEFAULT_CONFIG.numTasks)} waits per task`,
       R`and without them in two ${V2FLEET}-robot cells, not about coupling in general`,
-      R`service-time half-widths of ${f1(Math.min(...pactHalf))} to ${f1(Math.max(...pactHalf))}\% for \sname\ against Hungarian or greedy assignment`,
+      R`service-time half-widths of ${f1(Math.min(...pactHalf))} to ${f1(Math.max(...pactHalf))}\% and, outside the
+long-trips regime, throughput half-widths of ${f1(Math.min(...pactHalfThr))} to ${f1(Math.max(...pactHalfThr))}\% for \sname\ against
+Hungarian or greedy assignment`,
       R`fleets of at most ${maxOf(first, 'fleetSize')} robots`,
       R`runs at ${f2(pms(scal(4, 'hungarian')))}--${f2(pms(scal(48, 'pact')))} ms of planner time per simulated tick for 4 to 48 robots`,
+      R`with a window of ${maxOf(ablRuns('pact-w30'), 'window')} ticks it takes ${f1(pms(abl('pact-w30')))} ms and with a period of one tick
+${f1(pms(abl('pact-h1')))} ms on the warehouse with ${FLEET_BIG} robots`,
       R`($+${f0(100 * (n(scal(48, 'pact'), 'astarCalls_mean') / n(scal(48, 'hungarian'), 'astarCalls_mean') - 1))}\%$ at 48 robots)`,
       R`against ${f2(Math.min(...[4, 6, 8].map((fl) => pms(plan(fl, 'cbs')))))}--${f2(Math.max(...[4, 6, 8].map((fl) => pms(plan(fl, 'cbs')))))} ms on the small layout`,
       R`prioritized planning stays below ${f0(Math.ceil(hi(epPP.map((e) => e.maxEpoch.max))))} ms in every epoch of the rows of that table (with a window of ${maxOf(ablRuns('pact-w30'), 'window')} ticks the longest epoch is ${f1(epW30.maxEpoch.median)} ms, ${f1(epW30.maxEpoch.max)} ms in the slowest repeat, and with $K=12$ it is ${f1(epK12.maxEpoch.median)} ms), but one windowed CBS epoch on the large layouts took up to ${f0(hi(epCBS.map((e) => e.maxEpoch.median)))} ms in the median repeat`,
-      R`CBS averages ${f1(lo(epCBS.map((e) => e.msPerTick.median)))}--${f1(hi(epCBS.map((e) => e.msPerTick.median)))} ms per tick there`,
+      R`CBS averages ${f1(lo(epCBS.map((e) => e.msPerTick.median)))}--${f1(hi(epCBS.map((e) => e.msPerTick.median)))} ms per tick in the two configurations of that table (batch load, 100 tasks)`,
       R`First, the window: most pickups (${cellBeyond}\%) lie beyond it`,
-      R`Together they leave only ${ndRange}\% of the calls as real assignment problems with at least two robots and two tasks in the twelve cells of the main study, and in ${geqRange}\% of the calls greedy and Hungarian assignment return the same matching`,
+      R`Together they leave only ${ndRange}\% of the calls as real assignment problems with at least two robots and two tasks in the twelve cells of the main study, and in ${geqRange}\% of the calls greedy and Hungarian assignment return the same matching on \sname's cost matrix`,
       R`in the warehouse with ${FLEET_BIG} robots under batch load, ${w32chg - w32chgNd} of its ${w32chg} matching changes are of that kind`,
       R`under batch load the candidate pool holds a single task in most calls with ${FLEET_BIG} robots (under the Poisson load it is small largely because few tasks are pending)`,
       R`${e2ndNoEv}\% of its calls are real assignment problems in the two cells`,
       R`with half-widths of ${f1(P2[0].half)} and ${f1(P2[1].half)}\% on the primary comparison`,
-      R`Held-first ordering alone is ${f1(lo(e4heldDyn))}--${f1(hi(e4heldDyn))}\% short of the full ordering in throughput`,
+      R`Held-first ordering alone is up to ${f1(hi(e4heldDyn))}\% short of the full ordering in throughput (resolved in ${word(e4heldExcl)} of the
+four settings)`,
       R`about ${f0(worstBatch)}\% in the noisiest batch cell`,
       R`gridlocks in ${staticStalled.reduce((a, b) => a + b, 0)} of ${CASC.length * 30} runs`,
       R`from ${DEFAULT_CONFIG.dockCapacity} to 2 robots per dock costs a fifth of the throughput, and loosening it to 4 gains ${f0(pDock4.mean)}\% at more than twice the`,
@@ -791,7 +804,7 @@ $\beta_{\mathrm{w}}=${tripleBattery.wait}$), three times the default, at the sam
     R`drawn only from the 25\% of pickup points`,
     R`Defaults are $w=${DEFAULT_CONFIG.window}$, $h=${DEFAULT_CONFIG.period}$, $K=${DEFAULT_CONFIG.candidateK}$, $\kappa_{\mathrm{d}}=${DEFAULT_CONFIG.dockCapacity}$, $\kappa_{\mathrm{p}}=${DEFAULT_CONFIG.pickupCapacity}$, $w_{\mathrm{b}}=${DEFAULT_CONFIG.wBattery}$`,
     R`Throughput is delivered tasks per 100 ticks of makespan`,
-    R`for ${DEFAULT_CONFIG.stallLimit} consecutive ticks`,
+    R`for more than ${DEFAULT_CONFIG.stallLimit} consecutive ticks`,
     R`at ${ic(DEFAULT_CONFIG.maxTicks)} ticks`,
     R`use seeds ${meta.seeds.main[0]}--${meta.seeds.main[1]}, the stress sweep seeds ${meta.seeds.stress[0]}--${meta.seeds.stress[1]} and the other sweeps seeds ${meta.seeds.cascade[0]}--${meta.seeds.cascade[1]}`,
     R`The timing was run at commit \texttt{${timing.commit}}`,
@@ -807,6 +820,9 @@ $\beta_{\mathrm{w}}=${tripleBattery.wait}$), three times the default, at the sam
     R`\texttt{4a72ff1}`,
     R`(\texttt{dccf403}) by 36 minutes on the same day`,
     R`a gap of 36 minutes`,
+    R`the pre-registration precedes the commit of the results (\texttt{acbfe97}) by 10 minutes, by committer
+timestamp`,
+    R`and a timing-only sweep for \cref{tab:epoch}, were run in one process`,
   )
   assert(timing.invalidRepeats.join() === '1' && timing.attempts === 4 && timing.validRepeats.join() === '2,3,4' && timing.workers === 1 && timing.load[0].valid === false, 'timing: four attempts, the first invalid, three valid repeats, one process')
   assert(timing.load.every((l) => l.before <= timing.loadMax), 'every timing repeat was admitted at or below the load threshold')
@@ -923,8 +939,14 @@ $\beta_{\mathrm{w}}=${tripleBattery.wait}$), three times the default, at the sam
     R`With ${FLEET_BIG} robots under batch load the pool holds a single task in ${pool1Batch}\% of the calls`,
     R`which fleets of ${poissonKeepUp.join(' and ')} robots keep up with, the pool also holds a single task in ${pool1Poisson}\% of the calls with ${FLEET_BIG} robots, but there it is small largely because few tasks are pending`,
     R`With ${FLEET_SMALL} robots a single robot is eligible in ${m1Small}\% of the calls`,
+    R`with ${FLEET_BIG} robots, tasks wait ${waitPoisson} ticks on average before
+assignment under the Poisson load, against ${waitBatch} ticks under batch load`,
+    R`at 0.15 arrivals per tick, Little's law makes that about ${rng1(littleL)} pending
+tasks on average`,
     R`in the two ${V2FLEET}-robot cells they move the share of calls with at least two robots and two tasks from ${e2ndEv}\% to ${e2ndNoEv}\%`,
-    R`Taken together, only ${ndRange}\% of the calls in the twelve cells pose a real assignment problem, and in ${geqRange}\% greedy and Hungarian assignment return the same matching`,
+    R`greedy and Hungarian assignment return the same matching, in ${geqHungRange}\% of the
+calls on the static matrix of the Hungarian runs and in ${geqRange}\% on \sname's`,
+    R`Taken together, only ${ndRange}\% of the calls in the twelve cells pose a real assignment problem, and in ${geqRange}\% greedy and Hungarian assignment return the same matching on \sname's cost matrix`,
     R`in the warehouse with ${FLEET_BIG} robots under batch load, ${w32chg - w32chgNd} of its ${w32chg} matching changes fall in calls with a single robot or a single task`,
   )
 
@@ -1024,8 +1046,10 @@ $\beta_{\mathrm{w}}=${tripleBattery.wait}$), three times the default, at the sam
   assert(V2A.e4.rules.map((x) => x.verdict).join('|') === 'the advantage needs the combination|the advantage needs the combination|blocking-first accounts for the advantage|either mechanism suffices', 'E4 pre-registered rule verdicts as quoted')
   assert(['warehouse-32', 'warehouse-32-dock4'].every((x) => e4heldDyn[E4SET.indexOf(x)] >= 2 && e4heldDyn[E4SET.indexOf(x)] < 3.1), 'held first only is 2-3 percent below dynamic on the warehouse')
   assert(CASC.every((s) => mean(casc(s, 'static'), 'holdEvents') > 300), 'hundreds to thousands of holds per run with static priorities')
+  assert(Math.max(...CASC.map((s) => mean(casc(s, 'static'), 'holdEvents'))) > 1000, 'thousands of holds per run with static priorities on the warehouse or narrow')
   c.push(
     R`measures both on 30 seeds in four settings, including the capacity-4 docks`,
+    R`with hundreds to thousands of holds per run`,
     R`conflicts are executed in ${none[0]}, ${none[1]}, ${none[2]} and ${none[3]} of the 30 runs per setting`,
     R`(${restart[0]}, ${restart[1]} and ${restart[3]} of 30 runs)`,
     R`within ${up1(cascSpread)} tasks per 100 ticks of each other`,
@@ -1115,7 +1139,7 @@ capacity remains (TPTS at least ${Math.floor(tptsBehind3)}\% behind)`,
     R`at most ${f1(Math.max(...pactThr))}\% in throughput and ${f1(Math.max(...pactSvc))}\% in service time`,
     R`exclude service-time effects above ${f1(longBoundSvc)}\%`,
     R`on the same seed the four methods finish within ${lo(ltSpread)} to ${hi(ltSpread)} ticks of each other`,
-    R`A stalled run has delivered ${f0(mean(coup(SAT, 'hungarian').filter((r) => Number(r.deadlocked) > 0), 'tasksCompleted'))} (Hungarian) or ${f0(mean(coup(SAT, 'pact').filter((r) => Number(r.deadlocked) > 0), 'tasksCompleted'))} (\sname) of its ${DEFAULT_CONFIG.numTasks} tasks on average when it stops, and the ${ic(DEFAULT_CONFIG.stallLimit + 1)} ticks of the stall detector are part of its makespan`,
+    R`A stalled run has delivered ${f0(mean(coup(SAT, 'hungarian').filter((r) => Number(r.deadlocked) > 0), 'tasksCompleted'))} (Hungarian) or ${f0(mean(coup(SAT, 'pact').filter((r) => Number(r.deadlocked) > 0), 'tasksCompleted'))} (\sname) of its ${DEFAULT_CONFIG.numTasks} tasks on average when it stops, and the ${ic(DEFAULT_CONFIG.stallLimit + 1)} ticks from the last progress to the stop are part of its makespan`,
     R`mean throughput is ${f2(satAdj('hungarian'))} for Hungarian and ${f2(satAdj('pact'))} for \sname, a difference of $${sgn(100 * (satAdj('pact') / satAdj('hungarian') - 1))}\%$, against $${sgn(100 * (mean(coup(SAT, 'pact'), 'throughput') / mean(coup(SAT, 'hungarian'), 'throughput') - 1))}\%$ for the same means with the tail`,
     R`($${ci(px('narrow-aisles', 'hungarian', 'throughput'))}\%$ throughput on one-lane aisles, $${ci(px('hotspot', 'hungarian', 'throughput'))}\%$ throughput and $${ci(px('hotspot', 'hungarian', 'meanServiceTime'))}\%$ service time under hotspot demand, $${ci(px('long-trips', 'hungarian', 'meanServiceTime'))}\%$ service time on long trips, and $${ci(px('long-trips', 'greedy', 'meanServiceTime'))}\%$ against greedy there)`,
     R`(${Math.min(...satDepl)}--${Math.max(...satDepl)} depletion events over 30 runs) and ${Math.min(...satStall)}--${Math.max(...satStall)} of its 30 runs stall`,
@@ -1145,7 +1169,8 @@ capacity remains (TPTS at least ${Math.floor(tptsBehind3)}\% behind)`,
   c.push(
     R`the 99th percentile is ${f1(lo(epPP.map((e) => e.p99.median)))}--${f1(hi(epPP.map((e) => e.p99.median)))} ms and the longest epoch is ${f1(lo(epPP.map((e) => e.maxEpoch.median)))}--${f1(hi(epPP.map((e) => e.maxEpoch.median)))} ms, in the median over the ${word(timing.validRepeats.length)} valid repeats, at most ${f1(hi(epPP.map((e) => e.maxEpoch.max)))} ms in the slowest repeat`,
     R`one epoch in a hundred takes ${f0(lo(epCBS.map((e) => e.p99.median)))}--${f0(hi(epCBS.map((e) => e.p99.median)))} ms and the longest takes ${f0(lo(epCBS.map((e) => e.maxEpoch.median)))}--${f0(hi(epCBS.map((e) => e.maxEpoch.median)))} ms on the large layouts, ${f0(hi(epCBS.map((e) => e.maxEpoch.max)))} ms in the slowest repeat`,
-    R`its mean planner time is ${f1(lo(epCBS.map((e) => e.msPerTick.median)))}--${f1(hi(epCBS.map((e) => e.msPerTick.median)))} ms per tick on the large layouts, against ${f2(Math.min(...cbsSmallMs))}--${f2(Math.max(...cbsSmallMs))} on \emph{small}`,
+    R`its mean planner time is ${f1(lo(epCBS.map((e) => e.msPerTick.median)))}--${f1(hi(epCBS.map((e) => e.msPerTick.median)))} ms per
+tick in the two large-layout configurations of the table (batch load, 100 tasks), against ${f2(Math.min(...cbsSmallMs))}--${f2(Math.max(...cbsSmallMs))} on \emph{small}`,
     R`in node expansions TPTS needs ${f2(lo(expTpts))}--${f2(hi(expTpts))} million per run against ${f2(lo(expRh))}--${f2(hi(expRh))} million for the loop, which is ${f1(lo(expRatio))}--${f1(hi(expRatio))} times the expansions of Hungarian assignment`,
     R`by $${ci(hintP)}\%$ in throughput (${word(meta.seeds.ablation[1])} seeds, nominal, not corrected for the ${word(leverFamily.length)} comparisons of`,
     R`\path{paper/experiments/PREREG_v2.md} (commit \texttt{${V2A.preregistrationCommit}})`,

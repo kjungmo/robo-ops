@@ -63,9 +63,75 @@ abstract wording, the stale changelog totals, the `k` index, the seed row). Each
 - **Finding.** `n` is missing from `tab:notation`.
 - **Response.** Added, with the meaning that the text gives it in the statistics sentence (the
   number of seed pairs). `n` has no other use in the method section.
+  *Corrected in round 2 (R2-3): this sentence was false. Section 3.1 wrote the fleet as
+  `R = {1, ..., n}`; the index set is removed, so `n` now means only the number of seed pairs.*
 
 ### R1-6. Pages and claim counts in `CHANGELOG_v2.md`
 
 - **Finding.** 302 claims and 41 pages are stale.
 - **Response.** Updated to the values of the final check of round 1 (see the changelog, section 4).
   The count of claims grew again in this round because new sentences have guard claims.
+
+## Round 2
+
+No finding of round 2 was judged wrong. Findings that were met by a different fix than the one
+proposed, or by only a part of it, are listed with the reason. Repeated findings (the stale
+`NUMBERS.md` total, the symbol `n`, the Deviation 2 contradiction, the epoch-time scope) are
+answered once. Everything that was applied is in `CHANGELOG_v2.md`, section 10.
+
+### R2-1. Poisson-load pool of one (Discussion, introduction, section 4.2)
+
+- **Finding.** The Poisson-load mechanism is stated as fact; the mean queueing time before
+  assignment in `main.json` supports it and should be cited in section 4.2.
+- **Response.** Applied as proposed. Section 4.2 now says that with 32 robots tasks wait 3-4 ticks
+  on average before assignment under the Poisson load, against 220-252 ticks under batch load,
+  and that Little's law at 0.15 arrivals per tick makes that 0.4-0.5 pending tasks on average.
+  Both figures are recomputed by `scripts/check-paper.ts` from `meanWaitTime` of the PACT runs.
+  The introduction and the Discussion keep their wording. Round 1 (R1-1) said that the
+  mechanism could be stated only without a number; this evidence is a committed field of
+  `main.json`, not a new counter, so R1-1 stands for the share of calls that the gate causes,
+  which is still not measured, and the text says so.
+
+### R2-2. Allocations and calls
+
+- **Finding.** The same denominator is called "allocations" and "calls".
+- **Response.** Applied the second fix only: section 4.2 now says once that an allocation is one
+  call of the assignment step. The abstract and the tables keep "allocations". Renaming all
+  occurrences to "allocation calls" would add characters to the abstract, which is at the 1,920
+  character limit of arXiv, and would change generated table captions without a gain.
+
+### R2-3. Symbols n, m and k (F15)
+
+- **Finding.** `n` is used for the fleet size and for the number of seed pairs; `m` is used for
+  the input list of Algorithm 2 and for the eligible robots of one allocation call; `k` is used
+  for a path step in the proof of Proposition 1 and for the task index.
+- **Response.** Applied, with a different symbol for `m` than the finding suggests. The fleet is
+  written `R` without an index set (the finding's `{1, ..., |R|}` would define `R` by its own
+  size). The length of the input list of Algorithm 2 is `n_in` (not `\ell`, which Proposition 3
+  uses for the number of `\Lambda` entries), and `n_p = n_in + |X|` in Proposition 1 and in
+  `tab:notation`. The path step in the proof of Proposition 1 is `i`. `m` now means only the
+  eligible robots of one allocation call. No number changes.
+
+### R2-4. Mean planner times (Cost analysis and epoch latency)
+
+- **Finding.** The 4.9-5.0 ms per tick of CBS comes from two configurations only, and the
+  0.02-0.98 ms per tick of prioritized planning is the default-window sweep.
+- **Response.** Applied as proposed. Both sentences name the configurations. The window-30 and
+  period-1 means (2.0 and 1.4 ms per tick on the warehouse with 32 robots) are added to the
+  Discussion from `timing/summary.json`, through the guard. No measured value changed. The
+  committed stress records are not used for an absolute value, as the finding says.
+
+### R2-5. Stall interval
+
+- **Finding.** 1000 and 1,001 ticks are both given.
+- **Response.** Applied. The detector fires when more than 1000 ticks have passed since the last
+  progress (`simulator.ts`, `tick - lastProgressTick > stallLimit`), so the metrics paragraph and
+  the caption of `tab:split` now say "more than 1000 ticks", and section 4.6 says "the 1,001 ticks
+  from the last progress to the stop".
+
+### R2-6. Disclosure parity of the third round
+
+- **Finding (optional).** Add the gap between pre-registration and results.
+- **Response.** Applied. By committer timestamp, `f35437f` is 20:04, the records were first
+  written at `e66bf50` (20:09) and committed at `acbfe97` (20:14). The paper gives the 10 minutes
+  to the commit of the results and calls it weak evidence, as it does for the second round.

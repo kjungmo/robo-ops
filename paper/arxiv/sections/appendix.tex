@@ -128,7 +128,8 @@ $c(r,\tau)$, $\hat a$ & assignment cost and time-to-pickup estimate (\cref{eq:co
 $w_{\mathrm{b}},w_{\mathrm{c}},w_{\mathrm{h}}$ & battery weight, congestion weight, hold penalty\\
 $K$ & candidate tasks priced per robot\\
 $m$, $q$ & eligible robots, tasks in the allocation pool of one call\\
-$\mathcal{X}$, $n_{\mathrm{p}}$ & robots already in $\mathcal{B}$ when \cref{alg:pp} is called; robots it plans ($n_{\mathrm{p}}=m+|\mathcal{X}|$)\\
+$\mathcal{X}$ & robots already in $\mathcal{B}$ when \cref{alg:pp} is called\\
+$n_{\mathrm{in}}$, $n_{\mathrm{p}}$ & robots in the input list of \cref{alg:pp}; robots it plans ($n_{\mathrm{p}}=n_{\mathrm{in}}+|\mathcal{X}|$)\\
 $\mathcal{J}$ & held set of \cref{alg:pp}\\
 $N_{\max}$ & node budget of one CBS search\\
 $n$ & number of seed pairs of a paired interval\\

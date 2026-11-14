@@ -75,8 +75,9 @@ Our contributions are:
   layouts (one generated from the zone and dock labels of an operator-console
   wireframe), Hungarian and greedy allocation, windowed space-time A*,
   prioritized planning with a hold cascade, windowed CBS, charging, and a
-  seeded discrete-time simulator; conflict-freeness of every executed step
-  is proved by the standard reservation-table argument extended to holds, the
+  seeded discrete-time simulator; conflict-freeness of every executed step,
+  under synchronous unit-time execution and a replanning period no longer than
+  the window, is proved by the standard reservation-table argument extended to holds, the
   optimality of the Hungarian step for its cost matrix is restated from the
   assignment literature, and a test suite checks the
   Hungarian and CBS implementations against exhaustive search and the planners
@@ -122,7 +123,7 @@ rarely have two idle robots. Third, event-triggered
 epochs, which start whenever a robot becomes idle, offer one idle robot and,
 through the gate, one newly eligible task at a time.
 Only 9--26\% of the calls have at least two robots and two tasks, and in 91--99\%
-of the calls greedy and Hungarian assignment return the same matching.
+of the calls greedy and Hungarian assignment return the same matching on \sname's cost matrix.
 ``Greedy is not measurably worse than optimal'' is therefore a statement about
 a regime in which the two nearly always agree. The cost is not idle in the other calls: in the warehouse with
 32 robots under batch load, 63 of its 95 matching changes fall in calls with

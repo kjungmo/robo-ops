@@ -242,3 +242,8 @@ Written after the results; each entry names what differs from the text above.
    different. The committed analysis now compares only the executed run (makespan, throughput,
    mean service time, move actions, wait actions): at K = 12 in warehouse-8-batch 14 of 30
    seeds are identical to K = 6, in every other comparison none is.
+7. **Entry 2 is qualified by entries 4 to 6.** Added in review round 2 of the paper
+   (2026-11-14). Entry 2 was written before review round 1 and says that nothing differs for
+   E2, E3 and E4. Entries 4 (E4), 5 (E2) and 6 (E3) record differences in exactly these
+   experiments, and they take precedence over entry 2. Entry 2 is not edited, as this file is
+   append-only.

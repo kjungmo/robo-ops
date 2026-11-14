@@ -63,7 +63,7 @@ sweeps exists. Seeds 1-30, paired by seed, Holm within the pre-registered family
 | `prioritysplit` | 240 | held-first only and blocking-first only on the four cascade settings | see §1 of this file; all eight primary comparisons against static priorities rejected |
 
 **Post-hoc origin of `nondegenerate`.** The configuration was chosen after the v1 ablation had shown PACT without event epochs
-+3.32 ± 2.97 % above Hungarian without event epochs (5 seeds, nominal p = 0.036, not corrected). The paper and the
++3.32 ± 2.97 % above Hungarian (5 seeds, nominal p = 0.036, not corrected). The paper and the
 pre-registration say so: the test is confirmatory of a post-hoc observation, not blind.
 
 Deviations recorded in the pre-registration: the timing run waited up to 1,800 s (default 600) for a quiet host; the pre-registered
@@ -83,9 +83,9 @@ Not run, by design (outside the approved scope): the 1,440-run TOST re-run of th
 | robot-steps, all sweeps | 138,025,414 | 161,150,534 |
 | runs / robot-steps in the abstract (first round plus stress sweep) | 4,740 / 60.4 million | unchanged, by definition |
 | the three new sweeps | - | 1,140 runs, 23,125,120 robot-steps, 0 executed conflicts, 0 illegal moves; 16 stalled runs (all `prioritysplit`, arm `blocking`) |
-| guard | 240 text claims in 11 files, 10 summaries | 313 text claims in 11 files, 22 generated files, 13 summaries (as of the review round 1 commit) |
+| guard | 240 text claims in 11 files, 10 summaries | 320 text claims in 11 files, 22 generated files, 13 summaries (as of review round 2; 313 after round 1) |
 | tests | 58 | 68 |
-| pages | 34 | 41 |
+| pages | 34 | 42 (as of review round 2; 41 after round 1) |
 
 ## 5. Timing
 
@@ -133,3 +133,16 @@ both are derived by `npm run analyze:v2` from the same records.
 - Totals: guard 313 text claims, 41 pages, plain abstract 1,920 characters and 294 words; the stale timing entry of `NUMBERS.md` (0.77, 0.01992, 0.98053) is regenerated.
 - Reproduction: `scripts/regenerate.sh` no longer overwrites an existing report (it writes a commit-stamped file or stops), so the history record `regeneration-schema2.json` that the paper cites is safe; the README names five wall-clock fields (`diagMs` added).
 - Not changed: no counter of pending tasks per allocation call was added (it would change `src/fms` after the timing run and need a full regeneration), so the Poisson-load pool of one is stated as a mechanism without a number.
+
+## 10. Review round 2 of the v2 paper (`REVIEW_V2_RESPONSES.md`, Round 2)
+
+No committed result record and no number of an earlier statement changed. New numbers are recomputed by `npm run check:paper`.
+
+- Discussion: the coupling-regime sentence gives throughput half-widths (1.0 to 1.6 %) next to the service-time half-widths, outside the long-trips regime (read from the same `pactSafe` set); the held-first sentence says "up to 3.0 % ... (resolved in three of the four settings)"; the mean-time sentences name their configurations and add the window-30 and period-1 planner times (2.0 and 1.4 ms per tick).
+- Section 4.2: queueing time before assignment (3-4 ticks under the Poisson load against 220-252 under batch load; 0.4-0.5 pending tasks by Little's law) supports the Poisson-load mechanism; the share of greedy-Hungarian agreement is given on the static matrix of the Hungarian runs (90-98 %) and on PACT's matrix (91-99 %), and the introduction and the Discussion say "on PACT's cost matrix"; an allocation is defined as one call.
+- Introduction: the contribution bullet carries the safety scope (synchronous unit-time execution, `h <= w`).
+- Section 4.1 and 4.6: the timed sweeps include the timing-only sweep of `tab:epoch`; the stall detector is "more than 1000 ticks", the makespan tail is the 1,001 ticks from the last progress to the stop; the disclosure of the third round gives the 10 minutes between pre-registration and results; "hundreds to thousands of holds per run" for static priorities.
+- Notation: the fleet `R` has no index set; `n_in` (input list of Algorithm 2) replaces `m` in Algorithm 2 and Proposition 1; the path step in its proof is `i`; `tab:notation` lists `n_in`.
+- Captions: `tab:nondeg` second Changes column ("also the share of all calls in which the matching differs and the call has min(m, q) >= 2", for PACT and the proxy); `tab:split` ("more than 1000 ticks"); the planner figure says "reduces wait actions".
+- Documentation: `NUMBERS.md` totals point to section 4 of this file; `PREREG_v2.md` Deviations 7 (append-only) says that entries 4 to 6 qualify entry 2; the duplicated phrase in section 3 of this file is removed; R1-5 of `REVIEW_V2_RESPONSES.md` is corrected.
+

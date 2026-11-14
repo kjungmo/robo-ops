@@ -85,7 +85,7 @@ robots' cells, independently of the reservation table, both by the simulator
 and by the trajectory auditor (\cref{subsec:planning}), which also reports
 illegal moves, the largest trip delay $W$ and the longest slot wait $Q$ of
 \cref{prop:charge}; a run is flagged \emph{stalled} (``deadlocked'' in the
-code) when no task is picked up or delivered for 1000 consecutive ticks
+code) when no task is picked up or delivered for more than 1000 consecutive ticks
 while tasks are outstanding, and a run that neither finishes nor stalls stops
 at 20{,}000 ticks with its unfinished tasks counted. The first-round sweeps
 use seeds 1--5, the stress sweep seeds 1--60 and the other
@@ -112,7 +112,7 @@ worker processes; no simulated quantity depends on the number of workers
 (\cref{app:repro}). The records also hold wall-clock fields, which depend on
 the host and its load, and we do not report those. The planner times in this
 paper were measured separately, on the same host while it was otherwise
-idle: the planner, scaling and ablation sweeps were run in one process, a
+idle: the planner, scaling and ablation sweeps, and a timing-only sweep for \cref{tab:epoch}, were run in one process, a
 repeat was started only at a one-minute load average of at most 0.5, and a
 repeat counted only if that load average was at most 1.7 right after it.
 We made four attempts and used the three valid ones (the first was
@@ -131,7 +131,9 @@ token-passing sweeps the second round, and the three sweeps of
 \path{paper/experiments/PREREG_v2.md}, which commit \texttt{f35437f} adds
 alone, before any record of these sweeps exists in the history; the
 document states that the regime without event epochs was chosen after a
-hint. As for the second round, the history shows the order of commits only. The
+hint. As for the second round, the history shows the order of commits only; the
+pre-registration precedes the commit of the results (\texttt{acbfe97}) by 10 minutes, by committer
+timestamp, which is weak evidence of a choice made in advance. The
 stress, cascade, baseline and coupling sweeps, including the coupling
 regimes, are defined in commit \texttt{4a72ff1} of the repository, which
 precedes the first commit of their results (\texttt{dccf403}) by 36 minutes
@@ -214,13 +216,15 @@ detected, and effects of a few percent remain unresolved. The cells include
 the saturated batch regime with 32 robots, where 233--297 wait actions per run
 show that robots do interact. Greedy assignment is not measurably worse than
 optimal assignment in any cell. That statement is weak, because in most calls
-greedy and Hungarian assignment return the same matching
+greedy and Hungarian assignment return the same matching, in 90--98\% of the
+calls on the static matrix of the Hungarian runs and in 91--99\% on \sname's
 (\cref{tab:diagnostic}); \cref{subsec:nondeg} repeats the comparison in a regime
 where they disagree more often.
 
 \input{tables/diagnostic}
 \Cref{tab:diagnostic} shows how little the coupled cost changes in these
-cells. The simulator records, next to every allocation, how the estimate of
+cells. The simulator records, next to every allocation (one call of the assignment step; we also say
+``call''), how the estimate of
 each priced robot--task pair differs from the free-space distance, whether
 the matching differs from the Hungarian matching on the static costs of the
 same robots and tasks, and how many robots and tasks the allocation call has.
@@ -238,8 +242,12 @@ a single task in 81--87\% of the calls; almost all tasks are pending at the star
 of such a run, so a pool of one comes mostly from the gate. Under the Poisson load,
 which fleets of 16 and 32 robots keep up with, the pool also holds a single task
 in 74--75\% of the calls with 32 robots, but there it is small largely because few
-tasks are pending. We did not record the number of pending tasks per call, so
-the share of those calls that the gate causes is not measured. With 8 robots a
+tasks are pending: with 32 robots, tasks wait 3--4 ticks on average before
+assignment under the Poisson load, against 220--252 ticks under batch load
+(\cref{tab:main}); at 0.15 arrivals per tick, Little's law makes that about 0.4--0.5 pending
+tasks on average. We did not record the number of
+pending tasks per call, so the share of those calls that the gate causes is not
+measured. With 8 robots a
 single robot is eligible in 82--90\% of the calls. \emph{Event-triggered epochs.} An epoch starts whenever a robot
 becomes idle while tasks are pending, which offers the allocation one robot,
 and through the dock gate one newly eligible task, at a time.
@@ -321,7 +329,8 @@ slowest repeat. Windowed CBS behaves differently: its median epoch is
 cheap, but one epoch in a hundred takes 154--221 ms and the longest takes
 191--476 ms on the large layouts, 487 ms in the slowest repeat, so a single epoch
 can use up to half of a one-second tick, and its mean planner time is 4.9--5.0 ms per
-tick on the large layouts, against 0.09--0.30 on \emph{small}. The static
+tick in the two large-layout configurations of the table (batch load, 100 tasks), against 0.09--0.30 on \emph{small}.
+The expansion ratios above vary with the configuration, so these two means are not a bound for others. The static
 diagnostic matching and the allocation counters are timed on their own and are
 not part of these times or of the ms per tick in the tables.
 
@@ -423,7 +432,7 @@ Static priorities (status rank,
 then id) keep every step conflict-free, because the cascade is still on,
 but the fleet gridlocks: 30 of 30 runs stall on the warehouse, with and
 without capacity-4 docks, and on \emph{narrow}, and 23 of 30 on
-\emph{small}, with thousands of holds per run. That arm switches off three
+\emph{small}, with hundreds to thousands of holds per run. That arm switches off three
 things at once: the blocking-first ordering, the held-first ordering and the
 admission of held parking robots to the first planning group.
 \Cref{tab:split} separates them on the same settings and seeds, in a
@@ -570,8 +579,8 @@ $+23\pm18\%$ and $+24\pm21\%$ throughput against Hungarian, but service
 time does not move ($0.0\pm2.2\%$) and throughput, being deliveries over the
 time to the last delivery or the stall, mostly reflects fewer stalled runs
 (10 for \sname, 16 for Hungarian). A stalled run has delivered 193 (Hungarian) or 197
-(\sname) of its 200 tasks on average when it stops, and the 1{,}001 ticks of the
-stall detector are part of its makespan. Without that tail, mean throughput is
+(\sname) of its 200 tasks on average when it stops, and the 1{,}001 ticks from the last
+progress to the stop are part of its makespan. Without that tail, mean throughput is
 10.01 for Hungarian and 10.48 for \sname, a difference of $+4.7\%$, against $+15.0\%$
 for the same means with the tail. Static greedy assignment, which also
 matches robots to charger slots greedily, shows a comparable, unresolved $+20.4\pm22.4\%$ against Hungarian (11 stalled runs),

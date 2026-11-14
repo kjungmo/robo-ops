@@ -30,9 +30,9 @@ breadth-first search from the goal cell the first time a distance to that goal
 is needed and cached per goal cell.
 
 \noindent\textbf{Robots and tasks.}
-A fleet $\mathcal{R}=\{1,\dots,n\}$ of robots moves synchronously in discrete
+A fleet $\mathcal{R}$ of robots moves synchronously in discrete
 time $t\in\mathbb{N}$; at every tick a robot either moves to a 4-neighbour or
-waits. Robot $r$ has position $p_t^r\in V$, state of charge
+waits. Robot $r\in\mathcal{R}$ has position $p_t^r\in V$, state of charge
 $s_t^r\in[0,1]$, and home bay $o^r\in\mathcal{H}$. Tasks arrive as a stream
 $\mathcal{T}=\{\tau_k\}$, $\tau_k=(a_k, p_k, d_k)$ with arrival time $a_k$,
 pickup $p_k\in\mathcal{P}$ and dock $d_k\in\mathcal{D}$; a robot that reaches
@@ -170,12 +170,12 @@ entries of $\mathcal{B}$ are pairwise conflict-free when \cref{alg:pp} is
 called, then after it returns the set of paths in $\mathcal{B}$ is vertex-
 and swap-conflict-free on $[t_0,t_0+w]$, and \cref{alg:pp} calls the
 low-level planner at most $n_{\mathrm{p}}(n_{\mathrm{p}}+1)/2\le|\mathcal{R}|(|\mathcal{R}|+1)/2$
-times, where $n_{\mathrm{p}}=m+|\mathcal{X}|$.
+times, where $n_{\mathrm{p}}=n_{\mathrm{in}}+|\mathcal{X}|$ and $n_{\mathrm{in}}$ is the number of robots in the input list.
 \end{proposition}
 \begin{proof}
 \emph{Invariant.} We show that no two entries of $\mathcal{B}$ conflict at
 any moment. A path is inserted only when \cref{alg:astar} returned it under
-the current $\mathcal{B}$: every vertex $(\pi_k,t_0+k)$ passed
+the current $\mathcal{B}$: every vertex $(\pi_i,t_0+i)$ passed
 $\mathrm{free}$, every move passed the swap query, and, if the path reaches
 its goal inside the window, the hold at its last cell passed
 $\mathrm{goalfree}$, so no existing entry occupies that cell later in the
@@ -194,13 +194,13 @@ is written, and start cells are distinct. Removing entries cannot create a confl
 invariant holds at termination.
 
 \emph{Call bound.} A robot is popped once initially if it is in the input
-list ($m$ calls) and once each time it is re-queued. Re-queuing happens only
+list ($n_{\mathrm{in}}$ calls) and once each time it is re-queued. Re-queuing happens only
 when a hold is created; a held robot is never re-queued (it is excluded from
 $\mathcal{V}$) and so fails at most once, hence at most $n_{\mathrm{p}}$ holds are
 created. When the $j$-th hold is created, $|\mathcal{J}|=j$ and
 $\mathcal{V}$ contains only robots outside $\mathcal{J}$, so
 $|\mathcal{V}|\le n_{\mathrm{p}}-j$. The number of calls is therefore at most
-$m+\sum_{j=1}^{n_{\mathrm{p}}}(n_{\mathrm{p}}-j)\le n_{\mathrm{p}}+n_{\mathrm{p}}(n_{\mathrm{p}}-1)/2=n_{\mathrm{p}}(n_{\mathrm{p}}+1)/2$.
+$n_{\mathrm{in}}+\sum_{j=1}^{n_{\mathrm{p}}}(n_{\mathrm{p}}-j)\le n_{\mathrm{p}}+n_{\mathrm{p}}(n_{\mathrm{p}}-1)/2=n_{\mathrm{p}}(n_{\mathrm{p}}+1)/2$.
 \end{proof}
 
 The assumption on $\mathcal{B}$ is what the epoch
@@ -234,9 +234,9 @@ stops, and an epoch starts before the next step is executed.
 
 \begin{algorithm}[t]
 \caption{Prioritized planning with hold cascade}\label{alg:pp}
-\KwIn{ordered robots $(r_1,\dots,r_m)$ with starts and goals, external robots $\mathcal{X}$ already in $\mathcal{B}$ (for a group planned by CBS, also the robots CBS wrote, see the text after \cref{prop:pp}), epoch $t_0$}
-\KwOut{paths for $r_1,\dots,r_m$ (and re-planned members of $\mathcal{X}$), held set $\mathcal{J}$}
-$L\gets(r_1,\dots,r_m)$; $\mathcal{J}\gets\emptyset$\;
+\KwIn{ordered robots $(r_1,\dots,r_{n_{\mathrm{in}}})$ with starts and goals, external robots $\mathcal{X}$ already in $\mathcal{B}$ (for a group planned by CBS, also the robots CBS wrote, see the text after \cref{prop:pp}), epoch $t_0$}
+\KwOut{paths for $r_1,\dots,r_{n_{\mathrm{in}}}$ (and re-planned members of $\mathcal{X}$), held set $\mathcal{J}$}
+$L\gets(r_1,\dots,r_{n_{\mathrm{in}}})$; $\mathcal{J}\gets\emptyset$\;
 \While{$L\neq\emptyset$}{
   $r\gets$ pop front of $L$\;
   $\pi\gets$ \textsc{A*}$(p^r,g^r,t_0,w,\mathcal{B})$ \tcp*{\cref{alg:astar}}
