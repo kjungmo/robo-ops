@@ -18,8 +18,8 @@
  *   the cpl* counters and the audit fields included).
  * Version 2: allocation-shape counters (allocCalls, allocM1, allocPool1,
  *   allocNondegenerate, allocGreedyEqHungarian), cplAllocsMatchDifferNondegenerate,
- *   and diagMs, the wall-clock time of the counters and the static diagnostic
- *   matching. diagMs is a wall-clock field (see TIMING in check-results.ts).
+ *   and diagMs, the wall-clock time of the counters, the static cost matrix
+ *   and the static diagnostic matching. diagMs is a wall-clock field (see TIMING in check-results.ts).
  *   Since version 2, plannerMs and allocMs no longer contain the time of these
  *   diagnostics; they are timing fields, so no simulated quantity changes.
  */

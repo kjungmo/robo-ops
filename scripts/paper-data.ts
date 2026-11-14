@@ -579,7 +579,7 @@ function reserveTable(): { tex: string; summary: string } {
       const sd = Math.sqrt(rel.reduce((a, b) => a + (b - m) ** 2, 0) / (n - 1))
       const half = (T975[n] * sd) / Math.sqrt(n)
       lines.push(
-        `stress cbs vs pp makespan ${layout}/${fleet}: ${m.toFixed(2)} +- ${half.toFixed(2)} (n=${n}); cbs fallbacks/run ${meanBy(cbsRuns, 'cbsFallbacks').toFixed(2)} (node budget ${meanBy(cbsRuns, 'cbsBudgetExceeded').toFixed(2)}), epochs/run ${meanBy(cbsRuns, 'epochs').toFixed(1)}, cbs ms/tick ${meanBy(cbsRuns, 'plannerMsPerTick').toFixed(2)} vs pp ${meanBy(pp, 'plannerMsPerTick').toFixed(2)} (10 parallel workers)`,
+        `stress cbs vs pp makespan ${layout}/${fleet}: ${m.toFixed(2)} +- ${half.toFixed(2)} (n=${n}); cbs fallbacks/run ${meanBy(cbsRuns, 'cbsFallbacks').toFixed(2)} (node budget ${meanBy(cbsRuns, 'cbsBudgetExceeded').toFixed(2)}), epochs/run ${meanBy(cbsRuns, 'epochs').toFixed(1)}, cbs ms/tick ${meanBy(cbsRuns, 'plannerMsPerTick').toFixed(2)} vs pp ${meanBy(pp, 'plannerMsPerTick').toFixed(2)}`,
       )
     }
   }

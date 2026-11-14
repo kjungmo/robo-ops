@@ -87,7 +87,7 @@ export interface SimMetrics {
   plannerMs: number
   allocMs: number
   /**
-   * Wall-clock ms spent in the counters and in the static diagnostic matching
+   * Wall-clock ms spent in the counters, the static cost matrix and the static diagnostic matching
    * (schema 2). Not included in plannerMs, allocMs or the epoch times.
    */
   diagMs: number

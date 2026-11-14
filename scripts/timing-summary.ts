@@ -52,7 +52,7 @@ export interface EpochConfig {
   layout: string
   fleetSize: number
   variant: string
-  /** Epochs per repeat (all seeds pooled), first valid repeat. */
+  /** Epochs per repeat (all seeds pooled), from the first repeat processed (the count is deterministic). */
   epochs: number
   p50: EpochStat
   p99: EpochStat

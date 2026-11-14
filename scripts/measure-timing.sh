@@ -9,9 +9,9 @@
 # table, ablation table, scaling table and figure, window figure).
 # It also measures the wall time of every single rolling-horizon epoch of those
 # runs and of the timing-only sweep `epochtime` (windowed CBS and prioritized
-# planning on warehouse-32 and narrow-16, 20 more runs): p50, p99 and max per
+# planning on warehouse-32 and narrow-16, 25 more runs): p50, p99 and max per
 # configuration, pooled over the seeds, in summary.json under `epochConfigs`.
-# The time of the diagnostic counters and of the static diagnostic matching
+# The time of the diagnostic counters, of the static cost matrix and of the static diagnostic matching
 # (simulator.ts, diagMs) is outside the epoch times, the planner ms/tick and
 # allocMs.
 #

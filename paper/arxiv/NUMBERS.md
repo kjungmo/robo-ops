@@ -32,7 +32,7 @@ the committed records lack only if `schema.ts` lists it for the current version.
 `22431e9` compared all 7,200 records with the committed schema-1 records: 417,600 fields outside the five
 wall-clock fields, 0 differing (`paper/experiments/repro/regeneration-schema2.json`; an independent
 comparison of the serialised JSON text of every field gave the same result). `plannerMs` and `allocMs`
-no longer contain the time of the counters and of the static diagnostic matching, which `diagMs` holds;
+no longer contain the time of the counters, of the static cost matrix and of the static diagnostic matching, which `diagMs` holds;
 this changes wall-clock fields only. The worker count of the second regeneration is 11 (a deliberate
 choice for speed; the records do not depend on it). A call is counted when it reaches the cost matrix (at
 least one eligible robot and one pooled task): `m` is the number of eligible robots, `pool` the candidate

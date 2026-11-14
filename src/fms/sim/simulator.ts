@@ -698,16 +698,16 @@ export class FleetSimulator {
     const cost: number[][] = []
     // Diagnostics only: the static cost matrix next to a coupled one.
     const coupled = this.cfg.alloc === 'pact' || this.cfg.alloc === 'pact-proxy'
-    const staticRows: number[][] = []
+    const orders: number[][] = []
     for (const r of eligible) {
       const row = new Array<number>(pool.length).fill(Number.POSITIVE_INFINITY)
-      const staticRow = new Array<number>(pool.length).fill(Number.POSITIVE_INFINITY)
       // Candidate pruning: K nearest tasks by static distance.
       const order = pool
         .map((task, j) => ({ j, d: this.oracle.dist(r.cell, task.pickup) }))
         .filter((e) => Number.isFinite(e.d))
         .sort((a, b) => a.d - b.d || a.j - b.j)
         .slice(0, K)
+      if (coupled) orders.push(order.map((e) => e.j))
       for (const { j } of order) {
         const task = pool[j]
         switch (this.cfg.alloc) {
@@ -733,13 +733,11 @@ export class FleetSimulator {
             break
           }
         }
-        if (coupled) staticRow[j] = staticCost(this.costCtx, r.cell, r.soc, task)
       }
       cost.push(row)
-      staticRows.push(staticRow)
     }
     const assignment = this.cfg.alloc === 'greedy' ? greedyAssign(cost) : hungarian(cost)
-    // Diagnostics (schema 2 counters and the static matching). They only read the
+    // Diagnostics (schema 2 counters, the static cost matrix and the static matching). They only read the
     // state above and are timed on their own, outside allocMs, plannerMs and the
     // epoch times.
     const diagStart = now()
@@ -753,6 +751,12 @@ export class FleetSimulator {
     const hungarianA = this.cfg.alloc === 'greedy' ? hungarian(cost) : assignment
     if (sameAssignment(greedyA, hungarianA)) this.acc.allocGreedyEqHungarian += 1
     if (coupled) {
+      // The static cost matrix is built here, outside the timed region of the method.
+      const staticRows = eligible.map((r, i) => {
+        const staticRow = new Array<number>(pool.length).fill(Number.POSITIVE_INFINITY)
+        for (const j of orders[i]) staticRow[j] = staticCost(this.costCtx, r.cell, r.soc, pool[j])
+        return staticRow
+      })
       this.acc.cplAllocs += 1
       if (cost.some((row, i) => row.some((c, j) => c !== staticRows[i][j]))) this.acc.cplAllocsCostDiffer += 1
       const staticAssignment = hungarian(staticRows)

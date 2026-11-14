@@ -87,7 +87,7 @@ describe('allocation-shape counters in a run', () => {
   })
 
   it('leave every earlier metric of a committed record unchanged', () => {
-    // main sweep, warehouse, 8 robots, batch, PACT, seed 1: the record written before the counters existed.
+    // main sweep, warehouse, 8 robots, batch, PACT, seed 1: the committed schema-2 record (v1 identity is proven by check-results).
     const records = JSON.parse(readFileSync(join(process.cwd(), 'paper/experiments/results/main.json'), 'utf8')) as Array<Record<string, unknown>>
     const rec = records.find((r) => r.layout === 'warehouse' && r.fleetSize === 8 && r.arrivalRate === null && r.variant === 'pact' && r.seed === 1)
     expect(rec).toBeDefined()
