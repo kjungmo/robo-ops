@@ -20,7 +20,7 @@ keywords:
   - warehouse robotics
 preferred-citation:
   type: unpublished
-  title: "PACT: A Conflict-Free Lifelong Fleet Manager for Warehouse AMRs and a Controlled Study of Reservation-Aware Pickup Costs"
+  title: "PACT: A Lifelong Fleet Manager for Warehouse AMRs, Conflict-Free under Synchronous Unit-Time Execution, and a Controlled Study of Reservation-Aware Pickup Costs"
   authors:
     - family-names: Kang
       given-names: Jungmo

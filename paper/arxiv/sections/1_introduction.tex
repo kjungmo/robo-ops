@@ -96,22 +96,42 @@ Our contributions are:
   cascade and of the priorities, token-passing baselines under three rules
   for idle robots, and four regimes
   in which we expected the coupling to matter most, defined before their
-  results were committed. Every number traces to a
+  results were committed; a third round of 1{,}140 runs, pre-registered in the
+  repository before its results and run after an external deep review, tests
+  the coupling without event-triggered epochs, varies the candidate count in
+  cells where it can bind and splits the static-priority arm. Every number traces to a
   committed result file, and a script in the repository checks the text and
-  the tables against those files (\cref{app:repro}).
+  the tables against those files, within the limits listed in \cref{app:repro}.
 \end{itemize}
 
-The study's main result is negative and narrow: with dock capacity limiting
-which tasks can be assigned, in every one of
+The study's main result is negative and narrow. With dock capacity limiting
+which tasks can be assigned and with event-triggered epochs, in every one of
 twelve layout/fleet/load cells the four allocation cost models---greedy,
 Hungarian, congestion proxy and reservation-aware pickup cost---differ by at most 2.9\% in
 mean throughput, and 35 of 36 seed-paired 95\% intervals against Hungarian
 contain zero (\cref{tab:main,tab:paired}). Counters recorded next to every
-allocation show that the test is weak as well as negative: in these cells the
+allocation show that the test is weak as well as negative. The
 reservation-aware cost changes the matching in only 1--14\% of the
-allocations, because 60--86\% of the priced pickups lie beyond the planning
-window, where the estimate falls back to a free-space distance
-(\cref{tab:diagnostic}). With five seeds the interval
+allocations, and three causes act together (\cref{tab:diagnostic}). First,
+60--86\% of the priced pickups lie beyond the planning
+window, where the estimate falls back to a free-space distance. Second, the
+dock gate leaves a single task in the candidate pool in most calls with 32
+robots, and fleets of 8 rarely have two idle robots. Third, event-triggered
+epochs, which start whenever a robot becomes idle, offer one idle robot and,
+through the gate, one newly eligible task at a time.
+Only 9--26\% of the calls have at least two robots and two tasks, and in 91--99\%
+of the calls greedy and Hungarian assignment return the same matching.
+``Greedy is not measurably worse than optimal'' is therefore a statement about
+a regime in which the two nearly always agree. The cost is not idle in the other calls: in the warehouse with
+32 robots under batch load, 63 of its 95 matching changes fall in calls with
+a single robot or task. We then tested a regime without event-triggered
+epochs, in which 56--59\% of the calls in two 32-robot cells are real
+assignment problems (\cref{subsec:nondeg}). We chose it after the first-round ablation had shown a hint
+($+3.3\pm3.0\%$ for the reservation-aware cost, five seeds, nominal), so the
+test is confirmatory of a post-hoc observation, not blind, and its configuration and
+decision rules were committed before its runs. On 30 seeds the reservation-aware cost differs
+from Hungarian assignment by $+0.4\pm1.1\%$ and $+0.6\pm1.5\%$ in throughput, neither is rejected by
+Holm's procedure, and the hint does not replicate. With five seeds in the main study the interval
 bounds reach about 7\% in the noisiest cell and about 4\% under the Poisson
 load, so the study detects no large effect but cannot resolve small ones. It
 was not designed as an equivalence test and fixes no equivalence margin, so
@@ -128,7 +148,11 @@ is measured on 120 seed pairs per fleet size. In the four regimes in which
 we expected the coupling to matter, the matching changes in 2--27\% of the
 allocations and \sname\ shows no resolved gain except where every method
 strands robots, and there its higher throughput mostly reflects fewer stalled runs
-(\cref{subsec:coupling}).
+(\cref{subsec:coupling}). Two further results qualify the design. Where the
+candidate count $K$ binds, varying it changes nothing measurable
+(\cref{subsec:ablation}). Static priorities
+gridlock the fleet, and held-first ordering alone keeps it live while the full dynamic
+ordering is best in throughput (\cref{subsec:cascade}).
 Token passing and token passing with task swaps \citep{ma2017lifelong}
 deliver 16--66\% less throughput than our loop at its default dock
 capacity, but their endpoint rule allows one robot in flight
@@ -139,7 +163,9 @@ across the five settings (\cref{subsec:baselines}). The gap to token passing wit
 measures dock capacity, not our allocation or planner, and at equal capacity
 our loop is slightly behind the best token-passing variant.
 Throughout, the executed plans of 60.4 million audited robot-steps contain no
-vertex or swap conflict, as the construction guarantees. Progress and charge
+vertex or swap conflict, as the construction guarantees under synchronous
+unit-time execution; the third round adds 23.1 million robot-steps, also
+without one. Progress and charge
 are not guaranteed: with normal batteries no robot depletes and every run
 delivers all of its tasks, but with doubled drain the charging policy
 strands robots once its slots saturate (\cref{subsec:main}), and we prove

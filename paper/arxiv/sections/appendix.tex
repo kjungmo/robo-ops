@@ -1,4 +1,4 @@
-\section{Reproduction}\label{app:repro}
+\section{Reproduction}\label[appendix]{app:repro}
 
 All code is TypeScript under \texttt{src/fms/} of the repository (no runtime
 dependencies); the benchmark, tests and paper tables are produced by
@@ -37,7 +37,11 @@ identical in every earlier field
 same comparison for a re-run written with
 \texttt{npm run bench:fms -{}- -{}-out <dir>}, and the continuous-integration
 workflow of the repository does so for the 420 first-round runs on other
-hardware under Node.js 20, 22 and 24.
+hardware under Node.js 20, 22 and 24. On 11 worker processes the regeneration
+of all records took 1{,}548 seconds of wall time
+(\texttt{bench-meta.json}). The timing script waits for a quiet host
+before every repeat, so its duration depends on the load of the host; we did not
+record it.
 \end{sloppypar}
 
 \begin{sloppypar}
@@ -46,10 +50,11 @@ Each kind of number has one source. Simulated quantities come from
 its \path{_summary.csv}. Planner times come only from
 \path{paper/experiments/timing/summary.json}, written by the timing
 script: three valid single-process repeats (and one invalid attempt, kept) of the planner, scaling and ablation
-sweeps, each started only at a one-minute load average of at most 0.5, with
+sweeps and of the timing-only sweep \texttt{epochtime}, each started only at a one-minute load average of at most 0.5, with
 the load average, the core count and the largest CPU consumers before and
 after each repeat in \texttt{host-<n>.txt} and the per-run times in
-\texttt{repeat-<n>.csv}. The wall-clock fields inside the result records
+\texttt{repeat-<n>.csv}; the percentiles of the epoch times in \cref{tab:epoch} are in
+\texttt{summary.json}, under \texttt{epochConfigs}. The wall-clock fields inside the result records
 were written under 11 workers and are not used. The last command is a guard.
 It regenerates every table and figure data file and compares them byte for
 byte; it recomputes every summary file from the per-run records; it
@@ -62,7 +67,9 @@ that changing one fails the guard until a reviewed snapshot
 (\path{paper/experiments/guard/pins.json}) is updated: numerals inside the
 formulas and algorithms of \cref{sec:method}, numbers written as words
 that the script does not list as a claim, and the two facts taken from the
-git history (\cref{subsec:setup}). The guard does not check the logic of a
+git history (\cref{subsec:setup}). It also recomputes the
+statistics of the third round (\path{paper/experiments/analysis/v2.json}) from the
+records and compares the file byte for byte. The guard does not check the logic of a
 sentence, the references to tables and figures, or the drawing of the
 figures beyond their data columns. The bounds stated in
 \cref{prop:pp,prop:charge}, \cref{alg:astar} and \cref{eq:cost} are
@@ -92,7 +99,7 @@ conflict-free.
 The operator console shows the
 simulator at \texttt{/fms} (\texttt{npm run dev}).
 
-\section{Notation and Parameters}\label{app:params}
+\section{Notation and Parameters}\label[appendix]{app:params}
 
 \Cref{tab:notation} lists the notation, \cref{tab:params} the default
 parameters with the values the sweeps change, and \cref{tab:layouts} the
@@ -168,7 +175,7 @@ narrow & $52\times15$ & 496 & 80 & 6 & 8 (4) & 32 & 1\\
 \end{tabular}
 \end{table}
 
-\section{Extended Results}\label{app:extended}
+\section{Extended Results}\label[appendix]{app:extended}
 
 \input{tables/paired}
 \input{tables/scaling}

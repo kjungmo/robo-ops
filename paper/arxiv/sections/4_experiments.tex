@@ -11,7 +11,11 @@ cost in planner time? A second round of experiments, run after an adversarial
 review of the first, adds a 60-seed stress sweep for Q1, an ablation of the
 hold cascade and of the planning priorities, token-passing baselines, and
 four regimes in which we expected the coupling to matter most for Q2
-(\cref{subsec:cascade,subsec:baselines,subsec:coupling}).
+(\cref{subsec:cascade,subsec:baselines,subsec:coupling}). A third round, run
+after an external deep review and pre-registered in the repository before its
+results existed, tests Q2 without event-triggered epochs, varies $K$ in cells
+where the pool exceeds it and splits the static-priority arm
+(\cref{subsec:nondeg,subsec:ablation,subsec:cascade}).
 
 \subsection{Experimental Setup}\label{subsec:setup}
 
@@ -66,8 +70,12 @@ token passing (TP) and token passing with task swaps (TPTS)
 dwell, charging thresholds and feasibility test (\cref{subsec:baselines}).
 
 \noindent\textbf{Metrics.}
-Throughput is delivered tasks per 100 ticks; service time is delivery minus
-arrival; wait time is first assignment minus arrival; wait actions count
+Throughput is delivered tasks per 100 ticks of makespan, the makespan being
+the tick of the last delivery or, for a run that stalls or reaches the tick
+limit, the tick at which it stops; service time is delivery minus arrival,
+averaged over the delivered tasks; wait time is first assignment minus arrival;
+utilisation is the share of robot-ticks in which a robot holds an assigned,
+undelivered task; wait actions count
 ticks a robot with a goal did not move; holds count planner fallbacks; planner
 ms/tick is wall-clock time of allocation plus planning divided by simulated
 ticks; conflicts are counted on the executed step (vertex and swap) from the
@@ -78,7 +86,7 @@ illegal moves, the largest trip delay $W$ and the longest slot wait $Q$ of
 code) when no task is picked up or delivered for 1000 consecutive ticks
 while tasks are outstanding, and a run that neither finishes nor stalls stops
 at 20{,}000 ticks with its unfinished tasks counted. The first-round sweeps
-use seeds 1--5, the stress sweep seeds 1--60 and the other second-round
+use seeds 1--5, the stress sweep seeds 1--60 and the other
 sweeps seeds 1--30; results are reported as mean\stdv{std}. Runs with the
 same seed see the same task stream and initial charge, so we compare
 variants by seed-paired relative differences with two-sided 95\%
@@ -109,8 +117,19 @@ We made four attempts and used the three valid ones (the first was
 invalid, with a load average of 1.73 after it, and is kept in the
 repository). For every configuration we report the median over the three
 valid repeats of the mean over seeds, with the range in the tables. The
-largest spread between the valid repeats is 6\% of the smallest value. We call the main, planner, scaling, ablation and battery
-sweeps the first round (420 runs) and the others the second round. The
+largest spread between the valid repeats is 6\% of the smallest value.
+The timing was run at commit \texttt{6b64f93}; the code under
+\texttt{src/fms}, the benchmark driver and the record schema are identical at
+that commit and at the commit of the results (\texttt{git diff} between them
+is empty). We call the main, planner, scaling, ablation and battery
+sweeps the first round (420 runs), the stress, cascade, baseline, coupling and
+token-passing sweeps the second round, and the three sweeps of
+\cref{subsec:nondeg,subsec:ablation,subsec:cascade} the third round
+(1{,}140 runs). The third round is pre-registered in
+\path{paper/experiments/PREREG_v2.md}, which commit \texttt{f35437f} adds
+alone, before any record of these sweeps exists in the history; the
+document states that the regime without event epochs was chosen after a
+hint. As for the second round, the history shows the order of commits only. The
 stress, cascade, baseline and coupling sweeps, including the coupling
 regimes, are defined in commit \texttt{4a72ff1} of the repository, which
 precedes the first commit of their results (\texttt{dccf403}) by 36 minutes
@@ -191,27 +210,47 @@ designed or powered as an equivalence test and fixes no equivalence margin
 in advance, so we claim only that no large effect of the cost model was
 detected, and effects of a few percent remain unresolved. The cells include
 the saturated batch regime with 32 robots, where 233--297 wait actions per run
-show that robots do interact. Greedy
-assignment is not measurably worse than optimal assignment in any cell.
+show that robots do interact. Greedy assignment is not measurably worse than
+optimal assignment in any cell. That statement is weak, because in most calls
+greedy and Hungarian assignment return the same matching
+(\cref{tab:diagnostic}); \cref{subsec:nondeg} repeats the comparison in a regime
+where they disagree more often.
 
 \input{tables/diagnostic}
 \Cref{tab:diagnostic} shows how little the coupled cost changes in these
 cells. The simulator records, next to every allocation, how the estimate of
-each priced robot--task pair differs from the free-space distance and whether
+each priced robot--task pair differs from the free-space distance, whether
 the matching differs from the Hungarian matching on the static costs of the
-same robots and tasks. For 60--86\% of the priced pairs the pickup lies
+same robots and tasks, and how many robots and tasks the allocation call has.
+Three causes keep the cost mostly inert, and the window is only one of them.
+\emph{The window.} For 60--86\% of the priced pairs the pickup lies
 beyond the window, where the estimate ignores reservations after the first
 $w$ ticks (\cref{eq:arrival}). The path-aware estimate differs from the
 free-space distance for 6--26\% of the pairs, by 1.9--3.0 ticks on average
 against a mean distance of 23--40, and it changes the matching in 1--14\% of
 the allocations. The congestion proxy differs for 20--58\% of the pairs and
 changes the matching in 5--30\% of the allocations, with the same outcome.
-The null result is therefore a statement about a cost that is mostly inert
-here: changing the matching in at most one allocation in seven did not move
-throughput or service time measurably. It does not show that
-congestion-aware assignment cannot help. Two design choices bound what the
-cost can see: only the $K=6$ tasks nearest to a robot by free-space distance
-are priced, and beyond the window the estimate is a free-space distance.
+\emph{The dock gate.} Only tasks whose dock and pickup have spare
+capacity enter the candidate pool. With 32 robots the pool holds a single task
+in 74--87\% of the calls, and with 8 robots a single robot is eligible in
+82--90\%. \emph{Event-triggered epochs.} An epoch starts whenever a robot
+becomes idle while tasks are pending, which offers the allocation one robot,
+and through the dock gate one newly eligible task, at a time.
+\Cref{subsec:nondeg} measures this one: in the two 32-robot cells it moves the
+share of calls with at least two robots and two tasks from 14--17\% to 56--59\%.
+Taken together, only 9--26\% of the calls in the twelve cells pose a real
+assignment problem, and in 91--99\% greedy and Hungarian assignment return the
+same matching on \sname's cost matrix. The cost is not idle in the other calls:
+in the warehouse with 32 robots under batch load, 63 of its 95 matching
+changes fall in calls with a single robot or a single task, where it decides
+which robot takes that task. The null result is therefore a statement about
+allocation under a binding dock gate with event-triggered epochs, made with a
+cost that seldom has an assignment problem to solve: changing the matching in at
+most one allocation in seven did not move throughput or service time
+measurably. It does not show that congestion-aware assignment cannot help.
+Beyond the window the estimate is a free-space distance. The number of priced
+candidates $K$ binds in some cells and not in others, and varying it
+changed nothing measurable where it binds (\cref{subsec:ablation}).
 \Cref{sec:disc} adds what these counters do not measure: the empty trip to
 the pickup is a small part of a task, and the congestion that exists arises
 at endpoints rather than along paths.
@@ -238,7 +277,10 @@ $\kappa_{\mathrm{d}}$ robots bound for one dock, so the backend is CBS for
 robots with distinct goals followed by PP for the rest, not CBS alone. On
 \emph{small} it shortens the makespan by 4--12\% (seed-paired over 120
 pairs: $-3.9\pm0.6$, $-8.7\pm0.7$ and $-11.6\pm0.9\%$ for 4, 6 and 8
-robots). On the larger layouts the gain under batch load is 2.4--4.1\%
+robots). Split by load, with 60 pairs each, the gains are $-3.8\pm0.7$,
+$-9.1\pm1.1$ and $-12.6\pm1.4\%$ under batch load and $-4.1\pm0.9$,
+$-8.4\pm0.9$ and $-10.5\pm1.3\%$ under the Poisson load; both loads saturate
+\emph{small}, so the pooled intervals are not misleading. On the larger layouts the gain under batch load is 2.4--4.1\%
 (60 pairs, e.g.\ $-3.8\pm1.0\%$ on the warehouse with 32 robots); under the
 Poisson load the makespan is mostly set by the last arrival and the
 difference is at most 2.5\%. For that gain CBS expands 2.1 to 12.2 times as
@@ -260,6 +302,21 @@ pricing costs 35\% more A* calls at
 48 robots (16{,}229 vs.\ 12{,}021 per run) and 25\% more expansions per
 tick, and buys nothing measurable.
 \input{figures/scaling}
+
+\input{tables/epoch}
+\noindent\textbf{Epoch latency.}
+The means above hide the time of a single epoch, which is what a real-time
+deadline would have to bound. \Cref{tab:epoch} gives the wall time of one
+rolling-horizon epoch on the quiet host, from every epoch of every seed. For
+prioritized planning the 99th percentile is 1.8--5.3 ms and the longest epoch is
+2.1--6.8 ms, in the median over the three valid repeats, at most 7.9 ms in the
+largest repeat. Windowed CBS behaves differently: its median epoch is
+cheap, but one epoch in a hundred takes 154--221 ms and the longest takes
+191--476 ms on the large layouts, 487 ms in the largest repeat, so a single epoch
+can use up to half of a one-second tick, and its mean planner time is 4.9--5.0 ms per
+tick on the large layouts, against 0.09--0.30 on \emph{small}. The static
+diagnostic matching and the allocation counters are timed on their own and are
+not part of these times or of the ms per tick in the tables.
 
 \subsection{Ablation Studies}\label{subsec:ablation}
 \input{tables/ablation}
@@ -299,14 +356,29 @@ fourteen lever and planner intervals of \cref{tab:paired}, four survive the
 Holm correction: dock capacity for both cost models, the window of 10 and
 CBS at 6 robots.
 
-\noindent\textbf{Battery term and candidate pruning show no resolved effect.}
+\noindent\textbf{The battery term shows no resolved effect.}
 Removing the battery factor ($w_{\mathrm{b}}=0$) changes throughput by less
 than 0.5 for both cost models ($+0.01$ for \sname, $-0.43$ for Hungarian),
 also in the battery stress (\cref{tab:battery}); with $\theta_{\mathrm{lo}}=0.2$ and the feasibility
-check of \cref{eq:feasible}, charging decisions are rarely marginal. Pricing
-3 or 12 candidates instead of 6 changes throughput by at most 0.13. With
-five seeds these four comparisons have seed-paired intervals of
-$\pm3.1$ to $\pm4.5\%$, so they exclude large effects only.
+check of \cref{eq:feasible}, charging decisions are rarely marginal. With
+five seeds these two comparisons have seed-paired intervals of
+$\pm4.0$ to $\pm4.5\%$, so they exclude large effects only.
+
+\input{tables/kabl}
+\noindent\textbf{The candidate count $K$.}
+Pricing 3 or 12 candidates instead of 6 changes throughput by at most 0.13 on
+the warehouse with 32 robots, but that cell cannot exercise $K$: its pool holds a
+single task in 81\% of the calls, and one task is the same candidate for every $K$.
+So $K=6$ cannot be read as a bound on what the cost sees from that cell. We therefore
+repeated the ablation, pre-registered, in two cells where the
+pool is larger, the warehouse with 8 robots and \emph{narrow} with 16, on 30 seeds
+(\cref{tab:kabl}). There $K$ does bind: the cost prices 3.4, 6.6 and 8.9 pairs per
+allocation call at $K=3$, 6 and 12 in the first cell and 4.1, 6.0 and 7.1 in the
+second, and the run of every seed differs from its run at $K=6$. Throughput does
+not follow: the means differ from $K=6$ by at most 0.8\%, the intervals are
+$\pm0.4$ to $\pm1.3\%$ wide, and Holm's procedure over the four comparisons
+rejects none. So we found no effect of $K$ in these cells, with those bounds, and
+we do not list $K$ among the choices that limit the cost.
 
 \subsection{Hold Cascade and Priorities}\label{subsec:cascade}
 \input{tables/cascade}
@@ -321,19 +393,47 @@ conflicts are executed in 27, 30, 10 and 27 of the 30 runs per setting.
 Re-planning the group with the failing robot promoted to the front, up to
 three times, before holding without repair is no substitute: it avoids
 conflicts on \emph{small} but not on the larger layouts (24, 30 and 16 of 30
-runs). The alternatives buy little throughput: all three fallbacks deliver
-within 0.63 tasks per 100 ticks of each other in every setting. Paired by
-seed, dropping the repair gains $+2.0\pm1.2\%$ with capacity-4 docks, the
-one difference among the eight that survives the Holm correction; restarts
-gain $+1.7\pm1.3\%$ there and $+1.0\pm1.0\%$ on \emph{narrow} at the
-nominal level, and the other five intervals contain zero. The cascade's
-re-plans thus cost up to about 2\% of throughput where holds are frequent
-and nothing resolved elsewhere. Static priorities (status rank,
+runs). The three fallbacks deliver
+within 0.63 tasks per 100 ticks of each other in every setting, but the
+throughput of variants that execute conflicts is not comparable with that of a
+conflict-free variant, because robots pass through each other. With capacity-4
+docks, \emph{no repair} executes 15.0 conflicts per run on average and up to 41,
+and \emph{restarts} 15.2 and up to 39 (\cref{tab:cascade}). Paired by seed,
+dropping the repair delivers $+2.0\pm1.2\%$ more with capacity-4 docks, the one
+difference among the eight that survives the Holm correction; restarts deliver
+$+1.7\pm1.3\%$ there and $+1.0\pm1.0\%$ on \emph{narrow} at the nominal level, and the other five
+intervals contain zero. These differences do not measure a cost of the cascade's
+re-plans: the reference variants execute conflicts, so their plans are not
+feasible, and the differences show what executing conflicts is worth to
+throughput. We have no conflict-free fallback that does not re-plan
+(\cref{sec:disc}).
+
+\input{tables/split}
+Static priorities (status rank,
 then id) keep every step conflict-free, because the cascade is still on,
 but the fleet gridlocks: 30 of 30 runs stall on the warehouse, with and
 without capacity-4 docks, and on \emph{narrow}, and 23 of 30 on
-\emph{small}, with thousands of holds per run. Planning held and blocking
-robots first is what keeps the loop live.
+\emph{small}, with thousands of holds per run. That arm switches off three
+things at once: the blocking-first ordering, the held-first ordering and the
+admission of held parking robots to the first planning group.
+\Cref{tab:split} separates them on the same settings and seeds, in a
+pre-registered sweep; the arm \emph{held first only} keeps the held-first ordering
+together with the admission of held parking robots, the arm \emph{blocking first only}
+the blocking-first ordering. Held-first ordering alone keeps every
+run live (no stalled run in 120) and stays 0.7--3.0\% below the dynamic ordering;
+the interval excludes zero in three of the four settings. Blocking-first
+ordering alone stalls 16 of 120 runs, 9 and 5 of them in the two warehouse
+settings, and is up to 21.6\% below the dynamic ordering. Both single-mechanism arms are far
+ahead of static priorities in every setting, and Holm's procedure over the eight
+comparisons rejects all of them. The pre-registered decision rule, applied
+mechanically, returns that the advantage needs the combination in the two
+warehouse settings, that blocking-first ordering accounts for it on
+\emph{small}, and that either suffices on \emph{narrow}. That rule asks for an
+interval against the dynamic ordering that contains zero, which held-first
+ordering alone misses by 2--3\% on the warehouse although it avoids every stall.
+We therefore credit the dynamic ordering as a whole: held-first ordering is
+what keeps the loop live, and the full ordering recovers the last few percent
+of throughput.
 
 \subsection{Token-Passing Baselines}\label{subsec:baselines}
 \input{tables/baselines}
@@ -348,7 +448,10 @@ reached the pickup, if it gets there earlier; the displaced robot then
 looks for a task itself. Our implementation keeps the paper's rules and adds
 what our setting needs: the pickup dwell, the feasibility test
 \cref{eq:feasible} with free-space distances, charger slots as endpoints, and
-a return to the home bay for robots without a task (\cref{app:repro}).
+a return to the home bay for robots without a task (\cref{app:repro}). Their
+goal test at a pickup asks only that the pickup stay free for the loading dwell,
+whereas the rolling-horizon loop needs it free until the horizon
+(\cref{subsec:planning}); this can only delay the loop's own arrivals.
 Unlike Ma et al.'s instances, our pickups lie in the aisles, so our layouts
 are not well-formed for TP and its completeness argument does not apply; in
 the 300 TP and TPTS runs of \cref{tab:baselines} no step conflicts, no run
@@ -381,7 +484,9 @@ close. The gap to TPTS therefore measures dock capacity, not our allocation
 or planner; and it is an observation about these adapted instances, not
 about TP and TPTS on the well-formed instances they were designed for. TPTS pays for its swaps with 23{,}000--93{,}000 A*
 calls per run, against 4{,}600--9{,}200 for the rolling-horizon loop at its
-default dock capacity.
+default dock capacity; calls are not equal units, and in node expansions TPTS
+needs 0.79--3.21 million per run against 0.18--0.56 million for the loop, which
+is 3.3--6.2 times the expansions of Hungarian assignment.
 
 \input{tables/tpfree}
 The rule for idle robots matters for TPTS and not for TP
@@ -431,8 +536,10 @@ identical treatments.
 In the first three regimes the mean differences between \sname\ and
 Hungarian or greedy assignment are at most 1.3\% in throughput and 0.6\% in
 service time, and none of \sname's twelve intervals excludes zero; the
-tightest ones, under the long empty trips, exclude effects above 0.5\%, but
-there the two costs rarely differ.
+tightest ones, under the long empty trips, exclude service-time effects above 0.5\%.
+Throughput there is set by the last arrival: on the same seed the four methods finish
+within 2 to 31 ticks of each other, so its intervals are tight by construction, and we
+quote service time only. The two costs also rarely differ there.
 The only intervals in these regimes that exclude zero belong to the
 congestion proxy and point both ways ($+1.7\pm1.4\%$ throughput on one-lane
 aisles, $-1.5\pm1.3\%$ throughput and $+0.6\pm0.5\%$ service time under
@@ -445,7 +552,11 @@ triple drain every method strands robots (586--641 depletion events over
 $+23\pm18\%$ and $+24\pm21\%$ throughput against Hungarian, but service
 time does not move ($0.0\pm2.2\%$) and throughput, being deliveries over the
 time to the last delivery or the stall, mostly reflects fewer stalled runs
-(10 for \sname, 16 for Hungarian). Static greedy assignment, which also
+(10 for \sname, 16 for Hungarian). A stalled run has delivered 193 (Hungarian) or 197
+(\sname) of its 200 tasks on average when it stops, and the 1{,}001 ticks of the
+stall detector are part of its makespan. Without that tail, mean throughput is
+10.01 for Hungarian and 10.48 for \sname, a difference of $+4.7\%$, against $+15.0\%$
+for the same means with the tail. Static greedy assignment, which also
 matches robots to charger slots greedily, shows a comparable, unresolved $+20.4\pm22.4\%$ against Hungarian (11 stalled runs),
 and against greedy assignment neither path-aware interval excludes zero
 ($+12.5\pm17.2\%$ for \sname, $+9.7\pm16.2\%$ for the proxy). We do not
@@ -455,5 +566,50 @@ matching often, with
 the same caveat that it is not an equivalence test. These regimes still use
 the pickup-leg cost and the dock-capacity gate; they do not test a
 full-trip, reservation-aware score such as that of \citet{hirayama2026detour}
-or fleets of the size used by \citet{zhang2025flow} and
+or fleets of the size used by \citet{zhang2026flow} and
 \citet{gaber2026grand}.
+
+\subsection{A Regime Without Event-Triggered Epochs}\label{subsec:nondeg}
+\input{tables/nondeg}
+
+The counters of \cref{tab:diagnostic} say that most allocation calls of the main
+study are degenerate, and the ablation of \cref{subsec:ablation} gave a hint:
+without event-triggered epochs, \sname\ was above Hungarian by
+$+3.3\pm3.0\%$ in throughput (five seeds, nominal, not corrected for the
+fourteen comparisons of \cref{tab:paired}). An event-triggered epoch starts
+whenever a robot becomes idle while tasks are pending, which hands the
+allocation one idle robot at a time. We tested the hint on 30 seeds in the
+warehouse and the console layout with 32 robots under batch load, for all four
+cost models, with a reference arm that keeps event epochs on and an optional
+arm with $\kappa_{\mathrm{d}}=4$ (\cref{tab:nondeg}). \textbf{We chose this regime after seeing the hint, so the test is
+confirmatory of a post-hoc observation, not blind.} Hypotheses, configurations, tests and decision rules
+were committed in \path{paper/experiments/PREREG_v2.md} (commit
+\texttt{f35437f}) before any of these runs existed, and the first five seeds of the warehouse
+cell reproduce the earlier ablation records exactly.
+
+Without event epochs the allocation is a real assignment problem much more often:
+56--59\% of the calls have at least two robots and two tasks, against 14--17\% with
+event epochs, and \sname\ changes the matching in 21\% and 22\% of the calls
+in the two cells. The primary comparison, \sname\ against Hungarian in
+throughput, gives $+0.4\pm1.1\%$ on the warehouse ($p=0.43$) and $+0.6\pm1.5\%$ on
+the console ($p=0.42$). Holm's procedure over these two rejects neither, and the
+hint does not replicate. The reference arm with event epochs gives $+1.1\pm1.1\%$
+($p=0.053$) and $+0.1\pm1.5\%$. The difference between the effects without and with event epochs is $-0.7\pm1.5\%$ and
+$+0.5\pm1.6\%$, so we cannot tell that the switch changes the effect of the
+coupling. Greedy and Hungarian assignment agree in 74--90\% of the calls here,
+and greedy differs from Hungarian by $0.0\pm0.8\%$ and $+0.2\pm1.0\%$:
+greedy assignment is not measurably worse than optimal assignment also in a regime where
+a quarter of the calls or more are decided differently. With the looser dock gate ($\kappa_{\mathrm{d}}=4$)
+\sname\ is $+1.5\pm1.5\%$ and $+1.3\pm1.4\%$ above Hungarian ($p=0.055$ and
+$0.077$), again not rejected. Among the 46 secondary comparisons one survives Holm's
+procedure: the service time of \sname\ against greedy assignment with $\kappa_{\mathrm{d}}=4$ on the
+warehouse, $-1.2\pm0.6\%$. Four more exclude zero at the nominal level only. We do not
+build a claim on a single secondary service-time difference of an optional arm. No run of any
+arm had an executed conflict, an illegal move, a stall or a depletion.
+
+The null result therefore also holds where about half of the calls are real
+assignment problems, with half-widths of 1.1 and 1.5\% on the primary comparisons. That
+weakens the explanation by degenerate calls alone: the inertness of the
+pickup-leg cost is not only an artefact of how few calls it can change. It is still
+not an equivalence test, and it still concerns the pickup-leg cost under the
+dock-capacity gate.

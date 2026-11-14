@@ -24,14 +24,15 @@
  * committed records like any other field; they are not reproducible to the
  * digit on another host, which the paper states.
  */
+import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { DEFAULT_BATTERY, DEFAULT_CONFIG, INFEASIBLE_OFFSET, POOL_FACTOR, POOL_MIN, chargerSlots, freeCellCount, loadLayout } from '../src/fms/index'
 import { holm, tQuantileTwoSided, tTwoSidedP } from './stats'
 import { TIMING } from './check-results'
 import { SCHEMA_VERSION } from './schema'
-import { type Paired, type Row, type Run, buildPaperData, paired, readCsv, readRuns, timingOf } from './paper-data'
-import { analyseV2 } from './analyze-v2'
+import { EPOCH_ROWS, type Paired, type Row, type Run, buildPaperData, conflictsMax, conflictsPerRun, epochOf, paired, readCsv, readRuns, timingOf } from './paper-data'
+import { analyseV2, type Contrast } from './analyze-v2'
 
 const ROOT = process.cwd()
 const PAPER = join(ROOT, 'paper/arxiv')
@@ -108,6 +109,7 @@ const R_ = (s: string) => runsOf.get(s) as Run[]
 const summary = new Map<string, Row[]>(SWEEPS.map((s) => [s, readCsv(`${s}_summary.csv`)]))
 // One meta file: all ten sweeps were written by one run of scripts/regenerate.sh.
 const meta = JSON.parse(readFileSync(join(RESULTS, 'bench-meta.json'), 'utf8')) as {
+  wallSeconds: number
   node: string
   cpu: string
   commit: string
@@ -413,6 +415,7 @@ const diag = (rs: Run[]) => ({
 const diagCells = CELLS.map((c) => diag(mainSel(c[0], c[1], c[2], 'pact')))
 const diagCellsProxy = CELLS.map((c) => diag(mainSel(c[0], c[1], c[2], 'pact-proxy')))
 const diagReg = (reg: string) => diag(byVariant('coupling', `${reg}/pact`))
+const abs2 = (c: Contrast) => c.holmReject === false
 const rng0 = (xs: number[]) => `${f0(Math.min(...xs))}--${f0(Math.max(...xs))}`
 const rng1 = (xs: number[]) => `${f1(Math.min(...xs))}--${f1(Math.max(...xs))}`
 const cellMatch = rng0(diagCells.map((x) => x.match))
@@ -421,6 +424,69 @@ const cellDiffer = rng0(diagCells.map((x) => x.differ))
 const cellGap = rng1(diagCells.map((x) => x.gap))
 const REGIMES = ['narrow-aisles', 'hotspot', 'long-trips', 'saturated-chargers']
 const regMatch = REGIMES.map((x) => diagReg(x).match)
+
+// Allocation shape (schema 2 counters) of the PACT runs of the twelve cells.
+const shapeOf = (rs: Run[]) => ({
+  nd: (100 * sum(rs, 'allocNondegenerate')) / sum(rs, 'allocCalls'),
+  geq: (100 * sum(rs, 'allocGreedyEqHungarian')) / sum(rs, 'allocCalls'),
+  m1: (100 * sum(rs, 'allocM1')) / sum(rs, 'allocCalls'),
+  pool1: (100 * sum(rs, 'allocPool1')) / sum(rs, 'allocCalls'),
+})
+const shapeCells = CELLS.map((c) => shapeOf(mainSel(c[0], c[1], c[2], 'pact')))
+const FLEET_BIG = Math.max(...CELLS.map((c) => c[2]))
+const FLEET_SMALL = Math.min(...CELLS.map((c) => c[2]))
+const ndRange = rng0(shapeCells.map((x) => x.nd))
+const geqRange = rng0(shapeCells.map((x) => x.geq))
+const pool1Big = rng0(shapeCells.filter((_, i) => CELLS[i][2] === FLEET_BIG).map((x) => x.pool1))
+const m1Small = rng0(shapeCells.filter((_, i) => CELLS[i][2] === FLEET_SMALL).map((x) => x.m1))
+const w32pact = mainSel('warehouse', 'inf', 32, 'pact')
+const w32chg = sum(w32pact, 'cplAllocsMatchDiffer')
+const w32chgNd = sum(w32pact, 'cplAllocsMatchDifferNondegenerate')
+const ablPool1 = (100 * sum(ablRuns('pact'), 'allocPool1')) / sum(ablRuns('pact'), 'allocCalls')
+const hintP = paired(ablRuns('pact-noEvent'), ablRuns('hungarian-noEvent'), 'throughput')
+
+// The three v2 sweeps (paper/experiments/PREREG_v2.md, analysis/v2.json).
+const V2A = analyseV2()
+const E2CELLS = ['warehouse-32-batch', 'console-32-batch']
+const e2find = (cell: string, arm: string, a: string, b: string, metric = 'throughput'): Contrast => {
+  const hit = V2A.e2.contrasts.filter((c) => c.label === `${cell}, ${arm}: ${a} vs ${b}` && c.metric === metric)
+  if (hit.length !== 1) throw new Error(`v2 e2 contrast ${cell} ${arm} ${a} ${b} ${metric}: ${hit.length}`)
+  return hit[0]
+}
+const e2arm = (v: string) => v.split('/')[1]
+const e2ndNoEv = rng0(V2A.e2.cells.filter((c) => e2arm(c.variant) === 'noevent').map((c) => c.nondegenerateShare))
+const e2ndEv = rng0(V2A.e2.cells.filter((c) => e2arm(c.variant) === 'event').map((c) => c.nondegenerateShare))
+const e2geqNoEv = rng0(V2A.e2.cells.filter((c) => e2arm(c.variant) === 'noevent').map((c) => c.greedyEqHungarianShare))
+const P2 = E2CELLS.map((c) => e2find(c, 'noevent', 'pact', 'hungarian'))
+const P2ref = E2CELLS.map((c) => e2find(c, 'event', 'pact', 'hungarian'))
+const P2gr = E2CELLS.map((c) => e2find(c, 'noevent', 'greedy', 'hungarian'))
+const P2d4 = E2CELLS.map((c) => e2find(c, 'noevent-dock4', 'pact', 'hungarian'))
+const P2chg = E2CELLS.map((c) => {
+  const st = V2A.e2.cells.find((x) => x.variant === `${c}/noevent/pact`) as (typeof V2A.e2.cells)[number]
+  return (100 * st.matchDiffer) / st.cplAllocs
+})
+const e2secondary = V2A.e2.contrasts.filter((c) => !c.family.startsWith('E2 primary'))
+const e2secHolm = e2secondary.filter((c) => c.holmReject === true)
+const e2secNominal = e2secondary.filter((c) => c.holmReject !== true && (c.lo > 0 || c.hi < 0))
+const V2FLEET = maxOf(readRuns('nondegenerate.json'), 'fleetSize')
+const V2SEEDS = meta.seeds.nondegenerate[1]
+const v2ci = (c: { mean: number; half: number }) => R`${sgn(c.mean)}\pm${f1(c.half)}`
+const e3c = (cell: string, K: number) => V2A.e3.cells.find((x) => x.variant === `${cell}/pact-K${K}`) as (typeof V2A.e3.cells)[number]
+const E3CELLS = ['warehouse-8-batch', 'narrow-16-batch']
+const e3prim = V2A.e3.contrasts.filter((c) => c.metric === 'throughput')
+const e4c = (id: string) => V2A.e4.contrasts.find((c) => c.id === id) as Contrast
+const E4SET = ['warehouse-32', 'warehouse-32-dock4', 'small-8', 'narrow-16']
+const e4stall = (arm: string) => V2A.e4.cells.filter((c) => c.variant.endsWith(`/${arm}`)).map((c) => c.stalledRuns)
+const e4heldDyn = E4SET.map((x) => Math.abs(e4c(`S4 ${x} held-dynamic`).mean))
+const e4blockDyn = E4SET.map((x) => Math.abs(e4c(`S4 ${x} blocking-dynamic`).mean))
+const e4heldExcl = E4SET.filter((x) => e4c(`S4 ${x} held-dynamic`).lo > 0 || e4c(`S4 ${x} held-dynamic`).hi < 0).length
+const v2Steps = V2.reduce((a, x) => a + sum(R_(x), 'audit_robotTicks'), 0)
+// Epoch latency (timing/summary.json : epochConfigs): PP rows and CBS rows of the table.
+const epochRows = EPOCH_ROWS.map(([sw, l, f, v, label]) => ({ label, e: epochOf(sw, l, f, v) }))
+const epPP = epochRows.filter((x) => x.label.startsWith('PP')).map((x) => x.e)
+const epCBS = epochRows.filter((x) => x.label.startsWith('CBS')).map((x) => x.e)
+const lo = (xs: number[]) => Math.min(...xs)
+const hi = (xs: number[]) => Math.max(...xs)
 
 // Token-passing variants (tpfree sweep) against the home variant and the loop at one robot per dock.
 const tf = (s: string, v: string) => (v === 'tp' || v === 'tpts' ? base(s, v) : byVariant('tpfree', `${s}/${v}`))
@@ -489,12 +555,12 @@ function specs(): FileSpec[] {
     claims: [
       R`in ${ic(firstAndStress.length)} runs with ${steps} million`,
       R`on ${word(new Set(firstAndStress.map((r) => r.layout)).size)} synthetic layouts`,
-      R`in all ${word(CELLS.length)} layout/fleet/load cells`,
       R`with doubled drain the charging policy strands robots in two thirds of runs`,
-      R`within ${f1(maxSpread)}\% of each other`,
-      R`changes the matching in only ${cellMatch}\% of the allocations, since`,
-      R`beats our loop by ${intMore}\% in every setting`,
-      R`ranges from ${faiBelow}\% below to ${faiAbove}\% above by setting`,
+      R`Four allocation cost models stay within ${f1(maxSpread)}\% in mean throughput in all ${word(CELLS.length)} cells`,
+      R`changes the matching in only ${cellMatch}\% of the allocations. Three causes`,
+      R`only ${ndRange}\% of the calls pose a real assignment problem`,
+      R`(chosen after a ${word(meta.seeds.ablation[1])}-seed hint), ${V2SEEDS} seeds in two ${V2FLEET}-robot cells again show no difference: $${sgn(P2[0].mean)}\%$ and $${sgn(P2[1].mean)}\%$ for \sname\ over Hungarian`,
+      R`beats our loop by ${intMore}\%`,
     ],
     structural: [],
   })
@@ -509,10 +575,19 @@ function specs(): FileSpec[] {
     claims: [
       R`${first.length} seeded runs on ${word(new Set(first.map((r) => r.layout)).size)} layouts`,
       R`in every one of ${word(CELLS.length)} layout/fleet/load cells the ${word(METHODS.length)} allocation cost models`,
-      R`With ${word(meta.seeds.main[1])} seeds the interval`,
+      R`With ${word(meta.seeds.main[1])} seeds in the main study the interval`,
       R`a second round of ${ic(secondRuns)} runs adds a ${meta.seeds.stress[1]}-seed safety stress`,
       R`baselines under ${word(3)} rules for idle robots`,
-      R`in only ${cellMatch}\% of the allocations, because ${cellBeyond}\% of the priced pickups lie beyond`,
+      R`changes the matching in only ${cellMatch}\% of the allocations, and three causes act together`,
+      R`First, ${cellBeyond}\% of the priced pickups lie beyond the planning`,
+      R`a third round of ${ic(v2Runs)} runs, pre-registered in the`,
+      R`in most calls with ${FLEET_BIG} robots, and fleets of ${FLEET_SMALL} rarely have two idle robots`,
+      R`Only ${ndRange}\% of the calls have at least two robots and two tasks, and in ${geqRange}\% of the calls greedy and Hungarian assignment return the same matching`,
+      R`in the warehouse with ${FLEET_BIG} robots under batch load, ${w32chg - w32chgNd} of its ${w32chg} matching changes fall in calls with a single robot or task`,
+      R`in which ${e2ndNoEv}\% of the calls in two ${V2FLEET}-robot cells are real`,
+      R`($${ci(hintP)}\%$ for the reservation-aware cost, ${word(meta.seeds.ablation[1])} seeds, nominal)`,
+      R`On ${V2SEEDS} seeds the reservation-aware cost differs from Hungarian assignment by $${ci(P2[0])}\%$ and $${ci(P2[1])}\%$ in throughput`,
+      R`the third round adds ${mil(v2Steps)} million robot-steps`,
       R`the matching changes in ${rng0(regMatch)}\% of the allocations`,
       R`delivers ${intMore}\% more than our loop in every setting`,
       R`ranges from ${faiBelow}\% below to ${faiAbove}\% above across the ${word(faiRh.length)} settings`,
@@ -532,6 +607,10 @@ function specs(): FileSpec[] {
     structural: [],
   })
   assert(new Set(first.map((r) => r.layout)).size === 3, 'first round covers three layouts')
+  assert(shapeCells.every((x, i) => (CELLS[i][2] === FLEET_BIG ? x.pool1 > 50 : true) && (CELLS[i][2] === FLEET_SMALL ? x.m1 > 50 : true)), 'single task in most calls with 32 robots, single robot in most calls with 8')
+  assert(abs2(P2[0]) && abs2(P2[1]), 'E2 primary: neither rejected by Holm')
+  assert(V2A.e2.ablationConsistency.every((x) => x.identical) && V2A.e2.ablationConsistency.every((x) => x.seeds === meta.seeds.main[1]), 'E2 seeds 1-5 equal the v1 ablation records')
+  assert(v2Steps > 0 && V2.every((x) => sum(R_(x), 'audit_vertexConflicts') + sum(R_(x), 'audit_swapConflicts') + sum(R_(x), 'audit_illegalMoves') === 0), 'v2 sweeps: no executed conflict, no illegal move')
 
   out.push({ file: 'sections/2_related_works.tex', mode: 'all', claims: [], structural: [] })
 
@@ -568,19 +647,30 @@ function specs(): FileSpec[] {
       R`fleets of at most ${maxOf(first, 'fleetSize')} robots`,
       R`runs at ${f2(pms(scal(4, 'hungarian')))}--${f2(pms(scal(48, 'pact')))} ms of planner time per simulated tick for 4 to 48 robots`,
       R`($+${f0(100 * (n(scal(48, 'pact'), 'astarCalls_mean') / n(scal(48, 'hungarian'), 'astarCalls_mean') - 1))}\%$ at 48 robots)`,
-      R`costs ${f2(Math.min(...[4, 6, 8].map((fl) => pms(plan(fl, 'cbs')))))}--${f2(Math.max(...[4, 6, 8].map((fl) => pms(plan(fl, 'cbs')))))} ms/tick`,
+      R`against ${f2(Math.min(...[4, 6, 8].map((fl) => pms(plan(fl, 'cbs')))))}--${f2(Math.max(...[4, 6, 8].map((fl) => pms(plan(fl, 'cbs')))))} ms on the small layout`,
+      R`prioritized planning stays below ${f0(Math.ceil(hi(epPP.map((e) => e.maxEpoch.max))))} ms in every epoch we timed, but one windowed CBS epoch on the large layouts took up to ${f0(hi(epCBS.map((e) => e.maxEpoch.median)))} ms in the median repeat`,
+      R`CBS averages ${f1(lo(epCBS.map((e) => e.msPerTick.median)))}--${f1(hi(epCBS.map((e) => e.msPerTick.median)))} ms per tick there`,
+      R`First, the window: most pickups (${cellBeyond}\%) lie beyond it`,
+      R`Together they leave only ${ndRange}\% of the calls as real assignment problems with at least two robots and two tasks in the twelve cells of the main study, and in ${geqRange}\% of the calls greedy and Hungarian assignment return the same matching`,
+      R`in the warehouse with ${FLEET_BIG} robots under batch load, ${w32chg - w32chgNd} of its ${w32chg} matching changes are of that kind`,
+      R`a single task in most calls with ${FLEET_BIG} robots`,
+      R`${e2ndNoEv}\% of its calls are real assignment problems in the two cells`,
+      R`with half-widths of ${f1(P2[0].half)} and ${f1(P2[1].half)}\% on the primary comparison`,
+      R`Held-first ordering alone is ${f1(lo(e4heldDyn))}--${f1(hi(e4heldDyn))}\% short of the full ordering in throughput`,
+      R`about ${f0(worstBatch)}\% in the noisiest batch cell`,
       R`gridlocks in ${staticStalled.reduce((a, b) => a + b, 0)} of ${CASC.length * 30} runs`,
       R`from ${DEFAULT_CONFIG.dockCapacity} to 2 robots per dock costs a fifth of the throughput, and loosening it to 4 gains ${f0(pDock4.mean)}\% at more than twice the`,
-      R`the second round uses ${meta.seeds.cascade[1]} to ${meta.seeds.stress[1]} seeds`,
+      R`the second and third rounds use ${meta.seeds.cascade[1]} to ${meta.seeds.stress[1]} seeds`,
       R`groups of up to ${maxOf(stressCbs, 'fleetSize')} robots`,
       R`gains only ${f0(Math.min(...splitBig.map((x) => Math.abs(x.batch.mean))))}--${f0(Math.max(...splitBig.map((x) => Math.abs(x.batch.mean))))}\% makespan there under batch load`,
-      R`for ${cellDiffer}\% of the priced pairs, by ${cellGap} ticks on average, and changes the matching in ${cellMatch}\% of the allocations; most pickups (${cellBeyond}\%)`,
+      R`differs from the free-space distance for ${cellDiffer}\% of the priced pairs, by ${cellGap} ticks on average, and changes the matching in ${cellMatch}\% of the allocations`,
       R`(${f0(diagReg('hotspot').match)}\% of the allocations), and there too every interval`,
       R`(medians of ${word(timing.validRepeats.length)} repeats`,
       ...limitationClaims(),
     ],
     structural: [R`A^{\mathcal{B}}(p^r,p_\tau,t_0)`, '4-connected', '2-wide aisles'],
   })
+  assert(cellBeyond.length > 0 && e4heldDyn.length === 4, 'discussion facts available')
   assert(Math.abs(pDock2P.mean) > 18 && Math.abs(pDock2H.mean) < 24, 'dock capacity 2 costs about a fifth')
   assert(mean(casc('warehouse-32-dock4', 'cascade'), 'holdEvents') > 2 * mean(casc('warehouse-32', 'cascade'), 'holdEvents'), 'capacity 4 needs more than twice the holds')
   assert(pms(scal(48, 'pact')) < 1, 'planner stays below 1 ms per tick')
@@ -600,6 +690,8 @@ function specs(): FileSpec[] {
 more than our loop in every setting`,
       R`it ranged from ${faiBelow}\% below to ${faiAbove}\% above across the ${word(faiRh.length)} settings`,
       R`in only ${cellMatch}\% of the allocations of the main study; only under hotspot demand did it reach ${f0(diagReg('hotspot').match)}\%`,
+      R`which leave only ${ndRange}\% of the calls as real assignment problems`,
+      R`${e2ndNoEv}\% of the calls are real assignment problems in two ${V2FLEET}-robot cells, and the coupled cost still shows no measurable gain on ${V2SEEDS} seeds`,
     ],
     structural: [],
   })
@@ -660,10 +752,13 @@ function experiments(): FileSpec {
     R`where 80\% of pickups are drawn from the 10\% of pickup points`,
     R`drawn only from the 25\% of pickup points`,
     R`Defaults are $w=${DEFAULT_CONFIG.window}$, $h=${DEFAULT_CONFIG.period}$, $K=${DEFAULT_CONFIG.candidateK}$, $\kappa_{\mathrm{d}}=${DEFAULT_CONFIG.dockCapacity}$, $\kappa_{\mathrm{p}}=${DEFAULT_CONFIG.pickupCapacity}$, $w_{\mathrm{b}}=${DEFAULT_CONFIG.wBattery}$`,
-    R`delivered tasks per 100 ticks; service`,
+    R`Throughput is delivered tasks per 100 ticks of makespan`,
     R`for ${DEFAULT_CONFIG.stallLimit} consecutive ticks`,
     R`at ${ic(DEFAULT_CONFIG.maxTicks)} ticks`,
-    R`use seeds ${meta.seeds.main[0]}--${meta.seeds.main[1]}, the stress sweep seeds ${meta.seeds.stress[0]}--${meta.seeds.stress[1]} and the other second-round sweeps seeds ${meta.seeds.cascade[0]}--${meta.seeds.cascade[1]}`,
+    R`use seeds ${meta.seeds.main[0]}--${meta.seeds.main[1]}, the stress sweep seeds ${meta.seeds.stress[0]}--${meta.seeds.stress[1]} and the other sweeps seeds ${meta.seeds.cascade[0]}--${meta.seeds.cascade[1]}`,
+    R`The timing was run at commit \texttt{${timing.commit}}`,
+    R`the third round (${ic(v2Runs)} runs)`,
+    R`\path{paper/experiments/PREREG_v2.md}, which commit \texttt{${V2A.preregistrationCommit}} adds`,
     R`two-sided 95\% Student-$t$ intervals ($n-1$ degrees of freedom`,
     R`Node.js~${String(meta.node).replace(/^v(\d+)\..*$/, '$1')} on an AMD Ryzen~5 5500GT`,
     R`All ${ic(meta.runs)} runs of this paper were produced at one commit of the repository (\texttt{${meta.commit}}), on ${meta.workers} worker processes`,
@@ -787,7 +882,10 @@ function experiments(): FileSpec {
     R`for ${cellDiffer}\% of the pairs, by ${cellGap} ticks on average against a mean distance of ${rng0(diagCells.map((x) => x.dbar))}, and it changes the matching in ${cellMatch}\% of the allocations`,
     R`differs for ${rng0(diagCellsProxy.map((x) => x.differ))}\% of the pairs and changes the matching in ${rng0(diagCellsProxy.map((x) => x.match))}\% of the allocations`,
     R`at most one allocation in seven`,
-    R`only the $K=${DEFAULT_CONFIG.candidateK}$ tasks nearest`,
+    R`With ${FLEET_BIG} robots the pool holds a single task in ${pool1Big}\% of the calls, and with ${FLEET_SMALL} robots a single robot is eligible in ${m1Small}\%`,
+    R`in the two ${V2FLEET}-robot cells it moves the share of calls with at least two robots and two tasks from ${e2ndEv}\% to ${e2ndNoEv}\%`,
+    R`Taken together, only ${ndRange}\% of the calls in the twelve cells pose a real assignment problem, and in ${geqRange}\% greedy and Hungarian assignment return the same matching`,
+    R`in the warehouse with ${FLEET_BIG} robots under batch load, ${w32chg - w32chgNd} of its ${w32chg} matching changes fall in calls with a single robot or a single task`,
   )
 
   // Planner backend.
@@ -811,6 +909,12 @@ function experiments(): FileSpec {
     R`CBS expands ${f1(Math.min(...splitBig.map((x) => x.expBatch)))} to ${f1(Math.max(...splitBig.map((x) => x.expBatch)))} times as many A* nodes per tick as PP on the larger layouts under batch load`,
   )
   assert(sum(stressCbs, 'cbsFallbacks') - sum(stressCbs, 'cbsBudgetExceeded') === 2, 'two CBS fallbacks are failed searches')
+  const smallSplit = cbsSplit.filter((x) => x.layout === 'small')
+  const listCi = (xs: Paired[]) => xs.map((p, i) => R`$-${f1(Math.abs(p.mean))}\pm${f1(p.half)}${i === xs.length - 1 ? R`\%` : ''}$`).join(', ').replace(/, ([^,]*)$/, ' and $1')
+  assert(smallSplit.length === 3 && smallSplit.every((x) => x.batch.n === 60 && x.poisson.n === 60 && x.batch.mean < 0 && x.poisson.mean < 0), 'CBS on small: 60 pairs per load, gain under both loads')
+  c.push(
+    R`Split by load, with ${smallSplit[0].batch.n} pairs each, the gains are ${listCi(smallSplit.map((x) => x.batch))} under batch load and ${listCi(smallSplit.map((x) => x.poisson))} under the Poisson load`,
+  )
 
   // Scaling.
   const s4 = scal(4, 'hungarian')
@@ -852,7 +956,12 @@ function experiments(): FileSpec {
     R`($h=1$) shows no throughput change (${f1(n(abl('pact-h1'), 'throughput_mean'))}; seed-paired $${ci(pH1)}\%$, an interval too wide to call it none) at $${f1(eptOf(abl('pact-h1')) / eptOf(pactDefault))}\times$ the A* expansions per tick`,
     R`the window of 10 and CBS at 6 robots`,
     R`Of the ${word(leverFamily.length)} lever and planner intervals of \cref{tab:paired}, ${word(leverSurvivors.length)} survive`,
-    R`With ${word(meta.seeds.ablation[1])} seeds these ${word(4)} comparisons have seed-paired intervals of $\pm${f1(Math.min(...[pNoBatP, pNoBatH, pK3, pK12].map((x) => x.half)))}$ to $\pm${f1(Math.max(...[pNoBatP, pNoBatH, pK3, pK12].map((x) => x.half)))}\%$`,
+    R`With ${word(meta.seeds.ablation[1])} seeds these ${word(2)} comparisons have seed-paired intervals of $\pm${f1(Math.min(...[pNoBatP, pNoBatH].map((x) => x.half)))}$ to $\pm${f1(Math.max(...[pNoBatP, pNoBatH].map((x) => x.half)))}\%$`,
+    R`on the warehouse with ${FLEET_BIG} robots, but that cell cannot exercise`,
+    R`its pool holds a single task in ${f0(ablPool1)}\% of the calls`,
+    R`the warehouse with ${E3CELLS[0].match(/\d+/)?.[0]} robots and \emph{narrow} with ${E3CELLS[1].match(/\d+/)?.[0]}, on ${V2SEEDS} seeds`,
+    R`the cost prices ${[3, 6, 12].map((K) => f1(e3c(E3CELLS[0], K).cplPairsPerCall)).join(', ').replace(/, ([^,]*)$/, ' and $1')} pairs per allocation call at $K=3$, 6 and 12 in the first cell and ${[3, 6, 12].map((K) => f1(e3c(E3CELLS[1], K).cplPairsPerCall)).join(', ').replace(/, ([^,]*)$/, ' and $1')} in the second`,
+    R`the means differ from $K=6$ by at most ${f1(hi(e3prim.map((c) => Math.abs(c.mean))))}\%, the intervals are $\pm${f1(lo(e3prim.map((c) => c.half)))}$ to $\pm${f1(hi(e3prim.map((c) => c.half)))}\%$ wide, and Holm's procedure over the ${word(e3prim.length)} comparisons`,
     R`costs ${f0(Math.min(...noEv.map(Math.abs)))}--${f0(Math.max(...noEv.map(Math.abs)))}\% throughput and adds ${f0(Math.min(...noEvWaits))}--${f0(Math.max(...noEvWaits))} wait actions`,
     R`($${ci(pNoEvH)}\%$, against $${ci(pNoEvP)}\%$ for \sname)`,
     R`($w_{\mathrm{b}}=0$) changes throughput by less than 0.5 for both cost models ($${s2(noBat[0])}$ for \sname, $${s2(noBat[1])}$ for Hungarian)`,
@@ -870,15 +979,23 @@ function experiments(): FileSpec {
   assert(cascFamily.filter((_, i) => cascHolm[i]).map(([k]) => k).join() === 'warehouse-32-dock4/none', 'Holm over the eight fallback comparisons keeps no-repair at capacity 4 only')
   assert(cascFamily.filter(([, x]) => excludesZero(x)).map(([k]) => k).join() === 'warehouse-32-dock4/none,warehouse-32-dock4/restart,narrow-16/restart', 'nominal exclusions among the fallback comparisons')
   assert(staticStalled[0] === 30 && staticStalled[1] === 30 && staticStalled[3] === 30, 'static priorities: 30 of 30 on warehouse (both capacities) and narrow')
+  assert(e4stall('held').every((x) => x === 0) && e4heldExcl === 3, 'held first only: no stalled run; interval against dynamic excludes zero in three of four settings')
+  assert(V2A.e4.contrasts.filter((c) => c.family === 'E4 primary (Holm over 8)').every((c) => c.holmReject === true) && V2A.e4.contrasts.filter((c) => c.family === 'E4 primary (Holm over 8)').length === 8, 'E4: all eight primary comparisons rejected by Holm')
+  assert(V2A.e4.rules.map((x) => x.verdict).join('|') === 'the advantage needs the combination|the advantage needs the combination|blocking-first accounts for the advantage|either mechanism suffices', 'E4 pre-registered rule verdicts as quoted')
+  assert(['warehouse-32', 'warehouse-32-dock4'].every((x) => e4heldDyn[E4SET.indexOf(x)] >= 2 && e4heldDyn[E4SET.indexOf(x)] < 3.1), 'held first only is 2-3 percent below dynamic on the warehouse')
   assert(CASC.every((s) => mean(casc(s, 'static'), 'holdEvents') > 300), 'hundreds to thousands of holds per run with static priorities')
   c.push(
     R`measures both on 30 seeds in four settings, including the capacity-4 docks`,
     R`conflicts are executed in ${none[0]}, ${none[1]}, ${none[2]} and ${none[3]} of the 30 runs per setting`,
     R`(${restart[0]}, ${restart[1]} and ${restart[3]} of 30 runs)`,
     R`within ${up2(cascSpread)} tasks per 100 ticks of each other`,
-    R`dropping the repair gains $${ci(cascPair('warehouse-32-dock4', 'none'))}\%$ with capacity-4 docks, the one difference among the ${word(cascFamily.length)} that survives`,
-    R`gain $${ci(cascPair('warehouse-32-dock4', 'restart'))}\%$ there and $${ci(cascPair('narrow-16', 'restart'))}\%$ on \emph{narrow} at the nominal level, and the other ${word(cascFamily.filter(([, x]) => !excludesZero(x)).length)} intervals contain zero`,
-    R`up to about ${f0(cascPair('warehouse-32-dock4', 'none').mean)}\% of throughput`,
+    R`dropping the repair delivers $${ci(cascPair('warehouse-32-dock4', 'none'))}\%$ more with capacity-4 docks, the one difference among the ${word(cascFamily.length)} that survives`,
+    R`restarts deliver $${ci(cascPair('warehouse-32-dock4', 'restart'))}\%$ there and $${ci(cascPair('narrow-16', 'restart'))}\%$ on \emph{narrow} at the nominal level, and the other ${word(cascFamily.filter(([, x]) => !excludesZero(x)).length)} intervals contain zero`,
+    R`With capacity-4 docks, \emph{no repair} executes ${f1(conflictsPerRun(casc('warehouse-32-dock4', 'none')))} conflicts per run on average and up to ${conflictsMax(casc('warehouse-32-dock4', 'none'))}, and \emph{restarts} ${f1(conflictsPerRun(casc('warehouse-32-dock4', 'restart')))} and up to ${conflictsMax(casc('warehouse-32-dock4', 'restart'))}`,
+    R`Held-first ordering alone keeps every run live (no stalled run in ${E4SET.length * 30}) and stays ${f1(lo(e4heldDyn))}--${f1(hi(e4heldDyn))}\% below the dynamic ordering; the interval excludes zero in three of the four settings`,
+    R`alone stalls ${e4stall('blocking').reduce((a, b) => a + b, 0)} of ${E4SET.length * 30} runs, ${e4stall('blocking')[0]} and ${e4stall('blocking')[1]} of them in the two warehouse settings, and is up to ${f1(hi(e4blockDyn))}\% below the dynamic ordering`,
+    R`which held-first
+ordering alone misses by 2--3\% on the warehouse`,
     R`conflicts on \emph{small} but not on the larger layouts`,
     R`30 of 30 runs stall on the warehouse, with and without capacity-4 docks, and on \emph{narrow}, and ${staticStalled[2]} of 30 on \emph{small}`,
   )
@@ -941,7 +1058,11 @@ capacity remains (TPTS at least ${Math.floor(tptsBehind3)}\% behind)`,
   assert(pactSafe.length === 12 && pactSafe.every((x) => !excludesZero(x.p)), "none of PACT's twelve intervals excludes zero")
   const pactThr = pactSafe.filter((x) => x.k === 'throughput').map((x) => Math.abs(x.p.mean))
   const pactSvc = pactSafe.filter((x) => x.k !== 'throughput').map((x) => Math.abs(x.p.mean))
-  const longBound = Math.max(...pactSafe.filter((x) => x.reg === 'long-trips').map((x) => bound(x.p)))
+  const longBoundSvc = Math.max(...pactSafe.filter((x) => x.reg === 'long-trips' && x.k === 'meanServiceTime').map((x) => bound(x.p)))
+  const ltRuns = METHODS.map((m) => [...coup('long-trips', m)].sort((a, b) => Number(a.seed) - Number(b.seed)))
+  const ltSpread = ltRuns[0].map((_, i) => hi(ltRuns.map((rs) => Number(rs[i].makespan))) - lo(ltRuns.map((rs) => Number(rs[i].makespan))))
+  assert(ltRuns.flat().every((r) => Number(r.deadlocked) === 0 && Number(r.tasksUnfinished) === 0), 'long trips: no stall, every task delivered')
+  const satAdj = (m: string) => mean(coup(SAT, m).map((r) => ({ v: (100 * Number(r.tasksCompleted)) / (Number(r.makespan) - (Number(r.deadlocked) > 0 ? DEFAULT_CONFIG.stallLimit + 1 : 0)) })) as unknown as Run[], 'v')
   const px = (reg: string, b: string, k: string) => (proxyExcl.find((x) => x.reg === reg && x.b === b && x.k === k) as (typeof proxyExcl)[number]).p
   assert(proxyExcl.length === 5, 'five proxy intervals exclude zero in the safe regimes')
   const allSafeExcl = SAFE.flatMap((reg) => [cp(reg, 'greedy', 'hungarian', 'throughput'), cp(reg, 'greedy', 'hungarian', 'meanServiceTime')]).filter(excludesZero).length
@@ -950,7 +1071,10 @@ capacity remains (TPTS at least ${Math.floor(tptsBehind3)}\% behind)`,
     R`compete for ${LW.slots} slots`,
     R`on 30 paired seeds`,
     R`at most ${f1(Math.max(...pactThr))}\% in throughput and ${f1(Math.max(...pactSvc))}\% in service time`,
-    R`exclude effects above ${f1(longBound)}\%`,
+    R`exclude service-time effects above ${f1(longBoundSvc)}\%`,
+    R`on the same seed the four methods finish within ${lo(ltSpread)} to ${hi(ltSpread)} ticks of each other`,
+    R`A stalled run has delivered ${f0(mean(coup(SAT, 'hungarian').filter((r) => Number(r.deadlocked) > 0), 'tasksCompleted'))} (Hungarian) or ${f0(mean(coup(SAT, 'pact').filter((r) => Number(r.deadlocked) > 0), 'tasksCompleted'))} (\sname) of its ${DEFAULT_CONFIG.numTasks} tasks on average when it stops, and the ${ic(DEFAULT_CONFIG.stallLimit + 1)} ticks of the stall detector are part of its makespan`,
+    R`mean throughput is ${f2(satAdj('hungarian'))} for Hungarian and ${f2(satAdj('pact'))} for \sname, a difference of $${sgn(100 * (satAdj('pact') / satAdj('hungarian') - 1))}\%$, against $${sgn(100 * (mean(coup(SAT, 'pact'), 'throughput') / mean(coup(SAT, 'hungarian'), 'throughput') - 1))}\%$ for the same means with the tail`,
     R`($${ci(px('narrow-aisles', 'hungarian', 'throughput'))}\%$ throughput on one-lane aisles, $${ci(px('hotspot', 'hungarian', 'throughput'))}\%$ throughput and $${ci(px('hotspot', 'hungarian', 'meanServiceTime'))}\%$ service time under hotspot demand, $${ci(px('long-trips', 'hungarian', 'meanServiceTime'))}\%$ service time on long trips, and $${ci(px('long-trips', 'greedy', 'meanServiceTime'))}\%$ against greedy there)`,
     R`(${Math.min(...satDepl)}--${Math.max(...satDepl)} depletion events over 30 runs) and ${Math.min(...satStall)}--${Math.max(...satStall)} of its 30 runs stall`,
     R`show $${sgn(cp(SAT, 'pact', 'hungarian', 'throughput').mean, f0)}\pm${f0(cp(SAT, 'pact', 'hungarian', 'throughput').half)}\%$ and $${sgn(cp(SAT, 'pact-proxy', 'hungarian', 'throughput').mean, f0)}\pm${f0(cp(SAT, 'pact-proxy', 'hungarian', 'throughput').half)}\%$ throughput against Hungarian`,
@@ -960,11 +1084,41 @@ capacity remains (TPTS at least ${Math.floor(tptsBehind3)}\% behind)`,
     R`($${ci(cp(SAT, 'pact', 'greedy', 'throughput'))}\%$ for \sname, $${ci(cp(SAT, 'pact-proxy', 'greedy', 'throughput'))}\%$ for the proxy)`,
   )
   assert(Math.max(...satStall) === satStall[1] && Math.min(...satStall) === satStall[3], 'stalled runs: fewest for PACT, most for Hungarian')
+
+  // Epoch latency (table epoch) and the expansions of TPTS.
+  assert(hi(epPP.map((e) => e.maxEpoch.max)) < 8 && epCBS.every((e) => e.maxEpoch.median > 150), 'prioritized planning below 8 ms per epoch, CBS epochs above 150 ms')
+  assert(epCBS.every((e) => e.msPerTick.median > 4.5), 'CBS ms per tick on the large layouts above 4.5')
+  const expTpts = BASE.map((sname) => mean(base(sname, 'tpts'), 'expansions') / 1e6)
+  const expRh = BASE.flatMap((sname) => ['hungarian', 'pact'].map((v) => mean(base(sname, v), 'expansions') / 1e6))
+  const expRatio = BASE.map((sname) => mean(base(sname, 'tpts'), 'expansions') / mean(base(sname, 'hungarian'), 'expansions'))
+  const cbsSmallMs = [4, 6, 8].map((fl) => pms(plan(fl, 'cbs')))
+  c.push(
+    R`the 99th percentile is ${f1(lo(epPP.map((e) => e.p99.median)))}--${f1(hi(epPP.map((e) => e.p99.median)))} ms and the longest epoch is ${f1(lo(epPP.map((e) => e.maxEpoch.median)))}--${f1(hi(epPP.map((e) => e.maxEpoch.median)))} ms, in the median over the ${word(timing.validRepeats.length)} valid repeats, at most ${f1(hi(epPP.map((e) => e.maxEpoch.max)))} ms in the largest repeat`,
+    R`one epoch in a hundred takes ${f0(lo(epCBS.map((e) => e.p99.median)))}--${f0(hi(epCBS.map((e) => e.p99.median)))} ms and the longest takes ${f0(lo(epCBS.map((e) => e.maxEpoch.median)))}--${f0(hi(epCBS.map((e) => e.maxEpoch.median)))} ms on the large layouts, ${f0(hi(epCBS.map((e) => e.maxEpoch.max)))} ms in the largest repeat`,
+    R`its mean planner time is ${f1(lo(epCBS.map((e) => e.msPerTick.median)))}--${f1(hi(epCBS.map((e) => e.msPerTick.median)))} ms per tick on the large layouts, against ${f2(Math.min(...cbsSmallMs))}--${f2(Math.max(...cbsSmallMs))} on \emph{small}`,
+    R`in node expansions TPTS needs ${f2(lo(expTpts))}--${f2(hi(expTpts))} million per run against ${f2(lo(expRh))}--${f2(hi(expRh))} million for the loop, which is ${f1(lo(expRatio))}--${f1(hi(expRatio))} times the expansions of Hungarian assignment`,
+    R`by $${ci(hintP)}\%$ in throughput (${word(meta.seeds.ablation[1])} seeds, nominal, not corrected for the ${word(leverFamily.length)} comparisons of`,
+    R`\path{paper/experiments/PREREG_v2.md} (commit \texttt{${V2A.preregistrationCommit}})`,
+    R`on ${V2SEEDS} seeds in the warehouse and the console layout with ${V2FLEET} robots under batch load`,
+    R`${e2ndNoEv}\% of the calls have at least two robots and two tasks, against ${e2ndEv}\% with event epochs, and \sname\ changes the matching in ${f0(P2chg[0])}\% and ${f0(P2chg[1])}\% of the calls`,
+    R`gives $${ci(P2[0])}\%$ on the warehouse ($p=${f2(P2[0].p)}$) and $${ci(P2[1])}\%$ on the console ($p=${f2(P2[1].p)}$)`,
+    R`gives $${ci(P2ref[0])}\%$ ($p=${f3(P2ref[0].p)}$) and $${ci(P2ref[1])}\%$`,
+    R`is $${v2ci({ mean: V2A.e2.interaction[0].difference, half: V2A.e2.interaction[0].half })}\%$ and $${v2ci({ mean: V2A.e2.interaction[1].difference, half: V2A.e2.interaction[1].half })}\%$`,
+    R`agree in ${e2geqNoEv}\% of the calls here, and greedy differs from Hungarian by $${ci(P2gr[0])}\%$ and $${ci(P2gr[1])}\%$`,
+    R`\sname\ is $${ci(P2d4[0])}\%$ and $${ci(P2d4[1])}\%$ above Hungarian ($p=${f3(P2d4[0].p)}$ and $${f3(P2d4[1].p)}$)`,
+    R`Among the ${e2secondary.length} secondary comparisons ${word(e2secHolm.length)} survives Holm's procedure`,
+    R`warehouse, $${ci(e2secHolm[0])}\%$. ${Word(e2secNominal.length)} more exclude zero`,
+    R`with half-widths of ${f1(P2[0].half)} and ${f1(P2[1].half)}\% on the primary comparisons`,
+  )
+  assert(e2secHolm.length === 1 && e2secHolm[0].id === 'S2 warehouse-32-batch noevent-dock4 pact-greedy meanServiceTime', 'one secondary E2 comparison survives Holm: PACT vs greedy service time, dock 4, warehouse')
+  assert(V2A.e2.cells.every((x) => x.executedConflicts === 0 && x.illegalMoves === 0 && x.stalledRuns === 0 && x.depletions === 0), 'E2: no conflict, illegal move, stall or depletion in any arm')
+  assert(P2ref[0].p > 0.05 && P2d4.every((x) => x.p > 0.05), 'E2 reference arm and dock-4 arm: not significant at the nominal level')
+  assert(geqRange.length > 0 && Number(e2geqNoEv.split('--')[0]) < 80, 'greedy and Hungarian disagree more often without event epochs')
   return {
     file: 'sections/4_experiments.tex',
     mode: 'all',
     claims: c,
-    structural: [R`rolling-horizon loop at $\kappa_{\mathrm{d}}=1$, again`, R`above the loop at $\kappa_{\mathrm{d}}=1$:`, '(Q1)', '(Q2)', '(Q3)', '(Q3, part 1)', '(Q3, part 2)', 'for Q1,', 'for Q2', R`finite window changes throughput by less than 1\%`],
+    structural: [R`$K=6$`, R`$K=3$, 6 and 12`, R`($\kappa_{\mathrm{d}}=4$)`, R`with $\kappa_{\mathrm{d}}=4$`, R`tests Q2`, R`rolling-horizon loop at $\kappa_{\mathrm{d}}=1$, again`, R`above the loop at $\kappa_{\mathrm{d}}=1$:`, '(Q1)', '(Q2)', '(Q3)', '(Q3, part 1)', '(Q3, part 2)', 'for Q1,', 'for Q2', R`finite window changes throughput by less than 1\%`],
   }
 }
 
@@ -985,7 +1139,9 @@ function appendix(): FileSpec {
       R`For the ${ic(regen.records)} runs that existed before, which had been written at earlier commits on 1 and 10 worker processes, no field differed`,
       R`the ${tfRuns.length} runs of \cref{tab:tpfree} are new`,
       R`for the ${first.length} first-round runs on other hardware under Node.js 20, 22 and 24`,
-      R`${word(timing.validRepeats.length)} valid single-process repeats (and one invalid attempt, kept) of the planner, scaling and ablation sweeps, each started only at a one-minute load average of at most ${timing.loadMax}`,
+      R`${word(timing.validRepeats.length)} valid single-process repeats (and one invalid attempt, kept) of the planner, scaling and ablation sweeps and of the timing-only sweep \texttt{epochtime}, each started only at a one-minute load average of at most ${timing.loadMax}`,
+      R`On ${meta.workers} worker processes the regeneration of all records took ${ic(meta.wallSeconds)} seconds of wall time`,
+      R`statistics of the third round (\path{paper/experiments/analysis/v2.json})`,
       R`were written under ${meta.workers} workers and are not used`,
       R`A second regeneration, at commit \texttt{${regen2.commit}} after the allocation-shape counters had been added to the records, left all ${ic(regen2.records)} runs identical in every earlier field`,
       R`(\path{paper/experiments/repro/regeneration-schema${SCHEMA_VERSION}.json}). A third, at the commit above, which added the three sweeps of the re-runs pre-registered in \path{paper/experiments/PREREG_v2.md} (${ic(v2Runs)} runs), left all ${ic(regen3.records)} runs identical in every earlier field`,
@@ -1165,7 +1321,7 @@ function checkPlots(): void {
 export function plainAbstract(): string {
   let t = norm(readFileSync(join(PAPER, 'sections/0_abstract.tex'), 'utf8'))
   t = t.replace(/\\begin\{abstract\}|\\end\{abstract\}/g, '')
-  t = t.replace(/\\emph\{\\sname\}/g, 'PACT').replace(/\\sname/g, 'PACT')
+  t = t.replace(/\\emph\{\\sname\}/g, 'PACT').replace(/\\sname\\ /g, 'PACT ').replace(/\\sname/g, 'PACT')
   t = t.replace(/\\url\{([^}]*)\}/g, '$1')
   t = t.replace(/\{,\}/g, ',').replace(/\\%/g, '%')
   t = t.replace(/\$([^$]*)\$/g, '$1').replace(/--/g, '-')
@@ -1177,6 +1333,44 @@ function checkAbstract(): void {
   const t = plainAbstract()
   if (/[\\${}]/.test(t)) fail(`plain abstract still contains LaTeX: ${t.match(/.{0,20}[\\${}].{0,20}/)?.[0]}`)
   if (t.length > 1920) fail(`plain abstract has ${t.length} characters (arXiv limit 1920)`)
+  const words = t.split(' ').length
+  if (words > 300) fail(`plain abstract has ${words} words (Preprints.org limit 300)`)
+}
+
+// ---------------------------------------------------------------- git facts
+
+/** Run git; null when git or the commit is not available (shallow clone, source archive). */
+function git(args: string[]): string | null {
+  try {
+    return execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Facts about the history that the text states: the timing commit and the commit of the
+ * results have identical code, and the pre-registration commit adds that file alone and
+ * precedes every commit that adds a record of the v2 sweeps. Skipped (not failed) when the
+ * commits are not in the local history.
+ */
+function checkGitFacts(): void {
+  const have = (c: string) => git(['cat-file', '-e', `${c}^{commit}`]) !== null
+  const results = String(meta.commit)
+  if (have(results) && have(timing.commit)) {
+    const d = git(['diff', '--stat', results, timing.commit, '--', 'src/fms', 'scripts/bench-fms.ts', 'scripts/schema.ts'])
+    if (d === null) fail('git diff between the commit of the results and the timing commit failed')
+    else if (d.trim() !== '') fail(`src/fms, scripts/bench-fms.ts or scripts/schema.ts differ between ${results} and the timing commit ${timing.commit}:\n${d}`)
+  } else console.log(`note: git history lacks ${results} or ${timing.commit}; code identity of results and timing not checked`)
+  const pre = V2A.preregistrationCommit
+  if (have(pre)) {
+    const files = (git(['show', '--name-only', '--format=', pre]) ?? '').trim().split('\n').filter((x) => x !== '')
+    if (files.join() !== 'paper/experiments/PREREG_v2.md') fail(`commit ${pre} must add paper/experiments/PREREG_v2.md alone, it changes: ${files.join(', ')}`)
+    for (const sweep of V2) {
+      const first = (git(['log', '--diff-filter=A', '--format=%H', '--', `paper/experiments/results/${sweep}.json`]) ?? '').trim().split('\n').pop() ?? ''
+      if (first !== '' && git(['merge-base', '--is-ancestor', pre, first]) === null) fail(`the first commit of ${sweep}.json does not follow the pre-registration commit ${pre}`)
+    }
+  } else console.log(`note: git history lacks ${pre}; pre-registration order not checked`)
 }
 
 // ---------------------------------------------------------------- main
@@ -1189,6 +1383,7 @@ function main(): void {
   for (const f of prose) if (!all.some((s) => s.file === f)) fail(`${f} is not covered by the guard`)
   for (const spec of all) checkProse(spec)
   checkPins()
+  checkGitFacts()
   checkPlots()
   checkAbstract()
   const claims = all.reduce((a, s) => a + s.claims.length, 0)
@@ -1198,7 +1393,7 @@ function main(): void {
     console.error(`${failures.length} failure(s)`)
     process.exit(1)
   }
-  console.log(`paper guard: ${claims} text claims in ${all.length} files, ${[...buildPaperData().files.keys()].length} generated files and ${SWEEPS.length} summaries verified; plain abstract ${plainAbstract().length} characters`)
+  console.log(`paper guard: ${claims} text claims in ${all.length} files, ${[...buildPaperData().files.keys()].length} generated files and ${SWEEPS.length} summaries verified; plain abstract ${plainAbstract().length} characters, ${plainAbstract().split(' ').length} words`)
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === resolve(new URL(import.meta.url).pathname)) main()
