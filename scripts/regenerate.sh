@@ -8,10 +8,13 @@
 # 2. Runs all ten sweeps into a temporary directory.
 # 3. Compares the run with the committed records (scripts/check-results.ts):
 #    every field that exists in both must be identical, wall-clock fields
-#    excluded. New fields and new sweeps are listed, not counted. On any
+#    excluded. New sweeps are listed, not counted. A new field is accepted only
+#    if scripts/schema.ts lists it as added in the current SCHEMA_VERSION (an
+#    explicit schema bump); any other new field counts as a difference. On any
 #    difference the committed results are left untouched and the script fails.
 # 4. Replaces paper/experiments/results/ with the run and writes the comparison
-#    to paper/experiments/repro/regeneration.json.
+#    to paper/experiments/repro/regeneration-schema<SCHEMA_VERSION>.json. The
+#    comparison of schema 1 (regeneration.json, commit 63a2db7) stays as it was.
 #
 # The records are deterministic given the seed, whatever JOBS is. Their
 # wall-clock fields depend on the host and its load and are NOT the timings
@@ -33,7 +36,8 @@ echo "load average before: $(cat /proc/loadavg)"
 npx tsx scripts/bench-fms.ts --jobs "$JOBS" --out "$TMP/run"
 echo "load average after: $(cat /proc/loadavg)"
 mkdir -p paper/experiments/repro
-npx tsx scripts/check-results.ts "$TMP/run" --allow-new-fields --report paper/experiments/repro/regeneration.json
+SCHEMA="$(sed -n 's/^export const SCHEMA_VERSION = \([0-9][0-9]*\)$/\1/p' scripts/schema.ts)"
+npx tsx scripts/check-results.ts "$TMP/run" --allow-new-fields --report "paper/experiments/repro/regeneration-schema${SCHEMA}.json"
 # Reached only when no pre-existing field differs.
 rm -f paper/experiments/results/*.json paper/experiments/results/*.csv
 cp "$TMP/run"/*.json "$TMP/run"/*.csv paper/experiments/results/

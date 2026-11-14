@@ -25,6 +25,7 @@ import { type Cell, type GridMap, DistanceOracle, cellX, cellY, chargerSlots } f
 import { loadLayout } from '../map/layouts'
 import { hungarian } from '../alloc/hungarian'
 import { greedyAssign } from '../alloc/greedy'
+import { allocShape, sameAssignment } from '../alloc/shape'
 import { type CostContext, staticCost, estimatedCost, taskFeasible } from '../alloc/cost'
 import { ReservationTable } from '../mapf/constraints'
 import { spaceTimeAStar } from '../mapf/spacetime_astar'
@@ -292,6 +293,7 @@ export class FleetSimulator {
     expansions: 0,
     plannerMs: 0,
     allocMs: 0,
+    diagMs: 0,
     moves: 0,
     waits: 0,
     busyTicks: 0,
@@ -305,7 +307,15 @@ export class FleetSimulator {
     cplAllocs: 0,
     cplAllocsCostDiffer: 0,
     cplAllocsMatchDiffer: 0,
+    cplAllocsMatchDifferNondegenerate: 0,
+    allocCalls: 0,
+    allocM1: 0,
+    allocPool1: 0,
+    allocNondegenerate: 0,
+    allocGreedyEqHungarian: 0,
   }
+  /** Wall-clock ms of every rolling-horizon epoch (diagnostics excluded), in order. */
+  readonly epochMs: number[] = []
   private readonly tpSearch = { limitHits: 0 }
 
   constructor(config: Partial<SimConfig> = {}) {
@@ -470,6 +480,7 @@ export class FleetSimulator {
   private epoch(): void {
     const t = this.tick
     const t0 = now()
+    const diag0 = this.acc.diagMs
     this.lastEpochTick = t
     this.acc.epochs += 1
     const horizon = t + this.cfg.window
@@ -513,8 +524,9 @@ export class FleetSimulator {
     )
     for (const r of eligible) table.releaseAgent(r.id)
     const a0 = now()
+    const ad0 = this.acc.diagMs
     this.allocate(eligible, table)
-    this.acc.allocMs += now() - a0
+    this.acc.allocMs += now() - a0 - (this.acc.diagMs - ad0)
     // (f) Unassigned eligible robots park (a robot already at home gets a trivial
     // plan through the planner so that its rest is consistent with paths
     // reserved earlier in this epoch; it becomes idle on arrival).
@@ -535,7 +547,9 @@ export class FleetSimulator {
         r.pathStart = t
       }
     }
-    this.acc.plannerMs += now() - t0
+    const epochMs = now() - t0 - (this.acc.diagMs - diag0)
+    this.acc.plannerMs += epochMs
+    this.epochMs.push(epochMs)
   }
 
   private sortByPriority(list: Robot[]): Robot[] {
@@ -725,12 +739,29 @@ export class FleetSimulator {
       staticRows.push(staticRow)
     }
     const assignment = this.cfg.alloc === 'greedy' ? greedyAssign(cost) : hungarian(cost)
+    // Diagnostics (schema 2 counters and the static matching). They only read the
+    // state above and are timed on their own, outside allocMs, plannerMs and the
+    // epoch times.
+    const diagStart = now()
+    const shape = allocShape(eligible.length, pool.length)
+    this.acc.allocCalls += 1
+    if (shape.m1) this.acc.allocM1 += 1
+    if (shape.pool1) this.acc.allocPool1 += 1
+    if (shape.nondegenerate) this.acc.allocNondegenerate += 1
+    // Both solvers on the method's own matrix; the one that made the assignment is not run again.
+    const greedyA = this.cfg.alloc === 'greedy' ? assignment : greedyAssign(cost)
+    const hungarianA = this.cfg.alloc === 'greedy' ? hungarian(cost) : assignment
+    if (sameAssignment(greedyA, hungarianA)) this.acc.allocGreedyEqHungarian += 1
     if (coupled) {
       this.acc.cplAllocs += 1
       if (cost.some((row, i) => row.some((c, j) => c !== staticRows[i][j]))) this.acc.cplAllocsCostDiffer += 1
       const staticAssignment = hungarian(staticRows)
-      if (assignment.some((j, i) => j !== staticAssignment[i])) this.acc.cplAllocsMatchDiffer += 1
+      if (assignment.some((j, i) => j !== staticAssignment[i])) {
+        this.acc.cplAllocsMatchDiffer += 1
+        if (shape.nondegenerate) this.acc.cplAllocsMatchDifferNondegenerate += 1
+      }
     }
+    this.acc.diagMs += now() - diagStart
     const taken = new Set<number>()
     eligible.forEach((r, i) => {
       const j = assignment[i]
@@ -1283,11 +1314,18 @@ export class FleetSimulator {
       cplAllocs: this.acc.cplAllocs,
       cplAllocsCostDiffer: this.acc.cplAllocsCostDiffer,
       cplAllocsMatchDiffer: this.acc.cplAllocsMatchDiffer,
+      cplAllocsMatchDifferNondegenerate: this.acc.cplAllocsMatchDifferNondegenerate,
+      allocCalls: this.acc.allocCalls,
+      allocM1: this.acc.allocM1,
+      allocPool1: this.acc.allocPool1,
+      allocNondegenerate: this.acc.allocNondegenerate,
+      allocGreedyEqHungarian: this.acc.allocGreedyEqHungarian,
       epochs: this.acc.epochs,
       astarCalls: this.acc.astarCalls,
       expansions: this.acc.expansions,
       plannerMs: this.acc.plannerMs,
       allocMs: this.acc.allocMs,
+      diagMs: this.acc.diagMs,
       plannerMsPerTick: this.acc.plannerMs / ticks,
       utilization: this.acc.busyTicks / (ticks * this.robots.length),
       finalMeanSoc: mean(this.robots.map((r) => r.soc)),

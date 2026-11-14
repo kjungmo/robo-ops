@@ -11,12 +11,13 @@
  * excluded from the comparison: they depend on the host and on its load. Every
  * other field must be identical, or the script exits with status 1.
  *
- * With --allow-new-fields, fields that the fresh records have and the
- * committed records lack are listed and not counted as differences, and
- * sweeps that have no committed file are listed and skipped. This is the
- * regression test for a change that only adds diagnostics: every field that
- * existed before must still be identical. scripts/regenerate.sh runs it
- * before it replaces the committed results.
+ * With --allow-new-fields, fields that the fresh records have, the committed
+ * records lack and scripts/schema.ts lists as added in the current schema
+ * version are listed and not counted as differences, and sweeps that have no
+ * committed file are listed and skipped. A new field that schema.ts does not
+ * list is a difference. This is the regression test for a change that only
+ * adds diagnostics: every field that existed before must still be identical.
+ * scripts/regenerate.sh runs it before it replaces the committed results.
  *
  * It also prints how far the wall-clock fields moved, per sweep, so that the
  * spread of the timing columns quoted in the paper can be stated. With
@@ -26,12 +27,16 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
+import { SCHEMA_ADDED, SCHEMA_VERSION } from './schema'
 
-export const TIMING = ['wallMs', 'plannerMs', 'allocMs', 'plannerMsPerTick'] as const
+export const TIMING = ['wallMs', 'plannerMs', 'allocMs', 'diagMs', 'plannerMsPerTick'] as const
 const COMMITTED = join(process.cwd(), 'paper/experiments/results')
 export const SWEEPS = ['main', 'planner', 'scaling', 'ablation', 'battery', 'stress', 'cascade', 'baselines', 'coupling', 'tpfree']
 
 type Rec = Record<string, unknown>
+
+/** Fields that the current schema version adds (scripts/schema.ts). */
+const ALLOWED_NEW: ReadonlySet<string> = new Set(SCHEMA_ADDED[SCHEMA_VERSION] ?? [])
 
 export interface SweepDiff {
   sweep: string
@@ -62,7 +67,7 @@ export function compareSweep(sweep: string, committed: Rec[], fresh: Rec[], allo
     const keys = new Set([...Object.keys(a), ...Object.keys(b)])
     for (const k of keys) {
       if ((TIMING as readonly string[]).includes(k)) continue
-      if (allowNewFields && !(k in a) && k in b) addedLater.add(k)
+      if (allowNewFields && !(k in a) && k in b && ALLOWED_NEW.has(k)) addedLater.add(k)
       else if (!(k in a) || !(k in b)) note(`${sweep}[${i}].${k}: field ${k in a ? 'missing in the fresh run' : 'not in the committed record'}`)
       else if (!Object.is(a[k], b[k])) note(`${sweep}[${i}] (${String(a.variant)}, seed ${String(a.seed)}).${k}: committed ${String(a[k])}, fresh ${String(b[k])}`)
     }
@@ -150,6 +155,8 @@ function main() {
       dates: metas.map((m) => String(m.date)).sort(),
       excludedFields: TIMING,
       allowNewFields: allowNew,
+      schemaVersion: SCHEMA_VERSION,
+      schemaAddedFields: [...ALLOWED_NEW],
       sweepsWithoutCommittedFile: newSweeps,
       records: total,
       differingFields: bad,

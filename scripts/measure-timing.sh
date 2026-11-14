@@ -7,6 +7,13 @@
 # scaling and ablation sweeps (160 runs per repeat), single process (--jobs 1).
 # These are the only sweeps whose wall-clock fields the paper quotes (planner
 # table, ablation table, scaling table and figure, window figure).
+# It also measures the wall time of every single rolling-horizon epoch of those
+# runs and of the timing-only sweep `epochtime` (windowed CBS and prioritized
+# planning on warehouse-32 and narrow-16, 20 more runs): p50, p99 and max per
+# configuration, pooled over the seeds, in summary.json under `epochConfigs`.
+# The time of the diagnostic counters and of the static diagnostic matching
+# (simulator.ts, diagMs) is outside the epoch times, the planner ms/tick and
+# allocMs.
 #
 # Admission rule, fixed before any run:
 #   - a repeat starts only when the 1-minute load average is at most LOAD_MAX
@@ -27,19 +34,30 @@
 #                    before and after repeat n
 #   summary.json     per configuration: seed-mean planner ms/tick of every
 #                    repeat, and the median, minimum and maximum over the
-#                    valid repeats; written by scripts/timing-summary.ts
-# One quiet repeat takes about 80 to 90 seconds; three take about 5 minutes.
+#                    valid repeats; epochConfigs: epoch p50, p99 and max per
+#                    repeat and their median and maximum over the valid
+#                    repeats; written by scripts/timing-summary.ts
+# One quiet repeat takes about 80 to 90 seconds plus the epochtime runs (about
+# a minute); three take about 8 minutes.
+#
+# Environment (for trying the script, not for the numbers of the paper):
+#   TIMING_OUT=<dir>   write there instead of paper/experiments/timing
+#   SMOKE_SEEDS=<n>    first n seeds only; skips the comparison with the
+#                      committed records (the record counts differ)
 set -euo pipefail
 REPEATS="${REPEATS:-3}"
 ATTEMPTS="${ATTEMPTS:-6}"
 LOAD_MAX="${LOAD_MAX:-0.50}"
 WAIT_S="${WAIT_S:-600}"
+SMOKE_SEEDS="${SMOKE_SEEDS:-}"
 cd "$(dirname "$0")/.."
 if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
   echo "working tree has uncommitted changes; commit first" >&2
   exit 2
 fi
-OUT=paper/experiments/timing
+OUT="${TIMING_OUT:-paper/experiments/timing}"
+SEEDS_ARG=()
+if [ -n "$SMOKE_SEEDS" ]; then SEEDS_ARG=(--seeds "$SMOKE_SEEDS"); fi
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 mkdir -p "$OUT"
@@ -71,7 +89,7 @@ while [ "$valid" -lt "$REPEATS" ] && [ "$n" -lt "$ATTEMPTS" ]; do
   n=$((n + 1))
   admit
   { echo "== before repeat $n"; snapshot; } > "$OUT/host-$n.txt"
-  npx tsx scripts/bench-fms.ts planner scaling ablation --out "$TMP/repeat-$n" > "$TMP/bench-$n.log"
+  FMS_EPOCH_TIMES=1 npx tsx scripts/bench-fms.ts planner scaling ablation epochtime ${SEEDS_ARG[@]+"${SEEDS_ARG[@]}"} --out "$TMP/repeat-$n" > "$TMP/bench-$n.log"
   { echo "== after repeat $n"; snapshot; } >> "$OUT/host-$n.txt"
   if awk -v l="$(load1)" -v m="$LOAD_MAX" 'BEGIN { exit !(l > m + 1.20) }'; then
     echo "verdict: INVALID (1-minute load average after the repeat above $LOAD_MAX + 1.20)" >> "$OUT/host-$n.txt"
@@ -82,7 +100,9 @@ while [ "$valid" -lt "$REPEATS" ] && [ "$n" -lt "$ATTEMPTS" ]; do
     echo "repeat $n: valid, load $(load1)"
   fi
   # The simulated quantities must be the committed ones; only the clock may differ.
-  npx tsx scripts/check-results.ts "$TMP/repeat-$n" > "$TMP/check-$n.log" || { cat "$TMP/check-$n.log"; exit 1; }
+  if [ -z "$SMOKE_SEEDS" ]; then
+    npx tsx scripts/check-results.ts "$TMP/repeat-$n" > "$TMP/check-$n.log" || { cat "$TMP/check-$n.log"; exit 1; }
+  fi
 done
 npx tsx scripts/timing-summary.ts "$TMP" "$OUT" "$n" "$LOAD_MAX"
 if [ "$valid" -lt "$REPEATS" ]; then

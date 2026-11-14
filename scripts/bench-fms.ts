@@ -7,6 +7,11 @@
  *   npm run bench:fms -- main --out /tmp/rerun # write somewhere else (for check:results)
  *   npm run bench:fms -- --seeds 1 --out /tmp/smoke  # first seed of every sweep (smoke test; needs --out)
  *
+ * With FMS_EPOCH_TIMES=1 the wall time of every epoch is also written to
+ * <out>/epoch-times.json (pooled over the seeds of a configuration). The
+ * timing-only sweep `epochtime` (CBS and PP on warehouse-32 and narrow-16) runs
+ * only when named, never in a default run.
+ *
  * Sweeps: main | planner | scaling | ablation | battery (seeds 1-5) and
  * stress (seeds 1-60) | cascade | baselines | coupling | tpfree (seeds 1-30).
  * Every run is observed tick by tick by the
@@ -17,7 +22,7 @@
  * <sweep>.csv (same, flat) and <sweep>_summary.csv (mean/std/max per
  * configuration), plus bench-meta[-<sweeps>].json with machine and version
  * information. Results do not depend on --jobs except for the wall-clock fields
- * (wallMs, plannerMs, allocMs, plannerMsPerTick). Those fields are written to
+ * (wallMs, plannerMs, allocMs, diagMs, plannerMsPerTick). Those fields are written to
  * every record but the paper does not quote them from here: the wall-clock
  * numbers it reports come from scripts/measure-timing.sh, which runs on a
  * quiet host and writes paper/experiments/timing/.
@@ -29,6 +34,7 @@ import { execSync, fork } from 'node:child_process'
 import { FleetSimulator, type SimConfig } from '../src/fms/index'
 import { TrajectoryAuditor, type AuditReport } from '../src/fms/sim/audit'
 import type { SimMetrics } from '../src/fms/sim/metrics'
+import { SCHEMA_VERSION } from './schema'
 
 const SEEDS = [1, 2, 3, 4, 5]
 const range = (a: number, b: number) => Array.from({ length: b - a + 1 }, (_, i) => a + i)
@@ -36,12 +42,16 @@ const DEFAULT_OUT = join(process.cwd(), 'paper/experiments/results')
 
 type AuditFields = { [K in keyof AuditReport as `audit_${K}`]: number }
 type Run = SimMetrics & AuditFields & { sweep: string; variant: string; wallMs: number }
+/** Set only when FMS_EPOCH_TIMES=1: the wall time of every epoch of the run. Never written to the records. */
+type RunWithEpochs = Run & { _epochMs?: number[] }
 
 interface Sweep {
   name: string
   seeds: number[]
   /** Throw on internal invariant violations (original sweeps) or only count them. */
   strict: boolean
+  /** Run only when named on the command line, never in a default (all sweeps) run; its records are not committed. */
+  timingOnly?: boolean
   configs: Array<{ variant: string; cfg: Partial<SimConfig>; seedCfg?: (seed: number) => Partial<SimConfig> }>
 }
 
@@ -55,7 +65,7 @@ function grid<T>(...axes: T[][]): T[][] {
   return axes.reduce<T[][]>((acc, axis) => acc.flatMap((prefix) => axis.map((v) => [...prefix, v])), [[]])
 }
 
-function sweeps(): Sweep[] {
+function sweeps(includeTimingOnly = false): Sweep[] {
   const out: Sweep[] = []
   // Main comparison: allocation methods across layouts, fleet sizes and load regimes.
   {
@@ -256,6 +266,28 @@ function sweeps(): Sweep[] {
     }
     out.push({ name: 'tpfree', seeds: range(1, 30), strict: false, configs })
   }
+  // Per-epoch wall time of the planners on the larger layouts (scripts/measure-timing.sh,
+  // with the epoch times of the planner, scaling and ablation sweeps). Not part of the
+  // paper's 7,200 runs and not committed under results/: it exists to be timed.
+  if (includeTimingOnly) {
+    const configs: Sweep['configs'] = []
+    for (const [layout, fleet] of [
+      ['warehouse', 32],
+      ['narrow', 16],
+    ] as const) {
+      for (const mapf of ['pp', 'cbs'] as const) {
+        configs.push({
+          variant: `${mapf}-hungarian`,
+          cfg: { layout, fleetSize: fleet, arrivalRate: Number.POSITIVE_INFINITY, alloc: 'hungarian', mapf, numTasks: 100 },
+        })
+      }
+    }
+    configs.push({
+      variant: 'pp-pact',
+      cfg: { layout: 'warehouse', fleetSize: 32, arrivalRate: Number.POSITIVE_INFINITY, alloc: 'pact', mapf: 'pp', numTasks: 100 },
+    })
+    out.push({ name: 'epochtime', seeds: SEEDS, strict: true, timingOnly: true, configs })
+  }
   return out
 }
 
@@ -288,11 +320,18 @@ const NUMERIC = [
   'cplAllocs',
   'cplAllocsCostDiffer',
   'cplAllocsMatchDiffer',
+  'cplAllocsMatchDifferNondegenerate',
+  'allocCalls',
+  'allocM1',
+  'allocPool1',
+  'allocNondegenerate',
+  'allocGreedyEqHungarian',
   'epochs',
   'astarCalls',
   'expansions',
   'plannerMs',
   'allocMs',
+  'diagMs',
   'plannerMsPerTick',
   'utilization',
   'finalMeanSoc',
@@ -366,7 +405,7 @@ interface Job {
 }
 
 /** One run, observed after every tick by the independent auditor. */
-function runJob(job: Job): Run {
+function runJob(job: Job): RunWithEpochs {
   const w0 = performance.now()
   const sim = new FleetSimulator({ ...job.cfg, seed: job.seed, strict: job.strict })
   const auditor = new TrajectoryAuditor(sim.map, sim.cfg.battery.socLow, sim)
@@ -377,11 +416,13 @@ function runJob(job: Job): Run {
   const m = sim.metrics()
   const a = auditor.report()
   const audit = Object.fromEntries(Object.entries(a).map(([k, v]) => [`audit_${k}`, v])) as AuditFields
-  return { ...m, ...audit, sweep: job.sweep, variant: job.variant, wallMs: performance.now() - w0 }
+  const run: RunWithEpochs = { ...m, ...audit, sweep: job.sweep, variant: job.variant, wallMs: performance.now() - w0 }
+  if (process.env.FMS_EPOCH_TIMES === '1') run._epochMs = sim.epochMs
+  return run
 }
 
-async function runAll(jobs: Job[], workers: number): Promise<Run[]> {
-  const out: Run[] = new Array(jobs.length)
+async function runAll(jobs: Job[], workers: number): Promise<RunWithEpochs[]> {
+  const out: RunWithEpochs[] = new Array(jobs.length)
   if (workers <= 1) {
     for (const j of jobs) out[j.idx] = runJob(j)
     return out
@@ -395,9 +436,9 @@ async function runAll(jobs: Job[], workers: number): Promise<Run[]> {
         if (next < jobs.length) child.send(jobs[next++])
         else child.disconnect()
       }
-      child.on('message', (msg: Run & { idx: number }) => {
+      child.on('message', (msg: RunWithEpochs & { idx: number }) => {
         const { idx, ...run } = msg
-        out[idx] = run as Run
+        out[idx] = run as RunWithEpochs
         done += 1
         if (done % 200 === 0) console.log(`  ${done}/${jobs.length} runs`)
         if (done === jobs.length) resolve()
@@ -426,14 +467,17 @@ async function main() {
   if (oi >= 0 && args[oi + 1] === undefined) throw new Error('--out needs a directory')
   const OUT = oi >= 0 ? resolve(args[oi + 1]) : DEFAULT_OUT
   const only = args.filter((a, i) => !a.startsWith('--') && (ji < 0 || i !== ji + 1) && (oi < 0 || i !== oi + 1) && (si < 0 || i !== si + 1))
-  const known = sweeps().map((s) => s.name)
+  const known = sweeps(true).map((s) => s.name)
   for (const name of only) if (!known.includes(name)) throw new Error(`unknown sweep '${name}' (known: ${known.join(', ')})`)
   mkdirSync(OUT, { recursive: true })
   const started = Date.now()
   const loadBefore = loadavg()
   const all: Run[] = []
-  for (const sweep of sweeps()) {
-    if (only.length > 0 && !only.includes(sweep.name)) continue
+  const epochTimes: Record<string, number[]> = {}
+  const ran: Sweep[] = []
+  for (const sweep of sweeps(true)) {
+    if (only.length > 0 ? !only.includes(sweep.name) : sweep.timingOnly) continue
+    ran.push(sweep)
     const t0 = Date.now()
     const jobs: Job[] = []
     for (const { variant, cfg, seedCfg } of sweep.configs) {
@@ -442,7 +486,12 @@ async function main() {
       }
     }
     console.log(`[${sweep.name}] ${jobs.length} runs on ${workers} worker(s)`)
-    const runs = await runAll(jobs, workers)
+    const withEpochs = await runAll(jobs, workers)
+    // Pool the epoch times of the seeds of one configuration; they go to epoch-times.json, not to the records.
+    const runs: Run[] = withEpochs.map(({ _epochMs, ...run }) => {
+      if (_epochMs) (epochTimes[`${sweep.name}|${run.layout}|${run.fleetSize}|${run.variant}`] ??= []).push(..._epochMs.map((x) => Number(x.toFixed(4))))
+      return run as Run
+    })
     const bad = runs.filter((r) => r.conflicts + r.audit_vertexConflicts + r.audit_swapConflicts + r.audit_illegalMoves + r.deadlocked + r.depletionEvents > 0)
     console.log(
       `[${sweep.name}] done in ${((Date.now() - t0) / 1000).toFixed(0)}s; runs with a conflict, illegal move, deadlock or depletion: ${bad.length}`,
@@ -458,6 +507,7 @@ async function main() {
   } catch {
     // not a git checkout
   }
+  if (process.env.FMS_EPOCH_TIMES === '1') writeFileSync(join(OUT, 'epoch-times.json'), `${JSON.stringify(epochTimes)}\n`)
   const sum = (k: keyof Run) => all.reduce((a, r) => a + (r[k] as number), 0)
   const meta = {
     date: new Date().toISOString(),
@@ -467,10 +517,10 @@ async function main() {
     memoryGB: Number((totalmem() / 1024 ** 3).toFixed(1)),
     commit,
     workers,
-    sweeps: only.length > 0 ? only : sweeps().map((s) => s.name),
-    seeds: Object.fromEntries(sweeps().map((s) => [s.name, [s.seeds[0], Math.min(seedCap, s.seeds[s.seeds.length - 1])]])),
+    sweeps: only.length > 0 ? only : ran.map((s) => s.name),
+    seeds: Object.fromEntries(ran.map((s) => [s.name, [s.seeds[0], Math.min(seedCap, s.seeds[s.seeds.length - 1])]])),
     runs: all.length,
-    runsPerSweep: Object.fromEntries(sweeps().map((s) => [s.name, all.filter((r) => r.sweep === s.name).length]).filter(([, n]) => Number(n) > 0)),
+    runsPerSweep: Object.fromEntries(ran.map((s) => [s.name, all.filter((r) => r.sweep === s.name).length]).filter(([, n]) => Number(n) > 0)),
     // 1-, 5- and 15-minute load averages of the host before and after the run.
     // The wall-clock fields of these records are not the ones the paper reports.
     loadAverageBefore: loadBefore.map((x) => Number(x.toFixed(2))),
@@ -485,6 +535,7 @@ async function main() {
     totalDepletions: sum('depletionEvents'),
     auditDepletions: sum('audit_depletions'),
     wallSeconds: Number(((Date.now() - started) / 1000).toFixed(1)),
+    schemaVersion: SCHEMA_VERSION,
   }
   writeFileSync(join(OUT, only.length > 0 ? `bench-meta-${only.join('-')}.json` : 'bench-meta.json'), `${JSON.stringify(meta, null, 2)}\n`)
   console.log(JSON.stringify(meta, null, 2))

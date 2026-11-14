@@ -34,7 +34,7 @@ describe('simulator', () => {
     const b = new FleetSimulator({ ...base, layout: 'small', fleetSize: 4, seed: 12 })
     const ma = a.run()
     const mb = b.run()
-    expect(ma).toEqual({ ...mb, plannerMs: ma.plannerMs, allocMs: ma.allocMs, plannerMsPerTick: ma.plannerMsPerTick })
+    expect(ma).toEqual({ ...mb, plannerMs: ma.plannerMs, allocMs: ma.allocMs, diagMs: ma.diagMs, plannerMsPerTick: ma.plannerMsPerTick })
     expect(a.robots.map((r) => [r.cell, r.soc, r.status])).toEqual(b.robots.map((r) => [r.cell, r.soc, r.status]))
     const c = new FleetSimulator({ ...base, layout: 'small', fleetSize: 4, seed: 13 }).run()
     expect(c.makespan === ma.makespan && c.meanServiceTime === ma.meanServiceTime).toBe(false)
