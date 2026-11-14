@@ -7,8 +7,9 @@ the waits and detours that reservations impose on the empty trip to the
 pickup; beyond the window \cref{alg:astar} appends a shortest path that
 ignores reservations. Three causes keep that difference from reaching the
 assignment. First, the window: most pickups (60--86\%) lie beyond it, where the
-estimate cannot see reservations at all. Second, the dock gate: the candidate pool holds
-a single task in most calls with 32 robots. Third, event-triggered epochs, which hand the
+estimate cannot see reservations at all. Second, the dock gate: under batch load the candidate pool holds
+a single task in most calls with 32 robots (under the Poisson load it is small largely
+because few tasks are pending). Third, event-triggered epochs, which hand the
 allocation one idle robot and, through the gate, one newly eligible task at a time. Together they leave only 9--26\% of the
 calls as real assignment problems with at least two robots and two tasks in the
 twelve cells of the main study, and in 91--99\% of the calls greedy and Hungarian
@@ -43,7 +44,8 @@ as to minimise station idle time.
 We expected one-lane
 aisles, hotspot demand, long empty trips or saturated chargers to change the
 balance and tested them (\cref{subsec:coupling}); the three inside the safe
-envelope did not, within interval half-widths of 0.2 to 1.6\%, and the fourth is
+envelope did not, within service-time half-widths of 0.4 to 0.7\% for \sname\ against
+Hungarian or greedy assignment, and the fourth is
 confounded by stalled runs. Only one of them, hotspot demand, changed the
 matching often (27\% of the allocations), and there too every interval of
 the path-aware cost contains zero. The explanation above survives the tests only in
@@ -52,7 +54,8 @@ the assignments that minimise either one deliver throughputs that we cannot
 tell apart, which is consistent with the queue in front of the docks, not
 the trip to the pickup, setting the pace. The negative result remains a statement about our grid warehouses,
 fleets of at most 48 robots, cost models and endpoint rules, and about
-allocation under a binding dock gate with event-triggered epochs, not about
+allocation under a dock-capacity gate, with event-triggered epochs in the twelve
+cells of the main study and without them in two 32-robot cells, not about
 coupling in general. It is compatible with the positive results of prior
 and concurrent work, which concern other signals or regimes: RMCA and
 Detour-Delta price complete trips under planned paths or committed
@@ -77,7 +80,9 @@ coupling's extra A* calls ($+35\%$ at 48 robots) are affordable even though
 they are not useful here. ``Affordable'' is scoped to these means of
 prioritized planning. The time of a single epoch, which a real-time deadline would
 have to bound, is in \cref{tab:epoch}: prioritized planning stays below 8 ms in
-every epoch we timed, but one windowed CBS epoch on the large layouts took up to
+every epoch of the rows of that table (with a window of 30 ticks the longest epoch is
+15.4 ms, 16.6 ms in the slowest repeat, and with $K=12$ it is 10.1 ms),
+but one windowed CBS epoch on the large layouts took up to
 476 ms in the median repeat, about half of a one-second tick, and CBS averages
 4.9--5.0 ms per tick there, against 0.09--0.30 ms on the small layout.
 These are wall-clock times on one idle host
@@ -89,7 +94,7 @@ per goal cell.
 
 \noindent\textbf{What kept the loop running.}
 During development, each of three mechanisms removed a jam we had observed;
-the second round of experiments measures all three (\cref{subsec:cascade},
+the second and third rounds of experiments measure all three (\cref{subsec:cascade},
 \cref{subsec:ablation}). (i) The hold
 cascade (\cref{alg:pp}) is how \sname\ makes ``no path found'' safe: without
 some repair of the robots whose reservations cross a held cell, a hold
@@ -168,8 +173,8 @@ did not: varying $K$ in two cells where it binds changed throughput by no measur
 robots with few node-budget fallbacks but gains only 2--4\% makespan there under batch load; symmetry reasoning
 \citep{li2019symmetry} or bounded-suboptimal search \citep{li2021eecbs}
 might gain more. Prioritized planning with a hold cascade is safe but not
-complete: a robot can be delayed for several epochs, and although every run
-with normal batteries finished, we have no proof that none can deadlock or
+complete: a robot can be delayed for several epochs, and although every run of
+the default loop with normal batteries finished, we have no proof that none can deadlock or
 livelock. We did not run an IStay- or IAvoid-style variant, in which the
 affected robots stay in place (under IAvoid, after at most one avoiding
 move), so the ablation does not show that re-planning them is better than

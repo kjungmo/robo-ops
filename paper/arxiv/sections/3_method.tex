@@ -438,9 +438,9 @@ with $c(r,\tau)=\infty$ when \cref{eq:feasible} fails; greedy and Hungarian
 assignment use the static estimate and \sname\ the path-aware one. The battery factor
 makes a low-charge robot look farther, so long trips go to well-charged
 robots. The congestion proxy $\chi_{\mathcal{B}}$ walks one free-space shortest path
-from $p^r$ to $p_\tau$ and, for the $k$-th cell of it, up to the horizon, adds
+from $p^r$ to $p_\tau$ and, for the $i$-th cell of it, up to the horizon, adds
 $w_{\mathrm{h}}$ if the cell carries a hold of any start time, and otherwise
-adds one if another robot has reserved the cell at tick $t_0+k$ or one tick
+adds one if another robot has reserved the cell at tick $t_0+i$ or one tick
 earlier or later. A hold that begins after the robot would have left the cell
 therefore still counts. The path-aware cost is the arrival time
 \cref{eq:arrival} of \cref{alg:astar} against the table that already contains

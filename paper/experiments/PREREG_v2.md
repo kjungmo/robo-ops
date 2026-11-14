@@ -202,3 +202,43 @@ Written after the results; each entry names what differs from the text above.
    (about 2 to 3 % lower), so the rule returns "needs the combination" although `held` alone
    avoids the stalls that `static` has in every run. Both facts are reported; the rule's output
    is not changed.
+4. **E4, a clause of the decision rule is not implemented.** Added in review round 1 of the
+   paper (2026-11-14), after the results. The written rule credits one mechanism only if the
+   *other* arm is not rejected against `static` ("while `blocking` vs `static` is not
+   rejected", and the same with the roles swapped). `analyseE4` in `scripts/analyze-v2.ts`
+   (`e4.rules`) drops that clause: it tests only that the arm is rejected against `static`
+   with a positive mean and that its interval against `dynamic` contains zero. All eight
+   primary comparisons are rejected, so no setting meets the dropped clause and the written
+   rule never applies in the form "X accounts for the advantage". The omission changes one
+   verdict. In `small-8` both single-mechanism arms are rejected against `static`, `blocking`
+   recovers the dynamic ordering (-0.2 +/- 0.7 %) and `held` does not (-2.6 +/- 1.7 %). The
+   written rules do not cover "both rejected, only one recovers", and the implementation
+   returns "blocking-first accounts for the advantage". The other three verdicts are the
+   same under the written rules (needs the combination, twice; either suffices). The code
+   and the computed numbers are unchanged; the paper says that the implemented rule departs
+   from the written one.
+5. **E2, the secondary family.** Added in review round 1 of the paper (2026-11-14). The text
+   above lists secondary contrasts for the `noevent` arm only (`pact-proxy`, `greedy` and
+   `pact` against `greedy`, throughput and service time) and, for `noevent-dock4`, the
+   contrasts of the primary family. It does not list the contrasts of the `event` arm or the
+   other contrasts of the dock-4 arm. `analyze-v2.ts` puts the following contrasts into one
+   secondary family, with Holm over all of it. Per cell and arm: `pact-proxy` vs `hungarian`,
+   `greedy` vs `hungarian` and `pact` vs `greedy`, each for throughput and service time. For
+   the `event` and `noevent-dock4` arms also `pact` vs `hungarian`, for both metrics, and for
+   `noevent` also `pact` vs `hungarian` service time. That
+   is 23 per cell and 46 in all. This family was fixed when the analysis was written, after
+   the results existed. The one contrast that survives Holm in it (`pact` vs `greedy`
+   service time, `noevent-dock4`, warehouse-32-batch, -1.2 +/- 0.6 %) is not among the
+   contrasts that this file lists. The paper reports it as one secondary result of an
+   optional arm and builds no claim on it.
+6. **E3, pool shares not reported; one analysis definition changed.** Added in review round 1
+   of the paper (2026-11-14). The decision rule says the paper names the cells and "the pool
+   shares there". The share of calls whose pool exceeds K is not among the recorded counters
+   (the pool size is not recorded), and adding it would change `src/fms` after the
+   timing run. The paper therefore gives the priced pairs per call, which are the direct
+   evidence that K binds, and says that the pool share is not reported. Separately, the first
+   version of `identicalToK6` in `analyze-v2.ts` compared `cplPairs` among its fields. That
+   field differs by construction whenever more candidates are priced, so every seed counted as
+   different. The committed analysis now compares only the executed run (makespan, throughput,
+   mean service time, move actions, wait actions): at K = 12 in warehouse-8-batch 14 of 30
+   seeds are identical to K = 6, in every other comparison none is.

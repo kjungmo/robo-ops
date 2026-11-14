@@ -3,7 +3,10 @@
 #
 #   scripts/regenerate.sh [JOBS]        # JOBS worker processes, default 4
 #   REGEN_REPORT=<file> scripts/regenerate.sh [JOBS]   # write the comparison there
-#                                       # (default: paper/experiments/repro/regeneration-schema<N>.json)
+#                                       # (default: paper/experiments/repro/regeneration-schema<N>.json
+#                                       # if that file does not exist, else the commit-stamped
+#                                       # regeneration-schema<N>-<commit>.json; an existing report is
+#                                       # never overwritten)
 #
 # 1. Refuses to run on a dirty tree, so that the commit recorded in
 #    bench-meta.json is the code that produced the records.
@@ -16,8 +19,10 @@
 #    explicit schema bump); any other new field counts as a difference. On any
 #    difference the committed results are left untouched and the script fails.
 # 4. Replaces paper/experiments/results/ with the run and writes the comparison
-#    to paper/experiments/repro/regeneration-schema<SCHEMA_VERSION>.json. The
-#    comparison of schema 1 (regeneration.json, commit 63a2db7) stays as it was.
+#    to paper/experiments/repro/regeneration-schema<SCHEMA_VERSION>.json (or the
+#    commit-stamped name, see above). The earlier comparisons (regeneration.json,
+#    regeneration-schema2.json, regeneration-v2.json) are history records that the
+#    paper cites and stay as they are.
 #
 # The records are deterministic given the seed, whatever JOBS is. Their
 # wall-clock fields depend on the host and its load and are NOT the timings
@@ -33,14 +38,25 @@ if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
   echo "working tree has uncommitted changes; commit first" >&2
   exit 2
 fi
+SCHEMA="$(sed -n 's/^export const SCHEMA_VERSION = \([0-9][0-9]*\)$/\1/p' scripts/schema.ts)"
+if [ -n "${REGEN_REPORT:-}" ]; then
+  REPORT="$REGEN_REPORT"
+else
+  REPORT="paper/experiments/repro/regeneration-schema${SCHEMA}.json"
+  if [ -e "$REPORT" ]; then
+    REPORT="paper/experiments/repro/regeneration-schema${SCHEMA}-$(git rev-parse --short HEAD).json"
+  fi
+fi
+if [ -e "$REPORT" ]; then
+  echo "report $REPORT exists; it is a history record and is not overwritten (set REGEN_REPORT to another file)" >&2
+  exit 2
+fi
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 echo "load average before: $(cat /proc/loadavg)"
 npx tsx scripts/bench-fms.ts --jobs "$JOBS" --out "$TMP/run"
 echo "load average after: $(cat /proc/loadavg)"
 mkdir -p paper/experiments/repro
-SCHEMA="$(sed -n 's/^export const SCHEMA_VERSION = \([0-9][0-9]*\)$/\1/p' scripts/schema.ts)"
-REPORT="${REGEN_REPORT:-paper/experiments/repro/regeneration-schema${SCHEMA}.json}"
 npx tsx scripts/check-results.ts "$TMP/run" --allow-new-fields --report "$REPORT"
 # Reached only when no pre-existing field differs.
 rm -f paper/experiments/results/*.json paper/experiments/results/*.csv

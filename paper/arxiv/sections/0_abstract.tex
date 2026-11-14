@@ -8,20 +8,21 @@ prioritized planning conflict-free, and endpoint capacities bound
 dock queues. We prove that, under synchronous unit-time
 execution and a replanning period no longer than the window, every executed
 step is vertex- and swap-conflict-free; progress and
-battery safety are not guaranteed, so we measure both. In a seeded simulator on
+battery safety are not guaranteed, so we measure both. In a simulator on
 four synthetic layouts, an independent auditor finds no executed conflict in
 4{,}740 runs with 60.4 million robot-steps; with normal batteries no robot
 depletes, but with doubled drain the charging policy strands robots in two
-thirds of runs. The coupling result is negative and weak, and scoped to
-allocation under a binding dock gate with event-triggered epochs. Four
+thirds of runs. The coupling result is negative, weak and scoped to
+allocation under a dock-capacity gate. Four
 allocation cost models stay within 2.9\% in mean throughput in all twelve
 cells, but the reservation-aware cost changes the matching in only 1--14\% of
 the allocations. Three causes weaken the test: most pickups lie beyond the
-planning window, and the dock gate and event-triggered epochs leave a single
-candidate task or idle robot in most calls; only 9--26\% of the calls pose a real
-assignment problem. With event epochs off (chosen after a five-seed hint), 30
-seeds in two 32-robot cells again show no difference: $+0.4\%$ and $+0.6\%$ for
-\sname\ over Hungarian. The study omits full-trip and dock-queue costs. With one robot per dock, token passing with task swaps
+planning window; under batch load the dock gate leaves one candidate task in
+most calls with 32 robots; event-triggered epochs offer one idle robot at a
+time. Only 9--26\% of the calls are real
+assignment problems. With event epochs off (chosen after a five-seed hint), 30
+seeds in two 32-robot cells detect no difference ($+0.4\pm1.1\%$ and
+$+0.6\pm1.5\%$ for \sname\ over Hungarian). The study omits full-trip and dock-queue costs. With one robot per dock, token passing with task swaps
 and an interruptible drive home beats our loop by 0.9--3.7\%. Dock capacity,
 the planning window and, on a small layout, windowed conflict-based search move
 the fleet. Code: \url{https://github.com/kjungmo/robo-ops}

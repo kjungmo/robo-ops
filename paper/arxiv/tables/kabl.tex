@@ -1,12 +1,12 @@
 \begin{table}[t]
 \centering
-\caption{\textbf{Candidate count $K$} (\sname, batch load, 200 tasks, PP, 30 seeds, event epochs on; pre-registered in commit \texttt{f35437f}). \emph{Pairs / call}: robot--task pairs priced per allocation call. \emph{vs.\ $K{=}6$}: seed-paired throughput difference in \% with its 95\% $t$-interval and two-sided $p$; none is rejected by Holm's procedure over the four primary comparisons. No run had an executed conflict, an illegal move or a stall.}
+\caption{\textbf{Candidate count $K$} (\sname, batch load, 200 tasks, PP, 30 seeds, event epochs on; pre-registered in commit \texttt{f35437f}). \emph{Pairs / call}: robot--task pairs priced per allocation call. \emph{vs.\ $K{=}6$}: seed-paired throughput difference in \% with its 95\% $t$-interval and two-sided $p$; none is rejected by Holm's procedure over the four primary comparisons. $\min(m,q){\ge}2$: share of calls with at least two eligible robots $m$ and at least two tasks in the pool of size $q$. No run had an executed conflict, an illegal move, a stall or a depletion.}
 \label{tab:kabl}
 \scriptsize
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{llrrrr}
 \toprule
-\textbf{Cell} & $K$ & \textbf{Throughput} & \textbf{Pairs / call} & $\min(m,\lvert P\rvert){\ge}2$\textbf{, \%} & \textbf{vs.\ $K{=}6$, \% ($p$)}\\
+\textbf{Cell} & $K$ & \textbf{Throughput} & \textbf{Pairs / call} & $\min(m,q){\ge}2$\textbf{, \%} & \textbf{vs.\ $K{=}6$, \% ($p$)}\\
 \midrule
 warehouse, 8, batch & 3 & 9.57\stdv{0.27} & 3.4 & 9.7 & $-0.2\pm0.5$ (0.442)\\
  & 6 & 9.59\stdv{0.28} & 6.6 & 8.9 & --\\

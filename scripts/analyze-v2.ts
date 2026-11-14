@@ -83,6 +83,8 @@ interface CellStats {
   executedConflicts: number
   illegalMoves: number
   depletions: number
+  /** Runs with at least one depletion event. */
+  depletedRuns: number
   holdEventsMean: number
   allocCalls: number
   nondegenerateShare: number
@@ -107,6 +109,7 @@ function cellStats(variant: string, rs: Run[]): CellStats {
     executedConflicts: sum(rs, 'audit_vertexConflicts') + sum(rs, 'audit_swapConflicts'),
     illegalMoves: sum(rs, 'audit_illegalMoves'),
     depletions: sum(rs, 'depletionEvents'),
+    depletedRuns: rs.filter((r) => num(r, 'depletionEvents') > 0).length,
     holdEventsMean: r4(mean(rs, 'holdEvents')),
     allocCalls: calls,
     nondegenerateShare: r4((100 * sum(rs, 'allocNondegenerate')) / calls),
@@ -183,6 +186,9 @@ function analyseE3() {
   const stats: CellStats[] = []
   const list: Pending[] = []
   const fam = 'E3 primary (Holm over 4)'
+  // Seeds whose executed run is identical to the run at K = 6. The number of priced pairs (cplPairs) is left out
+  // on purpose: it differs by construction whenever more candidates are priced, so it would make every run "different".
+  const EXECUTED = ['makespan', 'throughput', 'meanServiceTime', 'moveActions', 'waitActions']
   const identical: Array<{ cell: string; K: number; seedsEqualToK6: number; of: number }> = []
   for (const cell of cells) {
     for (const K of [3, 6, 12]) stats.push(cellStats(`${cell}/pact-K${K}`, sel(cell, K)))
@@ -191,7 +197,7 @@ function analyseE3() {
       list.push(contrast(`S3 ${cell} K${K}-K6 service`, `${cell}: K=${K} vs K=6`, 'meanServiceTime', `pact-K${K}`, 'pact-K6', sel(cell, K), sel(cell, 6), 'E3 secondary (Holm over 4)'))
       const a = sel(cell, K)
       const b = sel(cell, 6)
-      identical.push({ cell, K, seedsEqualToK6: a.filter((r, i) => ['makespan', 'throughput', 'moveActions', 'waitActions', 'cplPairs', 'cplAllocsMatchDiffer'].every((k) => Object.is(r[k], b[i][k]))).length, of: a.length })
+      identical.push({ cell, K, seedsEqualToK6: a.filter((r, i) => EXECUTED.every((k) => Object.is(r[k], b[i][k]))).length, of: a.length })
     }
   }
   return { cells: stats, contrasts: decide(list), identicalToK6: identical }

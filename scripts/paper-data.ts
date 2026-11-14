@@ -618,7 +618,7 @@ function cascadeTable(): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Hold-cascade and priority ablation} (batch load, Hungarian allocation, PP, 30 seeds; 200 tasks, 100 on \\emph{small}). \\emph{No repair}: a robot without a path holds its cell but robots whose reservations cross it keep their paths. \\emph{Priority restarts}: the failing robot is moved to the front and the group is re-planned, up to 3 times, then as \\emph{no repair}. \\emph{Static priorities}: status rank and id only, no held-first or blocking-first ordering. Conflicts are executed vertex and swap conflicts counted by the independent auditor, as mean per run with the maximum over the 30 runs in brackets; runs are not stopped at a conflict, so a variant that executes conflicts lets robots pass through each other and its throughput is not comparable with that of a conflict-free variant.}',
+    '\\caption{\\textbf{Hold-cascade and priority ablation} (batch load, Hungarian allocation, PP, 30 seeds; 200 tasks, 100 on \\emph{small}). \\emph{No repair}: a robot without a path holds its cell but robots whose reservations cross it keep their paths. \\emph{Priority restarts}: the failing robot is moved to the front and the group is re-planned, up to 3 times, then as \\emph{no repair}. \\emph{Static priorities}: status rank and id only, no held-first or blocking-first ordering, and held parking robots are not admitted to group~1. Conflicts are executed vertex and swap conflicts counted by the independent auditor, as mean per run with the maximum over the 30 runs in brackets; runs are not stopped at a conflict, so a variant that executes conflicts lets robots pass through each other and its throughput is not comparable with that of a conflict-free variant.}',
   )
   out.push('\\label{tab:cascade}')
   out.push('\\scriptsize')
@@ -749,7 +749,7 @@ export function diagnosticTable(): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{How often the coupling changes anything.} Counters recorded next to every allocation, pooled over the seeds of a configuration (5 in the twelve cells of \\cref{tab:main}, 30 in the four regimes of \\cref{tab:coupling}). \\emph{Beyond $w$}: priced robot--task pairs whose pickup is farther than the window, for which the estimate is a free-space distance after the first $w$ ticks (\\cref{eq:arrival}). \\emph{$\\hat a\\neq d$}: priced pairs whose estimate differs from the free-space distance; \\emph{gap}: mean difference in ticks over those pairs, next to the mean distance $\\bar d$ of all priced pairs. \\emph{Matching}: allocations whose matching differs from the Hungarian matching on the static costs of the same robots and tasks. \\emph{Calls}, for the \\sname\\ runs of the row: $\\min(m,\\lvert P\\rvert){\\ge}2$ is the share of allocation calls with at least two eligible robots $m$ and at least two tasks in the candidate pool $P$, the only calls that pose a real assignment problem; \\emph{Greedy $=$ Hung.}: the share of calls in which greedy and Hungarian assignment return the same matching on \\sname\'s own cost matrix.}',
+    '\\caption{\\textbf{How often the coupling changes anything.} Counters recorded next to every allocation, pooled over the seeds of a configuration (5 in the twelve cells of \\cref{tab:main}, 30 in the four regimes of \\cref{tab:coupling}). \\emph{Beyond $w$}: priced robot--task pairs whose pickup is farther than the window, for which the estimate is a free-space distance after the first $w$ ticks (\\cref{eq:arrival}). \\emph{$\\hat a\\neq d$}: priced pairs whose estimate differs from the free-space distance; \\emph{gap}: mean difference in ticks over those pairs, next to the mean distance $\\bar d$ of all priced pairs. \\emph{Matching}: allocations whose matching differs from the Hungarian matching on the static costs of the same robots and tasks. \\emph{Calls}, for the \\sname\\ runs of the row: $\\min(m,q){\\ge}2$ is the share of allocation calls with at least two eligible robots $m$ and a candidate pool of at least two tasks ($q$ is the pool size), the only calls that pose a real assignment problem; \\emph{Greedy $=$ Hung.}: the share of calls in which greedy and Hungarian assignment return the same matching on \\sname\'s own cost matrix.}',
   )
   out.push('\\label{tab:diagnostic}')
   out.push('\\scriptsize')
@@ -758,7 +758,7 @@ export function diagnosticTable(): { tex: string; summary: string } {
   out.push('\\toprule')
   out.push(' & \\multicolumn{6}{c}{\\textbf{\\sname\\ (path-aware)}} & \\multicolumn{2}{c}{\\textbf{Calls}} & \\multicolumn{2}{c}{\\textbf{Proxy}}\\\\')
   out.push('\\cmidrule(lr){2-7}\\cmidrule(lr){8-9}\\cmidrule(lr){10-11}')
-  out.push('\\textbf{Setting} & \\shortstack{\\textbf{Pairs}\\\\\\textbf{/run}} & \\shortstack{\\textbf{Beyond}\\\\\\textbf{$w$, \\%}} & \\shortstack{\\textbf{$\\hat a\\neq d$}\\\\\\textbf{\\%}} & \\textbf{Gap} & $\\bar d$ & \\shortstack{\\textbf{Match.}\\\\\\textbf{\\%}} & \\shortstack{\\textbf{$\\min(m,\\lvert P\\rvert)$}\\\\\\textbf{${\\ge}2$, \\%}} & \\shortstack{\\textbf{Greedy}\\\\\\textbf{$=$ Hung., \\%}} & \\shortstack{\\textbf{$\\hat a\\neq d$}\\\\\\textbf{\\%}} & \\shortstack{\\textbf{Match.}\\\\\\textbf{\\%}}\\\\')
+  out.push('\\textbf{Setting} & \\shortstack{\\textbf{Pairs}\\\\\\textbf{/run}} & \\shortstack{\\textbf{Beyond}\\\\\\textbf{$w$, \\%}} & \\shortstack{\\textbf{$\\hat a\\neq d$}\\\\\\textbf{\\%}} & \\textbf{Gap} & $\\bar d$ & \\shortstack{\\textbf{Match.}\\\\\\textbf{\\%}} & \\shortstack{\\textbf{$\\min(m,q)$}\\\\\\textbf{${\\ge}2$, \\%}} & \\shortstack{\\textbf{Greedy}\\\\\\textbf{$=$ Hung., \\%}} & \\shortstack{\\textbf{$\\hat a\\neq d$}\\\\\\textbf{\\%}} & \\shortstack{\\textbf{Match.}\\\\\\textbf{\\%}}\\\\')
   out.push('\\midrule')
   const lines: string[] = []
   rows.forEach(([label, pick], i) => {
@@ -939,15 +939,15 @@ function nondegenerateTable(v2: V2): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Allocation without event-triggered epochs} (32 robots, batch load, 200 tasks, PP, 30 seeds; pre-registered in commit \\texttt{f35437f}, chosen after the five-seed hint of \\cref{subsec:ablation}, so confirmatory of a post-hoc observation). \\emph{Calls}: shares of allocation calls with $\\min(m,\\lvert P\\rvert){\\ge}2$ and in which greedy and Hungarian assignment agree on the method\'s own cost matrix. \\emph{Changes}: allocations in which \\sname\'s or the proxy\'s matching differs from the Hungarian matching on static costs. \\emph{vs.\\ Hungarian}: seed-paired throughput difference in \\% with its 95\\% $t$-interval and the two-sided $p$ of the paired $t$-test; $\\dagger$: rejected by Holm\'s procedure over the two primary comparisons (the first arm, \\sname). The arm \\emph{events} is the default configuration and \\emph{no events} switches the event-triggered epochs off. No other comparison is in a Holm family here. No run had an executed conflict, an illegal move or a stall.}',
+    '\\caption{\\textbf{Allocation without event-triggered epochs} (32 robots, batch load, 200 tasks, PP, 30 seeds; pre-registered in commit \\texttt{f35437f}, chosen after the five-seed hint of \\cref{subsec:ablation}, so confirmatory of a post-hoc observation). \\emph{Calls}: shares of allocation calls with $\\min(m,q){\\ge}2$ ($m$ eligible robots, $q$ tasks in the candidate pool) and in which greedy and Hungarian assignment agree on the method\'s own cost matrix. \\emph{Changes}: share of the allocations in which \\sname\'s or the proxy\'s matching differs from the Hungarian matching on static costs, in all calls and, for \\sname, of those in calls with $\\min(m,q){\\ge}2$. \\emph{vs.\\ Hungarian}: seed-paired throughput difference in \\% with its 95\\% $t$-interval and the two-sided $p$ of the paired $t$-test; $\\dagger$: rejected by Holm\'s procedure over the two primary comparisons (the first arm, \\sname). The arm \\emph{events} is the default configuration and \\emph{no events} switches the event-triggered epochs off. No other comparison is in a Holm family here. No run had an executed conflict, an illegal move, a stall or a depletion.}',
   )
   out.push('\\label{tab:nondeg}')
   out.push('\\scriptsize')
   out.push('\\setlength{\\tabcolsep}{3pt}')
-  out.push('\\begin{tabular}{lllrrrrr}')
+  out.push('\\begin{tabular}{lllrrrrrr}')
   out.push('\\toprule')
-  out.push(' & & & \\textbf{Throughput} & \\multicolumn{2}{c}{\\textbf{Calls, \\%}} & \\textbf{Changes} & \\textbf{vs.\\ Hungarian, \\%} \\\\')
-  out.push(' \\textbf{Cell} & \\textbf{Arm} & \\textbf{Method} & & $\\min(m,\\lvert P\\rvert){\\ge}2$ & \\shortstack{Greedy\\\\$=$ Hung.} & \\textbf{\\%} & ($p$)\\\\')
+  out.push(' & & & \\textbf{Throughput} & \\multicolumn{2}{c}{\\textbf{Calls, \\%}} & \\multicolumn{2}{c}{\\textbf{Changes, \\%}} & \\textbf{vs.\\ Hungarian, \\%} \\\\')
+  out.push(' \\textbf{Cell} & \\textbf{Arm} & \\textbf{Method} & & $\\min(m,q){\\ge}2$ & \\shortstack{Greedy\\\\$=$ Hung.} & all & \\shortstack{$\\min(m,q)$\\\\${\\ge}2$} & ($p$)\\\\')
   out.push('\\midrule')
   const lines: string[] = []
   cells.forEach(([cell, cellLabel], ci) => {
@@ -962,10 +962,13 @@ function nondegenerateTable(v2: V2): { tex: string; summary: string } {
           cmp = `${v2ci(c)}${m === 'pact' && arm === 'noevent' ? v2holm(c) : ''} (${v2p(c)})`
           lines.push(`v2 nondegenerate ${cell}/${arm} ${m} vs hungarian: ${c.mean} +- ${c.half}, p ${c.p}`)
         }
-        const chg = m === 'pact' || m === 'pact-proxy' ? `${((100 * cs.matchDiffer) / cs.cplAllocs).toFixed(0)}` : '--'
-        out.push(`${lab} & ${ml} & ${cs.throughput.mean.toFixed(1)}\\stdv{${cs.throughput.sd.toFixed(1)}} & ${cs.nondegenerateShare.toFixed(1)} & ${cs.greedyEqHungarianShare.toFixed(1)} & ${chg} & ${cmp}\\\\`)
+        const coupled = m === 'pact' || m === 'pact-proxy'
+        const chg = coupled ? `${((100 * cs.matchDiffer) / cs.cplAllocs).toFixed(0)}` : '--'
+        const chgNd = coupled ? `${((100 * cs.matchDifferNondegenerate) / cs.cplAllocs).toFixed(0)}` : '--'
+        out.push(`${lab} & ${ml} & ${cs.throughput.mean.toFixed(1)}\\stdv{${cs.throughput.sd.toFixed(1)}} & ${cs.nondegenerateShare.toFixed(1)} & ${cs.greedyEqHungarianShare.toFixed(1)} & ${chg} & ${chgNd} & ${cmp}\\\\`)
+        if (coupled) lines.push(`v2 nondegenerate ${cell}/${arm} ${m}: matching differs ${cs.matchDiffer} of ${cs.cplAllocs} allocations, of which in calls with min(m,q)>=2 ${cs.matchDifferNondegenerate}`)
       })
-      if (!(ci === cells.length - 1 && ai === arms.length - 1)) out.push(ai === arms.length - 1 ? '\\midrule' : '\\cmidrule(lr){2-8}')
+      if (!(ci === cells.length - 1 && ai === arms.length - 1)) out.push(ai === arms.length - 1 ? '\\midrule' : '\\cmidrule(lr){2-9}')
     })
   })
   out.push('\\bottomrule')
@@ -983,14 +986,14 @@ function kablationTable(v2: V2): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Candidate count $K$} (\\sname, batch load, 200 tasks, PP, 30 seeds, event epochs on; pre-registered in commit \\texttt{f35437f}). \\emph{Pairs / call}: robot--task pairs priced per allocation call. \\emph{vs.\\ $K{=}6$}: seed-paired throughput difference in \\% with its 95\\% $t$-interval and two-sided $p$; none is rejected by Holm\'s procedure over the four primary comparisons. No run had an executed conflict, an illegal move or a stall.}',
+    '\\caption{\\textbf{Candidate count $K$} (\\sname, batch load, 200 tasks, PP, 30 seeds, event epochs on; pre-registered in commit \\texttt{f35437f}). \\emph{Pairs / call}: robot--task pairs priced per allocation call. \\emph{vs.\\ $K{=}6$}: seed-paired throughput difference in \\% with its 95\\% $t$-interval and two-sided $p$; none is rejected by Holm\'s procedure over the four primary comparisons. $\\min(m,q){\\ge}2$: share of calls with at least two eligible robots $m$ and at least two tasks in the pool of size $q$. No run had an executed conflict, an illegal move, a stall or a depletion.}',
   )
   out.push('\\label{tab:kabl}')
   out.push('\\scriptsize')
   out.push('\\setlength{\\tabcolsep}{4pt}')
   out.push('\\begin{tabular}{llrrrr}')
   out.push('\\toprule')
-  out.push('\\textbf{Cell} & $K$ & \\textbf{Throughput} & \\textbf{Pairs / call} & $\\min(m,\\lvert P\\rvert){\\ge}2$\\textbf{, \\%} & \\textbf{vs.\\ $K{=}6$, \\% ($p$)}\\\\')
+  out.push('\\textbf{Cell} & $K$ & \\textbf{Throughput} & \\textbf{Pairs / call} & $\\min(m,q){\\ge}2$\\textbf{, \\%} & \\textbf{vs.\\ $K{=}6$, \\% ($p$)}\\\\')
   out.push('\\midrule')
   const lines: string[] = []
   cells.forEach(([cell, label], ci) => {
@@ -1030,14 +1033,14 @@ function prioritySplitTable(v2: V2): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Which part of the dynamic priority ordering matters} (batch load, Hungarian allocation, PP, hold cascade, 30 seeds; 200 tasks, 100 on \\emph{small}; pre-registered in commit \\texttt{f35437f}). \\emph{Dynamic} orders robots on another robot\'s goal first, then robots held last epoch, and lets held parking robots join group~1; \\emph{static} uses neither; \\emph{held first only} and \\emph{blocking first only} keep one of the two (held parkers join group~1 only under the first). The dynamic and static arms are the records of \\cref{tab:cascade}. Throughput is tasks per 100 ticks; a stalled run is stopped after 1000 ticks without progress, so a stalling arm has a small throughput and the relative differences against it are large. Differences are seed-paired, in \\% of the second arm, with the 95\\% $t$-interval; $\\dagger$: rejected by Holm\'s procedure over the eight primary comparisons (each one-mechanism arm against static). No run of any arm had an executed conflict.}',
+    '\\caption{\\textbf{Which part of the dynamic priority ordering matters} (batch load, Hungarian allocation, PP, hold cascade, 30 seeds; 200 tasks, 100 on \\emph{small}; pre-registered in commit \\texttt{f35437f}). \\emph{Dynamic} orders robots on another robot\'s goal first, then robots held last epoch, and lets held parking robots join group~1; \\emph{static} uses neither; \\emph{held first only} and \\emph{blocking first only} keep one of the two (held parkers join group~1 only under the first). The dynamic and static arms are the records of \\cref{tab:cascade}. Throughput is tasks per 100 ticks; a stalled run is stopped after 1000 ticks without progress, so a stalling arm has a small throughput and the relative differences against it are large. Differences are seed-paired, in \\% of the second arm, with the 95\\% $t$-interval; $\\dagger$: rejected by Holm\'s procedure over the eight primary comparisons (each one-mechanism arm against static). \\emph{Stalled}: stalled runs; \\emph{Unfin.}: tasks not delivered, \\emph{Depl.}: depletion events (and, in brackets, the runs with at least one), both totals over the 30 runs; \\emph{Holds}: hold events per run. Normal batteries throughout. No run of any arm had an executed conflict or an illegal move.}',
   )
   out.push('\\label{tab:split}')
   out.push('\\scriptsize')
-  out.push('\\setlength{\\tabcolsep}{4pt}')
-  out.push('\\begin{tabular}{llrrrr}')
+  out.push('\\setlength{\\tabcolsep}{2.5pt}')
+  out.push('\\begin{tabular}{llrrrrrrr}')
   out.push('\\toprule')
-  out.push('\\textbf{Setting} & \\textbf{Priority ordering} & \\textbf{Throughput} & \\textbf{Stalled runs} & \\textbf{vs.\\ static, \\%} & \\textbf{vs.\\ dynamic, \\%}\\\\')
+  out.push('\\textbf{Setting} & \\textbf{Priority ordering} & \\textbf{Throughput} & \\textbf{Stalled} & \\textbf{Unfin.} & \\textbf{Depl.} & \\textbf{Holds} & \\textbf{vs.\\ static, \\%} & \\textbf{vs.\\ dynamic, \\%}\\\\')
   out.push('\\midrule')
   const lines: string[] = []
   settings.forEach(([s, label], si) => {
@@ -1056,7 +1059,10 @@ function prioritySplitTable(v2: V2): { tex: string; summary: string } {
         vsDyn = v2ci(d)
         lines.push(`v2 prioritysplit ${s} ${arm}: vs static ${c.mean} +- ${c.half}, vs dynamic ${d.mean} +- ${d.half}, stalled ${cs.stalledRuns}`)
       }
-      out.push(`${ai === 0 ? label : ''} & ${al} & ${cs.throughput.mean.toFixed(1)}\\stdv{${cs.throughput.sd.toFixed(1)}} & ${cs.stalledRuns}/30 & ${vsStatic} & ${vsDyn}\\\\`)
+      if (cs.executedConflicts !== 0 || cs.illegalMoves !== 0) throw new Error(`v2 e4 cell ${s}/${arm}: executed conflicts or illegal moves`)
+      const depl = cs.depletions === 0 ? '0' : `${cs.depletions} (${cs.depletedRuns})`
+      lines.push(`v2 prioritysplit ${s} ${arm}: unfinished ${cs.unfinishedTasks}, depletions ${cs.depletions} in ${cs.depletedRuns} runs, holds per run ${cs.holdEventsMean.toFixed(1)}`)
+      out.push(`${ai === 0 ? label : ''} & ${al} & ${cs.throughput.mean.toFixed(1)}\\stdv{${cs.throughput.sd.toFixed(1)}} & ${cs.stalledRuns}/30 & ${cs.unfinishedTasks} & ${depl} & ${cs.holdEventsMean.toFixed(1)} & ${vsStatic} & ${vsDyn}\\\\`)
     })
     if (si !== settings.length - 1) out.push('\\midrule')
   })
@@ -1116,14 +1122,14 @@ function epochTable(): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Wall time of one rolling-horizon epoch} in ms on the quiet host (batch load; 200 tasks in the scaling row, 100 in the others; seeds 1--5; all epochs of all seeds pooled). Median over the three valid repeats of the 50th percentile, the 99th percentile and the longest epoch, and, in the last but one column, the longest epoch of the largest repeat. \\emph{ms / tick}: seed-mean planner time per simulated tick. Epoch times exclude the diagnostic counters and the static diagnostic matching.}',
+    '\\caption{\\textbf{Wall time of one rolling-horizon epoch} in ms on the quiet host (batch load; 200 tasks in the row \\emph{PP, \\sname, warehouse, 48} (the scaling sweep), 100 in the others; seeds 1--5; all epochs of all seeds pooled). Median over the three valid repeats of the 50th percentile, the 99th percentile and the longest epoch; \\emph{Longest, max of repeats}: the largest of the three repeats\' longest epochs. \\emph{ms / tick}: seed-mean planner time per simulated tick. Epoch times exclude the diagnostic counters and the static diagnostic matching.}',
   )
   out.push('\\label{tab:epoch}')
   out.push('\\scriptsize')
   out.push('\\setlength{\\tabcolsep}{5pt}')
   out.push('\\begin{tabular}{lrrrrrr}')
   out.push('\\toprule')
-  out.push('\\textbf{Planner, cost, layout, robots} & \\textbf{Epochs} & \\textbf{p50} & \\textbf{p99} & \\textbf{Longest} & \\textbf{Longest, largest repeat} & \\textbf{ms / tick}\\\\')
+  out.push('\\textbf{Planner, cost, layout, robots} & \\textbf{Epochs} & \\textbf{p50} & \\textbf{p99} & \\textbf{Longest} & \\textbf{Longest, max of repeats} & \\textbf{ms / tick}\\\\')
   out.push('\\midrule')
   const lines: string[] = []
   for (const [sweep, layout, fleet, variant, label] of EPOCH_ROWS) {

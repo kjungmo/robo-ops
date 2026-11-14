@@ -114,9 +114,11 @@ allocation show that the test is weak as well as negative. The
 reservation-aware cost changes the matching in only 1--14\% of the
 allocations, and three causes act together (\cref{tab:diagnostic}). First,
 60--86\% of the priced pickups lie beyond the planning
-window, where the estimate falls back to a free-space distance. Second, the
-dock gate leaves a single task in the candidate pool in most calls with 32
-robots, and fleets of 8 rarely have two idle robots. Third, event-triggered
+window, where the estimate falls back to a free-space distance. Second, under
+batch load the dock gate leaves a single task in the candidate pool in most calls
+with 32 robots; under the Poisson load, which fleets of 16 and 32 robots keep up
+with, the pool is small largely because few tasks are pending. Fleets of 8
+rarely have two idle robots. Third, event-triggered
 epochs, which start whenever a robot becomes idle, offer one idle robot and,
 through the gate, one newly eligible task at a time.
 Only 9--26\% of the calls have at least two robots and two tasks, and in 91--99\%
@@ -124,7 +126,9 @@ of the calls greedy and Hungarian assignment return the same matching.
 ``Greedy is not measurably worse than optimal'' is therefore a statement about
 a regime in which the two nearly always agree. The cost is not idle in the other calls: in the warehouse with
 32 robots under batch load, 63 of its 95 matching changes fall in calls with
-a single robot or task. We then tested a regime without event-triggered
+a single robot or task.
+
+We then tested a regime without event-triggered
 epochs, in which 56--59\% of the calls in two 32-robot cells are real
 assignment problems (\cref{subsec:nondeg}). We chose it after the first-round ablation had shown a hint
 ($+3.3\pm3.0\%$ for the reservation-aware cost, five seeds, nominal), so the
@@ -134,7 +138,9 @@ from Hungarian assignment by $+0.4\pm1.1\%$ and $+0.6\pm1.5\%$ in throughput, ne
 Holm's procedure, and the hint does not replicate. With five seeds in the main study the interval
 bounds reach about 7\% in the noisiest cell and about 4\% under the Poisson
 load, so the study detects no large effect but cannot resolve small ones;
-\cref{subsec:main,sec:disc} state what it does not show. What does move the fleet is elsewhere: raising the
+\cref{subsec:main,sec:disc} state what it does not show.
+
+What does move the fleet is elsewhere: raising the
 per-dock in-flight capacity from 2 to 3 raises throughput by 26--29\%,
 shortening the planning window from 20 to 10 ticks raises it by 7\% while
 cutting the planner's A* expansions per tick by 79\%, and windowed CBS reduces makespan by
@@ -145,11 +151,12 @@ is measured on 120 seed pairs per fleet size. In the four regimes in which
 we expected the coupling to matter, the matching changes in 2--27\% of the
 allocations and \sname\ shows no resolved gain except where every method
 strands robots, and there its higher throughput mostly reflects fewer stalled runs
-(\cref{subsec:coupling}). Two further results qualify the design. Where the
-candidate count $K$ binds, varying it changes nothing measurable
-(\cref{subsec:ablation}). Static priorities
+(\cref{subsec:coupling}). Two further results qualify the design. In two cells where the
+candidate count $K$ binds, varying it from 3 to 12 changes throughput by at most 0.8\%,
+and none of the four comparisons is rejected (\cref{subsec:ablation}). Static priorities
 gridlock the fleet, and held-first ordering alone keeps it live while the full dynamic
 ordering is best in throughput (\cref{subsec:cascade}).
+
 Token passing and token passing with task swaps \citep{ma2017lifelong}
 deliver 16--66\% less throughput than our loop at its default dock
 capacity, but their endpoint rule allows one robot in flight
@@ -163,8 +170,9 @@ Throughout, the executed plans of 60.4 million audited robot-steps contain no
 vertex or swap conflict, as the construction guarantees under synchronous
 unit-time execution; the third round adds 23.1 million robot-steps, also
 without one. Progress and charge
-are not guaranteed: with normal batteries no robot depletes and every run
-delivers all of its tasks, but with doubled drain the charging policy
+are not guaranteed: in every run of the default loop in the first round and the
+stress sweep, with normal batteries, no robot depletes and every task is
+delivered, but with doubled drain the charging policy
 strands robots once its slots saturate (\cref{subsec:main}), and we prove
 only a conditional reserve bound (\cref{prop:charge}). We release the
 implementation inside the operator-console codebase it was developed in,

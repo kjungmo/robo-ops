@@ -1,12 +1,12 @@
 \begin{table}[t]
 \centering
-\caption{\textbf{Wall time of one rolling-horizon epoch} in ms on the quiet host (batch load; 200 tasks in the scaling row, 100 in the others; seeds 1--5; all epochs of all seeds pooled). Median over the three valid repeats of the 50th percentile, the 99th percentile and the longest epoch, and, in the last but one column, the longest epoch of the largest repeat. \emph{ms / tick}: seed-mean planner time per simulated tick. Epoch times exclude the diagnostic counters and the static diagnostic matching.}
+\caption{\textbf{Wall time of one rolling-horizon epoch} in ms on the quiet host (batch load; 200 tasks in the row \emph{PP, \sname, warehouse, 48} (the scaling sweep), 100 in the others; seeds 1--5; all epochs of all seeds pooled). Median over the three valid repeats of the 50th percentile, the 99th percentile and the longest epoch; \emph{Longest, max of repeats}: the largest of the three repeats' longest epochs. \emph{ms / tick}: seed-mean planner time per simulated tick. Epoch times exclude the diagnostic counters and the static diagnostic matching.}
 \label{tab:epoch}
 \scriptsize
 \setlength{\tabcolsep}{5pt}
 \begin{tabular}{lrrrrrr}
 \toprule
-\textbf{Planner, cost, layout, robots} & \textbf{Epochs} & \textbf{p50} & \textbf{p99} & \textbf{Longest} & \textbf{Longest, largest repeat} & \textbf{ms / tick}\\
+\textbf{Planner, cost, layout, robots} & \textbf{Epochs} & \textbf{p50} & \textbf{p99} & \textbf{Longest} & \textbf{Longest, max of repeats} & \textbf{ms / tick}\\
 \midrule
 PP, Hungarian, warehouse, 32 & 663 & 1.35 & 3.1 & 4.3 & 7.0 & 0.56\\
 PP, \sname, warehouse, 32 & 655 & 1.41 & 3.8 & 4.8 & 7.9 & 0.60\\

@@ -1,43 +1,43 @@
 \begin{table}[t]
 \centering
-\caption{\textbf{Allocation without event-triggered epochs} (32 robots, batch load, 200 tasks, PP, 30 seeds; pre-registered in commit \texttt{f35437f}, chosen after the five-seed hint of \cref{subsec:ablation}, so confirmatory of a post-hoc observation). \emph{Calls}: shares of allocation calls with $\min(m,\lvert P\rvert){\ge}2$ and in which greedy and Hungarian assignment agree on the method's own cost matrix. \emph{Changes}: allocations in which \sname's or the proxy's matching differs from the Hungarian matching on static costs. \emph{vs.\ Hungarian}: seed-paired throughput difference in \% with its 95\% $t$-interval and the two-sided $p$ of the paired $t$-test; $\dagger$: rejected by Holm's procedure over the two primary comparisons (the first arm, \sname). The arm \emph{events} is the default configuration and \emph{no events} switches the event-triggered epochs off. No other comparison is in a Holm family here. No run had an executed conflict, an illegal move or a stall.}
+\caption{\textbf{Allocation without event-triggered epochs} (32 robots, batch load, 200 tasks, PP, 30 seeds; pre-registered in commit \texttt{f35437f}, chosen after the five-seed hint of \cref{subsec:ablation}, so confirmatory of a post-hoc observation). \emph{Calls}: shares of allocation calls with $\min(m,q){\ge}2$ ($m$ eligible robots, $q$ tasks in the candidate pool) and in which greedy and Hungarian assignment agree on the method's own cost matrix. \emph{Changes}: share of the allocations in which \sname's or the proxy's matching differs from the Hungarian matching on static costs, in all calls and, for \sname, of those in calls with $\min(m,q){\ge}2$. \emph{vs.\ Hungarian}: seed-paired throughput difference in \% with its 95\% $t$-interval and the two-sided $p$ of the paired $t$-test; $\dagger$: rejected by Holm's procedure over the two primary comparisons (the first arm, \sname). The arm \emph{events} is the default configuration and \emph{no events} switches the event-triggered epochs off. No other comparison is in a Holm family here. No run had an executed conflict, an illegal move, a stall or a depletion.}
 \label{tab:nondeg}
 \scriptsize
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{lllrrrrr}
+\begin{tabular}{lllrrrrrr}
 \toprule
- & & & \textbf{Throughput} & \multicolumn{2}{c}{\textbf{Calls, \%}} & \textbf{Changes} & \textbf{vs.\ Hungarian, \%} \\
- \textbf{Cell} & \textbf{Arm} & \textbf{Method} & & $\min(m,\lvert P\rvert){\ge}2$ & \shortstack{Greedy\\$=$ Hung.} & \textbf{\%} & ($p$)\\
+ & & & \textbf{Throughput} & \multicolumn{2}{c}{\textbf{Calls, \%}} & \multicolumn{2}{c}{\textbf{Changes, \%}} & \textbf{vs.\ Hungarian, \%} \\
+ \textbf{Cell} & \textbf{Arm} & \textbf{Method} & & $\min(m,q){\ge}2$ & \shortstack{Greedy\\$=$ Hung.} & all & \shortstack{$\min(m,q)$\\${\ge}2$} & ($p$)\\
 \midrule
-warehouse, 32, batch & no events & Greedy & 29.9\stdv{2.4} & 57.3 & 75.8 & -- & $0.0\pm0.8$ (0.978)\\
- &  & Hungarian & 29.9\stdv{2.5} & 58.9 & 74.9 & -- & --\\
- &  & Proxy & 29.9\stdv{2.8} & 58.2 & 77.0 & 36 & $-0.1\pm1.3$ (0.837)\\
- &  & \sname & 30.0\stdv{2.8} & 58.6 & 73.6 & 21 & $+0.4\pm1.1$ (0.431)\\
-\cmidrule(lr){2-8}
- & events & Greedy & 30.5\stdv{2.8} & 16.4 & 94.7 & -- & $-0.6\pm1.0$ (0.254)\\
- &  & Hungarian & 30.6\stdv{2.6} & 16.3 & 95.1 & -- & --\\
- &  & Proxy & 30.6\stdv{2.6} & 16.4 & 95.2 & 28 & $-0.1\pm1.1$ (0.853)\\
- &  & \sname & 31.0\stdv{2.6} & 16.6 & 94.7 & 14 & $+1.1\pm1.1$ (0.053)\\
-\cmidrule(lr){2-8}
- & no events, $\kappa_{\mathrm{d}}{=}4$ & Greedy & 32.6\stdv{2.0} & 59.0 & 65.1 & -- & $+0.1\pm1.5$ (0.874)\\
- &  & Hungarian & 32.6\stdv{2.0} & 60.0 & 62.5 & -- & --\\
- &  & Proxy & 32.7\stdv{2.1} & 60.2 & 65.4 & 32 & $+0.6\pm1.5$ (0.430)\\
- &  & \sname & 33.0\stdv{2.4} & 59.5 & 62.9 & 18 & $+1.5\pm1.5$ (0.055)\\
+warehouse, 32, batch & no events & Greedy & 29.9\stdv{2.4} & 57.3 & 75.8 & -- & -- & $0.0\pm0.8$ (0.978)\\
+ &  & Hungarian & 29.9\stdv{2.5} & 58.9 & 74.9 & -- & -- & --\\
+ &  & Proxy & 29.9\stdv{2.8} & 58.2 & 77.0 & 36 & 28 & $-0.1\pm1.3$ (0.837)\\
+ &  & \sname & 30.0\stdv{2.8} & 58.6 & 73.6 & 21 & 17 & $+0.4\pm1.1$ (0.431)\\
+\cmidrule(lr){2-9}
+ & events & Greedy & 30.5\stdv{2.8} & 16.4 & 94.7 & -- & -- & $-0.6\pm1.0$ (0.254)\\
+ &  & Hungarian & 30.6\stdv{2.6} & 16.3 & 95.1 & -- & -- & --\\
+ &  & Proxy & 30.6\stdv{2.6} & 16.4 & 95.2 & 28 & 8 & $-0.1\pm1.1$ (0.853)\\
+ &  & \sname & 31.0\stdv{2.6} & 16.6 & 94.7 & 14 & 4 & $+1.1\pm1.1$ (0.053)\\
+\cmidrule(lr){2-9}
+ & no events, $\kappa_{\mathrm{d}}{=}4$ & Greedy & 32.6\stdv{2.0} & 59.0 & 65.1 & -- & -- & $+0.1\pm1.5$ (0.874)\\
+ &  & Hungarian & 32.6\stdv{2.0} & 60.0 & 62.5 & -- & -- & --\\
+ &  & Proxy & 32.7\stdv{2.1} & 60.2 & 65.4 & 32 & 27 & $+0.6\pm1.5$ (0.430)\\
+ &  & \sname & 33.0\stdv{2.4} & 59.5 & 62.9 & 18 & 16 & $+1.5\pm1.5$ (0.055)\\
 \midrule
-console, 32, batch & no events & Greedy & 28.5\stdv{2.0} & 56.5 & 88.8 & -- & $+0.2\pm1.0$ (0.705)\\
- &  & Hungarian & 28.4\stdv{1.9} & 56.1 & 88.8 & -- & --\\
- &  & Proxy & 28.6\stdv{2.2} & 56.8 & 90.4 & 27 & $+0.5\pm1.4$ (0.501)\\
- &  & \sname & 28.6\stdv{2.1} & 56.8 & 89.6 & 22 & $+0.6\pm1.5$ (0.421)\\
-\cmidrule(lr){2-8}
- & events & Greedy & 29.7\stdv{2.0} & 14.0 & 97.9 & -- & $+1.1\pm1.7$ (0.220)\\
- &  & Hungarian & 29.4\stdv{2.2} & 14.6 & 97.8 & -- & --\\
- &  & Proxy & 29.3\stdv{2.1} & 14.0 & 98.2 & 20 & $-0.3\pm1.3$ (0.629)\\
- &  & \sname & 29.4\stdv{2.3} & 14.4 & 98.1 & 15 & $+0.1\pm1.5$ (0.925)\\
-\cmidrule(lr){2-8}
- & no events, $\kappa_{\mathrm{d}}{=}4$ & Greedy & 32.8\stdv{2.3} & 61.9 & 80.5 & -- & $+1.4\pm1.7$ (0.095)\\
- &  & Hungarian & 32.3\stdv{2.3} & 61.2 & 80.4 & -- & --\\
- &  & Proxy & 32.6\stdv{2.1} & 61.5 & 82.1 & 38 & $+0.9\pm1.5$ (0.224)\\
- &  & \sname & 32.7\stdv{2.1} & 62.7 & 79.6 & 29 & $+1.3\pm1.4$ (0.077)\\
+console, 32, batch & no events & Greedy & 28.5\stdv{2.0} & 56.5 & 88.8 & -- & -- & $+0.2\pm1.0$ (0.705)\\
+ &  & Hungarian & 28.4\stdv{1.9} & 56.1 & 88.8 & -- & -- & --\\
+ &  & Proxy & 28.6\stdv{2.2} & 56.8 & 90.4 & 27 & 21 & $+0.5\pm1.4$ (0.501)\\
+ &  & \sname & 28.6\stdv{2.1} & 56.8 & 89.6 & 22 & 17 & $+0.6\pm1.5$ (0.421)\\
+\cmidrule(lr){2-9}
+ & events & Greedy & 29.7\stdv{2.0} & 14.0 & 97.9 & -- & -- & $+1.1\pm1.7$ (0.220)\\
+ &  & Hungarian & 29.4\stdv{2.2} & 14.6 & 97.8 & -- & -- & --\\
+ &  & Proxy & 29.3\stdv{2.1} & 14.0 & 98.2 & 20 & 5 & $-0.3\pm1.3$ (0.629)\\
+ &  & \sname & 29.4\stdv{2.3} & 14.4 & 98.1 & 15 & 4 & $+0.1\pm1.5$ (0.925)\\
+\cmidrule(lr){2-9}
+ & no events, $\kappa_{\mathrm{d}}{=}4$ & Greedy & 32.8\stdv{2.3} & 61.9 & 80.5 & -- & -- & $+1.4\pm1.7$ (0.095)\\
+ &  & Hungarian & 32.3\stdv{2.3} & 61.2 & 80.4 & -- & -- & --\\
+ &  & Proxy & 32.6\stdv{2.1} & 61.5 & 82.1 & 38 & 30 & $+0.9\pm1.5$ (0.224)\\
+ &  & \sname & 32.7\stdv{2.1} & 62.7 & 79.6 & 29 & 24 & $+1.3\pm1.4$ (0.077)\\
 \bottomrule
 \end{tabular}
 \end{table}
