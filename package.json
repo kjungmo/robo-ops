@@ -18,6 +18,7 @@
     "test": "vitest run",
     "bench:fms": "tsx scripts/bench-fms.ts",
     "paper:data": "tsx scripts/paper-data.ts",
+    "analyze:v2": "tsx scripts/analyze-v2.ts",
     "check:paper": "tsx scripts/check-paper.ts",
     "check:results": "tsx scripts/check-results.ts",
     "regenerate": "bash scripts/regenerate.sh",

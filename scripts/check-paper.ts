@@ -57,8 +57,10 @@ function checkGenerated(): void {
 
 // ---------------------------------------------------------------- 2. summaries
 
-const SWEEPS = ['main', 'planner', 'scaling', 'ablation', 'battery', 'stress', 'cascade', 'baselines', 'coupling', 'tpfree']
+const SWEEPS = ['main', 'planner', 'scaling', 'ablation', 'battery', 'stress', 'cascade', 'baselines', 'coupling', 'tpfree', 'nondegenerate', 'kablation', 'prioritysplit']
 const FIRST = ['main', 'planner', 'scaling', 'ablation', 'battery']
+/** The v2 sweeps (paper/experiments/PREREG_v2.md); not part of the "second round" of v1. */
+const V2 = ['nondegenerate', 'kablation', 'prioritysplit']
 
 function checkSummaries(): void {
   for (const sweep of SWEEPS) {
@@ -394,7 +396,8 @@ type Regen = {
 const regen = JSON.parse(readFileSync(join(ROOT, 'paper/experiments/repro/regeneration.json'), 'utf8')) as Regen
 // The same comparison for the regeneration that added the schema-2 fields (the allocation-shape counters).
 const regen2 = JSON.parse(readFileSync(join(ROOT, `paper/experiments/repro/regeneration-schema${SCHEMA_VERSION}.json`), 'utf8')) as Regen
-const secondRuns = SWEEPS.filter((x) => !FIRST.includes(x)).reduce((a, x) => a + meta.runsPerSweep[x], 0)
+const secondRuns = SWEEPS.filter((x) => !FIRST.includes(x) && !V2.includes(x)).reduce((a, x) => a + meta.runsPerSweep[x], 0)
+const v2Runs = V2.reduce((a, x) => a + meta.runsPerSweep[x], 0)
 
 // Coupling diagnostics (cpl* counters), pooled over the runs of a configuration.
 const diag = (rs: Run[]) => ({
@@ -672,11 +675,11 @@ function experiments(): FileSpec {
   assert(timing.invalidRepeats.length === 0 && timing.attempts === 3 && timing.validRepeats.length === 3 && timing.workers === 1, 'timing: three attempts, three valid repeats, one process')
   assert(timing.load.every((l) => l.before <= timing.loadMax), 'every timing repeat was admitted at or below the load threshold')
   assert(timing.cpu === meta.cpu && timing.node === meta.node, 'timing and results on the same host and Node version')
-  assert(meta.runs === SWEEPS.reduce((a, x) => a + R_(x).length, 0) && meta.runs === first.length + secondRuns, 'meta run count equals the records')
-  assert(regen.commit === '63a2db7' && regen.differingFields === 0 && regen.records === meta.runs - tfRuns.length && regen.sweepsWithoutCommittedFile.join() === 'tpfree', 'regeneration at schema 1: all earlier records identical, tpfree new')
+  assert(meta.runs === SWEEPS.reduce((a, x) => a + R_(x).length, 0) && meta.runs === first.length + secondRuns + v2Runs, 'meta run count equals the records')
+  assert(regen.commit === '63a2db7' && regen.differingFields === 0 && regen.records === meta.runs - tfRuns.length - v2Runs && regen.sweepsWithoutCommittedFile.join() === 'tpfree', 'regeneration at schema 1: all earlier records identical, tpfree new')
   assert(
-    regen2.commit === meta.commit && regen2.schemaVersion === SCHEMA_VERSION && regen2.differingFields === 0 && regen2.records === meta.runs && regen2.sweepsWithoutCommittedFile.length === 0 && regen2.sweeps.every((s) => s.fieldsAbsentFromCommitted.length === 6),
-    'regeneration at schema 2: all 7,200 earlier records identical in every earlier field, six fields added',
+    regen2.commit === meta.commit && regen2.schemaVersion === SCHEMA_VERSION && regen2.differingFields === 0 && regen2.records === meta.runs && regen2.sweepsWithoutCommittedFile.length === 0 && regen2.sweeps.every((s) => s.fieldsAbsentFromCommitted.length === (V2.includes(s.sweep) ? 0 : 6)),
+    'regeneration at schema 2: all records identical in every earlier field; the 7,200 records of the ten earlier sweeps gained six fields, the v2 sweeps were committed at schema 2',
   )
   assert(meta.schemaVersion === SCHEMA_VERSION, 'bench-meta schema version')
   // Allocation-shape counters (schema 2): identities that must hold in every record of every sweep.

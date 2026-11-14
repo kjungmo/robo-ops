@@ -2,10 +2,13 @@
 # Regenerate every benchmark result at the current commit.
 #
 #   scripts/regenerate.sh [JOBS]        # JOBS worker processes, default 4
+#   REGEN_REPORT=<file> scripts/regenerate.sh [JOBS]   # write the comparison there
+#                                       # (default: paper/experiments/repro/regeneration-schema<N>.json)
 #
 # 1. Refuses to run on a dirty tree, so that the commit recorded in
 #    bench-meta.json is the code that produced the records.
-# 2. Runs all ten sweeps into a temporary directory.
+# 2. Runs all thirteen sweeps (the ten of v1 and the three v2 sweeps of
+#    paper/experiments/PREREG_v2.md) into a temporary directory.
 # 3. Compares the run with the committed records (scripts/check-results.ts):
 #    every field that exists in both must be identical, wall-clock fields
 #    excluded. New sweeps are listed, not counted. A new field is accepted only
@@ -20,9 +23,9 @@
 # wall-clock fields depend on the host and its load and are NOT the timings
 # the paper reports; those come from scripts/measure-timing.sh.
 #
-# Duration on a 6-core Ryzen 5 5500GT: about 2.5 hours with JOBS=1, about
-# 40 minutes with JOBS=4, about 22 minutes with JOBS=10 (estimates from the
-# earlier runs plus the tpfree sweep).
+# Duration on a 6-core Ryzen 5 5500GT: about 3 hours with JOBS=1, about
+# 45 minutes with JOBS=4, about 25 minutes with JOBS=10 (estimates from the
+# earlier runs plus the tpfree and v2 sweeps).
 set -euo pipefail
 JOBS="${1:-4}"
 cd "$(dirname "$0")/.."
@@ -37,7 +40,8 @@ npx tsx scripts/bench-fms.ts --jobs "$JOBS" --out "$TMP/run"
 echo "load average after: $(cat /proc/loadavg)"
 mkdir -p paper/experiments/repro
 SCHEMA="$(sed -n 's/^export const SCHEMA_VERSION = \([0-9][0-9]*\)$/\1/p' scripts/schema.ts)"
-npx tsx scripts/check-results.ts "$TMP/run" --allow-new-fields --report "paper/experiments/repro/regeneration-schema${SCHEMA}.json"
+REPORT="${REGEN_REPORT:-paper/experiments/repro/regeneration-schema${SCHEMA}.json}"
+npx tsx scripts/check-results.ts "$TMP/run" --allow-new-fields --report "$REPORT"
 # Reached only when no pre-existing field differs.
 rm -f paper/experiments/results/*.json paper/experiments/results/*.csv
 cp "$TMP/run"/*.json "$TMP/run"/*.csv paper/experiments/results/

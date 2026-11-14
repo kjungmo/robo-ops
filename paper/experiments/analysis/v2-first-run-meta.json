@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-14T11:12:14.139Z",
+  "node": "v22.22.2",
+  "cpu": "AMD Ryzen 5 5500GT with Radeon Graphics",
+  "cores": 12,
+  "memoryGB": 11.7,
+  "commit": "e66bf50",
+  "workers": 10,
+  "sweeps": [
+    "nondegenerate",
+    "kablation",
+    "prioritysplit"
+  ],
+  "seeds": {
+    "nondegenerate": [
+      1,
+      30
+    ],
+    "kablation": [
+      1,
+      30
+    ],
+    "prioritysplit": [
+      1,
+      30
+    ]
+  },
+  "runs": 1140,
+  "runsPerSweep": {
+    "nondegenerate": 720,
+    "kablation": 180,
+    "prioritysplit": 240
+  },
+  "loadAverageBefore": [
+    39.68,
+    40.52,
+    41.91
+  ],
+  "loadAverageAfter": [
+    47.72,
+    43.97,
+    43.01
+  ],
+  "robotTicks": 23125120,
+  "totalConflicts": 0,
+  "auditVertexConflicts": 0,
+  "auditSwapConflicts": 0,
+  "auditIllegalMoves": 0,
+  "totalDeadlocks": 16,
+  "totalUnfinished": 187,
+  "totalDepletions": 33,
+  "auditDepletions": 33,
+  "wallSeconds": 185.9,
+  "schemaVersion": 2
+}
