@@ -44,6 +44,11 @@ the planner, scaling and ablation sweeps, each admitted at a 1-minute load avera
 `host-<n>.txt` records load, cores and top CPU consumers before and after; `repeat-<n>.csv` the
 per-run times). The wall-clock fields inside `results/*.json` were written under 11 workers and are
 not quoted anywhere.
+Since the deep-review code stage `measure-timing.sh` also records the wall time of every rolling-horizon epoch
+(`summary.json : epochConfigs`: p50, p99 and max per configuration, all seeds pooled, per repeat and their median and
+maximum over the valid repeats; the timing-only sweep `epochtime` adds windowed CBS and prioritized planning on
+warehouse-32 and narrow-16). The committed `summary.json` is from before that and has no `epochConfigs`; the final
+quiet-host run comes in the re-run stage. Epoch times and planner ms/tick exclude `diagMs`.
 
 "First round" means the main, planner, scaling, ablation and battery sweeps (seeds 1–5, 420 runs);
 "second round" the others (6,780 runs). The stress, cascade, baselines and coupling sweeps were
