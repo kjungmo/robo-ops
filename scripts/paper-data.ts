@@ -79,7 +79,7 @@ function mainTable(rows: Row[]): string {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Allocation methods across layouts, fleet sizes and load regimes.} Throughput (delivered tasks per 100 ticks) and mean service time (ticks from arrival to delivery), mean\\stdv{std} over 5 seeds, 200 tasks per run, prioritized planning with $w{=}20$, $h{=}5$. Load $\\lambda{=}0.15$ is a Poisson stream of 0.15 tasks/tick; \\emph{batch} releases all 200 tasks at $t{=}0$. Best mean per row in bold; seed-paired differences with 95\\% intervals are in \\cref{tab:paired}.}',
+    '\\caption{\\textbf{Allocation methods across layouts, fleet sizes and load regimes.} Throughput (delivered tasks per 100 ticks) and mean service time (ticks from arrival to delivery), mean\\stdv{std} over 5 seeds, 200 tasks per run, prioritized planning with $w{=}20$, $h{=}5$. Load $\\lambda{=}0.15$ is a Poisson stream of 0.15 tasks/tick; \\emph{batch} releases all 200 tasks at $t{=}0$. The best mean of a row is in bold only when no other method prints the same value; seed-paired differences with 95\\% intervals are in \\cref{tab:paired}.}',
   )
   out.push('\\label{tab:main}')
   out.push('\\small')
@@ -98,10 +98,17 @@ function mainTable(rows: Row[]): string {
         )
         if (cells.some((c) => !c)) throw new Error(`missing main row ${layout} ${rate} ${fleet}`)
         const rs = cells as Row[]
-        const bestT = Math.max(...rs.map((r) => num(r, 'throughput_mean')))
-        const bestS = Math.min(...rs.map((r) => num(r, 'meanServiceTime_mean')))
-        const tCells = rs.map((r) => (num(r, 'throughput_mean') === bestT ? `\\textbf{${f1(num(r, 'throughput_mean'))}}\\stdv{${f1(num(r, 'throughput_std'))}}` : ms(r, 'throughput')))
-        const sCells = rs.map((r) => (num(r, 'meanServiceTime_mean') === bestS ? `\\textbf{${f0(num(r, 'meanServiceTime_mean'))}}\\stdv{${f0(num(r, 'meanServiceTime_std'))}}` : ms(r, 'meanServiceTime', f0)))
+        // Bold only a best mean that is unique at the printed precision: when two or more
+        // methods print the same best value (or all four print the same), no method is marked.
+        const shown = (key: string, fmt: (x: number) => string) => rs.map((r) => fmt(num(r, key)))
+        const uniqueBest = (key: string, fmt: (x: number) => string, pick: (...xs: number[]) => number): number | null => {
+          const best = pick(...rs.map((r) => num(r, key)))
+          return shown(key, fmt).filter((x) => x === fmt(best)).length === 1 ? best : null
+        }
+        const bestT = uniqueBest('throughput_mean', f1, Math.max)
+        const bestS = uniqueBest('meanServiceTime_mean', f0, Math.min)
+        const tCells = rs.map((r) => (bestT !== null && num(r, 'throughput_mean') === bestT ? `\\textbf{${f1(num(r, 'throughput_mean'))}}\\stdv{${f1(num(r, 'throughput_std'))}}` : ms(r, 'throughput')))
+        const sCells = rs.map((r) => (bestS !== null && num(r, 'meanServiceTime_mean') === bestS ? `\\textbf{${f0(num(r, 'meanServiceTime_mean'))}}\\stdv{${f0(num(r, 'meanServiceTime_std'))}}` : ms(r, 'meanServiceTime', f0)))
         const loadLabel = rate === 'inf' ? 'batch' : `$\\lambda{=}${rate}$`
         out.push(`${layout} & ${loadLabel} & ${fleet} & ${tCells.join(' & ')} & ${sCells.join(' & ')}\\\\`)
       }
@@ -843,7 +850,7 @@ function couplingTable(): { tex: string; summary: string } {
   out.push('\\begin{table}[t]')
   out.push('\\centering')
   out.push(
-    '\\caption{\\textbf{Coupling regimes}, defined before their results were committed, as the settings where path-aware costs could plausibly matter (200 tasks, 30 seeds). \\emph{One-lane aisles}: narrow layout, 16 robots, batch. \\emph{Hotspot} (warehouse, 32, batch): 80\\% of pickups at the 10\\% of pickup points nearest the floor centre. \\emph{Long empty trips} (warehouse, 24, $\\lambda{=}0.1$): pickups only at the 25\\% of pickup points farthest from any dock. \\emph{Saturated chargers} (warehouse, batch): 32 robots on 8 slots, initial charge $\\mathcal{U}[0.2,0.4]$, triple drain. Throughput in tasks per 100 ticks and service time in ticks, mean\\stdv{std}; paired: seed-paired relative differences in \\% with 95\\% $t$-intervals (29 degrees of freedom), negative service-time differences are improvements; stalled: runs (of 30) that tripped the stall detector.}',
+    '\\caption{\\textbf{Coupling regimes}, defined before their results were committed, as the settings where path-aware costs could plausibly matter (200 tasks, 30 seeds). \\emph{One-lane aisles}: narrow layout, 16 robots, batch. \\emph{Hotspot} (warehouse, 32, batch): 80\\% of pickups at the 10\\% of pickup points nearest the floor centre. \\emph{Long empty trips} (warehouse, 24, $\\lambda{=}0.1$): pickups only at the 25\\% of pickup points farthest from any dock. \\emph{Saturated chargers} (warehouse, batch): 32 robots on 8 slots, initial charge $\\mathcal{U}[0.2,0.4]$, triple drain ($\\beta_{\\mathrm{m}}{=}0.003$, $\\beta_{\\mathrm{w}}{=}0.0006$). Throughput in tasks per 100 ticks and service time in ticks, mean\\stdv{std}; paired: seed-paired relative differences in \\% with 95\\% $t$-intervals (29 degrees of freedom), negative service-time differences are improvements; stalled: runs (of 30) that tripped the stall detector.}',
   )
   out.push('\\label{tab:coupling}')
   out.push('\\scriptsize')

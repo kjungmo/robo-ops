@@ -47,8 +47,10 @@ $\delta=2$ ticks. Initial charge is uniform in $[0.5,1.0]$, except in the
 battery stress where it is uniform in $[0.2,0.4]$ so that every robot has to
 charge during the run. The stress sweep adds a harder battery regime, initial
 charge in $[0.2,0.4]$ with doubled drain ($\beta_{\mathrm{m}}=0.002$,
-$\beta_{\mathrm{w}}=0.0004$). The coupling regimes use two non-uniform demand
-models: \emph{hotspot}, where 80\% of pickups are drawn from the 10\% of
+$\beta_{\mathrm{w}}=0.0004$), and the saturated-chargers regime of
+\cref{subsec:coupling} uses \emph{triple drain} ($\beta_{\mathrm{m}}=0.003$,
+$\beta_{\mathrm{w}}=0.0006$), three times the default, at the same initial charge.
+The coupling regimes use two non-uniform demand models: \emph{hotspot}, where 80\% of pickups are drawn from the 10\% of
 pickup points nearest the floor centre, and \emph{far}, where pickups are
 drawn only from the 25\% of pickup points farthest from any dock. All
 parameters are listed in \cref{tab:params}.
@@ -562,8 +564,7 @@ and against greedy assignment neither path-aware interval excludes zero
 ($+12.5\pm17.2\%$ for \sname, $+9.7\pm16.2\%$ for the proxy). We do not
 count this as evidence for the coupling. Within the safe envelope, the null result of \cref{subsec:main}
 therefore also holds in these regimes, of which only one changes the
-matching often, with
-the same caveat that it is not an equivalence test. These regimes still use
+matching often, under the caveats stated above. These regimes still use
 the pickup-leg cost and the dock-capacity gate; they do not test a
 full-trip, reservation-aware score such as that of \citet{hirayama2026detour}
 or fleets of the size used by \citet{zhang2026flow} and
@@ -610,6 +611,6 @@ arm had an executed conflict, an illegal move, a stall or a depletion.
 The null result therefore also holds where about half of the calls are real
 assignment problems, with half-widths of 1.1 and 1.5\% on the primary comparisons. That
 weakens the explanation by degenerate calls alone: the inertness of the
-pickup-leg cost is not only an artefact of how few calls it can change. It is still
-not an equivalence test, and it still concerns the pickup-leg cost under the
+pickup-leg cost is not only an artefact of how few calls it can change. The caveats of
+\cref{subsec:main} still apply, and it still concerns the pickup-leg cost under the
 dock-capacity gate.

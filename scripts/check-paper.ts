@@ -531,6 +531,13 @@ function assert(cond: boolean, msg: string): void {
   if (!cond) fail(`assertion failed: ${msg}`)
 }
 
+/** The drain of the saturated-chargers regime, read from the benchmark source (not retyped); it must be triple the default. */
+function tripleDrain(): { move: string; wait: string } {
+  const m = /'saturated-chargers',[\s\S]*?drainMove: ([0-9.]+), drainWait: ([0-9.]+)/.exec(readFileSync(join(ROOT, 'scripts/bench-fms.ts'), 'utf8'))
+  assert(m !== null && Math.abs(Number(m[1]) - 3 * DEFAULT_BATTERY.drainMove) < 1e-12 && Math.abs(Number(m[2]) - 3 * DEFAULT_BATTERY.drainWait) < 1e-12, 'saturated chargers: triple the default drain')
+  return { move: m?.[1] ?? '?', wait: m?.[2] ?? '?' }
+}
+
 function specs(): FileSpec[] {
   const out: FileSpec[] = []
   const lessRange = `${f0(lessLo)}--${f0(lessHi)}`
@@ -700,7 +707,7 @@ more than our loop in every setting`,
   out.push(appendix())
 
   out.push({ file: 'figures/overview.tex', mode: 'caption', claims: [], structural: [] })
-  out.push({ file: 'figures/planner.tex', mode: 'caption', claims: [R`on the warehouse with 32 robots`, R`is scaled by 10 to share the axis`, R`y expr=10*\thisrow{plannerMs_median}`, R`median of ${word(timing.validRepeats.length)} repeats`], structural: [] })
+  out.push({ file: 'figures/planner.tex', mode: 'caption', claims: [R`on the warehouse with 32 robots`, R`each quantity on its own axis`, R`median of ${word(timing.validRepeats.length)} repeats`], structural: [] })
   out.push({
     file: 'figures/scaling.tex',
     mode: 'caption',
@@ -728,6 +735,7 @@ function experiments(): FileSpec {
   const c: string[] = []
   const B = DEFAULT_BATTERY
   const stressBattery = { move: 2 * B.drainMove, wait: 2 * B.drainWait }
+  const tripleBattery = tripleDrain()
   // Setup.
   c.push(
     R`adds a ${meta.seeds.stress[1]}-seed stress sweep`,
@@ -749,6 +757,9 @@ function experiments(): FileSpec {
     R`uniform in $[${f1(DEFAULT_CONFIG.initialSoc[0])},${f1(DEFAULT_CONFIG.initialSoc[1])}]$`,
     R`where it is uniform in $[0.2,0.4]$`,
     R`initial charge in $[0.2,0.4]$ with doubled drain ($\beta_{\mathrm{m}}=${stressBattery.move}$, $\beta_{\mathrm{w}}=${stressBattery.wait}$)`,
+    R`and the saturated-chargers regime of
+\cref{subsec:coupling} uses \emph{triple drain} ($\beta_{\mathrm{m}}=${tripleBattery.move}$,
+$\beta_{\mathrm{w}}=${tripleBattery.wait}$), three times the default, at the same initial charge`,
     R`where 80\% of pickups are drawn from the 10\% of pickup points`,
     R`drawn only from the 25\% of pickup points`,
     R`Defaults are $w=${DEFAULT_CONFIG.window}$, $h=${DEFAULT_CONFIG.period}$, $K=${DEFAULT_CONFIG.candidateK}$, $\kappa_{\mathrm{d}}=${DEFAULT_CONFIG.dockCapacity}$, $\kappa_{\mathrm{p}}=${DEFAULT_CONFIG.pickupCapacity}$, $w_{\mathrm{b}}=${DEFAULT_CONFIG.wBattery}$`,
@@ -1153,6 +1164,8 @@ function appendix(): FileSpec {
       R`$\kappa_{\mathrm{d}}$ / $\kappa_{\mathrm{p}}$ & ${C.dockCapacity} / ${C.pickupCapacity} &`,
       R`$w_{\mathrm{b}}$ / $w_{\mathrm{c}}$ / $w_{\mathrm{h}}$ & ${C.wBattery} / ${C.congestionWeight} / ${C.holdPenalty} &`,
       R`$\beta_{\mathrm{m}}$ / $\beta_{\mathrm{w}}$ / $\gamma$ & ${B.drainMove} / ${B.drainWait} / ${B.chargeRate} &`,
+      R`doubled drain & ${2 * B.drainMove} / ${2 * B.drainWait} & $\beta_{\mathrm{m}}$ / $\beta_{\mathrm{w}}$ in the stress sweep`,
+      R`triple drain & ${tripleDrain().move} / ${tripleDrain().wait} & $\beta_{\mathrm{m}}$ / $\beta_{\mathrm{w}}$ in saturated chargers`,
       R`$\theta_{\mathrm{lo}}$ / $\theta_{\mathrm{hi}}$ / $\rho$ & ${B.socLow} / ${B.socHigh} / ${B.reserve} &`,
       R`initial charge & $\mathcal{U}[${f1(C.initialSoc[0])},${f1(C.initialSoc[1])}]$ & $\mathcal{U}[0.2,0.4]$ in the battery stress`,
       R`dwell $\delta$ & ${C.dwell} ticks`,
@@ -1287,7 +1300,7 @@ const PLOTS: Record<string, Array<[string, string, string]>> = {
     ['fleetSize', 'waitActions_mean', 'planner_pp.csv'],
     ['fleetSize', 'waitActions_mean', 'planner_cbs.csv'],
     ['window', 'throughput_mean', 'window.csv'],
-    ['window', '10*plannerMs_median', 'window.csv'],
+    ['window', 'plannerMs_median', 'window.csv'],
   ],
   'figures/scaling.tex': [
     ['fleetSize', 'throughput_mean', 'scaling_hungarian.csv'],

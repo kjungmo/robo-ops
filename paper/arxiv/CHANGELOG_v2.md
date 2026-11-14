@@ -103,3 +103,16 @@ are timed apart (`diagMs`), so the planner times of the coupled methods no longe
 `\label[appendix]` for the appendices (prints "appendix A"); CBS split by load; the abstract names the small layout for the CBS result;
 the guard pointer in the introduction; wall time of the regeneration in the appendix; node expansions next to A* calls for TPTS;
 running title, date and `CITATION.cff` / `README.md` follow the new title.
+
+## 8. Wording and layout items of the ARIS update review (2026-11-14)
+
+No number and no result changed. `npm run check:paper` passes with the same recomputed claims plus the triple-drain values.
+
+- Repeated caveats merged: the abstract keeps the scope and the omitted full-trip and dock-queue costs; the equivalence-margin caveat is stated in section 4.2 and in the limitations only, and the introduction, the conclusion and sections 4.6 and 4.7 refer to them.
+- The conclusion no longer ends its findings on the token-passing comparison (sentences reordered only).
+- The introduction opens with the problem and the research question; the console description moved behind the introduction of the system.
+- The abstract states that the proof needs a replanning period no longer than the window (`h <= w`).
+- Proposition 3 states that the pairs priced by the large constant are discarded; the introduction says "optimal among the maximum feasible matchings".
+- Notation: home bay `o^r` (was `h^r`), neighbours `\Gamma(v)` (was `N(v)`), planned robots of one call `n_p` (was `N`), held set `\mathcal{J}` with index `j` (was `\mathcal{K}`, `k`), pool size `q` (was `k`).
+- Table 1 marks the best mean in bold only when no other method prints the same value; Figure 2 plots throughput and planner time in separate panels.
+- "Triple drain" is defined in section 4.1, in the caption of the coupling table and in the parameter table (`drainMove` 0.003, `drainWait` 0.0006, read by the guard from `scripts/bench-fms.ts`).

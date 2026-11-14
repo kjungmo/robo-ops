@@ -203,7 +203,7 @@ are printed by the same run.
 | Table 7 (coupling), all cells; PACT's 12 intervals in the first three regimes contain 0; mean differences ≤ 1.3 % throughput, ≤ 0.6 % service; ≤ 0.5 % on long trips; proxy exclusions +1.7±1.4, −1.5±1.3, +0.6±0.5, −0.5±0.3, −0.5±0.4 | `tables/coupling.tex`; script: `coupling <regime> <a> vs <b>` lines and the `(excludes 0)` markers |
 | saturated chargers: 586–641 depletion events per method over 30 runs, 10–16 stalled runs, PACT +23±18 %, proxy +24±21 %, service 0.0±2.2 %, stalled 10 (PACT) vs 16 (Hungarian); greedy vs Hungarian +20.4±22.4 %, 11 stalled (greedy); PACT vs greedy +12.5±17.2 %, proxy vs greedy +9.7±16.2 % | `tables/coupling.tex` (Saturated chargers rows); script: `coupling saturated-chargers/<method>` lines, `coupling saturated-chargers pact vs hungarian` lines and `coupling saturated-chargers <a> vs <b>` lines (greedy vs hungarian throughput 20.42 +- 22.40; pact vs greedy 12.46 +- 17.22; pact-proxy vs greedy 9.68 +- 16.21; `saturated-chargers/greedy` stalled 11) |
 | Prop. 2 inputs β_m = 0.001, β_w = 0.0002, δ = 2, ρ = 0.05, θ_lo = 0.2 | `DEFAULT_BATTERY`, `DEFAULT_CONFIG` (printed into the caption of `tables/reserve.tex`) |
-| doubled drain 0.002 / 0.0004; triple drain 0.003 / 0.0006 | `scripts/bench-fms.ts : BATTERY_STRESS` and the `saturated-chargers` regime |
+| doubled drain 0.002 / 0.0004; triple drain 0.003 / 0.0006 (defined in section 4.1, `tab:params` and the caption of `tab:coupling`) | `scripts/bench-fms.ts : BATTERY_STRESS` and the `saturated-chargers` regime; the guard reads the triple-drain values from the source and checks they are three times `DEFAULT_BATTERY` |
 
 ## Claims added in the review round (all recomputed by `scripts/check-paper.ts`)
 
