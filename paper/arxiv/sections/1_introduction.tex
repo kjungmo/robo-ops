@@ -1,25 +1,25 @@
 \section{Introduction}\label{sec:intro}
 \input{figures/overview}
 
-An operator console for a fleet of autonomous mobile robots (AMRs) shows the
-same few things on every screen: which robot is moving where, which task it
-carries, how much battery it has and which zone or dock it is heading for.
-Behind those screens sits a fleet management system (FMS) that decides all of
-it, continuously: new tasks arrive, idle robots must be matched to them,
-every robot needs a path that does not collide with any other, and robots
-must be sent to chargers before they strand. Each of these problems is well
+A fleet management system (FMS) for autonomous mobile robots (AMRs) decides,
+continuously, what every robot does next: new tasks arrive, idle robots must be
+matched to them, every robot needs a path that does not collide with any other,
+and robots must be sent to chargers before they strand. Each of these problems is well
 studied on its own---multi-robot task allocation
 \citep{gerkey2004formal,korsah2013comprehensive}, multi-agent path finding
 (MAPF) \citep{stern2019mapf,sharon2015cbs} and its lifelong
 pickup-and-delivery variant \citep{ma2017lifelong,li2021rhcr}---but a
 deployable FMS has to run them together, at every tick, with hard safety
-constraints.
-
-The interface between allocation and path finding is often simplified.
-Assignment costs are commonly free-space distances, that is, shortest-path
-lengths that ignore the other robots
+constraints. The interface between allocation and path finding is often
+simplified: assignment costs are commonly free-space distances, that is,
+shortest-path lengths that ignore the other robots
 \citep{ma2017lifelong,liu2019task}, and so ignore the traffic that the planner
-already knows about. Coupling the two has been studied at several levels of
+already knows about. This paper asks one question about that interface: in a loop
+that also has batteries, loading dwell and per-dock limits on the tasks in
+flight, does replacing free-space robot-to-pickup costs by reservation-aware
+arrival times at the pickup change throughput?
+
+Coupling allocation and path finding has been studied at several levels of
 fidelity. Exact methods (CBM, \citealp{ma2016optimal}; CBS-TA,
 \citealp{honig2018cbsta}) solve one-shot instances, and \citet{fan2025joint}
 extend a CBS-based joint search to a continuous task stream by updating
@@ -40,15 +40,15 @@ on warehouse scenarios from a deployed logistics operator
 find that the choice of assignment rule changes performance. Batteries
 \citep{kudo2024anytime,bavaro2025mapdb,tang2026energy} and docks with finite buffers
 \citep{zang2026handover} have also been added to lifelong pickup and
-delivery. What we have not found measured is a narrower question: in a loop
-that also has batteries, loading dwell and per-dock limits on the tasks in
-flight, does replacing free-space robot-to-pickup costs by reservation-aware
-arrival times at the pickup change throughput?
+delivery. We have not found this question measured in a loop with these
+features.
 
 To answer that question with a system rather than a thought experiment, we
 introduce \emph{\sname} (Path-Aware Coupled Tasking), an end-to-end,
 framework-free lifelong fleet manager for grid warehouses
-(\cref{fig:overview}). \sname\ replans the fleet every $h$ ticks over a window
+(\cref{fig:overview}). We developed it inside an operator console for AMR
+fleets, whose screens show which robot is moving where, which task it carries,
+how much battery it has and which zone or dock it is heading for. \sname\ replans the fleet every $h$ ticks over a window
 of $w$ ticks, as in rolling-horizon collision resolution (RHCR) \citep{li2021rhcr}, with windowed space-time A*
 \citep{silver2005cooperative} under a reservation table and prioritized
 planning \citep{erdmann1987multiple}. Its coupling is a deliberately
@@ -56,7 +56,7 @@ cheap one that uses real plans: the cost of assigning robot $r$ to task
 $\tau$ is the arrival time that the same planner reports for $r$'s trip to
 the pickup against the reservations of the robots that are already busy, and
 the Hungarian method \citep{kuhn1955hungarian} turns those costs into an
-assignment that is optimal for that cost matrix. Unlike RMCA and
+assignment that is optimal for that cost matrix among the maximum feasible matchings. Unlike RMCA and
 Detour-Delta, the cost prices only the empty trip to the pickup, and it does
 not price the interactions among the robots assigned in the same epoch.
 Around the coupling sit the pieces that kept the lifelong
@@ -75,8 +75,9 @@ Our contributions are:
   layouts (one generated from the zone and dock labels of an operator-console
   wireframe), Hungarian and greedy allocation, windowed space-time A*,
   prioritized planning with a hold cascade, windowed CBS, charging, and a
-  seeded discrete-time simulator; conflict-freeness of every executed step
-  is proved by the standard reservation-table argument extended to holds, the
+  seeded discrete-time simulator; conflict-freeness of every executed step,
+  under synchronous unit-time execution and a replanning period no longer than
+  the window, is proved by the standard reservation-table argument extended to holds, the
   optimality of the Hungarian step for its cost matrix is restated from the
   assignment literature, and a test suite checks the
   Hungarian and CBS implementations against exhaustive search and the planners
@@ -96,28 +97,51 @@ Our contributions are:
   cascade and of the priorities, token-passing baselines under three rules
   for idle robots, and four regimes
   in which we expected the coupling to matter most, defined before their
-  results were committed. Every number traces to a
+  results were committed; a third round of 1{,}140 runs, pre-registered in the
+  repository before its results and run after an external deep review, tests
+  the coupling without event-triggered epochs, varies the candidate count in
+  cells where it can bind and splits the static-priority arm. Every number traces to a
   committed result file, and a script in the repository checks the text and
-  the tables against those files (\cref{app:repro}).
+  the tables against those files, within the limits listed in \cref{app:repro}.
 \end{itemize}
 
-The study's main result is negative and narrow: with dock capacity limiting
-which tasks can be assigned, in every one of
+The study's main result is negative and narrow. With dock capacity limiting
+which tasks can be assigned and with event-triggered epochs, in every one of
 twelve layout/fleet/load cells the four allocation cost models---greedy,
 Hungarian, congestion proxy and reservation-aware pickup cost---differ by at most 2.9\% in
 mean throughput, and 35 of 36 seed-paired 95\% intervals against Hungarian
 contain zero (\cref{tab:main,tab:paired}). Counters recorded next to every
-allocation show that the test is weak as well as negative: in these cells the
+allocation show that the test is weak as well as negative. The
 reservation-aware cost changes the matching in only 1--14\% of the
-allocations, because 60--86\% of the priced pickups lie beyond the planning
-window, where the estimate falls back to a free-space distance
-(\cref{tab:diagnostic}). With five seeds the interval
+allocations, and three causes act together (\cref{tab:diagnostic}). First,
+60--86\% of the priced pickups lie beyond the planning
+window, where the estimate falls back to a free-space distance. Second, under
+batch load the dock gate leaves a single task in the candidate pool in most calls
+with 32 robots; under the Poisson load, which fleets of 16 and 32 robots keep up
+with, the pool is small largely because few tasks are pending. Fleets of 8
+rarely have two idle robots. Third, event-triggered
+epochs, which start whenever a robot becomes idle, offer one idle robot and,
+through the gate, one newly eligible task at a time.
+Only 9--26\% of the calls have at least two robots and two tasks, and in 91--99\%
+of the calls greedy and Hungarian assignment return the same matching on \sname's cost matrix.
+``Greedy is not measurably worse than optimal'' is therefore a statement about
+a regime in which the two nearly always agree. The cost is not idle in the other calls: in the warehouse with
+32 robots under batch load, 63 of its 95 matching changes fall in calls with
+a single robot or task.
+
+We then tested a regime without event-triggered
+epochs, in which 56--59\% of the calls in two 32-robot cells are real
+assignment problems (\cref{subsec:nondeg}). We chose it after the first-round ablation had shown a hint
+($+3.3\pm3.0\%$ for the reservation-aware cost, five seeds, nominal), so the
+test is confirmatory of a post-hoc observation, not blind, and its configuration and
+decision rules were committed before its runs. On 30 seeds the reservation-aware cost differs
+from Hungarian assignment by $+0.4\pm1.1\%$ and $+0.6\pm1.5\%$ in throughput, neither is rejected by
+Holm's procedure, and the hint does not replicate. With five seeds in the main study the interval
 bounds reach about 7\% in the noisiest cell and about 4\% under the Poisson
-load, so the study detects no large effect but cannot resolve small ones. It
-was not designed as an equivalence test and fixes no equivalence margin, so
-it does not show that the effect is zero; nor does it test costs that price
-the loaded leg, the dock queue or the interactions among the robots being
-assigned. What does move the fleet is elsewhere: raising the
+load, so the study detects no large effect but cannot resolve small ones;
+\cref{subsec:main,sec:disc} state what it does not show.
+
+What does move the fleet is elsewhere: raising the
 per-dock in-flight capacity from 2 to 3 raises throughput by 26--29\%,
 shortening the planning window from 20 to 10 ticks raises it by 7\% while
 cutting the planner's A* expansions per tick by 79\%, and windowed CBS reduces makespan by
@@ -128,7 +152,12 @@ is measured on 120 seed pairs per fleet size. In the four regimes in which
 we expected the coupling to matter, the matching changes in 2--27\% of the
 allocations and \sname\ shows no resolved gain except where every method
 strands robots, and there its higher throughput mostly reflects fewer stalled runs
-(\cref{subsec:coupling}).
+(\cref{subsec:coupling}). Two further results qualify the design. In two cells where the
+candidate count $K$ binds, varying it from 3 to 12 changes throughput by at most 0.8\%,
+and none of the four comparisons is rejected (\cref{subsec:ablation}). Static priorities
+gridlock the fleet, and held-first ordering alone keeps it live while the full dynamic
+ordering is best in throughput (\cref{subsec:cascade}).
+
 Token passing and token passing with task swaps \citep{ma2017lifelong}
 deliver 16--66\% less throughput than our loop at its default dock
 capacity, but their endpoint rule allows one robot in flight
@@ -139,9 +168,12 @@ across the five settings (\cref{subsec:baselines}). The gap to token passing wit
 measures dock capacity, not our allocation or planner, and at equal capacity
 our loop is slightly behind the best token-passing variant.
 Throughout, the executed plans of 60.4 million audited robot-steps contain no
-vertex or swap conflict, as the construction guarantees. Progress and charge
-are not guaranteed: with normal batteries no robot depletes and every run
-delivers all of its tasks, but with doubled drain the charging policy
+vertex or swap conflict, as the construction guarantees under synchronous
+unit-time execution; the third round adds 23.1 million robot-steps, also
+without one. Progress and charge
+are not guaranteed: in every run of the default loop in the first round and the
+stress sweep, with normal batteries, no robot depletes and every task is
+delivered, but with doubled drain the charging policy
 strands robots once its slots saturate (\cref{subsec:main}), and we prove
 only a conditional reserve bound (\cref{prop:charge}). We release the
 implementation inside the operator-console codebase it was developed in,

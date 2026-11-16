@@ -26,13 +26,14 @@ other endpoints and our instances are not well-formed in the sense of
 \citet{ma2017lifelong}. \sname\ does not rely on well-formedness; it matters
 only for the token-passing baselines (\cref{subsec:baselines}).
 Distances $d(u,v)$ are exact shortest-path lengths on $G$, computed by
-breadth-first search from each endpoint and cached.
+breadth-first search from the goal cell the first time a distance to that goal
+is needed and cached per goal cell.
 
 \noindent\textbf{Robots and tasks.}
-A fleet $\mathcal{R}=\{1,\dots,n\}$ of robots moves synchronously in discrete
+A fleet $\mathcal{R}$ of robots moves synchronously in discrete
 time $t\in\mathbb{N}$; at every tick a robot either moves to a 4-neighbour or
-waits. Robot $r$ has position $p_t^r\in V$, state of charge
-$s_t^r\in[0,1]$, and home bay $h^r\in\mathcal{H}$. Tasks arrive as a stream
+waits. Robot $r\in\mathcal{R}$ has position $p_t^r\in V$, state of charge
+$s_t^r\in[0,1]$, and home bay $o^r\in\mathcal{H}$. Tasks arrive as a stream
 $\mathcal{T}=\{\tau_k\}$, $\tau_k=(a_k, p_k, d_k)$ with arrival time $a_k$,
 pickup $p_k\in\mathcal{P}$ and dock $d_k\in\mathcal{D}$; a robot that reaches
 $p_k$ loads for $\delta$ ticks, drives to $d_k$ and unloads for $\delta$
@@ -55,14 +56,20 @@ search-based MAPF work.
 \noindent\textbf{Objective.}
 Given the stream $\mathcal{T}$, the fleet manager chooses, at every tick, an
 assignment of idle robots to pending tasks, a charging decision and one action
-per robot, so as to minimise the mean service time of the delivered tasks
+per robot, so as to minimise the mean service time of the delivered tasks.
+Let $\mathcal{T}^{\star}\subseteq\mathcal{T}$ be the delivered tasks; $c_k$ is
+defined only for them, and
 \begin{equation}\label{eq:objective}
-  J \;=\; \frac{1}{|\mathcal{T}|}\sum_{\tau_k\in\mathcal{T}} \bigl(c_k - a_k\bigr)
+  J \;=\; \frac{1}{|\mathcal{T}^{\star}|}\sum_{\tau_k\in\mathcal{T}^{\star}} \bigl(c_k - a_k\bigr)
   \quad\text{subject to}\quad
-  \text{no conflicts},\;\; s^r_t>0\;\;\forall r,t,
+  \text{no conflicts},\;\; s^r_t>0\;\;\forall r,t.
 \end{equation}
-and we also report throughput $|\mathcal{T}|/T_{\mathrm{mk}}$, where the
-makespan $T_{\mathrm{mk}}=\max_k c_k$. For a finite stream throughput is the
+Undelivered tasks do not enter $J$, so $J$ is read together with the number of
+undelivered tasks and of stalled runs, which we report. We also report
+throughput $|\mathcal{T}^{\star}|/T_{\mathrm{mk}}$, where the makespan
+$T_{\mathrm{mk}}$ is the tick at which the run ends: the last delivery
+$\max_k c_k$ if every task is delivered, otherwise the tick at which a stalled or time-limited run stops.
+For a finite stream that delivers every task, throughput is the
 inverse makespan, a different objective from mean service time that can rank
 schedules differently, so we report both. We do not attempt to optimise \cref{eq:objective} exactly: even
 without batteries and with all tasks known, it contains optimal MAPF, which is NP-hard on general
@@ -101,7 +108,14 @@ reservation exists beyond the horizon. The returned cost is the arrival time
   \min_{\substack{(g,t)\ \text{reachable under }\mathcal{B}\\ \mathrm{goalfree}(g,t)}} (t - t_0),\;\;
   \min_{(v,\,t_0+w)\ \text{reachable under }\mathcal{B}} \bigl(w + d(v,g)\bigr)\Bigr),
 \end{equation}
-the per-agent cost of sum-of-costs MAPF restricted to the window. The second
+the per-agent cost of sum-of-costs MAPF restricted to the window. The first
+term is the earliest tick from which $g$ can be held until the horizon, not the
+earliest tick at which the robot can stand on it: a goal cell that another robot
+reserves later in the window is not a goal state before that reservation ends,
+because a path that ends inside the window is stored with a hold on its last
+cell (\cref{prop:pp}). The token-passing baselines of \cref{subsec:baselines}
+use a weaker test, which asks only that the pickup stay free for the loading
+dwell. The second
 term is the horizon case of \cref{alg:astar}: for a goal farther than $w$
 from the robot only it applies, so the reservations can change the estimate
 only through the waits and detours of the first $w$ ticks, and the rest is a
@@ -121,7 +135,7 @@ $\mathit{open}\gets\{(p,t_0)\}$ with $f=d(p,g)$; $\mathit{closed}\gets\emptyset$
   add $(v,t)$ to $\mathit{closed}$\;
   \lIf{$v=g$ \KwSty{and} $\mathrm{goalfree}(g,t)$}{\Return path to $(v,t)$, cost $t-t_0$}
   \lIf{$t=t_0+w$}{\Return path to $(v,t)$ followed by a shortest path $v\!\leadsto\! g$, cost $t-t_0+d(v,g)$}
-  \ForEach{$v'\in\{v\}\cup N(v)$}{
+  \ForEach{$v'\in\{v\}\cup\Gamma(v)$}{
     \If{$\mathrm{free}(v',t+1)$ \KwSty{and} $(v'=v$ \KwSty{or} $\mathrm{free}(v\!\to\!v',t))$}{
       push $(v',t+1)$ with $f=(t+1-t_0)+d(v',g)$\;
     }
@@ -155,13 +169,13 @@ $\mathcal{X}$ or to a static robot holding its own current cell. If the
 entries of $\mathcal{B}$ are pairwise conflict-free when \cref{alg:pp} is
 called, then after it returns the set of paths in $\mathcal{B}$ is vertex-
 and swap-conflict-free on $[t_0,t_0+w]$, and \cref{alg:pp} calls the
-low-level planner at most $N(N+1)/2\le|\mathcal{R}|(|\mathcal{R}|+1)/2$
-times, where $N=m+|\mathcal{X}|$.
+low-level planner at most $n_{\mathrm{p}}(n_{\mathrm{p}}+1)/2\le|\mathcal{R}|(|\mathcal{R}|+1)/2$
+times, where $n_{\mathrm{p}}=n_{\mathrm{in}}+|\mathcal{X}|$ and $n_{\mathrm{in}}$ is the number of robots in the input list.
 \end{proposition}
 \begin{proof}
 \emph{Invariant.} We show that no two entries of $\mathcal{B}$ conflict at
 any moment. A path is inserted only when \cref{alg:astar} returned it under
-the current $\mathcal{B}$: every vertex $(\pi_k,t_0+k)$ passed
+the current $\mathcal{B}$: every vertex $(\pi_i,t_0+i)$ passed
 $\mathrm{free}$, every move passed the swap query, and, if the path reaches
 its goal inside the window, the hold at its last cell passed
 $\mathrm{goalfree}$, so no existing entry occupies that cell later in the
@@ -173,17 +187,20 @@ cells are their own, and start cells are distinct), and by assumption every
 other entry belongs to a robot in $\mathcal{X}$ or in the input list; all of
 those that visit $p^r$ at some $t\in[t_0,t_0+w]$ form $\mathcal{V}$ and are
 removed before the hold is written. A hold never moves, so it cannot take
-part in a swap conflict. Removing entries cannot create a conflict, so the
+part in a swap conflict. Writing a hold at the last cell of a path never
+overwrites an earlier hold: $\mathrm{goalfree}$ rejects a cell that carries
+one, the victims of a cascade are removed before the hold of the failed robot
+is written, and start cells are distinct. Removing entries cannot create a conflict, so the
 invariant holds at termination.
 
 \emph{Call bound.} A robot is popped once initially if it is in the input
-list ($m$ calls) and once each time it is re-queued. Re-queuing happens only
+list ($n_{\mathrm{in}}$ calls) and once each time it is re-queued. Re-queuing happens only
 when a hold is created; a held robot is never re-queued (it is excluded from
-$\mathcal{V}$) and so fails at most once, hence at most $N$ holds are
-created. When the $k$-th hold is created, $|\mathcal{K}|=k$ and
-$\mathcal{V}$ contains only robots outside $\mathcal{K}$, so
-$|\mathcal{V}|\le N-k$. The number of calls is therefore at most
-$m+\sum_{k=1}^{N}(N-k)\le N+N(N-1)/2=N(N+1)/2$.
+$\mathcal{V}$) and so fails at most once, hence at most $n_{\mathrm{p}}$ holds are
+created. When the $j$-th hold is created, $|\mathcal{J}|=j$ and
+$\mathcal{V}$ contains only robots outside $\mathcal{J}$, so
+$|\mathcal{V}|\le n_{\mathrm{p}}-j$. The number of calls is therefore at most
+$n_{\mathrm{in}}+\sum_{j=1}^{n_{\mathrm{p}}}(n_{\mathrm{p}}-j)\le n_{\mathrm{p}}+n_{\mathrm{p}}(n_{\mathrm{p}}-1)/2=n_{\mathrm{p}}(n_{\mathrm{p}}+1)/2$.
 \end{proof}
 
 The assumption on $\mathcal{B}$ is what the epoch
@@ -197,8 +214,9 @@ subsequent call of \cref{alg:pp} for the rest of the group. Neither the proposit
 progress: a robot may hold for several epochs.
 
 \begin{corollary}[Conflict-free execution]\label{cor:exec}
-If $h\le w$, every step executed by the simulator is vertex- and
-swap-conflict-free.
+Under synchronous unit-time execution, in which every robot completes each
+planned move in exactly one tick, and if $h\le w$, every step executed by the
+simulator is vertex- and swap-conflict-free.
 \end{corollary}
 \begin{proof}
 Every robot executes the path it has in the current table: a planned path,
@@ -216,15 +234,15 @@ stops, and an epoch starts before the next step is executed.
 
 \begin{algorithm}[t]
 \caption{Prioritized planning with hold cascade}\label{alg:pp}
-\KwIn{ordered robots $(r_1,\dots,r_m)$ with starts and goals, external robots $\mathcal{X}$ already in $\mathcal{B}$, epoch $t_0$}
-\KwOut{paths for $r_1,\dots,r_m$ (and re-planned members of $\mathcal{X}$), held set $\mathcal{K}$}
-$L\gets(r_1,\dots,r_m)$; $\mathcal{K}\gets\emptyset$\;
+\KwIn{ordered robots $(r_1,\dots,r_{n_{\mathrm{in}}})$ with starts and goals, external robots $\mathcal{X}$ already in $\mathcal{B}$ (for a group planned by CBS, also the robots CBS wrote, see the text after \cref{prop:pp}), epoch $t_0$}
+\KwOut{paths for $r_1,\dots,r_{n_{\mathrm{in}}}$ (and re-planned members of $\mathcal{X}$), held set $\mathcal{J}$}
+$L\gets(r_1,\dots,r_{n_{\mathrm{in}}})$; $\mathcal{J}\gets\emptyset$\;
 \While{$L\neq\emptyset$}{
   $r\gets$ pop front of $L$\;
   $\pi\gets$ \textsc{A*}$(p^r,g^r,t_0,w,\mathcal{B})$ \tcp*{\cref{alg:astar}}
   \If{$\pi=$ \textsc{fail}}{
-    $\pi\gets(p^r)$; $\mathcal{K}\gets\mathcal{K}\cup\{r\}$ \tcp*{hold current cell}
-    $\mathcal{V}\gets\{\,r'\notin\mathcal{K} : r'$ reserved $(p^r,t)$ in $\mathcal{B}$ for some $t\in[t_0,t_0+w]\,\}$\;
+    $\pi\gets(p^r)$; $\mathcal{J}\gets\mathcal{J}\cup\{r\}$ \tcp*{hold current cell}
+    $\mathcal{V}\gets\{\,r'\notin\mathcal{J} : r'$ reserved $(p^r,t)$ in $\mathcal{B}$ for some $t\in[t_0,t_0+w]\,\}$\;
     remove the reservations of every $r'\in\mathcal{V}$ from $\mathcal{B}$\;
     push $\mathcal{V}$ (in priority order) to the front of $L$\;
   }
@@ -297,15 +315,21 @@ task progress. Its conflict and illegal-move counts use the observed cells
 alone; trip delays and slot waits also rely on the status and goal that the
 simulator reports. Both conflict counts test the implementation against
 \cref{cor:exec}; over all runs in \cref{sec:exp} both are zero whenever the
-hold cascade is enabled.
+hold cascade is enabled. The guarantee is conditional on synchronous
+unit-time execution. A robot that moves late breaks the timing on which the
+reservation table rests, and executing MAPF plans so that delays cause no
+collision is a topic of its own: \citet{honig2019persistent} execute MAPF
+schedules persistently and robustly on warehouse robots, and
+\citet{atzmon2020robust} study plans and execution policies that tolerate
+delays. We use neither, and our proof says nothing about delayed execution.
 
 \subsection{Charging: threshold policy with capacity-constrained slot assignment}\label{subsec:charging}
 
 A robot with $s^r_t<\theta_{\mathrm{lo}}$ that is idle or parking must charge
 before it accepts work; it leaves the slot when
 $s^r_t\ge\theta_{\mathrm{hi}}$. Free slots are those neither occupied nor
-already claimed by a robot en route, so a station with $k$ slots serves at
-most $k$ robots at a time. Robots needing charge and free slots are matched
+already claimed by a robot en route, so a station serves at most as many
+robots at a time as it has slots. Robots needing charge and free slots are matched
 by the Hungarian method on $d(p^r,\sigma)$ (\cref{alg:charge}; the greedy baseline matches them greedily); a robot for
 which no slot is free waits at its bay and is retried next epoch. A task
 feasibility test guards against stranding: robot $r$ may take task $\tau$
@@ -362,7 +386,8 @@ $v$ lasts at most $d(v,\sigma)+W\le D_\sigma+W$ ticks, so it arrives with
 $s>0$. On the slot it only gains charge and leaves with
 $s\ge\theta_{\mathrm{hi}}\ge\theta_{\mathrm{lo}}$. Trips to the home bay
 need no bound: on them a robot either has $s\ge\theta_{\mathrm{lo}}$ or is
-parking below it, which $Q$ covers.
+parking below it, which $Q$ covers, because $Q$ counts every idle or parking
+tick below $\theta_{\mathrm{lo}}$, whether the robot moves or waits.
 \end{proof}
 
 The bounds $W$ and $Q$ are outcomes of a run, not properties of the policy.
@@ -412,10 +437,12 @@ For eligible robot $r$ and pool task $\tau$ the cost is
 with $c(r,\tau)=\infty$ when \cref{eq:feasible} fails; greedy and Hungarian
 assignment use the static estimate and \sname\ the path-aware one. The battery factor
 makes a low-charge robot look farther, so long trips go to well-charged
-robots. The congestion proxy counts, along the free-space shortest path and
-up to the horizon, the cells that another robot has reserved at the tick the
-robot would traverse them or one tick earlier or later
-(held cells count $w_{\mathrm{h}}$); the path-aware cost is the arrival time
+robots. The congestion proxy $\chi_{\mathcal{B}}$ walks one free-space shortest path
+from $p^r$ to $p_\tau$ and, for the $i$-th cell of it, up to the horizon, adds
+$w_{\mathrm{h}}$ if the cell carries a hold of any start time, and otherwise
+adds one if another robot has reserved the cell at tick $t_0+i$ or one tick
+earlier or later. A hold that begins after the robot would have left the cell
+therefore still counts. The path-aware cost is the arrival time
 \cref{eq:arrival} of \cref{alg:astar} against the table that already contains
 group~1. Costs are computed for the $K$ nearest pool tasks of each robot
 (static distance), other pairs are infeasible.
@@ -435,28 +462,30 @@ interactions among the robots it assigns, and beyond the window the
 arrival time uses a shortest path that ignores reservations.
 
 \begin{proposition}[Optimality of the assignment step for its cost matrix]\label{prop:hungarian}
-For a cost matrix $C\in(\mathbb{R}_{\ge0}\cup\{\infty\})^{m\times k}$, the
-Hungarian step returns a matching that, among all matchings of maximum
-cardinality over finite entries, minimises total cost; it runs in
-$O(\min(m,k)^2\max(m,k))$ time.
+For a cost matrix $C\in(\mathbb{R}_{\ge0}\cup\{\infty\})^{m\times q}$, the
+Hungarian step returns a matching in which the pairs priced by the
+large constant $\Lambda$ (the infeasible ones) are discarded; the remaining
+pairs form a matching that, among all matchings of maximum
+cardinality over finite entries, minimises total cost. The step runs in
+$O(\min(m,q)^2\max(m,q))$ time.
 \end{proposition}
 \begin{proof}
-Assume $m\le k$ (otherwise the implementation solves the transpose). Replace
+Assume $m\le q$ (otherwise the implementation solves the transpose). Replace
 $\infty$ by any $\Lambda>S=\sum_{ij:C_{ij}<\infty}C_{ij}$ (the implementation
 uses $S+10^6$); the algorithm returns a minimum-cost matching that covers
 every row. Such a matching $M$ with $\ell(M)$ $\Lambda$-entries costs
 $\ell(M)\Lambda+F(M)$ with finite part $0\le F(M)\le S<\Lambda$, so a
 minimiser first minimises $\ell$ and then $F$. Let $\nu$ be the maximum
 cardinality of a matching of finite entries. Any such matching extends to a
-row-covering matching because $m\le k$, and the added pairs are all
+row-covering matching because $m\le q$, and the added pairs are all
 $\Lambda$-entries (a finite one would give a larger finite matching), so
 $\min\ell=m-\nu$ and every maximum finite matching $M'$ appears, extended,
 with cost $(m-\nu)\Lambda+F(M')$. Dropping the $\Lambda$-pairs of the
 minimiser therefore leaves a maximum-cardinality finite matching of minimum
 finite cost. Each of the $m$ rows is inserted by one shortest-augmenting-path
 phase with potentials \citep{jonker1987shortest}; a phase marks at most
-$m+1$ columns and scans the $k$ columns once per mark, which is $O(mk)$
-time and gives $O(m^2k)$ in total.
+$m+1$ columns and scans the $q$ columns once per mark, which is $O(mq)$
+time and gives $O(m^2q)$ in total.
 \end{proof}
 
 \begin{algorithm}[t]
@@ -469,7 +498,7 @@ group~1 $\gets$ busy robots $\cup$ parking robots on a busy goal or held last ep
 $\mathcal{E}\gets$ idle/parking robots not in group~1 with $s^r_t\ge\theta_{\mathrm{lo}}$; remove their holds from $\mathcal{B}$\;
 build pool with endpoint capacities $\kappa_{\mathrm{d}},\kappa_{\mathrm{p}}$; $C_{r\tau}\gets c(r,\tau)$ by \cref{eq:cost} for $K$ candidates per $r\in\mathcal{E}$\;
 $M\gets$ \textsc{Hungarian}$(C)$; assign $(r,\tau)\in M$: goal of $r\gets p_\tau$\;
-unassigned $r\in\mathcal{E}$: goal of $r\gets h^r$ (parking)\;
+unassigned $r\in\mathcal{E}$: goal of $r\gets o^r$ (parking)\;
 group~2 $\gets$ newly assigned $\cup$ parking robots not in group~1; \textsc{PP}(group~2, $\mathcal{B}$, external = group~1)\;
 \end{algorithm}
 
@@ -480,10 +509,10 @@ of prioritized planning needs $O\bigl(|\mathcal{R}|^2\,|V|\,w\bigr)$
 expansions (\cref{prop:pp}, each
 call bounded by $|V|(w+1)$ expansions; in our runs the cascade is rare,
 \cref{subsec:main}), path-aware pricing adds $O(mK\,|V|\,w)$ expansions, and
-the assignment of $m$ robots to a pool of $k$ tasks takes
-$O(\min(m,k)^2\max(m,k))$ time (\cref{prop:hungarian}). In every variant,
+the assignment of $m$ robots to a pool of $q$ tasks takes
+$O(\min(m,q)^2\max(m,q))$ time (\cref{prop:hungarian}). In every variant,
 finding the $K$ nearest pool tasks of each robot sorts the pool once per
-robot, $O(mk\log k)$ comparisons. The static variant replaces the pricing term by $O(mK)$
+robot, $O(mq\log q)$ comparisons. The static variant replaces the pricing term by $O(mK)$
 look-ups of cached distances, and the proxy by one walk down a cached
 distance table per priced pair. These bounds do not cover the optional CBS
 backend, whose constraint tree is cut off by a node budget.

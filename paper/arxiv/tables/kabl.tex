@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{Candidate count $K$} (\sname, batch load, 200 tasks, PP, 30 seeds, event epochs on; pre-registered in commit \texttt{f35437f}). \emph{Pairs / call}: robot--task pairs priced per allocation call. \emph{vs.\ $K{=}6$}: seed-paired throughput difference in \% with its 95\% $t$-interval and two-sided $p$; none is rejected by Holm's procedure over the four primary comparisons. $\min(m,q){\ge}2$: share of calls with at least two eligible robots $m$ and at least two tasks in the pool of size $q$. No run had an executed conflict, an illegal move, a stall or a depletion.}
+\label{tab:kabl}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrr}
+\toprule
+\textbf{Cell} & $K$ & \textbf{Throughput} & \textbf{Pairs / call} & $\min(m,q){\ge}2$\textbf{, \%} & \textbf{vs.\ $K{=}6$, \% ($p$)}\\
+\midrule
+warehouse, 8, batch & 3 & 9.57\stdv{0.27} & 3.4 & 9.7 & $-0.2\pm0.5$ (0.442)\\
+ & 6 & 9.59\stdv{0.28} & 6.6 & 8.9 & --\\
+ & 12 & 9.58\stdv{0.27} & 8.9 & 8.7 & $-0.1\pm0.4$ (0.666)\\
+\midrule
+narrow, 16, batch & 3 & 16.64\stdv{0.75} & 4.1 & 14.9 & $+0.6\pm1.3$ (0.313)\\
+ & 6 & 16.55\stdv{0.84} & 6.0 & 16.1 & --\\
+ & 12 & 16.67\stdv{0.81} & 7.1 & 15.0 & $+0.8\pm1.3$ (0.231)\\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -62,12 +62,35 @@ export interface SimMetrics {
   cplAllocsCostDiffer: number
   /** Allocation calls whose matching differs from the Hungarian matching on the static matrix. */
   cplAllocsMatchDiffer: number
+  /** The previous counter restricted to calls with min(m, pool) >= 2 (pact and pact-proxy only, 0 otherwise). */
+  cplAllocsMatchDifferNondegenerate: number
+  /**
+   * Allocation shape (all four allocation methods; schema 2). Counters only read
+   * state: they never feed back into the allocation. A call is counted when it
+   * reaches the cost matrix (at least one eligible robot and one pooled task);
+   * for pact and pact-proxy allocCalls equals cplAllocs. m is the number of
+   * eligible robots, pool the number of candidate tasks after the dock and pickup gate.
+   */
+  allocCalls: number
+  /** Calls with m = 1. */
+  allocM1: number
+  /** Calls with pool = 1. */
+  allocPool1: number
+  /** Calls with min(m, pool) >= 2, a real assignment problem. */
+  allocNondegenerate: number
+  /** Calls in which greedy and Hungarian give the same assignment on the method's own cost matrix. */
+  allocGreedyEqHungarian: number
   epochs: number
   astarCalls: number
   expansions: number
   /** Wall-clock ms spent in allocation + planning. */
   plannerMs: number
   allocMs: number
+  /**
+   * Wall-clock ms spent in the counters, the static cost matrix and the static diagnostic matching
+   * (schema 2). Not included in plannerMs, allocMs or the epoch times.
+   */
+  diagMs: number
   /** Planner ms per simulated tick. */
   plannerMsPerTick: number
   /** Fraction of robot-ticks spent with an active task. */

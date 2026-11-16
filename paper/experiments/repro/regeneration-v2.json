@@ -1,0 +1,161 @@
+{
+  "what": "Repeat of the benchmark compared with the committed records by scripts/check-results.ts; timing* is the per-configuration mean plannerMsPerTick of the repeat divided by the committed mean.",
+  "commit": "acbfe97",
+  "node": "v22.22.2",
+  "cpu": "AMD Ryzen 5 5500GT with Radeon Graphics",
+  "dates": [
+    "2026-11-14T11:39:54.113Z"
+  ],
+  "excludedFields": [
+    "wallMs",
+    "plannerMs",
+    "allocMs",
+    "diagMs",
+    "plannerMsPerTick"
+  ],
+  "allowNewFields": true,
+  "schemaVersion": 2,
+  "schemaAddedFields": [
+    "allocCalls",
+    "allocM1",
+    "allocPool1",
+    "allocNondegenerate",
+    "allocGreedyEqHungarian",
+    "cplAllocsMatchDifferNondegenerate"
+  ],
+  "sweepsWithoutCommittedFile": [],
+  "records": 8340,
+  "differingFields": 0,
+  "sweeps": [
+    {
+      "sweep": "main",
+      "records": 240,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [],
+      "workers": 11,
+      "timingMin": 1.0707,
+      "timingMedian": 1.7194,
+      "timingMax": 2.1873
+    },
+    {
+      "sweep": "planner",
+      "records": 30,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [],
+      "workers": 11,
+      "timingMin": 1.3162,
+      "timingMedian": 1.9149,
+      "timingMax": 2.0108
+    },
+    {
+      "sweep": "scaling",
+      "records": 70,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [],
+      "workers": 11,
+      "timingMin": 1.3793,
+      "timingMedian": 1.6506,
+      "timingMax": 1.9029
+    },
+    {
+      "sweep": "ablation",
+      "records": 60,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [],
+      "workers": 11,
+      "timingMin": 1.5252,
+      "timingMedian": 1.6821,
+      "timingMax": 1.9267
+    },
+    {
+      "sweep": "battery",
+      "records": 20,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [],
+      "workers": 11,
+      "timingMin": 1.6638,
+      "timingMedian": 1.8175,
+      "timingMax": 2.0056
+    },
+    {
+      "sweep": "stress",
+      "records": 4320,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [],
+      "workers": 11,
+      "timingMin": 0.2663,
+      "timingMedian": 1.5813,
+      "timingMax": 2.0857
+    },
+    {
+      "sweep": "cascade",
+      "records": 480,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [],
+      "workers": 11,
+      "timingMin": 0.3076,
+      "timingMedian": 0.3267,
+      "timingMax": 0.3698
+    },
+    {
+      "sweep": "baselines",
+      "records": 900,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [],
+      "workers": 11,
+      "timingMin": 0.2338,
+      "timingMedian": 0.3184,
+      "timingMax": 0.4512
+    },
+    {
+      "sweep": "coupling",
+      "records": 480,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [],
+      "workers": 11,
+      "timingMin": 0.2574,
+      "timingMedian": 0.2827,
+      "timingMax": 0.3334
+    },
+    {
+      "sweep": "tpfree",
+      "records": 600,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [],
+      "workers": 11,
+      "timingMin": 0.2153,
+      "timingMedian": 0.3148,
+      "timingMax": 0.3584
+    },
+    {
+      "sweep": "nondegenerate",
+      "records": 720,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [],
+      "workers": 11,
+      "timingMin": 0.4126,
+      "timingMedian": 0.4342,
+      "timingMax": 0.4904
+    },
+    {
+      "sweep": "kablation",
+      "records": 180,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [],
+      "workers": 11,
+      "timingMin": 0.3968,
+      "timingMedian": 0.4712,
+      "timingMax": 0.504
+    },
+    {
+      "sweep": "prioritysplit",
+      "records": 240,
+      "differingFields": 0,
+      "fieldsAbsentFromCommitted": [],
+      "workers": 11,
+      "timingMin": 0.3686,
+      "timingMedian": 0.4241,
+      "timingMax": 0.4549
+    }
+  ]
+}

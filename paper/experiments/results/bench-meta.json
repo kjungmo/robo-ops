@@ -1,11 +1,11 @@
 {
-  "date": "2026-10-14T00:16:31.052Z",
+  "date": "2026-11-14T11:39:54.113Z",
   "node": "v22.22.2",
   "cpu": "AMD Ryzen 5 5500GT with Radeon Graphics",
   "cores": 12,
   "memoryGB": 11.7,
-  "commit": "63a2db7",
-  "workers": 8,
+  "commit": "acbfe97",
+  "workers": 11,
   "sweeps": [
     "main",
     "planner",
@@ -16,7 +16,10 @@
     "cascade",
     "baselines",
     "coupling",
-    "tpfree"
+    "tpfree",
+    "nondegenerate",
+    "kablation",
+    "prioritysplit"
   ],
   "seeds": {
     "main": [
@@ -58,9 +61,21 @@
     "tpfree": [
       1,
       30
+    ],
+    "nondegenerate": [
+      1,
+      30
+    ],
+    "kablation": [
+      1,
+      30
+    ],
+    "prioritysplit": [
+      1,
+      30
     ]
   },
-  "runs": 7200,
+  "runs": 8340,
   "runsPerSweep": {
     "main": 240,
     "planner": 30,
@@ -71,26 +86,30 @@
     "cascade": 480,
     "baselines": 900,
     "coupling": 480,
-    "tpfree": 600
+    "tpfree": 600,
+    "nondegenerate": 720,
+    "kablation": 180,
+    "prioritysplit": 240
   },
   "loadAverageBefore": [
-    1.23,
-    0.58,
-    0.21
+    39.52,
+    42.05,
+    42.42
   ],
   "loadAverageAfter": [
-    8.46,
-    8.47,
-    6.57
+    15.06,
+    14.93,
+    23.42
   ],
-  "robotTicks": 138025414,
+  "robotTicks": 161150534,
   "totalConflicts": 1419,
   "auditVertexConflicts": 1419,
   "auditSwapConflicts": 0,
   "auditIllegalMoves": 0,
-  "totalDeadlocks": 389,
-  "totalUnfinished": 18879,
-  "totalDepletions": 12315,
-  "auditDepletions": 12315,
-  "wallSeconds": 1219.9
+  "totalDeadlocks": 405,
+  "totalUnfinished": 19066,
+  "totalDepletions": 12348,
+  "auditDepletions": 12348,
+  "wallSeconds": 1548.3,
+  "schemaVersion": 2
 }

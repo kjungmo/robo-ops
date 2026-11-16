@@ -131,14 +131,18 @@ npx tsx -e "import { runSimulation } from './src/fms/index'; console.log(runSimu
 
 ## Paper
 
-`paper/arxiv/` holds the manuscript *PACT: A Conflict-Free Lifelong Fleet Manager
-for Warehouse AMRs and a Controlled Study of Reservation-Aware Pickup Costs*
+`paper/arxiv/` holds the manuscript *PACT: A Lifelong Fleet Manager for Warehouse AMRs,
+Conflict-Free under Synchronous Unit-Time Execution, and a Controlled Study of
+Reservation-Aware Pickup Costs*
 (Jungmo Kang, 2026; preprint, not peer reviewed). It describes `src/fms/` and
 evaluates it in simulation only: there is no real robot and no fleet connection
-anywhere in this repository. The study's main result is negative and weak: the
-reservation-aware pickup cost did not measurably change throughput in the tested
-settings, and recorded counters show that it changed the task matching in only
-1–14 % of the allocations. The default charging policy strands robots under
+anywhere in this repository. The study's main result is negative and weak, and scoped to allocation under a
+binding dock gate with event-triggered epochs: the reservation-aware pickup cost
+did not measurably change throughput in the tested settings, and recorded counters
+show that it changed the task matching in only 1–14 % of the allocations, with only
+9–26 % of the allocation calls posing a real assignment problem. A pre-registered
+re-run without event-triggered epochs (chosen after a five-seed hint) shows no
+measurable gain either. The conflict-freeness proof holds under synchronous unit-time execution. The default charging policy strands robots under
 doubled battery drain. Both are reported in the paper.
 
 Reproduce the results (Node.js 22; durations measured on a 6-core Ryzen 5 5500GT):
@@ -151,11 +155,11 @@ npm run check:results -- /tmp/pact-rerun   # field-by-field comparison with the 
 npm run check:paper                        # tables, figure data and every number in the text
 ```
 
-- All ten sweeps: `npm run bench:fms -- --jobs 8 --out /tmp/pact-rerun` (7,200 runs, about 20 minutes with 8 worker processes), then `check:results` as above.
+- All thirteen sweeps (the ten of v1 and the three v2 sweeps of `paper/experiments/PREREG_v2.md`): `npm run bench:fms -- --jobs 8 --out /tmp/pact-rerun` (8,340 runs, about 30 minutes with 8 worker processes), then `check:results` as above. `npm run analyze:v2` recomputes the statistics of the three v2 sweeps (`paper/experiments/analysis/v2.json`).
 - Without `--out`, `bench:fms` overwrites `paper/experiments/results/`.
-- Every field of a run is deterministic given its seed except the four wall-clock fields (`wallMs`, `plannerMs`, `allocMs`, `plannerMsPerTick`), which `check:results` leaves out. CI repeats the 420-run comparison on GitHub's runners under Node.js 20, 22 and 24.
-- The committed records were written by `bash scripts/regenerate.sh 8` at commit `63a2db7`. The script re-runs all ten sweeps at the current commit, refuses to replace the committed records if any field that existed before differs, and then replaces them (`paper/experiments/repro/regeneration.json` holds the comparison).
-- Planner times in the paper do not come from those records. `bash scripts/measure-timing.sh` measures them (planner, scaling and ablation sweeps, one process, three repeats, about 5 minutes). It starts a repeat only when the 1-minute load average is at most 0.50, records the load and the top CPU consumers before and after each repeat in `paper/experiments/timing/`, and marks a repeat invalid when the host was busy.
+- Every field of a run is deterministic given its seed except the five wall-clock fields (`wallMs`, `plannerMs`, `allocMs`, `diagMs`, `plannerMsPerTick`), which `check:results` leaves out. CI repeats the 420-run comparison on GitHub's runners under Node.js 20, 22 and 24.
+- The committed records were written by `bash scripts/regenerate.sh 11` at commit `acbfe97`. The script re-runs all thirteen sweeps at the current commit, refuses to replace the committed records if any field that existed before differs, and then replaces them (`paper/experiments/repro/regeneration-v2.json` holds the comparison of the latest regeneration; `regeneration.json` and `regeneration-schema2.json` hold the two earlier ones).
+- Planner times in the paper do not come from those records. `bash scripts/measure-timing.sh` measures them (planner, scaling and ablation sweeps and the timing-only `epochtime` sweep, one process, three repeats, with the wall time of every epoch; it waits for a quiet host). It starts a repeat only when the 1-minute load average is at most 0.50, records the load and the top CPU consumers before and after each repeat in `paper/experiments/timing/`, and marks a repeat invalid when the host was busy.
 - `npm run check:paper -- --update-pins` rewrites `paper/experiments/guard/pins.json` after a reviewed change to a formula or to a number written as a word.
 - `npm run paper:data` rewrites `paper/arxiv/tables/*.tex` and `figures/data/*.csv` from `paper/experiments/results/`. `paper/arxiv/NUMBERS.md` maps each number in the paper to its source field.
 - Build the PDF with `pdflatex main && pdflatex main && pdflatex main` in `paper/arxiv/` (the `.bbl` is committed; a TeX Live with `pgfplots` and `algorithm2e` is needed).

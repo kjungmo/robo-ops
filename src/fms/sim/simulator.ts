@@ -25,6 +25,7 @@ import { type Cell, type GridMap, DistanceOracle, cellX, cellY, chargerSlots } f
 import { loadLayout } from '../map/layouts'
 import { hungarian } from '../alloc/hungarian'
 import { greedyAssign } from '../alloc/greedy'
+import { allocShape, sameAssignment } from '../alloc/shape'
 import { type CostContext, staticCost, estimatedCost, taskFeasible } from '../alloc/cost'
 import { ReservationTable } from '../mapf/constraints'
 import { spaceTimeAStar } from '../mapf/spacetime_astar'
@@ -63,7 +64,16 @@ export type Coordinator = 'rhcr' | 'tp' | 'tpts'
  *   far     - pickups drawn from the 25% of pickups farthest from any dock
  */
 export type DemandModel = 'uniform' | 'hotspot' | 'far'
-export type PriorityScheme = 'dynamic' | 'static'
+/**
+ * Planning order within a group (and admission to planning group 1).
+ *   dynamic  - blocking-first, then held-first, then status rank and id; held parking robots join group 1
+ *   static   - status rank and id only
+ *   held     - held-first only (with the admission of held parking robots to group 1); no blocking-first
+ *   blocking - blocking-first only; no held-first and no admission of held robots to group 1
+ * 'held' and 'blocking' split the three mechanisms that 'static' switches off together
+ * (paper/experiments/PREREG_v2.md, E4); the defaults and the other two values are unchanged.
+ */
+export type PriorityScheme = 'dynamic' | 'static' | 'held' | 'blocking'
 export type RobotStatus =
   | 'idle'
   | 'to_pickup'
@@ -114,7 +124,9 @@ export interface SimConfig {
   /**
    * 'dynamic': robots standing on another robot's goal and robots held last
    * epoch are planned first (and held parking robots join group 1);
-   * 'static': status rank, then id.
+   * 'static': status rank, then id;
+   * 'held' and 'blocking': only the held-first or only the blocking-first
+   * mechanism of 'dynamic' (see PriorityScheme).
    */
   priority: PriorityScheme
   coordinator: Coordinator
@@ -292,6 +304,7 @@ export class FleetSimulator {
     expansions: 0,
     plannerMs: 0,
     allocMs: 0,
+    diagMs: 0,
     moves: 0,
     waits: 0,
     busyTicks: 0,
@@ -305,7 +318,15 @@ export class FleetSimulator {
     cplAllocs: 0,
     cplAllocsCostDiffer: 0,
     cplAllocsMatchDiffer: 0,
+    cplAllocsMatchDifferNondegenerate: 0,
+    allocCalls: 0,
+    allocM1: 0,
+    allocPool1: 0,
+    allocNondegenerate: 0,
+    allocGreedyEqHungarian: 0,
   }
+  /** Wall-clock ms of every rolling-horizon epoch (diagnostics excluded), in order. */
+  readonly epochMs: number[] = []
   private readonly tpSearch = { limitHits: 0 }
 
   constructor(config: Partial<SimConfig> = {}) {
@@ -470,6 +491,7 @@ export class FleetSimulator {
   private epoch(): void {
     const t = this.tick
     const t0 = now()
+    const diag0 = this.acc.diagMs
     this.lastEpochTick = t
     this.acc.epochs += 1
     const horizon = t + this.cfg.window
@@ -502,8 +524,8 @@ export class FleetSimulator {
     // so that a robot boxed in on a dock's access cell can be evacuated).
     const busy = this.robots.filter((r) => r.status === 'to_pickup' || r.status === 'to_delivery' || r.status === 'to_charger')
     const busyGoals = new Set(busy.map((r) => r.goal))
-    const dynamic = this.cfg.priority === 'dynamic'
-    const blockers = this.robots.filter((r) => r.status === 'parking' && (busyGoals.has(r.cell) || (dynamic && r.heldLast)))
+    const heldFirst = this.cfg.priority === 'dynamic' || this.cfg.priority === 'held'
+    const blockers = this.robots.filter((r) => r.status === 'parking' && (busyGoals.has(r.cell) || (heldFirst && r.heldLast)))
     const group1 = this.sortByPriority([...busy, ...blockers])
     this.planGroup(group1, table, t, [])
     // (e) Task allocation for eligible robots.
@@ -513,8 +535,9 @@ export class FleetSimulator {
     )
     for (const r of eligible) table.releaseAgent(r.id)
     const a0 = now()
+    const ad0 = this.acc.diagMs
     this.allocate(eligible, table)
-    this.acc.allocMs += now() - a0
+    this.acc.allocMs += now() - a0 - (this.acc.diagMs - ad0)
     // (f) Unassigned eligible robots park (a robot already at home gets a trivial
     // plan through the planner so that its rest is consistent with paths
     // reserved earlier in this epoch; it becomes idle on arrival).
@@ -535,21 +558,27 @@ export class FleetSimulator {
         r.pathStart = t
       }
     }
-    this.acc.plannerMs += now() - t0
+    const epochMs = now() - t0 - (this.acc.diagMs - diag0)
+    this.acc.plannerMs += epochMs
+    this.epochMs.push(epochMs)
   }
 
   private sortByPriority(list: Robot[]): Robot[] {
     const goals = new Map<Cell, number>()
     for (const r of list) goals.set(r.goal, (goals.get(r.goal) ?? 0) + 1)
     const blocking = (r: Robot) => (r.goal !== r.cell && goals.has(r.cell) ? 1 : 0)
-    if (this.cfg.priority === 'static') {
+    const useBlocking = this.cfg.priority === 'dynamic' || this.cfg.priority === 'blocking'
+    const useHeld = this.cfg.priority === 'dynamic' || this.cfg.priority === 'held'
+    if (!useBlocking && !useHeld) {
       return [...list].sort((a, b) => STATUS_RANK[a.status] - STATUS_RANK[b.status] || a.id - b.id)
     }
     return [...list].sort((a, b) => {
-      const ba = blocking(a)
-      const bb = blocking(b)
-      if (ba !== bb) return bb - ba
-      if (a.heldLast !== b.heldLast) return a.heldLast ? -1 : 1
+      if (useBlocking) {
+        const ba = blocking(a)
+        const bb = blocking(b)
+        if (ba !== bb) return bb - ba
+      }
+      if (useHeld && a.heldLast !== b.heldLast) return a.heldLast ? -1 : 1
       const ra = STATUS_RANK[a.status]
       const rb = STATUS_RANK[b.status]
       if (ra !== rb) return ra - rb
@@ -684,16 +713,16 @@ export class FleetSimulator {
     const cost: number[][] = []
     // Diagnostics only: the static cost matrix next to a coupled one.
     const coupled = this.cfg.alloc === 'pact' || this.cfg.alloc === 'pact-proxy'
-    const staticRows: number[][] = []
+    const orders: number[][] = []
     for (const r of eligible) {
       const row = new Array<number>(pool.length).fill(Number.POSITIVE_INFINITY)
-      const staticRow = new Array<number>(pool.length).fill(Number.POSITIVE_INFINITY)
       // Candidate pruning: K nearest tasks by static distance.
       const order = pool
         .map((task, j) => ({ j, d: this.oracle.dist(r.cell, task.pickup) }))
         .filter((e) => Number.isFinite(e.d))
         .sort((a, b) => a.d - b.d || a.j - b.j)
         .slice(0, K)
+      if (coupled) orders.push(order.map((e) => e.j))
       for (const { j } of order) {
         const task = pool[j]
         switch (this.cfg.alloc) {
@@ -719,18 +748,39 @@ export class FleetSimulator {
             break
           }
         }
-        if (coupled) staticRow[j] = staticCost(this.costCtx, r.cell, r.soc, task)
       }
       cost.push(row)
-      staticRows.push(staticRow)
     }
     const assignment = this.cfg.alloc === 'greedy' ? greedyAssign(cost) : hungarian(cost)
+    // Diagnostics (schema 2 counters, the static cost matrix and the static matching). They only read the
+    // state above and are timed on their own, outside allocMs, plannerMs and the
+    // epoch times.
+    const diagStart = now()
+    const shape = allocShape(eligible.length, pool.length)
+    this.acc.allocCalls += 1
+    if (shape.m1) this.acc.allocM1 += 1
+    if (shape.pool1) this.acc.allocPool1 += 1
+    if (shape.nondegenerate) this.acc.allocNondegenerate += 1
+    // Both solvers on the method's own matrix; the one that made the assignment is not run again.
+    const greedyA = this.cfg.alloc === 'greedy' ? assignment : greedyAssign(cost)
+    const hungarianA = this.cfg.alloc === 'greedy' ? hungarian(cost) : assignment
+    if (sameAssignment(greedyA, hungarianA)) this.acc.allocGreedyEqHungarian += 1
     if (coupled) {
+      // The static cost matrix is built here, outside the timed region of the method.
+      const staticRows = eligible.map((r, i) => {
+        const staticRow = new Array<number>(pool.length).fill(Number.POSITIVE_INFINITY)
+        for (const j of orders[i]) staticRow[j] = staticCost(this.costCtx, r.cell, r.soc, pool[j])
+        return staticRow
+      })
       this.acc.cplAllocs += 1
       if (cost.some((row, i) => row.some((c, j) => c !== staticRows[i][j]))) this.acc.cplAllocsCostDiffer += 1
       const staticAssignment = hungarian(staticRows)
-      if (assignment.some((j, i) => j !== staticAssignment[i])) this.acc.cplAllocsMatchDiffer += 1
+      if (assignment.some((j, i) => j !== staticAssignment[i])) {
+        this.acc.cplAllocsMatchDiffer += 1
+        if (shape.nondegenerate) this.acc.cplAllocsMatchDifferNondegenerate += 1
+      }
     }
+    this.acc.diagMs += now() - diagStart
     const taken = new Set<number>()
     eligible.forEach((r, i) => {
       const j = assignment[i]
@@ -1283,11 +1333,18 @@ export class FleetSimulator {
       cplAllocs: this.acc.cplAllocs,
       cplAllocsCostDiffer: this.acc.cplAllocsCostDiffer,
       cplAllocsMatchDiffer: this.acc.cplAllocsMatchDiffer,
+      cplAllocsMatchDifferNondegenerate: this.acc.cplAllocsMatchDifferNondegenerate,
+      allocCalls: this.acc.allocCalls,
+      allocM1: this.acc.allocM1,
+      allocPool1: this.acc.allocPool1,
+      allocNondegenerate: this.acc.allocNondegenerate,
+      allocGreedyEqHungarian: this.acc.allocGreedyEqHungarian,
       epochs: this.acc.epochs,
       astarCalls: this.acc.astarCalls,
       expansions: this.acc.expansions,
       plannerMs: this.acc.plannerMs,
       allocMs: this.acc.allocMs,
+      diagMs: this.acc.diagMs,
       plannerMsPerTick: this.acc.plannerMs / ticks,
       utilization: this.acc.busyTicks / (ticks * this.robots.length),
       finalMeanSoc: mean(this.robots.map((r) => r.soc)),

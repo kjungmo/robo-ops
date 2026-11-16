@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{Wall time of one rolling-horizon epoch} in ms on the quiet host (batch load; 200 tasks in the row \emph{PP, \sname, warehouse, 48} (the scaling sweep), 100 in the others; seeds 1--5; all epochs of all seeds pooled). Median over the three valid repeats of the 50th percentile, the 99th percentile and the longest epoch; \emph{Longest, max of repeats}: the largest of the three repeats' longest epochs. \emph{ms / tick}: seed-mean planner time per simulated tick. Epoch times exclude the diagnostic counters and the static diagnostic matching.}
+\label{tab:epoch}
+\scriptsize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+\textbf{Planner, cost, layout, robots} & \textbf{Epochs} & \textbf{p50} & \textbf{p99} & \textbf{Longest} & \textbf{Longest, max of repeats} & \textbf{ms / tick}\\
+\midrule
+PP, Hungarian, warehouse, 32 & 663 & 1.35 & 3.1 & 4.3 & 7.0 & 0.56\\
+PP, \sname, warehouse, 32 & 655 & 1.41 & 3.8 & 4.8 & 7.9 & 0.60\\
+PP, \sname, warehouse, 48 & 1{,}279 & 2.27 & 5.3 & 6.8 & 6.9 & 0.98\\
+PP, Hungarian, narrow, 16 & 907 & 0.61 & 1.8 & 2.1 & 2.3 & 0.22\\
+CBS, Hungarian, warehouse, 32 & 650 & 2.38 & 221.3 & 476.2 & 486.8 & 4.92\\
+CBS, Hungarian, narrow, 16 & 887 & 1.23 & 153.8 & 191.0 & 193.3 & 5.00\\
+\bottomrule
+\end{tabular}
+\end{table}

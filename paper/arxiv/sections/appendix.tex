@@ -1,4 +1,4 @@
-\section{Reproduction}\label{app:repro}
+\section{Reproduction}\label[appendix]{app:repro}
 
 All code is TypeScript under \texttt{src/fms/} of the repository (no runtime
 dependencies); the benchmark, tests and paper tables are produced by
@@ -6,7 +6,7 @@ dependencies); the benchmark, tests and paper tables are produced by
 \begin{verbatim}
 npm ci
 npm test                        # unit and property tests (vitest)
-bash scripts/regenerate.sh 8    # all ten sweeps, 7,200 runs
+bash scripts/regenerate.sh 11    # all thirteen sweeps, 8,340 runs
 bash scripts/measure-timing.sh  # planner times: three repeats on an idle host
 npm run paper:data              # tables/*.tex and figures/data/*.csv
 npm run check:paper             # every number in the text and tables
@@ -14,22 +14,34 @@ npm run check:paper             # every number in the text and tables
 \endgroup
 \begin{sloppypar}
 All records in \path{paper/experiments/results/} were written by one run
-of the regeneration script at commit \texttt{63a2db7} of the repository, on 8
+of the regeneration script at commit \texttt{acbfe97} of the repository, on 11
 worker processes (\texttt{bench-meta.json}); the code under
 \texttt{src/fms/} and the benchmark driver have not changed since. Every run
 is deterministic given its seed. Before the script replaces the committed
 records it compares the new ones with them field by field, leaving out the
-four wall-clock fields (\texttt{wallMs}, \texttt{plannerMs},
-\texttt{allocMs}, \texttt{plannerMsPerTick}), and stops at any difference.
+five wall-clock fields (\texttt{wallMs}, \texttt{plannerMs},
+\texttt{allocMs}, \texttt{diagMs}, \texttt{plannerMsPerTick}), and stops at any difference.
 For the 6{,}600 runs that existed before, which had been written at earlier
 commits on 1 and 10 worker processes, no field differed
 (\path{paper/experiments/repro/regeneration.json}); the new records add
 the counters of \cref{tab:diagnostic}, and the 600 runs of
-\cref{tab:tpfree} are new. \texttt{npm run check:results -{}- <dir>} makes the
+\cref{tab:tpfree} are new. A second regeneration, at commit \texttt{22431e9}
+after the allocation-shape counters had been added to the records, left all
+7{,}200 runs identical in every earlier field
+(\path{paper/experiments/repro/regeneration-schema2.json}). A third, at the
+commit above, which added the three sweeps of the re-runs pre-registered in
+\path{paper/experiments/PREREG_v2.md} (1{,}140 runs), left all 8{,}340 runs
+identical in every earlier field
+(\path{paper/experiments/repro/regeneration-v2.json}).
+\texttt{npm run check:results -{}- <dir>} makes the
 same comparison for a re-run written with
 \texttt{npm run bench:fms -{}- -{}-out <dir>}, and the continuous-integration
 workflow of the repository does so for the 420 first-round runs on other
-hardware under Node.js 20, 22 and 24.
+hardware under Node.js 20, 22 and 24. On 11 worker processes the regeneration
+of all records took 1{,}548 seconds of wall time
+(\texttt{bench-meta.json}). The timing script waits for a quiet host
+before every repeat, so its duration depends on the load of the host; we did not
+record it.
 \end{sloppypar}
 
 \begin{sloppypar}
@@ -37,12 +49,13 @@ Each kind of number has one source. Simulated quantities come from
 \path{paper/experiments/results/<sweep>.json} (one record per run) and
 its \path{_summary.csv}. Planner times come only from
 \path{paper/experiments/timing/summary.json}, written by the timing
-script: three single-process repeats of the planner, scaling and ablation
-sweeps, each started only at a one-minute load average of at most 0.5, with
+script: three valid single-process repeats (and one invalid attempt, kept) of the planner, scaling and ablation
+sweeps and of the timing-only sweep \texttt{epochtime}, each started only at a one-minute load average of at most 0.5, with
 the load average, the core count and the largest CPU consumers before and
 after each repeat in \texttt{host-<n>.txt} and the per-run times in
-\texttt{repeat-<n>.csv}. The wall-clock fields inside the result records
-were written under 8 workers and are not used. The last command is a guard.
+\texttt{repeat-<n>.csv}; the percentiles of the epoch times in \cref{tab:epoch} are in
+\texttt{summary.json}, under \texttt{epochConfigs}. The wall-clock fields inside the result records
+were written under 11 workers and are not used. The last command is a guard.
 It regenerates every table and figure data file and compares them byte for
 byte; it recomputes every summary file from the per-run records; it
 recomputes every numeral written in digits in the abstract, the sections,
@@ -54,7 +67,11 @@ that changing one fails the guard until a reviewed snapshot
 (\path{paper/experiments/guard/pins.json}) is updated: numerals inside the
 formulas and algorithms of \cref{sec:method}, numbers written as words
 that the script does not list as a claim, and the two facts taken from the
-git history (\cref{subsec:setup}). The guard does not check the logic of a
+git history (\cref{subsec:setup}). When the history is available, it also checks
+with git that the timing and the results come from identical code and that the
+pre-registration precedes the records of the third round. It also recomputes the
+statistics of the third round (\path{paper/experiments/analysis/v2.json}) from the
+records and compares the file byte for byte. The guard does not check the logic of a
 sentence, the references to tables and figures, or the drawing of the
 figures beyond their data columns. The bounds stated in
 \cref{prop:pp,prop:charge}, \cref{alg:astar} and \cref{eq:cost} are
@@ -84,7 +101,7 @@ conflict-free.
 The operator console shows the
 simulator at \texttt{/fms} (\texttt{npm run dev}).
 
-\section{Notation and Parameters}\label{app:params}
+\section{Notation and Parameters}\label[appendix]{app:params}
 
 \Cref{tab:notation} lists the notation, \cref{tab:params} the default
 parameters with the values the sweeps change, and \cref{tab:layouts} the
@@ -99,7 +116,9 @@ four layouts.
 \toprule
 $G=(V,E)$ & 4-connected grid graph of free cells\\
 $\mathcal{P},\mathcal{D},\mathcal{C},\mathcal{H}$ & pickup points, docks, charger slots, home bays\\
-$\mathcal{R}$, $r$ & fleet, robot index; $p^r_t$ position, $s^r_t$ state of charge, $h^r$ home bay\\
+$\Gamma(v)$ & neighbours of cell $v$ in $G$\\
+$\mathcal{R}$, $r$ & fleet, robot index; $p^r_t$ position, $s^r_t$ state of charge, $o^r$ home bay\\
+$\mathcal{T}$, $\mathcal{T}^{\star}$ & task stream, delivered tasks\\
 $\tau_k=(a_k,p_k,d_k)$ & task: arrival time, pickup, dock; $c_k$ completion time\\
 $d(u,v)$ & exact shortest-path distance on $G$\\
 $\mathcal{B}$, $w$, $h$ & reservation table, planning window, replanning period\\
@@ -108,6 +127,12 @@ $\chi_{\mathcal{B}}$ & congestion count along a free-space shortest path\\
 $c(r,\tau)$, $\hat a$ & assignment cost and time-to-pickup estimate (\cref{eq:cost})\\
 $w_{\mathrm{b}},w_{\mathrm{c}},w_{\mathrm{h}}$ & battery weight, congestion weight, hold penalty\\
 $K$ & candidate tasks priced per robot\\
+$m$, $q$ & eligible robots, tasks in the allocation pool of one call\\
+$\mathcal{X}$ & robots already in $\mathcal{B}$ when \cref{alg:pp} is called\\
+$n_{\mathrm{in}}$, $n_{\mathrm{p}}$ & robots in the input list of \cref{alg:pp}; robots it plans ($n_{\mathrm{p}}=n_{\mathrm{in}}+|\mathcal{X}|$)\\
+$\mathcal{J}$ & held set of \cref{alg:pp}\\
+$N_{\max}$ & node budget of one CBS search\\
+$n$ & number of seed pairs of a paired interval\\
 $\kappa_{\mathrm{d}},\kappa_{\mathrm{p}}$ & in-flight capacity per dock / per pickup\\
 $\beta_{\mathrm{m}},\beta_{\mathrm{w}},\gamma$ & charge per move, per wait, charging rate per tick\\
 $\theta_{\mathrm{lo}},\theta_{\mathrm{hi}},\rho$ & charging thresholds and feasibility reserve\\
@@ -131,6 +156,8 @@ pool size & $\max(2m,8)$ & $m$ eligible robots, oldest tasks first\\
 $\kappa_{\mathrm{d}}$ / $\kappa_{\mathrm{p}}$ & 3 / 1 & endpoint reservation capacities\\
 $w_{\mathrm{b}}$ / $w_{\mathrm{c}}$ / $w_{\mathrm{h}}$ & 1 / 1 / 10 & \cref{eq:cost}\\
 $\beta_{\mathrm{m}}$ / $\beta_{\mathrm{w}}$ / $\gamma$ & 0.001 / 0.0002 / 0.005 & charge units per tick\\
+doubled drain & 0.002 / 0.0004 & $\beta_{\mathrm{m}}$ / $\beta_{\mathrm{w}}$ in the stress sweep\\
+triple drain & 0.003 / 0.0006 & $\beta_{\mathrm{m}}$ / $\beta_{\mathrm{w}}$ in saturated chargers\\
 $\theta_{\mathrm{lo}}$ / $\theta_{\mathrm{hi}}$ / $\rho$ & 0.2 / 0.9 / 0.05 & \\
 initial charge & $\mathcal{U}[0.5,1.0]$ & $\mathcal{U}[0.2,0.4]$ in the battery stress\\
 dwell $\delta$ & 2 ticks & loading and unloading\\
@@ -138,7 +165,7 @@ CBS node budget & 2000 & per group, then PP fallback\\
 stall limit & 1000 ticks & no task progress $\Rightarrow$ run flagged stalled\\
 run limit & 20{,}000 ticks & a run that neither finishes nor stalls stops here\\
 tasks per run & 200 (100 on \emph{small}; stress: 100) & pickups, docks sampled uniformly\\
-seeds & 1--5 & 1--60 stress; 1--30 other second-round sweeps\\
+seeds & 1--5 & 1--60 stress; 1--30 all other sweeps\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -160,7 +187,7 @@ narrow & $52\times15$ & 496 & 80 & 6 & 8 (4) & 32 & 1\\
 \end{tabular}
 \end{table}
 
-\section{Extended Results}\label{app:extended}
+\section{Extended Results}\label[appendix]{app:extended}
 
 \input{tables/paired}
 \input{tables/scaling}
@@ -171,8 +198,8 @@ narrow & $52\times15$ & 496 & 80 & 6 & 8 (4) & 32 & 1\\
 \cref{subsec:main,subsec:ablation}; \cref{tab:scaling} lists the data behind
 \cref{fig:scaling}; \cref{tab:battery} the battery stress of
 \cref{subsec:main}; \cref{tab:reserve} the delay bounds of
-\cref{prop:charge}. The per-run records hold the 46 fields of
-\texttt{SimMetrics} (10 that identify the configuration and 36 measured quantities) and 13 auditor fields, with the sweep name, the variant label and
+\cref{prop:charge}. The per-run records hold the 53 fields of
+\texttt{SimMetrics} (10 that identify the configuration and 43 measured quantities) and 13 auditor fields, with the sweep name, the variant label and
 the wall-clock time of the run.
 The records are in the directory
 \texttt{paper/experiments/results/} as one JSON file per sweep, and the

@@ -1,0 +1,32 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{Which part of the dynamic priority ordering matters} (batch load, Hungarian allocation, PP, hold cascade, 30 seeds; 200 tasks, 100 on \emph{small}; pre-registered in commit \texttt{f35437f}). \emph{Dynamic} orders robots on another robot's goal first, then robots held last epoch, and lets held parking robots join group~1; \emph{static} uses neither; \emph{held first only} and \emph{blocking first only} keep one of the two (held parkers join group~1 only under the first). The dynamic and static arms are the records of \cref{tab:cascade}. Throughput is tasks per 100 ticks; a stalled run is stopped after more than 1000 ticks without progress, so a stalling arm has a small throughput and the relative differences against it are large. Differences are seed-paired, in \% of the second arm, with the 95\% $t$-interval; $\dagger$: rejected by Holm's procedure over the eight primary comparisons (each one-mechanism arm against static). \emph{Stalled}: stalled runs; \emph{Unfin.}: tasks not delivered, \emph{Depl.}: depletion events (and, in brackets, the runs with at least one), both totals over the 30 runs; \emph{Holds}: hold events per run. Normal batteries throughout. No run of any arm had an executed conflict or an illegal move.}
+\label{tab:split}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{llrrrrrrr}
+\toprule
+\textbf{Setting} & \textbf{Priority ordering} & \textbf{Throughput} & \textbf{Stalled} & \textbf{Unfin.} & \textbf{Depl.} & \textbf{Holds} & \textbf{vs.\ static, \%} & \textbf{vs.\ dynamic, \%}\\
+\midrule
+warehouse, 32 & dynamic (default) & 30.6\stdv{2.6} & 0/30 & 0 & 0 & 3.5 & $+2144.1\pm203.6$ & --\\
+ & held first only & 29.9\stdv{2.7} & 0/30 & 0 & 0 & 72.9 & $+2090.1\pm194.0$$^{\dagger}$ & $-2.3\pm1.0$\\
+ & blocking first only & 24.2\stdv{10.6} & 9/30 & 127 & 25 (4) & 178.2 & $+1628.9\pm314.5$$^{\dagger}$ & $-21.6\pm12.5$\\
+ & static & 1.4\stdv{0.3} & 30/30 & 5474 & 156 (30) & 2328.8 & -- & --\\
+\midrule
+warehouse, 32, $\kappa_{\mathrm{d}}{=}4$ & dynamic (default) & 33.3\stdv{2.5} & 0/30 & 0 & 0 & 8.8 & $+2427.3\pm189.9$ & --\\
+ & held first only & 32.3\stdv{2.3} & 0/30 & 0 & 0 & 100.2 & $+2347.1\pm174.7$$^{\dagger}$ & $-3.0\pm1.4$\\
+ & blocking first only & 29.1\stdv{9.3} & 5/30 & 46 & 8 (3) & 127.1 & $+2113.3\pm315.5$$^{\dagger}$ & $-12.8\pm10.3$\\
+ & static & 1.4\stdv{0.2} & 30/30 & 5543 & 112 (29) & 2281.4 & -- & --\\
+\midrule
+small, 8 & dynamic (default) & 19.0\stdv{1.1} & 0/30 & 0 & 0 & 0.5 & $+1039.5\pm681.2$ & --\\
+ & held first only & 18.4\stdv{1.1} & 0/30 & 0 & 0 & 8.9 & $+1016.2\pm693.1$$^{\dagger}$ & $-2.6\pm1.7$\\
+ & blocking first only & 18.9\stdv{1.1} & 0/30 & 0 & 0 & 0.5 & $+1037.4\pm680.6$$^{\dagger}$ & $-0.2\pm0.7$\\
+ & static & 5.5\stdv{5.7} & 23/30 & 1531 & 9 (5) & 337.6 & -- & --\\
+\midrule
+narrow, 16 & dynamic (default) & 16.5\stdv{0.8} & 0/30 & 0 & 0 & 2.2 & $+1850.1\pm205.1$ & --\\
+ & held first only & 16.4\stdv{0.7} & 0/30 & 0 & 0 & 49.5 & $+1833.8\pm205.1$$^{\dagger}$ & $-0.7\pm1.3$\\
+ & blocking first only & 16.0\stdv{2.1} & 2/30 & 14 & 0 & 20.4 & $+1795.8\pm224.6$$^{\dagger}$ & $-3.6\pm4.1$\\
+ & static & 0.9\stdv{0.3} & 30/30 & 5642 & 83 (28) & 1214.6 & -- & --\\
+\bottomrule
+\end{tabular}
+\end{table}
