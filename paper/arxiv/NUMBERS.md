@@ -81,7 +81,7 @@ Every cell: `main_summary.csv : layout, fleetSize, arrivalRate ∈ {0.15, inf}, 
 
 | Claim | Source |
 |---|---|
-| ≤ 2.9 % throughput spread in every cell; worst cell warehouse/32/batch: 29.7 greedy, 30.6 Hungarian, 30.6 Proxy, 30.3 PACT | `main_summary.csv : warehouse, 32, inf : throughput_mean` = 29.7237 / 30.5503 / 30.5988 / 30.2912 → (30.5988−29.7237)/30.5988 = 2.86 % ≤ 2.9 % |
+| ≤ 2.9 % throughput spread in every cell; worst cell warehouse/32/batch: 29.7 greedy, 30.6 Hungarian, 30.6 Proxy, 30.3 DOCKET | `main_summary.csv : warehouse, 32, inf : throughput_mean` = 29.7237 / 30.5503 / 30.5988 / 30.2912 → (30.5988−29.7237)/30.5988 = 2.86 % ≤ 2.9 % |
 | throughput means differ by less than the smallest of the four standard deviations in every cell; service-time means by less than the largest | `main_summary.csv : throughput_mean/std, meanServiceTime_mean/std` per cell (service time: the range exceeds the smallest std only in warehouse/16/0.15, 3.7 vs 2.7, largest 7.7) |
 | 233–297 wait actions per run (warehouse, 32, batch) | `main_summary.csv : warehouse, 32, inf, hungarian/greedy : waitActions_mean` = 233.4 (min) / 296.8 (max) |
 | service 283–287, queueing 216–220, "the remaining 66 ticks or so" (warehouse, 32, batch; §5) | `main_summary.csv : warehouse, 32, inf, * : meanServiceTime_mean` = 282.5–287.4 (283–287 as rounded in Table 1); `meanWaitTime_mean` = 216.3–220.1; `meanExecTime_mean` = 66.2–67.3 |
@@ -106,7 +106,7 @@ Every cell: `main_summary.csv : layout, fleetSize, arrivalRate ∈ {0.15, inf}, 
 | throughput 4.9 → 33.7 tasks/100 ticks | `scaling_summary.csv : fleetSize=4, hungarian : throughput_mean` = 4.9019; `fleetSize=48, pact` = 33.654 |
 | flattens beyond 40 robots; utilisation 0.41 at 48 | `throughput_mean` 33.02 (40, hungarian) vs 33.25 (48); `utilization_mean` = 0.4056 (48, hungarian) |
 | service time 1909 → 252 ticks | `meanServiceTime_mean` = 1909.468 (4, hungarian) / 252.225 (48, hungarian) |
-| planner 0.02 → 0.77 ms/tick Hungarian, 0.98 PACT; "0.02–0.98 ms" in §5 | `timing/summary.json : configs, scaling : median` = 0.01992 (4, hungarian), 0.77002 (48, hungarian), 0.98053 (48, pact) |
+| planner 0.02 → 0.77 ms/tick Hungarian, 0.98 DOCKET; "0.02–0.98 ms" in §5 | `timing/summary.json : configs, scaling : median` = 0.01992 (4, hungarian), 0.77002 (48, hungarian), 0.98053 (48, pact) |
 | +35 % A* calls at 48 robots: 16,229 vs 12,021 | `astarCalls_mean` = 16229.4 (48, pact) / 12021.4 (48, hungarian) |
 | dock bound "9 docks × κ_d = 3" | layout constant (warehouse docks = 9, `WAREHOUSE_SPEC`) × `DEFAULT_CONFIG.dockCapacity` |
 
@@ -116,13 +116,13 @@ All rows: `ablation_summary.csv : variant : throughput_mean, meanServiceTime_mea
 
 | Claim | Source |
 |---|---|
-| dock capacity 2: 24.0 (PACT) / 23.7 (Hungarian) vs 30.3 / 30.6 → +26 / +29 % for capacity 3 | `pact-dock2 : throughput_mean` = 23.9853, `hungarian-dock2` = 23.6748; defaults `main_summary.csv : warehouse, 32, inf, pact/hungarian` = 30.2912 / 30.5503 |
+| dock capacity 2: 24.0 (DOCKET) / 23.7 (Hungarian) vs 30.3 / 30.6 → +26 / +29 % for capacity 3 | `pact-dock2 : throughput_mean` = 23.9853, `hungarian-dock2` = 23.6748; defaults `main_summary.csv : warehouse, 32, inf, pact/hungarian` = 30.2912 / 30.5503 |
 | utilisation 0.64 → 0.42 | `pact : utilization_mean` = 0.6362; `pact-dock2` = 0.4175 |
 | w=10: 32.4 (+7 %), waits 150 vs 274, 0.19 vs 0.62 ms/tick | `pact-w10 : throughput_mean` = 32.3675, `waitActions_mean` = 149.8; `pact` = 30.2912 / 273.8; `timing/summary.json : ablation : median` = 0.1903 (`pact-w10`), 0.6204 (`pact`) |
 | w=30: 28.2 (−7 %), 2.00 ms/tick | `pact-w30 : throughput_mean` = 28.2265; `timing/summary.json : ablation, pact-w30 : median` = 1.9965 |
 | h=1: 30.3 at 2.2× the A* expansions per tick | `pact-h1 : throughput_mean` = 30.254; `expansions_mean / makespan_mean` of `pact-h1` over `pact` = 2.22 |
 | no event epochs: −1–5 % throughput, +55–125 waits | `pact-noEvent` = 29.9066 (−1.3 %), waits 329.2 (+55.4); `hungarian-noEvent` = 28.925 vs 30.5503 (−5.3 %), waits 358.6 vs 233.4 (+125.2) |
-| battery term neutral (< 0.5: +0.01 PACT, −0.43 Hungarian) | `pact-noBattery` 30.3025 vs `pact` 30.2912; `hungarian-noBattery` 30.119 vs `main_summary.csv : warehouse, 32, inf, hungarian` 30.5503 |
+| battery term neutral (< 0.5: +0.01 DOCKET, −0.43 Hungarian) | `pact-noBattery` 30.3025 vs `pact` 30.2912; `hungarian-noBattery` 30.119 vs `main_summary.csv : warehouse, 32, inf, hungarian` 30.5503 |
 | K = 3 / 12 change ≤ 0.13 | `pact-K3` = 30.234, `pact-K12` = 30.4203 vs 30.2912 (differences 0.057 and 0.129) |
 
 
@@ -132,12 +132,12 @@ Computed by `scripts/paper-data.ts : pairedTable()` from the per-run records (`m
 
 | Claim | Source |
 |---|---|
-| 35 of 36 cost-model intervals vs Hungarian contain 0; the exception PACT console/32/batch −2.3±2.0 % | script summary `intervals containing 0: 35; excluding 0: console/inf/32: -2.29 +- 2.02` |
+| 35 of 36 cost-model intervals vs Hungarian contain 0; the exception DOCKET console/32/batch −2.3±2.0 % | script summary `intervals containing 0: 35; excluding 0: console/inf/32: -2.29 +- 2.02` |
 | every interval within ±3.7 % under Poisson load and ±7.1 % under batch load ("about 4 %" / "about 7 %" in §1) | script summary `largest |interval bound| ... 7.06% (console/inf/8); under Poisson load: 3.71%` |
 | 1.8 exclusions expected by chance among independent intervals | 36 × 0.05 (the text notes that the 36 intervals share baselines and seeds) |
 | window w=10 +6.9±1.6 %, w=30 −6.9±3.9 % | script summary lines `window $w{=}10$` / `$w{=}30$` |
-| dock capacity 2 costs 20.7±3.3 % (PACT) / 22.5±2.2 % (Hungarian) | script summary lines `dock capacity 2` |
-| no event epochs: Hungarian −5.2±3.3 %, PACT −1.2±5.2 % | script summary lines `no event epochs` |
+| dock capacity 2 costs 20.7±3.3 % (DOCKET) / 22.5±2.2 % (Hungarian) | script summary lines `dock capacity 2` |
+| no event epochs: Hungarian −5.2±3.3 %, DOCKET −1.2±5.2 % | script summary lines `no event epochs` |
 
 ## §4.2 Battery stress, Table 13 (`tables/battery.tex`)
 
@@ -173,7 +173,7 @@ The abstract quotes 4,740 runs, 60.4 million robot-steps, 2.9 %, 1–14 %, 0.9�
 | layouts of at most 715 free cells | `freeCellCount` of the four layouts (104 / 715 / 658 / 496) |
 | each run delivers 100 or 200 tasks and ends within 4,189 ticks (first round and stress sweep) | `numTasks` and max `makespan` over the first-round and `stress.json` records |
 | Node.js 22, one host | meta files `: node, cpu` |
-| service-time half-widths of 0.4 to 0.7 % and, outside the long-trips regime, throughput half-widths of 1.0 to 1.6 % for PACT against Hungarian or greedy (three coupling regimes inside the safe envelope; long-trips throughput is left out because it is tight by construction) | the 6 PACT service-time intervals and the 4 PACT throughput intervals of narrow-aisles and hotspot in `tables/coupling.tex` (columns against Hungarian and against greedy); the guard takes the minimum and maximum half-width of `meanServiceTime` over the three regimes and of `throughput` over `pactSafe` without `long-trips` |
+| service-time half-widths of 0.4 to 0.7 % and, outside the long-trips regime, throughput half-widths of 1.0 to 1.6 % for DOCKET against Hungarian or greedy (three coupling regimes inside the safe envelope; long-trips throughput is left out because it is tight by construction) | the 6 DOCKET service-time intervals and the 4 DOCKET throughput intervals of narrow-aisles and hotspot in `tables/coupling.tex` (columns against Hungarian and against greedy); the guard takes the minimum and maximum half-width of `meanServiceTime` over the three regimes and of `throughput` over `pactSafe` without `long-trips` |
 
 ## Second round (§4.2 stress, §4.4–4.6, Prop. 2, Tables 2, 5, 6, 7, 14)
 
@@ -199,9 +199,9 @@ are printed by the same run.
 | no conflict, stall or depletion in the 300 TP/TPTS runs | script: baselines lines for tp/tpts: `violations 0, stalled 0, unfinished 0, depletions 0` |
 | no search hits the 20,000-expansion bound; no swap dropped for want of a path home | script: baselines lines for tp/tpts: `swap vetoes 0.00 (max 0), search-bound hits 0` |
 | Table 6 column "Paired vs. RH + Hungarian, κ_d = 1" | `tables/baselines.tex`, same numbers as the `vs hungarian-dock1` script lines |
-| PACT vs Hungarian at κ_d = 1: one of five intervals excludes 0, +0.9±0.9 % (Poisson) | script: `baselines warehouse-16-poisson pact-dock1 vs hungarian-dock1 (paired throughput): 0.89 +- 0.85` |
-| Table 7 (coupling), all cells; PACT's 12 intervals in the first three regimes contain 0; mean differences ≤ 1.3 % throughput, ≤ 0.6 % service; ≤ 0.5 % on long trips; proxy exclusions +1.7±1.4, −1.5±1.3, +0.6±0.5, −0.5±0.3, −0.5±0.4 | `tables/coupling.tex`; script: `coupling <regime> <a> vs <b>` lines and the `(excludes 0)` markers |
-| saturated chargers: 586–641 depletion events per method over 30 runs, 10–16 stalled runs, PACT +23±18 %, proxy +24±21 %, service 0.0±2.2 %, stalled 10 (PACT) vs 16 (Hungarian); greedy vs Hungarian +20.4±22.4 %, 11 stalled (greedy); PACT vs greedy +12.5±17.2 %, proxy vs greedy +9.7±16.2 % | `tables/coupling.tex` (Saturated chargers rows); script: `coupling saturated-chargers/<method>` lines, `coupling saturated-chargers pact vs hungarian` lines and `coupling saturated-chargers <a> vs <b>` lines (greedy vs hungarian throughput 20.42 +- 22.40; pact vs greedy 12.46 +- 17.22; pact-proxy vs greedy 9.68 +- 16.21; `saturated-chargers/greedy` stalled 11) |
+| DOCKET vs Hungarian at κ_d = 1: one of five intervals excludes 0, +0.9±0.9 % (Poisson) | script: `baselines warehouse-16-poisson pact-dock1 vs hungarian-dock1 (paired throughput): 0.89 +- 0.85` |
+| Table 7 (coupling), all cells; DOCKET's 12 intervals in the first three regimes contain 0; mean differences ≤ 1.3 % throughput, ≤ 0.6 % service; ≤ 0.5 % on long trips; proxy exclusions +1.7±1.4, −1.5±1.3, +0.6±0.5, −0.5±0.3, −0.5±0.4 | `tables/coupling.tex`; script: `coupling <regime> <a> vs <b>` lines and the `(excludes 0)` markers |
+| saturated chargers: 586–641 depletion events per method over 30 runs, 10–16 stalled runs, DOCKET +23±18 %, proxy +24±21 %, service 0.0±2.2 %, stalled 10 (DOCKET) vs 16 (Hungarian); greedy vs Hungarian +20.4±22.4 %, 11 stalled (greedy); DOCKET vs greedy +12.5±17.2 %, proxy vs greedy +9.7±16.2 % | `tables/coupling.tex` (Saturated chargers rows); script: `coupling saturated-chargers/<method>` lines, `coupling saturated-chargers pact vs hungarian` lines and `coupling saturated-chargers <a> vs <b>` lines (greedy vs hungarian throughput 20.42 +- 22.40; pact vs greedy 12.46 +- 17.22; pact-proxy vs greedy 9.68 +- 16.21; `saturated-chargers/greedy` stalled 11) |
 | Prop. 2 inputs β_m = 0.001, β_w = 0.0002, δ = 2, ρ = 0.05, θ_lo = 0.2 | `DEFAULT_BATTERY`, `DEFAULT_CONFIG` (printed into the caption of `tables/reserve.tex`) |
 | doubled drain 0.002 / 0.0004; triple drain 0.003 / 0.0006 (defined in section 4.1, `tab:params` and the caption of `tab:coupling`) | `scripts/bench-fms.ts : BATTERY_STRESS` and the `saturated-chargers` regime; the guard reads the triple-drain values from the source and checks they are three times `DEFAULT_BATTERY` |
 
@@ -248,12 +248,12 @@ Pre-registered in commit `f35437f` (that commit adds `PREREG_v2.md` and nothing 
 | the three v2 sweeps: 1,140 runs, 23,125,120 robot-steps, 0 executed conflicts, 0 illegal moves; 16 stalled runs (all in `prioritysplit`, arm `blocking`), 187 unfinished tasks, 33 depletions | sums over `nondegenerate.json`, `kablation.json`, `prioritysplit.json` of `audit_robotTicks`, `audit_vertexConflicts`, `audit_swapConflicts`, `audit_illegalMoves`, `deadlocked`, `tasksUnfinished`, `depletionEvents` |
 | all 13 sweeps: 8,340 runs, 161,150,534 robot-steps (v1: 7,200 runs, 138,025,414) | `bench-meta.json : runs, robotTicks` |
 | E2: the `noevent` arm of seeds 1–5 in warehouse-32-batch equals the `pact-noEvent` and `hungarian-noEvent` records of the `ablation` sweep | `v2.json : e2.ablationConsistency` (both `identical: true`) |
-| E2 primary warehouse-32-batch, PACT vs Hungarian, no event epochs, throughput: +0.43 ± 1.10 % ([-0.67, +1.53], p = 0.431); Holm: not rejected | `v2.json : e2.contrasts` id `P2a` |
-| E2 primary console-32-batch, PACT vs Hungarian, no event epochs, throughput: +0.59 ± 1.48 % ([-0.89, +2.07], p = 0.421); Holm: not rejected | `v2.json : e2.contrasts` id `P2b` |
+| E2 primary warehouse-32-batch, DOCKET vs Hungarian, no event epochs, throughput: +0.43 ± 1.10 % ([-0.67, +1.53], p = 0.431); Holm: not rejected | `v2.json : e2.contrasts` id `P2a` |
+| E2 primary console-32-batch, DOCKET vs Hungarian, no event epochs, throughput: +0.59 ± 1.48 % ([-0.89, +2.07], p = 0.421); Holm: not rejected | `v2.json : e2.contrasts` id `P2b` |
 | E2 warehouse-32-batch: share of allocation calls with min(m, pool) ≥ 2: 57.3–58.9 % without event epochs, 16.3–16.6 % with them (all four cost models) | `v2.json : e2.cells[].nondegenerateShare` |
 | E2 console-32-batch: share of allocation calls with min(m, pool) ≥ 2: 56.1–56.8 % without event epochs, 14.0–14.6 % with them (all four cost models) | `v2.json : e2.cells[].nondegenerateShare` |
-| E2 interaction warehouse-32-batch: effect of PACT vs Hungarian without event epochs +0.43 %, with +1.12 %, difference -0.69 ± 1.54 % (p = 0.365) | `v2.json : e2.interaction` |
-| E2 interaction console-32-batch: effect of PACT vs Hungarian without event epochs +0.59 %, with +0.07 %, difference +0.52 ± 1.65 % (p = 0.524) | `v2.json : e2.interaction` |
+| E2 interaction warehouse-32-batch: effect of DOCKET vs Hungarian without event epochs +0.43 %, with +1.12 %, difference -0.69 ± 1.54 % (p = 0.365) | `v2.json : e2.interaction` |
+| E2 interaction console-32-batch: effect of DOCKET vs Hungarian without event epochs +0.59 %, with +0.07 %, difference +0.52 ± 1.65 % (p = 0.524) | `v2.json : e2.interaction` |
 | E3 warehouse-8-batch, K = 3 vs K = 6, throughput: -0.18 ± 0.48 % ([-0.66, +0.29], p = 0.442); Holm over the four: not rejected | `v2.json : e3.contrasts` id `P3 warehouse-8-batch K3-K6` |
 | E3 warehouse-8-batch, K = 12 vs K = 6, throughput: -0.08 ± 0.36 % ([-0.43, +0.28], p = 0.666); Holm over the four: not rejected | `v2.json : e3.contrasts` id `P3 warehouse-8-batch K12-K6` |
 | E3 narrow-16-batch, K = 3 vs K = 6, throughput: +0.63 ± 1.26 % ([-0.63, +1.89], p = 0.313); Holm over the four: not rejected | `v2.json : e3.contrasts` id `P3 narrow-16-batch K3-K6` |
@@ -276,9 +276,9 @@ Measured by `scripts/measure-timing.sh` (unchanged; `WAIT_S=1800` instead of the
 
 | Configuration | Epochs (all seeds) | p50 | p99 | Longest | ms per tick |
 |---|---|---|---|---|---|
-| PP, PACT, warehouse 48, batch (`scaling`) | 1279 | 2.27 | 5.3 | 6.8 (largest repeat 6.9) | 0.98 |
+| PP, DOCKET, warehouse 48, batch (`scaling`) | 1279 | 2.27 | 5.3 | 6.8 (largest repeat 6.9) | 0.98 |
 | PP, Hungarian, warehouse 32, batch, 100 tasks (`epochtime`) | 663 | 1.35 | 3.1 | 4.3 (largest repeat 7.0) | 0.56 |
-| PP, PACT, warehouse 32, batch, 100 tasks | 655 | 1.41 | 3.8 | 4.8 (largest repeat 7.9) | 0.60 |
+| PP, DOCKET, warehouse 32, batch, 100 tasks | 655 | 1.41 | 3.8 | 4.8 (largest repeat 7.9) | 0.60 |
 | CBS, Hungarian, warehouse 32, batch, 100 tasks | 650 | 2.38 | 221.3 | 476.2 (largest repeat 486.8) | 4.92 |
 | PP, Hungarian, narrow 16, batch, 100 tasks | 907 | 0.61 | 1.8 | 2.1 (slowest repeat 2.3) | 0.22 |
 | CBS, Hungarian, narrow 16, batch, 100 tasks | 887 | 1.23 | 153.8 | 191.0 (largest repeat 193.3) | 5.00 |
@@ -291,25 +291,25 @@ The new tables `tables/nondeg.tex`, `tables/kabl.tex`, `tables/split.tex` are ge
 
 | Claim | Source |
 |---|---|
-| Table `tab:diagnostic` new columns: share of allocation calls with min(m, pool) >= 2, share of calls in which greedy and Hungarian return the same matching on PACT's own cost matrix (PACT runs of the row, pooled over seeds) | `allocNondegenerate / allocCalls`, `allocGreedyEqHungarian / allocCalls` of `main.json`, `coupling.json` runs with `alloc` = `pact` |
+| Table `tab:diagnostic` new columns: share of allocation calls with min(m, pool) >= 2, share of calls in which greedy and Hungarian return the same matching on DOCKET's own cost matrix (DOCKET runs of the row, pooled over seeds) | `allocNondegenerate / allocCalls`, `allocGreedyEqHungarian / allocCalls` of `main.json`, `coupling.json` runs with `alloc` = `pact` |
 | "only 9-26 % of the calls pose a real assignment problem", "91-99 % greedy and Hungarian agree" (abstract, §1, §4.2, §5, §6) | minimum and maximum over the twelve rows of the two new columns (8.6-26.4 %, 91.5-98.6 %) |
-| with 32 robots under batch load the dock gate leaves a single task in the pool in 81-87 % of the calls; under the Poisson load the pool holds a single task in 74-75 % of the calls but is small largely because few tasks are pending (no counter of pending tasks per call exists, so the gate's share there is stated as a mechanism, not measured); a single robot is eligible in 82-90 % of the calls with 8 robots (§1, §4.2, §5) | `allocPool1 / allocCalls` of the two batch and the two Poisson 32-robot cells, `allocM1 / allocCalls` of the four 8-robot cells, PACT runs of `main.json` |
-| warehouse, 32 robots, batch: 63 of PACT's 95 matching changes fall in calls with a single robot or task (§1, §4.2, §5) | `main.json`, `alloc` = `pact`, warehouse / 32 / inf: sum `cplAllocsMatchDiffer` = 95, sum `cplAllocsMatchDifferNondegenerate` = 32 |
+| with 32 robots under batch load the dock gate leaves a single task in the pool in 81-87 % of the calls; under the Poisson load the pool holds a single task in 74-75 % of the calls but is small largely because few tasks are pending (no counter of pending tasks per call exists, so the gate's share there is stated as a mechanism, not measured); a single robot is eligible in 82-90 % of the calls with 8 robots (§1, §4.2, §5) | `allocPool1 / allocCalls` of the two batch and the two Poisson 32-robot cells, `allocM1 / allocCalls` of the four 8-robot cells, DOCKET runs of `main.json` |
+| warehouse, 32 robots, batch: 63 of DOCKET's 95 matching changes fall in calls with a single robot or task (§1, §4.2, §5) | `main.json`, `alloc` = `pact`, warehouse / 32 / inf: sum `cplAllocsMatchDiffer` = 95, sum `cplAllocsMatchDifferNondegenerate` = 32 |
 | without event epochs 56-59 % of the calls have min(m, pool) >= 2, with them 14-17 % (all four cost models, both cells) | `analysis/v2.json : e2.cells[].nondegenerateShare` for the arms `noevent` and `event` |
 | greedy and Hungarian agree in 74-90 % of the calls without event epochs, i.e. they decide 10-26 % of the calls differently (23-26 % in the warehouse cell, 10-11 % in the console cell); greedy vs Hungarian 0.0 ± 0.8 % and +0.2 ± 1.0 % | `e2.cells[].greedyEqHungarianShare` (100 minus it), `noevent` arm, four methods per cell; `e2.contrasts` `S2 <cell> noevent greedy-hungarian throughput` |
-| PACT without event epochs: matching changes in 21 % and 22 % of the calls, of which 17 % of all calls in each cell fall in calls with min(m, q) >= 2 (454 of 2,697 and 506 of 2,959 allocations; `tab:nondeg`, column Changes) | `e2.cells[].matchDifferNondegenerate / cplAllocs` for `<cell>/noevent/pact` |
+| DOCKET without event epochs: matching changes in 21 % and 22 % of the calls, of which 17 % of all calls in each cell fall in calls with min(m, q) >= 2 (454 of 2,697 and 506 of 2,959 allocations; `tab:nondeg`, column Changes) | `e2.cells[].matchDifferNondegenerate / cplAllocs` for `<cell>/noevent/pact` |
 | E2 secondary family: 46 contrasts, fixed at analysis time (PREREG_v2.md, Deviations 5); the one that survives Holm is not among those listed in the pre-registration | `e2.contrasts` with family `E2 secondary` |
-| PACT changes the matching in 21 % and 22 % of all calls without event epochs | `e2.cells[].matchDiffer / cplAllocs` (578 / 2697, 665 / 2959) |
-| the v1 ablation hint: PACT vs Hungarian without event epochs +3.3 ± 3.0 % (5 seeds) | `paired()` of `ablation.json` variants `pact-noEvent`, `hungarian-noEvent` (3.32 ± 2.97) |
-| E2 references, secondary and dock-4 results quoted in §4.7 (event arm +1.1 ± 1.1 %, p = 0.053 and +0.1 ± 1.5 %; interaction -0.7 ± 1.5 % and +0.5 ± 1.6 %; dock-4 arm +1.5 ± 1.5 %, p = 0.055 and +1.3 ± 1.4 %, p = 0.077; 46 secondary comparisons, one survives Holm: PACT vs greedy service time, dock 4, warehouse, -1.2 ± 0.6 %; four more nominal) | `e2.contrasts`, `e2.interaction` |
-| the K sweep: the warehouse with 32 robots has pool = 1 in 81 % of PACT's calls, so K cannot bind there; in warehouse-8 and narrow-16 PACT prices 3.4 / 6.6 / 8.9 and 4.1 / 6.0 / 7.1 pairs per call at K = 3 / 6 / 12; means within 0.8 % of K = 6, half-widths 0.4-1.3 %, no Holm rejection | `ablation.json : pact` (`allocPool1 / allocCalls`); `e3.cells[].cplPairsPerCall`; `e3.contrasts` |
+| DOCKET changes the matching in 21 % and 22 % of all calls without event epochs | `e2.cells[].matchDiffer / cplAllocs` (578 / 2697, 665 / 2959) |
+| the v1 ablation hint: DOCKET vs Hungarian without event epochs +3.3 ± 3.0 % (5 seeds) | `paired()` of `ablation.json` variants `pact-noEvent`, `hungarian-noEvent` (3.32 ± 2.97) |
+| E2 references, secondary and dock-4 results quoted in §4.7 (event arm +1.1 ± 1.1 %, p = 0.053 and +0.1 ± 1.5 %; interaction -0.7 ± 1.5 % and +0.5 ± 1.6 %; dock-4 arm +1.5 ± 1.5 %, p = 0.055 and +1.3 ± 1.4 %, p = 0.077; 46 secondary comparisons, one survives Holm: DOCKET vs greedy service time, dock 4, warehouse, -1.2 ± 0.6 %; four more nominal) | `e2.contrasts`, `e2.interaction` |
+| the K sweep: the warehouse with 32 robots has pool = 1 in 81 % of DOCKET's calls, so K cannot bind there; in warehouse-8 and narrow-16 DOCKET prices 3.4 / 6.6 / 8.9 and 4.1 / 6.0 / 7.1 pairs per call at K = 3 / 6 / 12; means within 0.8 % of K = 6, half-widths 0.4-1.3 %, no Holm rejection | `ablation.json : pact` (`allocPool1 / allocCalls`); `e3.cells[].cplPairsPerCall`; `e3.contrasts` |
 | held first only: 0 stalled runs in 120, 0.7-3.0 % below the dynamic ordering, interval excludes zero in 3 of 4 settings; blocking first only: 16 stalled runs in 120 (9, 5, 0, 2), up to 21.6 % below; all eight primary comparisons rejected by Holm; rule verdicts: combination (warehouse-32, warehouse-32-dock4), blocking-first (small-8), either (narrow-16) | `e4.cells[].stalledRuns`, `e4.contrasts`, `e4.rules` |
 | cascade variants execute conflicts: no repair 15.0 per run (max 41), restarts 15.2 (max 39) with capacity-4 docks; `tables/cascade.tex` column "Conflicts / run (max)" | `cascade.json`: mean and max over the 30 runs of `audit_vertexConflicts + audit_swapConflicts`; script lines `cascade <setting>/<variant>: ... per run` |
 | the "about 2 %" cost of the cascade is withdrawn; the +2.0 ± 1.2 % (no repair, capacity 4) and the other seven paired differences stay as measured | same paired differences as before; the reading, not the numbers, changed |
-| long trips: the four methods finish within 2 to 31 ticks of each other on the same seed; service-time intervals exclude effects above 0.5 %; makespans 1,870-2,494, no stall, no undelivered task | `coupling.json : long-trips/*`: max - min of `makespan` over the four methods per seed; max |mean| + half-width of the PACT service-time intervals |
-| saturated chargers: a stalled run has delivered 193 (Hungarian) / 197 (PACT) of 200 tasks on average; without the 1,001-tick tail of the stall detector mean throughput is 10.01 / 10.48, +4.7 %, against +15.0 % for the means with the tail (the paired mean is +23 ± 18 %) | `coupling.json : saturated-chargers/*`: `tasksCompleted` of runs with `deadlocked`; throughput recomputed as `100 * tasksCompleted / (makespan - 1001 for a stalled run)`, mean over 30 runs, ratio of means; 1,001 = `stallLimit + 1` |
+| long trips: the four methods finish within 2 to 31 ticks of each other on the same seed; service-time intervals exclude effects above 0.5 %; makespans 1,870-2,494, no stall, no undelivered task | `coupling.json : long-trips/*`: max - min of `makespan` over the four methods per seed; max |mean| + half-width of the DOCKET service-time intervals |
+| saturated chargers: a stalled run has delivered 193 (Hungarian) / 197 (DOCKET) of 200 tasks on average; without the 1,001-tick tail of the stall detector mean throughput is 10.01 / 10.48, +4.7 %, against +15.0 % for the means with the tail (the paired mean is +23 ± 18 %) | `coupling.json : saturated-chargers/*`: `tasksCompleted` of runs with `deadlocked`; throughput recomputed as `100 * tasksCompleted / (makespan - 1001 for a stalled run)`, mean over 30 runs, ratio of means; 1,001 = `stallLimit + 1` |
 | CBS against PP on small, split by load (60 pairs each): batch -3.8 ± 0.7, -9.1 ± 1.1, -12.6 ± 1.4 %; Poisson -4.1 ± 0.9, -8.4 ± 0.9, -10.5 ± 1.3 % | `stress.json`, normal batteries, `small` / 4, 6, 8, paired by seed within a load |
-| TPTS: 0.79-3.21 million expansions per run against 0.18-0.56 million for the loop (Hungarian and PACT); 3.3-6.2 times the expansions of Hungarian assignment | `baselines.json : expansions`, mean over the seeds per setting; ratio TPTS / Hungarian per setting (3.30 ... 6.15) |
+| TPTS: 0.79-3.21 million expansions per run against 0.18-0.56 million for the loop (Hungarian and DOCKET); 3.3-6.2 times the expansions of Hungarian assignment | `baselines.json : expansions`, mean over the seeds per setting; ratio TPTS / Hungarian per setting (3.30 ... 6.15) |
 | §4.2 Epoch latency, `tables/epoch.tex`: PP p99 1.8-5.3 ms, longest 2.1-6.8 ms (7.9 in the slowest repeat); CBS p99 154-221 ms, longest 191-476 ms (487 in the slowest repeat), 4.9-5.0 ms per tick on the large layouts; every epoch of the PP rows of `tab:epoch` below 8 ms (§5); window 30 (ablation row): longest epoch 15.4 ms, 16.6 ms in the slowest repeat, K = 12: 10.1 ms; every other timed PP configuration is below 8 ms (checked by the guard over all `epochConfigs`) | `timing/summary.json : epochConfigs` (see the previous section) |
 | the timing commit `6b64f93` and the commit of the results `acbfe97` have identical `src/fms`, `scripts/bench-fms.ts`, `scripts/schema.ts`; commit `f35437f` adds `paper/experiments/PREREG_v2.md` alone and is an ancestor of the first commit that adds each v2 results file | `check-paper.ts : checkGitFacts()` runs `git diff --stat`, `git show --name-only`, `git merge-base --is-ancestor`; skipped with a note when the commits are not in the local history |
 | the regeneration took 1,548 s of wall time on 11 workers (appendix) | `bench-meta.json : wallSeconds` |
@@ -326,8 +326,8 @@ The new tables `tables/nondeg.tex`, `tables/kabl.tex`, `tables/split.tex` are ge
 |---|---|
 | the blocking-first arm of the priority split: 33 depletion events in 7 runs (25 and 8 in the two warehouse settings; the 7 runs are all stalled runs), 187 undelivered tasks (127, 46, 0, 14); the held-first arm has none | `v2.json : e4.cells[]` for `<setting>/blocking` and `<setting>/held` (`depletions`, `depletedRuns`, `unfinishedTasks`); `tab:split` columns Unfin., Depl. and Holds |
 | `tab:split`: unfinished tasks, depletion events (runs) and holds per run for all four arms; no executed conflict and no illegal move in any arm | `v2.json : e4.cells[]` |
-| `tab:nondeg` has a second Changes column (share of all calls in which the matching differs and min(m, q) >= 2, for PACT and the proxy); the caption says no depletion; `tab:kabl` caption says no stall and no depletion | `v2.json : e2.cells[].matchDifferNondegenerate`; the guard asserts zero stalls, depletions and illegal moves for the E2 and E3 cells |
-| abstract: PACT vs Hungarian without event epochs +0.4 ± 1.1 % and +0.6 ± 1.5 % (30 seeds, no difference detected, not an equivalence claim) | `v2.json : e2.contrasts` ids `P2a`, `P2b` |
+| `tab:nondeg` has a second Changes column (share of all calls in which the matching differs and min(m, q) >= 2, for DOCKET and the proxy); the caption says no depletion; `tab:kabl` caption says no stall and no depletion | `v2.json : e2.cells[].matchDifferNondegenerate`; the guard asserts zero stalls, depletions and illegal moves for the E2 and E3 cells |
+| abstract: DOCKET vs Hungarian without event epochs +0.4 ± 1.1 % and +0.6 ± 1.5 % (30 seeds, no difference detected, not an equivalence claim) | `v2.json : e2.contrasts` ids `P2a`, `P2b` |
 | the notation `min(m, q)` replaces `min(m, |P|)` in `tab:diagnostic`, `tab:nondeg`, `tab:kabl` (generator `scripts/paper-data.ts`) | no number |
 
 ## Review round 2 of the v2 paper (REVIEW_V2_RESPONSES.md, Round 2)
@@ -335,8 +335,8 @@ The new tables `tables/nondeg.tex`, `tables/kabl.tex`, `tables/split.tex` are ge
 | Claim | Source |
 |---|---|
 | throughput half-widths of 1.0 to 1.6 % outside the long-trips regime (Discussion) | `pactSafe` throughput intervals of narrow-aisles and hotspot (4 intervals, both baselines) |
-| with 32 robots tasks wait 3-4 ticks before assignment under the Poisson load, 220-252 under batch load; 0.4-0.5 pending tasks by Little's law at 0.15 arrivals per tick (section 4.2) | mean of `meanWaitTime` over the PACT runs of the warehouse and console 32-robot cells in `main.json`; 0.15 times those means |
-| greedy and Hungarian return the same matching in 90-98 % of the calls on the static matrix of the Hungarian runs, 91-99 % on PACT's matrix (section 4.2) | `allocGreedyEqHungarian / allocCalls` of the Hungarian runs and of the PACT runs of the twelve cells in `main.json` |
+| with 32 robots tasks wait 3-4 ticks before assignment under the Poisson load, 220-252 under batch load; 0.4-0.5 pending tasks by Little's law at 0.15 arrivals per tick (section 4.2) | mean of `meanWaitTime` over the DOCKET runs of the warehouse and console 32-robot cells in `main.json`; 0.15 times those means |
+| greedy and Hungarian return the same matching in 90-98 % of the calls on the static matrix of the Hungarian runs, 91-99 % on DOCKET's matrix (section 4.2) | `allocGreedyEqHungarian / allocCalls` of the Hungarian runs and of the DOCKET runs of the twelve cells in `main.json` |
 | held-first ordering: up to 3.0 % short of the dynamic ordering, interval excludes zero in three of four settings (Discussion) | `v2.json : e4.contrasts` ids `S4 <setting> held-dynamic` |
 | CBS 4.9-5.0 ms per tick in the two configurations of `tab:epoch`; PP 2.0 ms per tick with window 30, 1.4 ms with period 1 (warehouse, 32 robots) | `timing/summary.json : epochConfigs` and `configs` (`ablation`, `pact-w30`, `pact-h1`) |
 | hundreds to thousands of holds per run with static priorities (337.6 on small, 1,214.6 on narrow) | `cascade.json` `holdEvents` of the `static` variants; the guard asserts a minimum above 300 and a maximum above 1,000 |

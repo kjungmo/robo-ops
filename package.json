@@ -2,7 +2,7 @@
   "name": "robo-ops",
   "private": true,
   "version": "0.1.0",
-  "description": "Operator console for AMR/AGV fleets and PACT, a lifelong fleet-management module (task allocation, multi-agent path finding, charging) with its benchmark and paper",
+  "description": "Operator console for AMR/AGV fleets and DOCKET, a lifelong fleet-management module (task allocation, multi-agent path finding, charging) with its benchmark and paper",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",

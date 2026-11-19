@@ -131,7 +131,7 @@ function analyseE2(abl: Run[]) {
   const stats: CellStats[] = []
   for (const cell of cells) for (const arm of arms) for (const a of ALLOCS) stats.push(cellStats(`${cell}/${arm}/${a}`, sel(cell, arm, a)))
   const list: Pending[] = []
-  // Primary family: PACT vs Hungarian, no event epochs, throughput.
+  // Primary family: DOCKET vs Hungarian, no event epochs, throughput.
   const prim = 'E2 primary (Holm over 2)'
   cells.forEach((cell, i) => list.push(contrast(`P2${'ab'[i]}`, `${cell}, noevent: pact vs hungarian`, 'throughput', 'pact', 'hungarian', sel(cell, 'noevent', 'pact'), sel(cell, 'noevent', 'hungarian'), prim)))
   // Secondary family: the other contrasts of the three arms (Holm over all of them).
@@ -154,7 +154,7 @@ function analyseE2(abl: Run[]) {
       }
     }
   }
-  // Interaction: relative effect of PACT vs Hungarian without event epochs minus with them, per seed.
+  // Interaction: relative effect of DOCKET vs Hungarian without event epochs minus with them, per seed.
   const inter = cells.map((cell) => {
     const rel = (arm: string) => {
       const pa = sel(cell, arm, 'pact')

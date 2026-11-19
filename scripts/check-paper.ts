@@ -425,7 +425,7 @@ const cellGap = rng1(diagCells.map((x) => x.gap))
 const REGIMES = ['narrow-aisles', 'hotspot', 'long-trips', 'saturated-chargers']
 const regMatch = REGIMES.map((x) => diagReg(x).match)
 
-// Allocation shape (schema 2 counters) of the PACT runs of the twelve cells.
+// Allocation shape (schema 2 counters) of the DOCKET runs of the twelve cells.
 const shapeOf = (rs: Run[]) => ({
   nd: (100 * sum(rs, 'allocNondegenerate')) / sum(rs, 'allocCalls'),
   geq: (100 * sum(rs, 'allocGreedyEqHungarian')) / sum(rs, 'allocCalls'),
@@ -444,7 +444,7 @@ const pool1Batch = rng0(shapeCells.filter((_, i) => CELLS[i][2] === FLEET_BIG &&
 const pool1Poisson = rng0(shapeCells.filter((_, i) => CELLS[i][2] === FLEET_BIG && CELLS[i][1] !== 'inf').map((x) => x.pool1))
 const poissonKeepUp = [...new Set(CELLS.filter((c) => c[1] !== 'inf' && c[2] > FLEET_SMALL).map((c) => c[2]))].sort((a, b) => a - b)
 const w32pact = mainSel('warehouse', 'inf', 32, 'pact')
-// Queueing time before assignment (PACT, 32 robots): Poisson load vs batch load (mean over the seeds of each cell, rounded as in the text).
+// Queueing time before assignment (DOCKET, 32 robots): Poisson load vs batch load (mean over the seeds of each cell, rounded as in the text).
 const waitOf = (rate: string) => FLEETWAIT.map((l) => mean(mainSel(l, rate, FLEET_BIG, 'pact'), 'meanWaitTime'))
 const FLEETWAIT = ['warehouse', 'console']
 const waitPoisson = rng0(waitOf('0.15'))
@@ -584,8 +584,8 @@ function specs(): FileSpec[] {
   assert(drainShare > 0.62 && drainShare < 0.72, 'doubled drain strands robots in about two thirds of the runs')
   assert(cascConflictRuns('none').every((x) => x > 0), 'without repair, conflicts in every setting')
   assert(staticStalled.every((x) => x > 0), 'static priorities stall runs in every setting')
-  assert(SAFE.every((reg) => !excludesZero(cp(reg, 'pact', 'greedy', 'throughput')) && !excludesZero(cp(reg, 'pact', 'hungarian', 'throughput'))), 'PACT: no resolved throughput gain in the three safe regimes')
-  assert(!excludesZero(cp(SAT, 'pact', 'greedy', 'throughput')) && excludesZero(cp(SAT, 'pact', 'hungarian', 'throughput')), 'saturated chargers: PACT resolved against Hungarian only')
+  assert(SAFE.every((reg) => !excludesZero(cp(reg, 'pact', 'greedy', 'throughput')) && !excludesZero(cp(reg, 'pact', 'hungarian', 'throughput'))), 'DOCKET: no resolved throughput gain in the three safe regimes')
+  assert(!excludesZero(cp(SAT, 'pact', 'greedy', 'throughput')) && excludesZero(cp(SAT, 'pact', 'hungarian', 'throughput')), 'saturated chargers: DOCKET resolved against Hungarian only')
 
   out.push({
     file: 'sections/0_abstract.tex',
@@ -898,7 +898,7 @@ timestamp`,
   const t32 = METHODS.map((m) => f1(n(W32(m), 'throughput_mean')))
   assert(t32[1] === t32[2], 'Hungarian and Proxy round to the same throughput')
   const ex = mainExcl[0]
-  assert(mainExcl.length === 1 && ex.method === 'pact' && ex.cell.join() === 'console,inf,32' && ex.p.mean < 0, 'the one exclusion is PACT on console/32/batch, below Hungarian')
+  assert(mainExcl.length === 1 && ex.method === 'pact' && ex.cell.join() === 'console,inf,32' && ex.p.mean < 0, 'the one exclusion is DOCKET on console/32/batch, below Hungarian')
   const waits32 = w32.map((r) => n(r, 'waitActions_mean'))
   assert(Math.max(...diagCells.map((x) => x.match)) <= 100 / 7, 'the path-aware matching differs in at most one allocation in seven')
   const svcPaired = CELLS.flatMap((c) => ['greedy', 'pact-proxy', 'pact'].map((m) => paired(mainSel(c[0], c[1], c[2], m), mainSel(c[0], c[1], c[2], 'hungarian'), 'meanServiceTime')))
@@ -1085,7 +1085,7 @@ ordering alone misses by 2--3\% on the warehouse`,
   assert(intHome.every((x) => x.mean - x.half > 0) && intRh.every((x) => x.mean - x.half > 0), 'interruptible TPTS: resolved gain over home and over the loop at capacity 1 in every setting')
   assert(diagReg('hotspot').match >= 1.8 * Math.max(...diagCells.map((x) => x.match)), 'hotspot changes the matching about twice as often as any main cell')
   assert(pactSafe.filter((x) => x.reg === 'hotspot').every((x) => !excludesZero(x.p)), 'hotspot: every interval of the path-aware cost contains zero')
-  assert(pactVsH.every((p) => !excludesZero(p)) && pactVs1.filter(excludesZero).length === 1, 'PACT vs Hungarian: no exclusion at the default capacity, one at capacity 1')
+  assert(pactVsH.every((p) => !excludesZero(p)) && pactVs1.filter(excludesZero).length === 1, 'DOCKET vs Hungarian: no exclusion at the default capacity, one at capacity 1')
   const hair = pactVs1.find(excludesZero) as Paired
   assert(BASE[pactVs1.indexOf(hair)] === 'warehouse-16-poisson', 'the one exclusion is under Poisson load')
   const tptsA = astar('tpts')
@@ -1121,7 +1121,7 @@ capacity remains (TPTS at least ${Math.floor(tptsBehind3)}\% behind)`,
   )
 
   // Coupling regimes.
-  assert(pactSafe.length === 12 && pactSafe.every((x) => !excludesZero(x.p)), "none of PACT's twelve intervals excludes zero")
+  assert(pactSafe.length === 12 && pactSafe.every((x) => !excludesZero(x.p)), "none of DOCKET's twelve intervals excludes zero")
   const pactThr = pactSafe.filter((x) => x.k === 'throughput').map((x) => Math.abs(x.p.mean))
   const pactSvc = pactSafe.filter((x) => x.k !== 'throughput').map((x) => Math.abs(x.p.mean))
   const longBoundSvc = Math.max(...pactSafe.filter((x) => x.reg === 'long-trips' && x.k === 'meanServiceTime').map((x) => bound(x.p)))
@@ -1149,7 +1149,7 @@ capacity remains (TPTS at least ${Math.floor(tptsBehind3)}\% behind)`,
     R`unresolved $${ci(cp(SAT, 'greedy', 'hungarian', 'throughput'))}\%$ against Hungarian (${satStall[0]} stalled runs)`,
     R`($${ci(cp(SAT, 'pact', 'greedy', 'throughput'))}\%$ for \sname, $${ci(cp(SAT, 'pact-proxy', 'greedy', 'throughput'))}\%$ for the proxy)`,
   )
-  assert(Math.max(...satStall) === satStall[1] && Math.min(...satStall) === satStall[3], 'stalled runs: fewest for PACT, most for Hungarian')
+  assert(Math.max(...satStall) === satStall[1] && Math.min(...satStall) === satStall[3], 'stalled runs: fewest for DOCKET, most for Hungarian')
 
   // Epoch latency (table epoch) and the expansions of TPTS.
   assert(hi(epPP.map((e) => e.maxEpoch.max)) < 8 && epCBS.every((e) => e.maxEpoch.median > 150), 'prioritized planning below 8 ms per epoch, CBS epochs above 150 ms')
@@ -1195,7 +1195,7 @@ tick in the two large-layout configurations of the table (batch load, 100 tasks)
   assert(e4blk.every((c) => c.stalledRuns >= 0) && V2A.e4.cells.filter((c) => c.variant.endsWith('/held')).every((c) => c.depletions === 0 && c.unfinishedTasks === 0), 'priority split: the held-first arm has no depletion and no undelivered task')
   assert(V2A.e3.cells.every((x) => x.executedConflicts === 0 && x.illegalMoves === 0 && x.stalledRuns === 0 && x.depletions === 0 && x.unfinishedTasks === 0), 'K ablation: no conflict, illegal move, stall, depletion or undelivered task')
   assert(e2secondary.length === 46, 'E2: 46 secondary comparisons')
-  assert(e2secHolm.length === 1 && e2secHolm[0].id === 'S2 warehouse-32-batch noevent-dock4 pact-greedy meanServiceTime', 'one secondary E2 comparison survives Holm: PACT vs greedy service time, dock 4, warehouse')
+  assert(e2secHolm.length === 1 && e2secHolm[0].id === 'S2 warehouse-32-batch noevent-dock4 pact-greedy meanServiceTime', 'one secondary E2 comparison survives Holm: DOCKET vs greedy service time, dock 4, warehouse')
   assert(V2A.e2.cells.every((x) => x.executedConflicts === 0 && x.illegalMoves === 0 && x.stalledRuns === 0 && x.depletions === 0), 'E2: no conflict, illegal move, stall or depletion in any arm')
   assert(P2ref[0].p > 0.05 && P2d4.every((x) => x.p > 0.05), 'E2 reference arm and dock-4 arm: not significant at the nominal level')
   assert(geqRange.length > 0 && Number(e2geqNoEv.split('--')[0]) < 80, 'greedy and Hungarian disagree more often without event epochs')
@@ -1408,7 +1408,7 @@ function checkPlots(): void {
 export function plainAbstract(): string {
   let t = norm(readFileSync(join(PAPER, 'sections/0_abstract.tex'), 'utf8'))
   t = t.replace(/\\begin\{abstract\}|\\end\{abstract\}/g, '')
-  t = t.replace(/\\emph\{\\sname\}/g, 'PACT').replace(/\\sname\\ /g, 'PACT ').replace(/\\sname/g, 'PACT')
+  t = t.replace(/\\emph\{\\sname\}/g, 'DOCKET').replace(/\\sname\\ /g, 'DOCKET ').replace(/\\sname/g, 'DOCKET')
   t = t.replace(/\\url\{([^}]*)\}/g, '$1')
   t = t.replace(/\{,\}/g, ',').replace(/\\%/g, '%').replace(/\\pm/g, '±')
   t = t.replace(/\$([^$]*)\$/g, '$1').replace(/--/g, '-')

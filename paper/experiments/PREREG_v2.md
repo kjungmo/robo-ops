@@ -43,7 +43,7 @@ edited in place above.
 ## E2. A regime in which the allocation is not degenerate (ruling 4.2-2)
 
 **Origin, stated as such.** This configuration was chosen after the v1 ablation had shown a hint:
-in the sweep `ablation` (warehouse, 32 robots, batch, 5 seeds), PACT without event-triggered
+in the sweep `ablation` (warehouse, 32 robots, batch, 5 seeds), DOCKET without event-triggered
 epochs against Hungarian without event-triggered epochs is **+3.32 +/- 2.97 %** in throughput
 (n = 5, 4 degrees of freedom, nominal p = 0.036, not corrected for the fourteen comparisons of the
 paired table). The matching changed in 23.2 % of the allocation calls without event epochs, and in
@@ -52,7 +52,7 @@ blind**. The result is reported with this label. The ruling's counters show why 
 the calls is a real assignment problem without event epochs (non-degenerate calls 18.9 % to 59.2 %
 in warehouse-32-batch).
 
-**Hypothesis H2.** With event-triggered epochs off, the coupled allocation (PACT) raises
+**Hypothesis H2.** With event-triggered epochs off, the coupled allocation (DOCKET) raises
 throughput over Hungarian in a 32-robot batch cell. Direction expected from the hint: positive.
 The test is two-sided.
 
@@ -78,28 +78,28 @@ is checked and reported.
 
 **Decision rule.**
 - H2 is supported in a cell when its test is rejected by Holm and the mean is positive.
-- If neither is rejected, the paper says: no throughput difference detected between PACT and
+- If neither is rejected, the paper says: no throughput difference detected between DOCKET and
   Hungarian without event epochs, with the interval bounds; the null result then also holds in a
   regime where about half of the calls are real assignment problems, and the explanation of the
   null by degenerate calls alone is weakened.
-- If a test is rejected with a negative mean, the paper reports PACT as worse in that cell.
+- If a test is rejected with a negative mean, the paper reports DOCKET as worse in that cell.
 - If H2 is supported in one cell only, the paper says so and does not generalise.
 
 **Secondary (reported, none changes the decision above).**
 - `noevent` arm: `pact-proxy` vs `hungarian`, `greedy` vs `hungarian`, `pact` vs `greedy`,
   throughput and service time, per cell. These test the claim "greedy is not measurably worse than
   optimal" where the share of non-degenerate calls is larger.
-- Interaction: the per-seed difference between the relative effect of PACT vs Hungarian in
+- Interaction: the per-seed difference between the relative effect of DOCKET vs Hungarian in
   `noevent` and in `event` (does switching the events off change the coupling's effect).
 - `noevent-dock4` arm: the same contrasts as the primary family, exploratory; expected direction
   positive and no smaller than in `noevent` (more tasks pass the dock gate, so the pool is larger).
 - Counters per arm: share of allocation calls with min(m, pool) >= 2, share of calls where greedy
-  and Hungarian agree, matching changes of PACT in all calls and in non-degenerate calls.
+  and Hungarian agree, matching changes of DOCKET in all calls and in non-degenerate calls.
 
 ## E3. Candidate count K in cells where the pool exceeds K (ruling 4.2-3)
 
 **Hypothesis H3.** Where the task pool exceeds K in most allocation calls, the number of candidate
-tasks priced per robot (K) changes the throughput of PACT. The v1 ablation ran in warehouse-32-batch,
+tasks priced per robot (K) changes the throughput of DOCKET. The v1 ablation ran in warehouse-32-batch,
 where the pool is at most 3 in 99 % of the calls, so K could not bind there; the ruling gives the
 pool as larger than 6 in 89 to 95 % of the calls of warehouse-8-batch and in 29.6 % of those of
 narrow-16. The test is two-sided; no direction is assumed.
@@ -174,7 +174,7 @@ The load average is checked with `uptime` before every attempt, and the attempts
 
 **Reported.** Epoch wall time p50, p99 and maximum, and mean planner ms per tick, per configuration
 (median and maximum over the valid repeats), for PP and CBS on warehouse-32 and narrow-16 and PP
-with PACT on warehouse-32, and for the scaling and ablation configurations.
+with DOCKET on warehouse-32, and for the scaling and ablation configurations.
 No decision rule: the numbers are descriptive.
 
 ## Not run, by design

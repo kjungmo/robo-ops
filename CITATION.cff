@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use the fleet-management module or its results, please cite the paper below."
-title: "RoboOps: operator console and PACT fleet-management module for AMR/AGV fleets"
+title: "RoboOps: operator console and DOCKET fleet-management module for AMR/AGV fleets"
 type: software
 authors:
   - family-names: Kang
@@ -20,7 +20,7 @@ keywords:
   - warehouse robotics
 preferred-citation:
   type: unpublished
-  title: "PACT: A Lifelong Fleet Manager for Warehouse AMRs, Conflict-Free under Synchronous Unit-Time Execution, and a Controlled Study of Reservation-Aware Pickup Costs"
+  title: "DOCKET: A Lifelong Fleet Manager for Warehouse AMRs, Conflict-Free under Synchronous Unit-Time Execution, and a Controlled Study of Reservation-Aware Pickup Costs"
   authors:
     - family-names: Kang
       given-names: Jungmo
