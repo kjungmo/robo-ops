@@ -131,7 +131,9 @@ npx tsx -e "import { runSimulation } from './src/fms/index'; console.log(runSimu
 
 ## Paper
 
-`paper/arxiv/` holds the manuscript *PACT: A Lifelong Fleet Manager for Warehouse AMRs,
+In the code and the result files the allocator keeps its earlier identifier `pact`.
+
+`paper/arxiv/` holds the manuscript *DOCKET: A Lifelong Fleet Manager for Warehouse AMRs,
 Conflict-Free under Synchronous Unit-Time Execution, and a Controlled Study of
 Reservation-Aware Pickup Costs*
 (Jungmo Kang, 2026; preprint, not peer reviewed). It describes `src/fms/` and
@@ -150,12 +152,12 @@ Reproduce the results (Node.js 22; durations measured on a 6-core Ryzen 5 5500GT
 ```bash
 npm ci
 npm test
-npm run bench:fms -- main planner scaling ablation battery --out /tmp/pact-rerun   # 420 runs, one process, about 2 min
-npm run check:results -- /tmp/pact-rerun   # field-by-field comparison with the committed records
+npm run bench:fms -- main planner scaling ablation battery --out /tmp/docket-rerun   # 420 runs, one process, about 2 min
+npm run check:results -- /tmp/docket-rerun   # field-by-field comparison with the committed records
 npm run check:paper                        # tables, figure data and every number in the text
 ```
 
-- All thirteen sweeps (the ten of v1 and the three v2 sweeps of `paper/experiments/PREREG_v2.md`): `npm run bench:fms -- --jobs 8 --out /tmp/pact-rerun` (8,340 runs, about 30 minutes with 8 worker processes), then `check:results` as above. `npm run analyze:v2` recomputes the statistics of the three v2 sweeps (`paper/experiments/analysis/v2.json`).
+- All thirteen sweeps (the ten of v1 and the three v2 sweeps of `paper/experiments/PREREG_v2.md`): `npm run bench:fms -- --jobs 8 --out /tmp/docket-rerun` (8,340 runs, about 30 minutes with 8 worker processes), then `check:results` as above. `npm run analyze:v2` recomputes the statistics of the three v2 sweeps (`paper/experiments/analysis/v2.json`).
 - Without `--out`, `bench:fms` overwrites `paper/experiments/results/`.
 - Every field of a run is deterministic given its seed except the five wall-clock fields (`wallMs`, `plannerMs`, `allocMs`, `diagMs`, `plannerMsPerTick`), which `check:results` leaves out. CI repeats the 420-run comparison on GitHub's runners under Node.js 20, 22 and 24.
 - The committed records were written by `bash scripts/regenerate.sh 11` at commit `acbfe97`. The script re-runs all thirteen sweeps at the current commit, refuses to replace the committed records if any field that existed before differs, and then replaces them (`paper/experiments/repro/regeneration-v2.json` holds the comparison of the latest regeneration; `regeneration.json` and `regeneration-schema2.json` hold the two earlier ones).

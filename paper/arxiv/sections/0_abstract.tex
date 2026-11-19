@@ -1,14 +1,14 @@
 \begin{abstract}
 \sname\ is a lifelong fleet manager for grid warehouses: it allocates
 pickup-and-delivery tasks, plans collision-free paths and manages batteries.
-Its assignment costs are arrival times at the pickup of the same windowed
+Assignment costs are arrival times at the pickup of the same windowed
 space-time A* that plans the fleet, evaluated against busy robots'
 reservations and fed to a Hungarian assignment. A hold cascade keeps
 prioritized planning conflict-free, and endpoint capacities bound
 dock queues. We prove that, under synchronous unit-time
 execution and a replanning period no longer than the window, every executed
 step is vertex- and swap-conflict-free; progress and
-battery safety are not guaranteed, so we measure both. In a simulator on
+battery safety are not guaranteed, so we measure both. In simulation on
 four synthetic layouts, an independent auditor finds no executed conflict in
 4{,}740 runs with 60.4 million robot-steps; with normal batteries no robot
 depletes, but with doubled drain the charging policy strands robots in two

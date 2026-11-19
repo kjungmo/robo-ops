@@ -195,7 +195,7 @@ function sweeps(includeTimingOnly = false): Sweep[] {
     out.push({ name: 'cascade', seeds: range(1, 30), strict: false, configs })
   }
   // Baselines: token passing (TP) and TP with task swaps (TPTS) against the
-  // rolling-horizon loop with static (Hungarian) and path-aware (PACT) costs,
+  // rolling-horizon loop with static (Hungarian) and path-aware (DOCKET) costs,
   // at the default dock capacity and at capacity 1 (what TP's endpoint rule
   // amounts to for docks).
   {
@@ -274,7 +274,7 @@ function sweeps(includeTimingOnly = false): Sweep[] {
   // committed before any of these results existed (commit f35437f).
   //
   // E2: allocation without event-triggered epochs, where the share of real assignment
-  // problems is larger. Chosen after the v1 ablation hint (PACT vs Hungarian without
+  // problems is larger. Chosen after the v1 ablation hint (DOCKET vs Hungarian without
   // event epochs, +3.3 +/- 3.0 %, 5 seeds): confirmatory of a post-hoc observation, not
   // blind. Arms: noevent (primary), event (reference), noevent-dock4 (optional).
   {
@@ -295,7 +295,7 @@ function sweeps(includeTimingOnly = false): Sweep[] {
     }
     out.push({ name: 'nondegenerate', seeds: range(1, 30), strict: false, configs })
   }
-  // E3: candidate count K of PACT in cells where the task pool exceeds K in most calls.
+  // E3: candidate count K of DOCKET in cells where the task pool exceeds K in most calls.
   {
     const cells: Array<[string, Partial<SimConfig>]> = [
       ['warehouse-8-batch', { layout: 'warehouse', fleetSize: 8, numTasks: 200, arrivalRate: Number.POSITIVE_INFINITY }],

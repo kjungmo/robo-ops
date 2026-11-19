@@ -86,7 +86,7 @@ answered once. Everything that was applied is in `CHANGELOG_v2.md`, section 10.
 - **Response.** Applied as proposed. Section 4.2 now says that with 32 robots tasks wait 3-4 ticks
   on average before assignment under the Poisson load, against 220-252 ticks under batch load,
   and that Little's law at 0.15 arrivals per tick makes that 0.4-0.5 pending tasks on average.
-  Both figures are recomputed by `scripts/check-paper.ts` from `meanWaitTime` of the PACT runs.
+  Both figures are recomputed by `scripts/check-paper.ts` from `meanWaitTime` of the DOCKET runs.
   The introduction and the Discussion keep their wording. Round 1 (R1-1) said that the
   mechanism could be stated only without a number; this evidence is a committed field of
   `main.json`, not a new counter, so R1-1 stands for the share of calls that the gate causes,
